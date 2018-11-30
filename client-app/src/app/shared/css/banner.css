@@ -1,0 +1,23 @@
+@charset "UTF-8";
+
+/*For divs in caroseul*/
+.jumbotron {
+  border-radius:20px;
+  padding:20px;
+  background-color: rgba(244,241,222,0.7);
+  max-width:1200px;
+  min-height:200px;
+  margin:0 auto;
+}
+
+/*Background for images on top of pages*/
+div.promo{
+	text-align: center;
+	background-size: cover;
+	background-repeat: no-repeat;		
+	padding: 10px;	
+}
+
+b{
+	color: #33cabb;
+}

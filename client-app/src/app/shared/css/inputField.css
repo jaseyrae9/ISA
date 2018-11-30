@@ -1,0 +1,39 @@
+@charset "UTF-8";
+
+/* Change border for inputs*/
+.form-control {
+	box-shadow: none;
+	font-weight: normal;
+	font-size: 13px;
+}
+
+.form-control:focus {
+	border-color: #33cabb;
+	box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Change color behind icons in input forms*/
+.input-group-text{
+	background: #f6f6f6;
+}
+
+/* Change color of icons in input forms*/
+.fa{
+	color: #33cabb;
+	width: 15px;
+}
+
+/* Change color of buttons*/
+.btn-primary, .btn-primary:active {
+	color: #fff;
+	background: #33cabb;
+	vertical-align: middle;
+	border: none;
+}
+
+/* Change color of buttons when hovered or focused*/
+.btn-primary:hover, .btn-primary:focus {
+	color: #fff;
+	outline: none;
+	background: #31bfb1;
+}
