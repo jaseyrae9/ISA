@@ -6,12 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import isa.project.model.aircompany.AirCompany;
-import isa.project.respository.aircompany.AirCompanyRespository;
+import isa.project.repository.aircompany.AirCompanyRepository;
 
 @Service
 public class AirCompanyService {
 	@Autowired
-	private AirCompanyRespository airCompanyRespository;
+	private AirCompanyRepository airCompanyRespository;
 	
 	public Iterable<AirCompany> findAll(){
 		return airCompanyRespository.findAll();
