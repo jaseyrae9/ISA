@@ -15,7 +15,8 @@ import { AllCarsCompaniesPageComponent } from './pages/all-cars-companies-page/a
 import { CarSearchPageComponent } from './pages/car-search-page/car-search-page.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { RoutingModule } from './app-routing.module';
-
+import { HttpClientModule } from '@angular/common/http';
+import { HotelService } from './shared/hotel/hotel.service';
 
 @NgModule({
   declarations: [
@@ -34,9 +35,9 @@ import { RoutingModule } from './app-routing.module';
     CarSearchPageComponent
   ],
   imports: [
-    BrowserModule, RoutingModule
+    BrowserModule, RoutingModule, HttpClientModule
   ],
-  providers: [],
+  providers: [HotelService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

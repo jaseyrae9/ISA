@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HotelService } from '../../shared/hotel/hotel.service';
 
 @Component({
   selector: 'app-all-hotels-page',
@@ -6,10 +7,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./all-hotels-page.component.css']
 })
 export class AllHotelsPageComponent implements OnInit {
+  hotels: Array<any>;
 
-  constructor() { }
+  constructor(private hotelService: HotelService) { }
 
   ngOnInit() {
+    this.hotelService.getAll().subscribe(data => {
+      this.hotels = data;
+    });
   }
 
 }

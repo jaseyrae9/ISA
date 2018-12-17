@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import isa.project.dto.aircompany.AirCompanyDTO;
 import isa.project.dto.hotel.HotelDTO;
-import isa.project.model.aircompany.AirCompany;
 import isa.project.model.hotel.Hotel;
 import isa.project.service.hotel.HotelService;
 
