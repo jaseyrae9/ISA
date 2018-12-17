@@ -24,7 +24,7 @@ public class HotelAdminDTO {
 		this.email = admin.getEmail();
 		this.phoneNumber = admin.getPhoneNumber();
 		this.address = admin.getAddress();
-		//this.confirmedMail = admin.getConfirmedMail();
+		this.confirmedMail = admin.getConfirmedMail();
 	}
 
 	public String getUsername() {

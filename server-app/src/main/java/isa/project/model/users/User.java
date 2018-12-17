@@ -10,8 +10,8 @@ import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
-import javax.persistence.MappedSuperclass;
 import javax.persistence.Table;
+
 @Entity
 @Table(name="users")
 @Inheritance(strategy=SINGLE_TABLE)
@@ -40,8 +40,8 @@ public abstract class User {
 	@Column(name="address", unique = false, nullable = false)
 	private String address;
 	
-	//@Column(name="confirmedMail",, nullable = false)
-	//private Boolean confirmedMail;
+	@Column(name="confirmedMail", nullable = false)
+	private Boolean confirmedMail;
 	
 	public User() {
 		super();
@@ -57,7 +57,7 @@ public abstract class User {
 		this.email = email;
 		this.phoneNumber = phoneNumber;
 		this.address = address;
-		//this.confirmedMail = false; //when user is created, email is not confirmed
+		this.confirmedMail = false; //when user is created, email is not confirmed
 	}
 
 	public String getUsername() {
@@ -116,13 +116,13 @@ public abstract class User {
 		this.address = address;
 	}	
 		
-//	public Boolean getConfirmedMail() {
-//		return confirmedMail;
-//	}
-//
-//	public void setConfirmedMail(Boolean confirmedMail) {
-//		this.confirmedMail = confirmedMail;
-//	}
+	public Boolean getConfirmedMail() {
+		return confirmedMail;
+	}
+
+	public void setConfirmedMail(Boolean confirmedMail) {
+		this.confirmedMail = confirmedMail;
+	}
 
 	@Override
 	public int hashCode() {

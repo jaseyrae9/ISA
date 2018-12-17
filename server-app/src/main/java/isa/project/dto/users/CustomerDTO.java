@@ -24,7 +24,7 @@ public class CustomerDTO {
 		this.email = customer.getEmail();
 		this.phoneNumber = customer.getPhoneNumber();
 		this.address = customer.getAddress();
-		//this.confirmedMail = customer.getConfirmedMail();
+		this.confirmedMail = customer.getConfirmedMail();
 	}
 
 	public String getUsername() {
