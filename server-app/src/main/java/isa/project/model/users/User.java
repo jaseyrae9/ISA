@@ -8,6 +8,8 @@ import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.Table;
@@ -19,6 +21,9 @@ import javax.persistence.Table;
 public abstract class User {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer id;
+	
 	@Column(name="username", unique = true, nullable = false, columnDefinition="VARCHAR(64)")
 	private String username;
 	
@@ -58,6 +63,14 @@ public abstract class User {
 		this.phoneNumber = phoneNumber;
 		this.address = address;
 		this.confirmedMail = false; //when user is created, email is not confirmed
+	}
+	
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getUsername() {
@@ -126,7 +139,7 @@ public abstract class User {
 
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(username);
+		return Objects.hashCode(id);
 	}
 
 	@Override
@@ -143,11 +156,11 @@ public abstract class User {
 				return false;
 		} else if (!address.equals(other.address))
 			return false;
-//		if (confirmedMail == null) {
-//			if (other.confirmedMail != null)
-//				return false;
-//		} else if (!confirmedMail.equals(other.confirmedMail))
-//			return false;
+		if (confirmedMail == null) {
+			if (other.confirmedMail != null)
+				return false;
+		} else if (!confirmedMail.equals(other.confirmedMail))
+			return false;
 		if (email == null) {
 			if (other.email != null)
 				return false;
@@ -157,6 +170,11 @@ public abstract class User {
 			if (other.firstName != null)
 				return false;
 		} else if (!firstName.equals(other.firstName))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
 			return false;
 		if (lastName == null) {
 			if (other.lastName != null)
@@ -179,6 +197,13 @@ public abstract class User {
 		} else if (!username.equals(other.username))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", username=" + username + ", password=" + password + ", firstName=" + firstName
+				+ ", lastName=" + lastName + ", email=" + email + ", phoneNumber=" + phoneNumber + ", address="
+				+ address + ", confirmedMail=" + confirmedMail + "]";
 	}
 
 	

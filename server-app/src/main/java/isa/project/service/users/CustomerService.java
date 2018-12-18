@@ -18,8 +18,8 @@ public class CustomerService {
 		return customerRepository.findAll();
 	}
 	
-	public Optional<Customer> findCustomer(String username){
-		return customerRepository.findById(username);
+	public Optional<Customer> findCustomer(Integer id){
+		return customerRepository.findById(id);
 	}
 	
 	public Customer saveCustomer(Customer customer) {

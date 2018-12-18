@@ -3,6 +3,7 @@ package isa.project.dto.users;
 import isa.project.model.users.AvioCompanyAdmin;
 
 public class AvioCompanyAdminDTO {
+	private Integer id;
 	private String username;
 	private String password;
 	private String firstName;
@@ -17,6 +18,7 @@ public class AvioCompanyAdminDTO {
 	}
 	
 	public AvioCompanyAdminDTO(AvioCompanyAdmin admin) {
+		this.id = admin.getId();
 		this.username = admin.getUsername();
 		this.password = admin.getPassword();
 		this.firstName = admin.getFirstName();
@@ -25,6 +27,14 @@ public class AvioCompanyAdminDTO {
 		this.phoneNumber = admin.getPhoneNumber();
 		this.address = admin.getAddress();
 		this.confirmedMail = admin.getConfirmedMail();
+	}
+	
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getUsername() {

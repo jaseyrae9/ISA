@@ -4,6 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import isa.project.model.users.HotelAdmin;
 
-public interface HotelAdminRepository extends CrudRepository<HotelAdmin, String>{
+public interface HotelAdminRepository extends CrudRepository<HotelAdmin, Integer>{
 
 }

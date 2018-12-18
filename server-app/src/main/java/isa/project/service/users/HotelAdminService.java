@@ -19,8 +19,8 @@ public class HotelAdminService {
 		return hotelAdminRepository.findAll();
 	}
 	
-	public Optional<HotelAdmin> findCustomer(String username){
-		return hotelAdminRepository.findById(username);
+	public Optional<HotelAdmin> findCustomer(Integer id){
+		return hotelAdminRepository.findById(id);
 	}
 	
 	public HotelAdmin saveCustomer(HotelAdmin admin) {

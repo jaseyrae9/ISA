@@ -19,8 +19,8 @@ public class AvioCompanyAdminService {
 		return avioCompanyAdminRepository.findAll();
 	}
 	
-	public Optional<AvioCompanyAdmin> findCustomer(String username){
-		return avioCompanyAdminRepository.findById(username);
+	public Optional<AvioCompanyAdmin> findCustomer(Integer id){
+		return avioCompanyAdminRepository.findById(id);
 	}
 	
 	public AvioCompanyAdmin saveAvioCompanyAdmin(AvioCompanyAdmin admin) {

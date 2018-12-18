@@ -3,6 +3,7 @@ package isa.project.dto.users;
 import isa.project.model.users.Customer;
 
 public class CustomerDTO {
+	private Integer id;
 	private String username;
 	private String password;
 	private String firstName;
@@ -17,6 +18,7 @@ public class CustomerDTO {
 	}
 
 	public CustomerDTO(Customer customer) {
+		this.id = customer.getId();
 		this.username = customer.getUsername();
 		this.password = customer.getPassword();
 		this.firstName = customer.getFirstName();
@@ -25,6 +27,14 @@ public class CustomerDTO {
 		this.phoneNumber = customer.getPhoneNumber();
 		this.address = customer.getAddress();
 		this.confirmedMail = customer.getConfirmedMail();
+	}
+	
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getUsername() {

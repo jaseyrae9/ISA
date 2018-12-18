@@ -19,8 +19,8 @@ public class RentACarAdminService {
 		return rentACarRepository.findAll();
 	}
 	
-	public Optional<RentACarAdmin> findCustomer(String username){
-		return rentACarRepository.findById(username);
+	public Optional<RentACarAdmin> findCustomer(Integer id){
+		return rentACarRepository.findById(id);
 	}
 	
 	public RentACarAdmin saveAvioCompanyAdmin(RentACarAdmin admin) {
