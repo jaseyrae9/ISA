@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import isa.project.model.users.AvioCompanyAdmin;
-import isa.project.model.users.Customer;
 import isa.project.repository.users.AvioCompanyAdminRepository;
 
 @Service

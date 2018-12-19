@@ -2,11 +2,11 @@ package isa.project.model.users;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 
 @Entity
 @DiscriminatorValue("CUST")
-public class Customer extends User{
+public class Customer extends User {
+	private static final long serialVersionUID = -3593336673218968856L;
 
 	public Customer() {
 		super();

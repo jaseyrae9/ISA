@@ -1,7 +1,5 @@
 package isa.project.model.rentacar;
 
-import java.util.Objects;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -59,9 +57,13 @@ public class RentACarCompany {
 
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(id);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
 	}
 	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -71,20 +73,10 @@ public class RentACarCompany {
 		if (getClass() != obj.getClass())
 			return false;
 		RentACarCompany other = (RentACarCompany) obj;
-		if (description == null) {
-			if (other.description != null)
-				return false;
-		} else if (!description.equals(other.description))
-			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
 			return false;
 		return true;
 	}

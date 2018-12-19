@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import isa.project.dto.aircompany.AirCompanyDTO;
 import isa.project.dto.rentacar.RentACarCompanyDTO;
-import isa.project.model.aircompany.AirCompany;
 import isa.project.model.rentacar.RentACarCompany;
 import isa.project.service.rentacar.RentACarCompanyService;
 

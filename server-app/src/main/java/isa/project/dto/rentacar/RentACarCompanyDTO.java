@@ -1,6 +1,5 @@
 package isa.project.dto.rentacar;
 
-import isa.project.model.aircompany.AirCompany;
 import isa.project.model.rentacar.RentACarCompany;
 
 public class RentACarCompanyDTO {
