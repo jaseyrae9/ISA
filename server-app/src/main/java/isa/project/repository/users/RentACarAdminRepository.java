@@ -1,9 +1,9 @@
 package isa.project.repository.users;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import isa.project.model.users.RentACarAdmin;
 
-public interface RentACarAdminRepository extends CrudRepository<RentACarAdmin, Integer> {
+public interface RentACarAdminRepository extends JpaRepository<RentACarAdmin, Integer> {
 
 }

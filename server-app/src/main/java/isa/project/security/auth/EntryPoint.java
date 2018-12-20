@@ -1,4 +1,4 @@
-package isa.project.security;
+package isa.project.security.auth;
 
 import java.io.IOException;
 

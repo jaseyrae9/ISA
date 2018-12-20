@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,18 +36,6 @@ public class CustomerController {
 		}
 		
 		return new ResponseEntity<>(ret, HttpStatus.OK);
-	}
-
-	/**
-	 * Adds new customer. 
-	 * @param customer
-	 * @return
-	 */
-	@RequestMapping(value="/add",method=RequestMethod.POST, consumes="application/json")
-	public ResponseEntity<CustomerDTO> addCustomer(@RequestBody CustomerDTO customerDTO){
-		Customer customer = new Customer(customerDTO.getUsername(), customerDTO.getPassword(), customerDTO.getFirstName(), customerDTO.getLastName(), customerDTO.getEmail(), customerDTO.getPhoneNumber(), customerDTO.getAddress());
-		
-		return new ResponseEntity<>(new CustomerDTO(customerService.saveCustomer(customer)), HttpStatus.CREATED);
 	}
 
 	

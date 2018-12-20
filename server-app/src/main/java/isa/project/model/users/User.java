@@ -3,6 +3,7 @@ package isa.project.model.users;
 import static javax.persistence.DiscriminatorType.STRING;
 import static javax.persistence.InheritanceType.SINGLE_TABLE;
 
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -21,6 +22,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.joda.time.DateTime;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -61,11 +63,14 @@ public abstract class User implements UserDetails {
 	@Column(name="confirmedMail", nullable = false)
 	private Boolean confirmedMail;
 	
+	@Column(name = "last_password_reset_date")
+    private Timestamp lastPasswordResetDate;
+	
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_authority",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
-    private List<Authority> authorities;
+    protected List<Authority> authorities;
 	
 	public User() {
 		super();
@@ -105,6 +110,8 @@ public abstract class User implements UserDetails {
 	}
 
 	public void setPassword(String password) {
+		Timestamp now = new Timestamp(DateTime.now().getMillis());
+        this.setLastPasswordResetDate( now );
 		this.password = password;
 	}
 
@@ -156,6 +163,18 @@ public abstract class User implements UserDetails {
 		this.confirmedMail = confirmedMail;
 	}
 
+	public Timestamp getLastPasswordResetDate() {
+        return lastPasswordResetDate;
+    }
+
+    public void setLastPasswordResetDate(Timestamp lastPasswordResetDate) {
+        this.lastPasswordResetDate = lastPasswordResetDate;
+    }
+    
+    public void addAuthority(Authority authority) {
+    	authorities.add(authority);
+    }
+	
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(id);
