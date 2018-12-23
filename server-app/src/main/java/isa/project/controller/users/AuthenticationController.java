@@ -1,12 +1,10 @@
-package isa.project.controller;
+package isa.project.controller.users;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -15,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mobile.device.Device;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -28,8 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import isa.project.common.DeviceProvider;
-import isa.project.dto.users.CustomerDTO;
-import isa.project.dto.users.UserDTO;
+import isa.project.dto.users.RegisterCustomerDTO;
 import isa.project.model.UserTokenState;
 import isa.project.model.users.Authority;
 import isa.project.model.users.Customer;
@@ -66,19 +62,19 @@ public class AuthenticationController {
 	private DeviceProvider deviceProvider;
 
 	@PostMapping("/register")
-	public ResponseEntity<CustomerDTO> register(@RequestBody UserDTO user) {
+	public ResponseEntity<RegisterCustomerDTO> register(@Valid  @RequestBody RegisterCustomerDTO user) {
 		Customer customer = new Customer(user.getUsername(), user.getPassword(), user.getFirstName(),
 				user.getLastName(), user.getEmail(), user.getPhoneNumber(), user.getAddress());
 			
 		
-		Optional<Authority> authority = authorityService.findByName("CUST");
+		Optional<Authority> authority = authorityService.findByName("CUSTOMER");
 		if( !authority.isPresent() ) {
-			authorityService.saveAuthority(new Authority("CUST"));
+			authorityService.saveAuthority(new Authority("CUSTOMER"));
 		}
 		
-		customer.addAuthority(authorityService.findByName("CUST").get());
+		customer.addAuthority(authorityService.findByName("CUSTOMER").get());
 		
-		return new ResponseEntity<>(new CustomerDTO(customerService.saveCustomer(customer)), HttpStatus.CREATED);
+		return new ResponseEntity<>(new RegisterCustomerDTO(customerService.saveCustomer(customer)), HttpStatus.CREATED);
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -99,40 +95,5 @@ public class AuthenticationController {
 
 		// Vrati token kao odgovor na uspesno autentifikaciju
 		return ResponseEntity.ok(new UserTokenState(jwt, expiresIn));
-	}
-
-	@RequestMapping(value = "/refresh", method = RequestMethod.POST)
-	public ResponseEntity<?> refreshAuthenticationToken(HttpServletRequest request) {
-
-		String token = tokenUtils.getToken(request);
-		String username = this.tokenUtils.getUsernameFromToken(token);
-		User user = (User) this.userDetailsService.loadUserByUsername(username);
-
-		Device device = deviceProvider.getCurrentDevice(request);
-
-		if (this.tokenUtils.canTokenBeRefreshed(token, user.getLastPasswordResetDate())) {
-			String refreshedToken = tokenUtils.refreshToken(token, device);
-			int expiresIn = tokenUtils.getExpiredIn(device);
-
-			return ResponseEntity.ok(new UserTokenState(refreshedToken, expiresIn));
-		} else {
-			UserTokenState userTokenState = new UserTokenState();
-			return ResponseEntity.badRequest().body(userTokenState);
-		}
-	}
-
-	@RequestMapping(value = "/change-password", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('USER')")
-	public ResponseEntity<?> changePassword(@RequestBody PasswordChanger passwordChanger) {
-		userDetailsService.changePassword(passwordChanger.oldPassword, passwordChanger.newPassword);
-
-		Map<String, String> result = new HashMap<>();
-		result.put("result", "success");
-		return ResponseEntity.accepted().body(result);
-	}
-
-	static class PasswordChanger {
-		public String oldPassword;
-		public String newPassword;
 	}
 }

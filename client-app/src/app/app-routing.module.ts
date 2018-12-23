@@ -10,6 +10,7 @@ import { AllHotelsPageComponent } from './pages/all-hotels-page/all-hotels-page.
 import { AllCarsCompaniesPageComponent } from './pages/all-cars-companies-page/all-cars-companies-page.component';
 import { CarSearchPageComponent } from './pages/car-search-page/car-search-page.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
+import { ProfileComponent } from './user/profile/profile.component';
 
 const routes: Routes = [
   { path: '', component: HomePageComponent},
@@ -18,7 +19,8 @@ const routes: Routes = [
   { path: 'hotels', component: AllHotelsPageComponent },
   { path: 'find-room', component: RoomSearchPageComponent },
   { path: 'rent-a-car-companies', component: AllCarsCompaniesPageComponent },
-  { path: 'find-car', component: CarSearchPageComponent }
+  { path: 'find-car', component: CarSearchPageComponent },
+  { path: 'profile', component: ProfileComponent }
 ];
 
 export const RoutingModule: ModuleWithProviders = RouterModule.forRoot(routes, {

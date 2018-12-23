@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import isa.project.dto.users.CustomerDTO;
+import isa.project.dto.users.UserDTO;
 import isa.project.model.users.Customer;
 import isa.project.service.users.CustomerService;
 
 @RestController
-@RequestMapping(value="server/customers")
+@RequestMapping(value="customers")
 public class CustomerController {
 
 	@Autowired
@@ -26,13 +26,13 @@ public class CustomerController {
 	 * @return information about all customers.
 	 */
 	@RequestMapping(value="/all", method = RequestMethod.GET)
-	public ResponseEntity<List<CustomerDTO>> getAllCustomers(){
+	public ResponseEntity<List<UserDTO>> getAllCustomers(){
 		Iterable<Customer> customers = customerService.findAll();
 		
 		//convert companies to DTO
-		List<CustomerDTO> ret = new ArrayList<>();
+		List<UserDTO> ret = new ArrayList<>();
 		for(Customer customer: customers) {
-			ret.add(new CustomerDTO(customer));
+			ret.add(new UserDTO(customer));
 		}
 		
 		return new ResponseEntity<>(ret, HttpStatus.OK);
