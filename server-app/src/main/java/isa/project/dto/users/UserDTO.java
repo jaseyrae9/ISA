@@ -2,12 +2,14 @@ package isa.project.dto.users;
 
 import isa.project.model.users.User;
 
+/**
+ * Class used as DTO when showing user profile.
+ *
+ */
 public class UserDTO {
-	
 	
 	private Integer id;
 	private String username;
-	private String password;
 	private String firstName;
 	private String lastName;
 	private String email;
@@ -22,7 +24,6 @@ public class UserDTO {
 	public UserDTO(User user) {
 		this.id = user.getId();
 		this.username = user.getUsername();
-		this.password = user.getPassword();
 		this.firstName = user.getFirstName();
 		this.lastName = user.getLastName();
 		this.email = user.getEmail();
@@ -46,15 +47,7 @@ public class UserDTO {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
+	
 	public String getFirstName() {
 		return firstName;
 	}

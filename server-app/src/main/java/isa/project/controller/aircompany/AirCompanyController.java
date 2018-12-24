@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -47,8 +48,7 @@ public class AirCompanyController {
 	 * @return
 	 */
 	@RequestMapping(value="/add",method=RequestMethod.POST, consumes="application/json")
-	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<AirCompanyDTO> addAvioCompany(@RequestBody AirCompanyDTO company){
+	public ResponseEntity<AirCompanyDTO> addAvioCompany(@Valid @RequestBody AirCompanyDTO company){
 		AirCompany airCompany = new AirCompany(company.getName(), company.getDescription());
 		return new ResponseEntity<>(new AirCompanyDTO(airCompanyService.saveAirCompany(airCompany)), HttpStatus.CREATED);	
 	}
@@ -59,8 +59,7 @@ public class AirCompanyController {
 	 * @return
 	 */
 	@RequestMapping(value="/edit",method=RequestMethod.PUT, consumes="application/json")
-	//@PreAuthorize("hasRole('AIR" + company.getId() + "')")
-	public ResponseEntity<AirCompanyDTO> editAvioCompany(@RequestBody AirCompanyDTO company){
+	public ResponseEntity<AirCompanyDTO> editAvioCompany(@Valid @RequestBody AirCompanyDTO company){
 		//air company must exist
 		Optional<AirCompany> opt = airCompanyService.findAircompany(company.getId());
 		
