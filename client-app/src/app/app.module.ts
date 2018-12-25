@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule} from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { NavigationComponent } from './basic-components/navigation/navigation.component';
@@ -22,6 +23,7 @@ import { RegisterFormComponent } from './user/register-form/register-form.compon
 import { EditProfileFormComponent } from './user/edit-profile-form/edit-profile-form.component';
 import { UserService } from './services/user/user.service';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,7 +44,7 @@ import { UserService } from './services/user/user.service';
     EditProfileFormComponent
   ],
   imports: [
-    BrowserModule, RoutingModule, HttpClientModule
+    BrowserModule, RoutingModule, HttpClientModule, FormsModule
   ],
   providers: [HotelService, UserService],
   bootstrap: [AppComponent]
