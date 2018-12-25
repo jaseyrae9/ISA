@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -34,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private EntryPoint entryPoint;
 
 	@Autowired
-	private CustomUserDetailsService jwtUserDetailsService;
+	private CustomUserDetailsService userDetailsService;
 
 	@Autowired
 	TokenUtils tokenUtils;
@@ -44,21 +45,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public AuthenticationManager authenticationManagerBean() throws Exception {
 		return super.authenticationManagerBean();
 	}
+	
+	@Override 
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userDetailsService)
+		.passwordEncoder(this.getEncoder());
+	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http
+		
+		http.authorizeRequests()
+			.antMatchers("**/secured/**").authenticated()
+			.anyRequest().permitAll().and().formLogin().permitAll().and()
+			.addFilterBefore(new TokenAuthenticationFilter(tokenUtils, userDetailsService), BasicAuthenticationFilter.class);
+	/*	http
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 			.exceptionHandling().authenticationEntryPoint(entryPoint).and()
 			.authorizeRequests()
 			.antMatchers("/auth/**").permitAll()
 			.antMatchers("/h2-console/**").permitAll()// svaki zahtev mora biti autorizovan
-			
-			.anyRequest().authenticated().and()
-			
+			.antMatchers("**").authenticated()
+			.anyRequest().permitAll().and().formLogin().permitAll().and()
 			// presretni svaki zahtev filterom
-			.addFilterBefore(new TokenAuthenticationFilter(tokenUtils, jwtUserDetailsService), BasicAuthenticationFilter.class);
-
+			.addFilterBefore(new TokenAuthenticationFilter(tokenUtils, userDetailsService), BasicAuthenticationFilter.class);
+		*/
 		http.csrf().disable();
 	}
 
@@ -66,6 +77,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers(HttpMethod.GET, "/aircompanies/all");
+		//web.ignoring().antMatchers(HttpMethod.POST,"/customers/register");
+		//web.ignoring().antMatchers(HttpMethod.GET, "/customers/confirmRegistration");
 
 	}
 }

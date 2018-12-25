@@ -4,9 +4,8 @@ import static javax.persistence.DiscriminatorType.STRING;
 import static javax.persistence.InheritanceType.SINGLE_TABLE;
 
 import java.sql.Timestamp;
-import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -23,17 +22,12 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.joda.time.DateTime;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="users")
 @Inheritance(strategy=SINGLE_TABLE)
 @DiscriminatorColumn(name="type", discriminatorType=STRING)
-public abstract class User implements UserDetails {
-	private static final long serialVersionUID = 6586010945645182249L;
+public abstract class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -70,11 +64,25 @@ public abstract class User implements UserDetails {
     @JoinTable(name = "user_authority",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
-    protected List<Authority> authorities;
+    protected Set<Authority> authorities;
 	
 	public User() {
 		super();
 	}
+	
+	// Copy constructor
+	public User(User user) {
+		this.id = user.getId();
+		this.username = user.getUsername();
+		this.password = user.getPassword();
+		this.firstName = user.getFirstName();
+		this.lastName = user.getLastName();
+		this.email = user.getEmail();
+		this.phoneNumber = user.getPhoneNumber();
+		this.address = user.getAddress();
+		this.confirmedMail = user.getConfirmedMail(); 
+		this.authorities = user.getUserAuthorities();
+	}	
 	
 	public User(String username, String password, String firstName, String lastName, String email, String phoneNumber,
 			String address) {
@@ -204,32 +212,11 @@ public abstract class User implements UserDetails {
 				+ address + ", confirmedMail=" + confirmedMail + "]";
 	}
 
-    @JsonIgnore
-	@Override
-	public boolean isAccountNonExpired() {
-		return false;
-	}
-
-    @JsonIgnore
-	@Override
-	public boolean isAccountNonLocked() {
-		return true;
-	}
-
-    @JsonIgnore
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
-
-    @JsonIgnore
-	@Override
-	public boolean isEnabled() {
-		return confirmedMail;
-	}
-    
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
+	public Set<Authority> getUserAuthorities() {
 		return authorities;
+	}
+
+	public void setUserAuthorities(Set<Authority> authorities) {
+		this.authorities = authorities;
 	}
 }

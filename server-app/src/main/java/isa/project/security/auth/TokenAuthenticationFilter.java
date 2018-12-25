@@ -30,11 +30,12 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 			throws IOException, ServletException {
 
 		String username;
-		String authToken = tokenUtils.getToken(request);
+		String authToken = tokenUtils.getToken(request);  
 
 		if (authToken != null) {
 			// uzmi username iz tokena
 			username = tokenUtils.getUsernameFromToken(authToken);
+			System.out.println("[TokenAuthenticationFilter] Username: " + username);
 			
 			if (username != null) {
 				// uzmi user-a na osnovu username-a
@@ -48,6 +49,10 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 					SecurityContextHolder.getContext().setAuthentication(authentication);
 				}
 			}
+		}
+		else
+		{
+			System.out.println("Token je null");
 		}
 		
 		chain.doFilter(request, response);

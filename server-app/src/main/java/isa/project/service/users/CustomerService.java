@@ -3,8 +3,10 @@ package isa.project.service.users;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import isa.project.model.users.Authority;
 import isa.project.model.users.Customer;
 import isa.project.repository.users.CustomerRepository;
 
@@ -13,6 +15,16 @@ public class CustomerService {
 
 	@Autowired
 	private CustomerRepository customerRepository;
+	
+	@Autowired
+	PasswordEncoder passwordEncoder;
+	
+	/* For registration */
+	public Customer registerCustomer(Customer customer)
+	{
+		customer.setPassword(passwordEncoder.encode(customer.getPassword()));
+		return customerRepository.save(customer);
+	}
 	
 	public Iterable<Customer> findAll(){
 		return customerRepository.findAll();

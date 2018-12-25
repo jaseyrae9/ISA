@@ -3,15 +3,10 @@ package isa.project.dto.users;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import isa.project.model.users.User;
+import isa.project.model.users.Customer;
 
-/**
- * Class used as DTO when showing user profile.
- *
- */
-public class UserDTO {
-	
-	private Integer id;
+public class CustomerDTO {
+private Integer id;
 	
 	@NotNull
 	@NotEmpty
@@ -41,19 +36,19 @@ public class UserDTO {
 	
 	private Boolean confirmedMail;
 	
-	public UserDTO() {
+	public CustomerDTO() {
 		
 	}
 
-	public UserDTO(User user) {
-		this.id = user.getId();
-		this.username = user.getUsername();
-		this.firstName = user.getFirstName();
-		this.lastName = user.getLastName();
-		this.email = user.getEmail();
-		this.phoneNumber = user.getPhoneNumber();
-		this.address = user.getAddress();
-		this.confirmedMail = user.getConfirmedMail();
+	public CustomerDTO(Customer customer) {
+		this.id = customer.getId();
+		this.username = customer.getUsername();
+		this.firstName = customer.getFirstName();
+		this.lastName = customer.getLastName();
+		this.email = customer.getEmail();
+		this.phoneNumber = customer.getPhoneNumber();
+		this.address = customer.getAddress();
+		this.confirmedMail = customer.getConfirmedMail();
 	}
 	
 	public Integer getId() {

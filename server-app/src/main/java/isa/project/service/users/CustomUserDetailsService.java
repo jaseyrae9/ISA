@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import isa.project.model.CustomUserDetails;
 import isa.project.model.users.User;
 import isa.project.repository.users.UserRepository;
 
@@ -35,11 +36,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 	// Funkcija koja na osnovu username-a iz baze vraca objekat User-a
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Optional<User> user = userRepository.findByUsername(username);
+		Optional<User> optionalUser = userRepository.findByUsername(username);
 
-		return user.map(o -> {
-            return user.get();
-        }).orElseThrow(() -> new UsernameNotFoundException("No user found with username " + username));
+		optionalUser.orElseThrow(() -> new UsernameNotFoundException("Username not found"));
+		return optionalUser.map(CustomUserDetails::new).get();
+
 	}
 
 	// Funkcija pomocu koje korisnik menja svoju lozinku
