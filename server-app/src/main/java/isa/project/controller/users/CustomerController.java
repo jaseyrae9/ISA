@@ -24,6 +24,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,6 +48,7 @@ import isa.project.service.users.CustomUserDetailsService;
 import isa.project.service.users.CustomerService;
 
 @RestController
+@CrossOrigin(origins="http://localhost:4200")
 @RequestMapping(value="customers")
 public class CustomerController {
 
@@ -92,10 +94,10 @@ public class CustomerController {
 		return new ResponseEntity<>(ret, HttpStatus.OK);
 	}
 	
-	@GetMapping("/hello")
+	@GetMapping("/loginPage")
 	public String hello()
 	{
-		return "Hello";
+		return "login";
 	}
 	
 	@RequestMapping(value="/register", method = RequestMethod.POST)
@@ -115,6 +117,7 @@ public class CustomerController {
 		}
 		
 		customer.addAuthority(authorityService.findByName("CUSTOMER").get());
+		System.out.println("REGISTRACIJA: " + customer.getUsername() + " PASSWORD: " + customer.getPassword());
 		
         try {
         	customerService.registerCustomer(customer);
@@ -162,7 +165,7 @@ public class CustomerController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest,
 			HttpServletResponse response, Device device) throws AuthenticationException, IOException {
-
+		System.out.println("USAO U LOGIN!!!");
 		final Authentication authentication = authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
 						authenticationRequest.getPassword()));

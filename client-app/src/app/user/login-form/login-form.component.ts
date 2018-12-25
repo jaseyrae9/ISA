@@ -1,6 +1,7 @@
 import { AuthService } from './../../auth/auth.service';
 import { AuthLoginInfo } from './../../auth/login-info';
 import { Component, OnInit } from '@angular/core';
+import { TokenStorageService } from 'src/app/auth/token-storage.service';
 
 @Component({
   selector: 'app-login-form',
@@ -16,9 +17,13 @@ export class LoginFormComponent implements OnInit {
 
   private loginInfo: AuthLoginInfo;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private tokenStorage: TokenStorageService) { }
 
   ngOnInit() {
+    if(this.tokenStorage.getToken()){
+      this.isLoggedIn = true;
+      
+    }
   }
 
   onLogin() {
@@ -31,9 +36,7 @@ export class LoginFormComponent implements OnInit {
 
     this.authService.attemptAuth(this.loginInfo).subscribe(
       data => {
-       // this.tokenStorage.saveToken(data.accessToken);
-      //  this.tokenStorage.saveUsername(data.username);
-      //  this.tokenStorage.saveAuthorities(data.authorities);
+        this.tokenStorage.saveToken(data.accessToken);
 
         this.isLoginFailed = false;
         this.isLoggedIn = true;

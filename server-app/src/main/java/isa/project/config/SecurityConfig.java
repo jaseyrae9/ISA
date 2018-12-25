@@ -57,7 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		http.authorizeRequests()
 			.antMatchers("**/secured/**").authenticated()
-			.anyRequest().permitAll().and().formLogin().permitAll().and()
+			.anyRequest().permitAll().and().formLogin().loginPage("/customers/login").permitAll().and()
 			.addFilterBefore(new TokenAuthenticationFilter(tokenUtils, userDetailsService), BasicAuthenticationFilter.class);
 	/*	http
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()

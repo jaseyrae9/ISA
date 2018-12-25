@@ -11,6 +11,7 @@ import { AllCarsCompaniesPageComponent } from './pages/all-cars-companies-page/a
 import { CarSearchPageComponent } from './pages/car-search-page/car-search-page.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { ProfileComponent } from './user/profile/profile.component';
+import { LoginFormComponent} from './user/login-form/login-form.component';
 
 const routes: Routes = [
   { path: '', component: HomePageComponent},
@@ -20,7 +21,8 @@ const routes: Routes = [
   { path: 'find-room', component: RoomSearchPageComponent },
   { path: 'rent-a-car-companies', component: AllCarsCompaniesPageComponent },
   { path: 'find-car', component: CarSearchPageComponent },
-  { path: 'profile', component: ProfileComponent }
+  { path: 'profile', component: ProfileComponent },
+  { path: 'login', component: LoginFormComponent }
 ];
 
 export const RoutingModule: ModuleWithProviders = RouterModule.forRoot(routes, {

@@ -31,7 +31,7 @@ export class RegisterFormComponent implements OnInit {
       this.form.address,
       this.form.phoneNumber,
       this.form.password,
-      this.form.mathcingPassword);
+      this.form.matchingPassword);
 
       this.authService.signUp(this.signupInfo).subscribe(
         data => {

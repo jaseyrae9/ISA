@@ -1,3 +1,8 @@
+<div *ngIf="isLoggedIn; else loggedOut">
+  You are already logged.
+</div>
+
+<ng-template #loggedOut>
 <form name="form" (ngSubmit)="onLogin()" #f="ngForm">
   <p class="hint-text" style="text-align: center">Fill in this form to log in!
 
@@ -20,3 +25,4 @@
   </div>
   <input type="submit" class="btn btn-primary btn-block" value="Log In">
 </form>
+</ng-template>
