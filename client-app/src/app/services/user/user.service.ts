@@ -12,7 +12,6 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   getCurrentUserProfile(): Observable<any> {
-      // TODO:
-      return this.http.get('//localhost:8080/server/hotels/all');
+      return this.http.get('//localhost:8080/profile/info');
   }
 }

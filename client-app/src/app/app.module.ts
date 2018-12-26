@@ -2,6 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule} from '@angular/forms';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+
+import { JwtInterceptor } from './auth/auth-interceptor';
 
 import { AppComponent } from './app.component';
 import { NavigationComponent } from './basic-components/navigation/navigation.component';
@@ -25,6 +28,7 @@ import { UserService } from './services/user/user.service';
 import { NewCompanyFormComponent } from './air-company/new-company-form/new-company-form.component';
 import { CompanyBasicDetailsComponent } from './air-company/company-basic-details/company-basic-details.component';
 import { AirCompanyService } from './services/air-company/air-company.service';
+import { FriendsComponent } from './user/friends/friends.component';
 
 
 @NgModule({
@@ -46,12 +50,15 @@ import { AirCompanyService } from './services/air-company/air-company.service';
     ChangePasswordFormComponent,
     EditProfileFormComponent,
     NewCompanyFormComponent,
-    CompanyBasicDetailsComponent
+    CompanyBasicDetailsComponent,
+    FriendsComponent
   ],
   imports: [
     BrowserModule, RoutingModule, HttpClientModule, FormsModule
   ],
-  providers: [HotelService, AirCompanyService, UserService],
+  providers: [HotelService, AirCompanyService, UserService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

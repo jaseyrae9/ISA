@@ -24,8 +24,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,7 +31,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 
-import isa.project.dto.users.CustomerDTO;
 import isa.project.dto.users.UserDTO;
 import isa.project.event.OnRegistrationCompleteEvent;
 import isa.project.model.VerificationToken;
@@ -48,7 +45,6 @@ import isa.project.service.users.CustomUserDetailsService;
 import isa.project.service.users.CustomerService;
 
 @RestController
-@CrossOrigin(origins="*")
 @RequestMapping(value="customers")
 public class CustomerController {
 
@@ -95,16 +91,16 @@ public class CustomerController {
 	}
 	
 	@RequestMapping(value="/register", method = RequestMethod.POST)
-    public ResponseEntity<?> registerUser(@RequestBody CustomerDTO customerDTO, WebRequest request){
+    public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO, WebRequest request){
 	// mozda treba dodati da se prima RegisterCustomerDTO :)
 		
-		Customer customer = new Customer(customerDTO.getUsername(), 
-				customerDTO.getPassword(),
-				customerDTO.getFirstName(),
-				customerDTO.getLastName(),
-				customerDTO.getEmail(),
-				customerDTO.getPhoneNumber(),
-				customerDTO.getAddress());
+		Customer customer = new Customer(userDTO.getUsername(), 
+				userDTO.getPassword(),
+				userDTO.getFirstName(),
+				userDTO.getLastName(),
+				userDTO.getEmail(),
+				userDTO.getPhoneNumber(),
+				userDTO.getAddress());
 				
 		Optional<Authority> authority = authorityService.findByName("CUSTOMER");
 		if( !authority.isPresent() ) {

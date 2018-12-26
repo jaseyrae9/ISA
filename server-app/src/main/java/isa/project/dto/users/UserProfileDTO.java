@@ -4,13 +4,13 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import isa.project.model.users.Customer;
+import isa.project.model.users.User;
 
 /**
  * Class used as DTO when new customer is being registered.
  *
  */
-public class RegisterCustomerDTO {
+public class UserProfileDTO {
 	private Integer id;	
 	
 	@NotNull (message = "Username must be entered.")
@@ -42,19 +42,19 @@ public class RegisterCustomerDTO {
 	@NotBlank (message = "Address can not be blank.")
 	private String address;
 	
-	public RegisterCustomerDTO() {
+	public UserProfileDTO() {
 		
 	}
 
-	public RegisterCustomerDTO(Customer customer) {
-		this.id = customer.getId();
-		this.username = customer.getUsername();
-		this.password = customer.getPassword();
-		this.firstName = customer.getFirstName();
-		this.lastName = customer.getLastName();
-		this.email = customer.getEmail();
-		this.phoneNumber = customer.getPhoneNumber();
-		this.address = customer.getAddress();
+	public UserProfileDTO(User user) {
+		this.id = user.getId();
+		this.username = user.getUsername();
+		this.password = user.getPassword();
+		this.firstName = user.getFirstName();
+		this.lastName = user.getLastName();
+		this.email = user.getEmail();
+		this.phoneNumber = user.getPhoneNumber();
+		this.address = user.getAddress();
 	}
 	
 	public Integer getId() {
