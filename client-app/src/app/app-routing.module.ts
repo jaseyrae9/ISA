@@ -15,7 +15,7 @@ import { LoginFormComponent} from './user/login-form/login-form.component';
 
 const routes: Routes = [
   { path: '', component: HomePageComponent},
-  { path: 'avio-companies', component: AllAvioCompaniesPageComponent},
+  { path: 'aircompanies', component: AllAvioCompaniesPageComponent},
   { path: 'find-flight', component: FlightSearchPageComponent },
   { path: 'hotels', component: AllHotelsPageComponent },
   { path: 'find-room', component: RoomSearchPageComponent },

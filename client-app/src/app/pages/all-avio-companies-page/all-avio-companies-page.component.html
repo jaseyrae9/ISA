@@ -1,3 +1,16 @@
-<p>
-  all-avio-companies-page works!
-</p>
+<div style="padding: 1%" class="container">  
+  <!-- Button trigger modal -->
+  <div style="align-content: center" div class="row">  
+    <div class="col-12 text-center">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewCompany">
+        Add new company
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <app-new-company-form class="modal fade" id="addNewCompany" tabindex="-1" role="dialog" aria-hidden="true"></app-new-company-form>
+  <hr>
+
+  <app-company-basic-details *ngFor="let cmp of companies" [company] = 'cmp'></app-company-basic-details>
+</div>

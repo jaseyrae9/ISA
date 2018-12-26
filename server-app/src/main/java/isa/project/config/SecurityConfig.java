@@ -83,6 +83,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		web.ignoring().antMatchers("/customers/register", "/customers/login", "/aircompanies/all");
 //		web.ignoring().antMatchers(HttpMethod.GET, "/customers/confirmRegistration");
 //		web.ignoring().antMatchers(HttpMethod.POST,"/customers/login");
-//		web.ignoring().antMatchers(HttpMethod.GET, "/aircompanies/all");
 	}
 }

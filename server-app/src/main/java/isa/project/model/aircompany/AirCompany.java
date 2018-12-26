@@ -11,16 +11,16 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "avio_company")
+@Table(name = "air_company")
 public class AirCompany {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	
-	@Column(name = "AvioCompanyName", nullable = false)
+	@Column(nullable = false)
 	private String name;
 	
-	@Column(name = "AvioCompanyDescription", nullable = true)
+	@Column(nullable = true)
 	private String description;
 	
 	public AirCompany() {

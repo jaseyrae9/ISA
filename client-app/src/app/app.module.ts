@@ -22,6 +22,9 @@ import { LoginFormComponent } from './user/login-form/login-form.component';
 import { RegisterFormComponent } from './user/register-form/register-form.component';
 import { EditProfileFormComponent } from './user/edit-profile-form/edit-profile-form.component';
 import { UserService } from './services/user/user.service';
+import { NewCompanyFormComponent } from './air-company/new-company-form/new-company-form.component';
+import { CompanyBasicDetailsComponent } from './air-company/company-basic-details/company-basic-details.component';
+import { AirCompanyService } from './services/air-company/air-company.service';
 
 
 @NgModule({
@@ -41,12 +44,14 @@ import { UserService } from './services/user/user.service';
     CarSearchPageComponent,
     ProfileComponent,
     ChangePasswordFormComponent,
-    EditProfileFormComponent
+    EditProfileFormComponent,
+    NewCompanyFormComponent,
+    CompanyBasicDetailsComponent
   ],
   imports: [
     BrowserModule, RoutingModule, HttpClientModule, FormsModule
   ],
-  providers: [HotelService, UserService],
+  providers: [HotelService, AirCompanyService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
