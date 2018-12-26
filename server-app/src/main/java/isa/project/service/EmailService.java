@@ -21,7 +21,6 @@ public class EmailService {
     @Async
     public void sendNotificaitionAsync(String recipientEmail, String subject, String message) throws MailException, InterruptedException, MessagingException {
 
-        //Thread.sleep(1000);
         System.out.println("Slanje emaila...");
 
         MimeMessage msg = sender.createMimeMessage();
