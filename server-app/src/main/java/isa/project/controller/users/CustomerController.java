@@ -48,7 +48,7 @@ import isa.project.service.users.CustomUserDetailsService;
 import isa.project.service.users.CustomerService;
 
 @RestController
-@CrossOrigin(origins="http://localhost:4200")
+@CrossOrigin(origins="*")
 @RequestMapping(value="customers")
 public class CustomerController {
 
@@ -94,15 +94,10 @@ public class CustomerController {
 		return new ResponseEntity<>(ret, HttpStatus.OK);
 	}
 	
-	@GetMapping("/loginPage")
-	public String hello()
-	{
-		return "login";
-	}
-	
 	@RequestMapping(value="/register", method = RequestMethod.POST)
     public ResponseEntity<?> registerUser(@RequestBody CustomerDTO customerDTO, WebRequest request){
-
+	// mozda treba dodati da se prima RegisterCustomerDTO :)
+		
 		Customer customer = new Customer(customerDTO.getUsername(), 
 				customerDTO.getPassword(),
 				customerDTO.getFirstName(),
@@ -165,7 +160,7 @@ public class CustomerController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest,
 			HttpServletResponse response, Device device) throws AuthenticationException, IOException {
-		System.out.println("USAO U LOGIN!!!");
+		System.out.println("[LOGIN] Username: " + authenticationRequest.getUsername() + "Password: " + authenticationRequest.getPassword());
 		final Authentication authentication = authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
 						authenticationRequest.getPassword()));

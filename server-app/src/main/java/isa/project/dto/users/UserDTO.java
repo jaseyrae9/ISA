@@ -54,6 +54,7 @@ public class UserDTO {
 		this.phoneNumber = user.getPhoneNumber();
 		this.address = user.getAddress();
 		this.confirmedMail = user.getConfirmedMail();
+		this.password = user.getPassword();
 	}
 	
 	public Integer getId() {
