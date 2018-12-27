@@ -1,20 +1,16 @@
 package isa.project.dto.users;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import isa.project.model.users.User;
 
-/**
- * Class used as DTO when showing user profile.
- *
- */
-public class UserDTO {
+public class UserDTO{
+private Integer id;
 	
-	private Integer id;
-	
-	@NotNull
-	@NotEmpty
+	@NotNull (message = "Username must be entered.")
+	@NotBlank (message = "Username can not be blank.")
 	private String username;
 	
 	@NotNull
@@ -29,6 +25,8 @@ public class UserDTO {
 	@NotEmpty
 	private String email;
 	
+	@NotNull (message = "Password must be entered.")
+	@NotBlank (message = "Password can not be blank.")
 	private String password;
 	
 	private String matchingPassword;
@@ -54,7 +52,6 @@ public class UserDTO {
 		this.phoneNumber = user.getPhoneNumber();
 		this.address = user.getAddress();
 		this.confirmedMail = user.getConfirmedMail();
-		this.password = user.getPassword();
 	}
 	
 	public Integer getId() {

@@ -9,15 +9,15 @@
     </div>
 
     <div class="modal-body">
+        <p class="hint-text">If you change your mail, it will have to be reconfirmed.</p>
       <form>
-
             <div class="input-group form-group">
               <div class="input-group-prepend">
                 <span class="input-group-text">
                   <i class="fa fa-user" aria-hidden="true"></i>
                 </span>
               </div>
-              <input type="text" class="form-control" name="username" placeholder="Username" required="required">
+              <input type="text" class="form-control" name="username" placeholder="Username" required="required" [(value)] = "user.username">
             </div>
 
             <div class="input-group form-group">
@@ -26,7 +26,7 @@
                     <i class="fa fa-envelope" aria-hidden="true"></i>
                   </span>
                 </div>
-                <input type="email" class="form-control" name="email" placeholder="email@email.com" required="required">
+                <input type="email" class="form-control" name="email" placeholder="email@email.com" required="required" [(value)] = "user.email">
             </div>
 
             <div class="input-group form-group">
@@ -35,7 +35,7 @@
                     <i class="fa fa-address-book" aria-hidden="true"></i>
                   </span>
                 </div>
-                <input type="text" class="form-control" name="firstName" placeholder="First Name" required="required">
+                <input type="text" class="form-control" name="firstName" placeholder="First Name" required="required" [(value)] = "user.firstName">
               </div>
 
             <div class="input-group form-group">
@@ -44,7 +44,7 @@
                   <i class="fa fa-address-book" aria-hidden="true"></i>
                 </span>
               </div>
-              <input type="text" class="form-control" name="lastName" placeholder="Last Name" required="required">
+              <input type="text" class="form-control" name="lastName" placeholder="Last Name" required="required" [(value)] = "user.lastName">
             </div>
 
             <div class="input-group form-group">
@@ -53,7 +53,7 @@
                     <i class="fa fa-map-marker" aria-hidden="true"></i>
                   </span>
                 </div>
-                <input type="text" class="form-control" name="city" placeholder="City" required="required">
+                <input type="text" class="form-control" name="city" placeholder="City" required="required" [(value)] = "user.address">
             </div>
 
             <div class="input-group form-group">
@@ -62,7 +62,7 @@
                   <i class="fa fa-phone" aria-hidden="true"></i>
                 </span>
               </div>
-              <input type="tel" class="form-control" name="phoneNumber" placeholder="Phone Number" required="required">
+              <input type="tel" class="form-control" name="phoneNumber" placeholder="Phone Number" required="required" [(value)] = "user.phoneNumber"> 
             </div>
 
       </form>

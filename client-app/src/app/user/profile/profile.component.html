@@ -1,32 +1,16 @@
 <div style="margin: 20px; padding: 20px">
-		
-  <ul class="nav nav-tabs">
-      <li class = "nav-item active">
-        <a href = "#profile_info" role="tab" data-toggle="tab" class = "nav-link active">
-           <i class="glyphicon glyphicon-user"></i>Profile
-        </a>
-      </li>
-      <li class = "nav-item">
-        <a href = "#friends" role="tab" data-toggle="tab" class = "nav-link">
-           <i class="glyphicon glyphicon-list-alt"></i>Friends
-        </a>
-      </li>		        
-  </ul>
 
-  <div class="tab-content">
-          
-    <div class="tab-pane active" role="tabpanel" id="profile_info">
-        <div class="tabContent">
+        <div class="profile">
         <div style="display: table-cell; width: auto; background-size: cover; background-image: url(assets/images/user_profile/profile.jpeg)"></div>
         <div style="display: table-cell; width: 800px;background: #ffffff; padding: 10px; position: relative">
-          <h1 id="name">Ime prezime</h1>
+          <h1 id="name">{{user.firstName}} {{user.lastName}}</h1>
           <hr/>
           <i class="fa fa-user" aria-hidden="true"></i><b>Username: </b>{{user.username}}<br/>        
           <i class="fa fa-envelope" aria-hidden="true"></i><b>Email: </b>{{user.email}} <br/>
           <i class="fa fa-phone" aria-hidden="true"></i><b>Phone number: </b>{{user.phoneNumber}}<br/> 
           <i class="fa fa-map-marker" aria-hidden="true"></i><b>Address: </b>{{user.address}}<br/> 
           
-          <div class="alert alert-danger" role="alert" ng-show = "user.confirmedEmail">
+          <div class="alert alert-danger" role="alert" *ngIf="user.confirmedMail == false">
               <strong>Uncofirmed email!</strong> Please, confirm your email to gain full access to options.
           </div>
          
@@ -39,18 +23,11 @@
             <div class="btn-group" role="group">
                 <button type="button" class="btn  btn-primary btn-block mr-2" data-toggle="modal" data-target="#editProfile">Change information</button>
                  <!-- Modal za promenu user info -->
-                 <app-edit-profile-form class="modal fade" id="editProfile" tabindex="-1" role="dialog" aria-hidden="true"></app-edit-profile-form>
+                 <app-edit-profile-form [user] = "user" class="modal fade" id="editProfile" tabindex="-1" role="dialog" aria-hidden="true"></app-edit-profile-form>
             </div>
           </div>
 
         </div>
       </div>
           
-  </div>
-    
-  <div class="tab-pane" role="tabpanel" id="friends">              
-    <div class="tabContent">      
-    </div>    
-  </div>
-
 </div>

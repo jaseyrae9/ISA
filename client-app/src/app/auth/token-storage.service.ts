@@ -5,7 +5,7 @@ const TOKEN_KEY = 'AuthToken';
 @Injectable({
   providedIn: 'root'
 })
-export class TokenStorageService {;
+export class TokenStorageService {
   constructor() { }
 
   signOut() {

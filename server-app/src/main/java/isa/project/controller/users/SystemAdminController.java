@@ -1,78 +1,128 @@
-//package isa.project.controller.users;
-//
-//import java.util.ArrayList;
-//import java.util.List;
-//import java.util.Optional;
-//
-//import org.springframework.dao.DataIntegrityViolationException;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.security.access.prepost.PreAuthorize;
-//import org.springframework.web.bind.annotation.CrossOrigin;
-//import org.springframework.web.bind.annotation.PathVariable;
-//import org.springframework.web.bind.annotation.RequestBody;
-//import org.springframework.web.bind.annotation.RequestMapping;
-//import org.springframework.web.bind.annotation.RequestMethod;
-//import org.springframework.web.bind.annotation.RestController;
-//
-//import isa.project.dto.hotel.HotelDTO;
-//import isa.project.dto.users.UserDTO;
-//import isa.project.model.hotel.Hotel;
-//import isa.project.model.users.Authority;
-//import isa.project.model.users.Customer;
-//import isa.project.model.users.HotelAdmin;
-//
-//@RestController
-//@CrossOrigin(origins="*")
-//@RequestMapping(value="sys")
-//public class SystemAdminController {
-//	
-//	@PreAuthorize("hasAnyRole('SYS')")
-//	@RequestMapping(value="/hotelAdmin/{hotelId}", method = RequestMethod.POST)
-//	public ResponseEntity<?> createHotelAdmin(@PathVariable Integer hotelId, @RequestBody UserDTO user){
-//		HotelAdmin hotelAdmin = new HotelAdmin(customerDTO.getUsername(), 
-//				customerDTO.getPassword(),
-//				customerDTO.getFirstName(),
-//				customerDTO.getLastName(),
-//				customerDTO.getEmail(),
-//				customerDTO.getPhoneNumber(),
-//				customerDTO.getAddress());
-//				
-//		Optional<Authority> authority = authorityService.findByName("CUSTOMER");
-//		if( !authority.isPresent() ) {
-//			authorityService.saveAuthority(new Authority("CUSTOMER"));
-//		}
-//		
-//		customer.addAuthority(authorityService.findByName("CUSTOMER").get());
-//		System.out.println("REGISTRACIJA: " + customer.getUsername() + " PASSWORD: " + customer.getPassword());
-//		
-//        try {
-//        	customerService.registerCustomer(customer);
-//        } catch (DataIntegrityViolationException e) {
-//
-//            logger.warn("Integrity constraint violated");
-//            return ResponseEntity.status(409).body(customer);
-//        }
-//		
-//		return new ResponseEntity<>()
-//	}
-//
-//	public ResponseEntity<HotelDTO> addHotel(@RequestBody HotelDTO hotelDTO){
-//		Hotel hotel = new Hotel(hotelDTO.getName(), hotelDTO.getDescription());
-//		return new ResponseEntity<>(new HotelDTO(hotelService.saveHotel(hotel)), HttpStatus.CREATED);	
-//	}
-//	
-//	@PreAuthorize("hasAnyRole('SYS')")
-//	@RequestMapping(value="/hotelAdmin", method = RequestMethod.POST)
-//	public ResponseEntity<?> createAirAdmin(){
-//		
-//		return new ResponseEntity<>(ret, HttpStatus.OK);
-//	}
-//	
-//	@PreAuthorize("hasAnyRole('SYS')")
-//	@RequestMapping(value="/hotelAdmin", method = RequestMethod.POST)
-//	public ResponseEntity<?> createREntAdmin(){
-//		
-//		return new ResponseEntity<>(ret, HttpStatus.OK);
-//	}
-//}
+package isa.project.controller.users;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import isa.project.dto.users.UserDTO;
+import isa.project.model.users.AirCompanyAdmin;
+import isa.project.model.users.HotelAdmin;
+import isa.project.model.users.RentACarAdmin;
+import isa.project.service.hotel.HotelService;
+import isa.project.service.users.AuthorityService;
+import isa.project.service.users.AvioCompanyAdminService;
+import isa.project.service.users.HotelAdminService;
+import isa.project.service.users.RentACarAdminService;
+
+@RestController
+@CrossOrigin(origins="*")
+@RequestMapping(value="sys")
+public class SystemAdminController {
+	
+	@Autowired
+	private AuthorityService authorityService;
+	
+	@Autowired
+	HotelAdminService hotelAdminService;
+	
+	@Autowired
+	AvioCompanyAdminService avioCompanyService;
+	
+	@Autowired
+	RentACarAdminService rentACarCompanyService;
+	
+	@Autowired 
+	HotelService hotelService;
+	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	
+	@PreAuthorize("hasAnyRole('SYS')")
+	@RequestMapping(value="/hotelAdmin/{hotelId}", method = RequestMethod.POST)
+	public ResponseEntity<?> createHotelAdmin(@PathVariable Integer hotelId, @RequestBody UserDTO userDTO){
+		HotelAdmin hotelAdmin = new HotelAdmin(userDTO.getUsername(), 
+				userDTO.getPassword(),
+				userDTO.getFirstName(),
+				userDTO.getLastName(),
+				userDTO.getEmail(),
+				userDTO.getPhoneNumber(),
+				userDTO.getAddress());
+		
+		
+		hotelAdmin.addAuthority(authorityService.findByName("HOTELADMIN").get());
+		hotelAdmin.setHotel(hotelService.findHotel(hotelId).get()); // TODO: Moze da ne postoji hotel, treba uraditi validaciju
+		System.err.println("REGISTRACIJA hotel admina: " + hotelAdmin.getUsername() + " PASSWORD: " + hotelAdmin.getPassword());
+		
+		
+        try {
+        	hotelAdminService.registerHotelAdmin(hotelAdmin);
+        } catch (DataIntegrityViolationException e) {
+
+            logger.warn("Integrity constraint violated");
+            return ResponseEntity.status(409).body(hotelAdmin);
+        }
+		
+        return ResponseEntity.ok(hotelAdmin);
+	}
+	
+	@PreAuthorize("hasAnyRole('SYS')")
+	@RequestMapping(value="/avioCompanyAdmin/{avioCompanyId}", method = RequestMethod.POST)
+	public ResponseEntity<?> createAvioCompanyAdmin(@PathVariable Integer avioCompanyId, @RequestBody UserDTO userDTO){
+		AirCompanyAdmin avioCompanyAdmin = new AirCompanyAdmin(userDTO.getUsername(), 
+				userDTO.getPassword(),
+				userDTO.getFirstName(),
+				userDTO.getLastName(),
+				userDTO.getEmail(),
+				userDTO.getPhoneNumber(),
+				userDTO.getAddress());
+		
+		avioCompanyAdmin.addAuthority(authorityService.findByName("AVIOADMIN").get());
+		System.err.println("REGISTRACIJA avio admina: " + avioCompanyAdmin.getUsername() + " PASSWORD: " + avioCompanyAdmin.getPassword());
+		
+        try {
+        	avioCompanyService.registerAvioCompanyAdmin(avioCompanyAdmin);
+        } catch (DataIntegrityViolationException e) {
+
+            logger.warn("Integrity constraint violated");
+            return ResponseEntity.status(409).body(avioCompanyAdmin);
+        }
+		
+        return ResponseEntity.ok(avioCompanyAdmin);
+	}
+	
+	
+	@PreAuthorize("hasAnyRole('SYS')")
+	@RequestMapping(value="/rentACarCompanyAdmin/{rentACarCompanyId}", method = RequestMethod.POST)
+	public ResponseEntity<?> createRentACarCompanyAdmin(@PathVariable Integer rentACarCompanyId, @RequestBody UserDTO userDTO){
+		RentACarAdmin rentACarCompanyAdmin = new RentACarAdmin(userDTO.getUsername(), 
+				userDTO.getPassword(),
+				userDTO.getFirstName(),
+				userDTO.getLastName(),
+				userDTO.getEmail(),
+				userDTO.getPhoneNumber(),
+				userDTO.getAddress());
+		
+		rentACarCompanyAdmin.addAuthority(authorityService.findByName("CARADMIN").get());
+		System.err.println("REGISTRACIJA car admina: " + rentACarCompanyAdmin.getUsername() + " PASSWORD: " + rentACarCompanyAdmin.getPassword());
+		
+        try {
+        	rentACarCompanyService.registerRentACarCompanyAdmin(rentACarCompanyAdmin);
+        } catch (DataIntegrityViolationException e) {
+
+            logger.warn("Integrity constraint violated");
+            return ResponseEntity.status(409).body(rentACarCompanyAdmin);
+        }
+		
+        return ResponseEntity.ok(rentACarCompanyAdmin);
+	}
+	
+	
+}

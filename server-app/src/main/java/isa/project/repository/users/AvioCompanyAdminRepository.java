@@ -2,8 +2,8 @@ package isa.project.repository.users;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import isa.project.model.users.AvioCompanyAdmin;
+import isa.project.model.users.AirCompanyAdmin;
 
-public interface AvioCompanyAdminRepository extends JpaRepository<AvioCompanyAdmin, Integer> {
+public interface AvioCompanyAdminRepository extends JpaRepository<AirCompanyAdmin, Integer> {
 
 }
