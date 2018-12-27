@@ -1,3 +1,16 @@
-<p>
-  all-cars-companies-page works!
-</p>
+<div style="padding: 1%" class="container">  
+  <!-- Button trigger modal -->
+  <div style="align-content: center" div class="row">  
+    <div class="col-12 text-center">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewCarCompany">
+        Add new company
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <app-new-car-company-form class="modal fade" id="addNewCarCompany" tabindex="-1" role="dialog" aria-hidden="true"></app-new-car-company-form>
+  <hr>
+
+  <app-car-company-basic-details *ngFor="let cmp of companies" [carCompany] = 'cmp'></app-car-company-basic-details>
+</div>

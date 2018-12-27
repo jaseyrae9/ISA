@@ -52,6 +52,9 @@ import { HotelBasicDetailsComponent } from './hotel/hotel-basic-details/hotel-ba
     ChangePasswordFormComponent,
     EditProfileFormComponent,
     NewCompanyFormComponent,
+    NewCarCompanyComponent,
+    NewCarCompanyFormComponent,
+    CarCompanyBasicDetailsComponent
     CompanyBasicDetailsComponent,
     FriendsComponent,
     NewHotelFormComponent,
