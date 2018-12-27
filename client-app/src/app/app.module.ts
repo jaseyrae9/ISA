@@ -25,6 +25,8 @@ import { UserService } from './services/user/user.service';
 import { NewCompanyFormComponent } from './air-company/new-company-form/new-company-form.component';
 import { CompanyBasicDetailsComponent } from './air-company/company-basic-details/company-basic-details.component';
 import { AirCompanyService } from './services/air-company/air-company.service';
+import { NewCarCompanyFormComponent } from './rent-a-car-company/new-car-company-form/new-car-company-form.component';
+import { CarCompanyBasicDetailsComponent } from './rent-a-car-company/car-company-basic-details/car-company-basic-details.component';
 
 
 @NgModule({
@@ -46,7 +48,10 @@ import { AirCompanyService } from './services/air-company/air-company.service';
     ChangePasswordFormComponent,
     EditProfileFormComponent,
     NewCompanyFormComponent,
-    CompanyBasicDetailsComponent
+    CompanyBasicDetailsComponent,
+    NewCarCompanyComponent,
+    NewCarCompanyFormComponent,
+    CarCompanyBasicDetailsComponent
   ],
   imports: [
     BrowserModule, RoutingModule, HttpClientModule, FormsModule
