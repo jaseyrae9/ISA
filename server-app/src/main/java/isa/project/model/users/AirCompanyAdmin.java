@@ -11,28 +11,28 @@ import isa.project.model.aircompany.AirCompany;
 
 @Entity
 @DiscriminatorValue("ACA")
-public class AvioCompanyAdmin extends User {
+public class AirCompanyAdmin extends User {
 	
 	@ManyToOne
 	@JoinColumn(name = "air_company_id")
-	private AirCompany avioCompany;
+	private AirCompany airCompany;
 	
-	public AvioCompanyAdmin() {
+	public AirCompanyAdmin() {
 		super();
 	}
 	
-	public AvioCompanyAdmin(String username, String password, String firstName, String lastName, String email,
+	public AirCompanyAdmin(String username, String password, String firstName, String lastName, String email,
 			String phoneNumber, String address) {
 		super(username, password, firstName, lastName, email, phoneNumber, address);
 		super.authorities = new HashSet<Authority>();
 	}
 
-	public AirCompany getAvioCompany() {
-		return avioCompany;
+	public AirCompany getAirCompany() {
+		return airCompany;
 	}
 
-	public void setAvioCompany(AirCompany avioCompany) {
-		this.avioCompany = avioCompany;
+	public void setAirCompany(AirCompany avioCompany) {
+		this.airCompany = avioCompany;
 	}
 	
 }

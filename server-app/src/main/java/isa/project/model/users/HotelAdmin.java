@@ -1,6 +1,7 @@
 package isa.project.model.users;
 
 import java.util.HashSet;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;

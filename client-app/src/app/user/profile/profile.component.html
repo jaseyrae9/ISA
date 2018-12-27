@@ -10,7 +10,7 @@
           <i class="fa fa-phone" aria-hidden="true"></i><b>Phone number: </b>{{user.phoneNumber}}<br/> 
           <i class="fa fa-map-marker" aria-hidden="true"></i><b>Address: </b>{{user.address}}<br/> 
           
-          <div class="alert alert-danger" role="alert" ng-show = "user.confirmedEmail">
+          <div class="alert alert-danger" role="alert" *ngIf="user.confirmedMail == false">
               <strong>Uncofirmed email!</strong> Please, confirm your email to gain full access to options.
           </div>
          
@@ -23,7 +23,7 @@
             <div class="btn-group" role="group">
                 <button type="button" class="btn  btn-primary btn-block mr-2" data-toggle="modal" data-target="#editProfile">Change information</button>
                  <!-- Modal za promenu user info -->
-                 <app-edit-profile-form class="modal fade" id="editProfile" tabindex="-1" role="dialog" aria-hidden="true"></app-edit-profile-form>
+                 <app-edit-profile-form [user] = "user" class="modal fade" id="editProfile" tabindex="-1" role="dialog" aria-hidden="true"></app-edit-profile-form>
             </div>
           </div>
 

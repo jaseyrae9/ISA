@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import isa.project.dto.users.UserDTO;
-import isa.project.model.users.AvioCompanyAdmin;
+import isa.project.model.users.AirCompanyAdmin;
 import isa.project.model.users.HotelAdmin;
 import isa.project.model.users.RentACarAdmin;
 import isa.project.service.hotel.HotelService;
@@ -76,7 +76,7 @@ public class SystemAdminController {
 	@PreAuthorize("hasAnyRole('SYS')")
 	@RequestMapping(value="/avioCompanyAdmin/{avioCompanyId}", method = RequestMethod.POST)
 	public ResponseEntity<?> createAvioCompanyAdmin(@PathVariable Integer avioCompanyId, @RequestBody UserDTO userDTO){
-		AvioCompanyAdmin avioCompanyAdmin = new AvioCompanyAdmin(userDTO.getUsername(), 
+		AirCompanyAdmin avioCompanyAdmin = new AirCompanyAdmin(userDTO.getUsername(), 
 				userDTO.getPassword(),
 				userDTO.getFirstName(),
 				userDTO.getLastName(),

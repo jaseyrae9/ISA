@@ -2,7 +2,6 @@ package isa.project.model.users;
 
 import java.util.HashSet;
 
-import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -14,7 +13,7 @@ import isa.project.model.rentacar.RentACarCompany;
 @DiscriminatorValue("RACA")
 public class RentACarAdmin extends User { 
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "rent_a_car_company_id")
 	private RentACarCompany rentACarCompany;
 	

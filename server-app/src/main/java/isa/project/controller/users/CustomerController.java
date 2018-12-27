@@ -93,7 +93,7 @@ public class CustomerController {
 
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public ResponseEntity<?> registerUser(@RequestBody CustomerDTO customerDTO, WebRequest request) {
+	public ResponseEntity<?> registerUser(@RequestBody UserDTO customerDTO, WebRequest request) {
 
 		Customer customer = new Customer(customerDTO.getUsername(), customerDTO.getPassword(),
 				customerDTO.getFirstName(), customerDTO.getLastName(), customerDTO.getEmail(),
