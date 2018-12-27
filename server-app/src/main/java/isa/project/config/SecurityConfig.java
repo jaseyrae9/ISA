@@ -79,7 +79,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	// Generalna bezbednost aplikacije
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/customers/register", "/customers/login", "/aircompanies/all");
+		web.ignoring().antMatchers("/customers/register",
+				"/customers/login",
+				"/aircompanies/all",
+				"/rent_a_car_companies/all",
+				"/hotels/all");
 //		web.ignoring().antMatchers(HttpMethod.GET, "/customers/confirmRegistration");
 //		web.ignoring().antMatchers(HttpMethod.POST,"/customers/login");
 	}

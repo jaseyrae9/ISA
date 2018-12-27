@@ -17,7 +17,7 @@ import isa.project.model.hotel.Hotel;
 import isa.project.service.hotel.HotelService;
 
 @RestController
-@RequestMapping(value="server/hotels")
+@RequestMapping(value="hotels")
 public class HotelController {
 
 	@Autowired

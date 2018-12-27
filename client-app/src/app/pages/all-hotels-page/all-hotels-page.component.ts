@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HotelService } from '../../services/hotel/hotel.service';
+import { Hotel } from 'src/app/model/hotel/hotel';
 
 @Component({
   selector: 'app-all-hotels-page',
@@ -7,7 +8,7 @@ import { HotelService } from '../../services/hotel/hotel.service';
   styleUrls: ['./all-hotels-page.component.css']
 })
 export class AllHotelsPageComponent implements OnInit {
-  hotels: Array<any>;
+  hotels: Hotel[];
 
   constructor(private hotelService: HotelService) { }
 

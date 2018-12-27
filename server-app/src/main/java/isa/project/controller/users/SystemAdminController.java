@@ -58,7 +58,7 @@ public class SystemAdminController {
 		
 		
 		hotelAdmin.addAuthority(authorityService.findByName("HOTELADMIN").get());
-		hotelAdmin.setHotel(hotelService.findHotel(hotelId).get()); // TODO: Moze da ne postoji hotel, treba uraditi validaciju
+		//hotelAdmin.setHotel(hotelService.findHotel(hotelId).get()); // TODO: Moze da ne postoji hotel, treba uraditi validaciju
 		System.err.println("REGISTRACIJA hotel admina: " + hotelAdmin.getUsername() + " PASSWORD: " + hotelAdmin.getPassword());
 		
 		

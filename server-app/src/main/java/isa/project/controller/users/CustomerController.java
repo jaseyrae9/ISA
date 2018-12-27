@@ -91,7 +91,6 @@ public class CustomerController {
 		return new ResponseEntity<>(ret, HttpStatus.OK);
 	}
 
-
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public ResponseEntity<?> registerUser(@RequestBody UserDTO customerDTO, WebRequest request) {
 

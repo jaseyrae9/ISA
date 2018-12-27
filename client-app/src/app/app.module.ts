@@ -29,6 +29,8 @@ import { NewCompanyFormComponent } from './air-company/new-company-form/new-comp
 import { CompanyBasicDetailsComponent } from './air-company/company-basic-details/company-basic-details.component';
 import { AirCompanyService } from './services/air-company/air-company.service';
 import { FriendsComponent } from './user/friends/friends.component';
+import { NewHotelFormComponent } from './hotel/new-hotel-form/new-hotel-form.component';
+import { HotelBasicDetailsComponent } from './hotel/hotel-basic-details/hotel-basic-details.component';
 
 
 @NgModule({
@@ -51,7 +53,9 @@ import { FriendsComponent } from './user/friends/friends.component';
     EditProfileFormComponent,
     NewCompanyFormComponent,
     CompanyBasicDetailsComponent,
-    FriendsComponent
+    FriendsComponent,
+    NewHotelFormComponent,
+    HotelBasicDetailsComponent
   ],
   imports: [
     BrowserModule, RoutingModule, HttpClientModule, FormsModule

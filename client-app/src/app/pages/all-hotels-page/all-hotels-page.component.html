@@ -1,6 +1,16 @@
+<div style="padding: 1%" class="container">  
+  <!-- Button trigger modal -->
+  <div style="align-content: center" div class="row">  
+    <div class="col-12 text-center">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewHotel">
+        Add new hotel
+      </button>
+    </div>
+  </div>
 
-<h2>Hotels:</h2>
-<div *ngFor="let hotel of hotels">
-  {{hotel.name}}
-  {{hotel.description}}
+  <!-- Modal -->
+  <app-new-hotel-form class="modal fade" id="addNewHotel" tabindex="-1" role="dialog" aria-hidden="true"></app-new-hotel-form>
+  <hr>
+
+  <app-hotel-basic-details *ngFor="let hotel of hotels" [hotel] = 'hotel'></app-hotel-basic-details>
 </div>

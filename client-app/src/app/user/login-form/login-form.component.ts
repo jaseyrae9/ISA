@@ -17,7 +17,8 @@ export class LoginFormComponent implements OnInit {
 
   private loginInfo: AuthLoginInfo;
 
-  constructor(private authService: AuthService, private tokenStorage: TokenStorageService) { }
+  constructor(private authService: AuthService,
+     private tokenStorage: TokenStorageService) { }
 
   ngOnInit() {
     if (this.tokenStorage.getToken()) {
@@ -37,6 +38,9 @@ export class LoginFormComponent implements OnInit {
         this.tokenStorage.saveToken(data.token);
         this.isLoginFailed = false;
         this.isLoggedIn = true;
+
+        localStorage.setItem('currentUser', this.loginInfo.username);
+
         this.reloadPage();
       },
       error => {
