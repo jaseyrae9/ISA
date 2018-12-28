@@ -84,7 +84,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				"/aircompanies/all",
 				"/rent_a_car_companies/all",
 				"/hotels/all");
-//		web.ignoring().antMatchers(HttpMethod.GET, "/customers/confirmRegistration");
-//		web.ignoring().antMatchers(HttpMethod.POST,"/customers/login");
 	}
 }

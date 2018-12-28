@@ -7,56 +7,49 @@ import javax.validation.constraints.NotNull;
 import isa.project.model.users.User;
 
 /**
- * Class used as DTO when new customer is being registered.
+ * Class used as DTO for viewing and editing user profile.
  *
  */
 public class UserProfileDTO {
-	private Integer id;	
-	
-	@NotNull (message = "Username must be entered.")
-	@NotBlank (message = "Username can not be blank.")
-	private String username;
-	
-	@NotNull (message = "Password must be entered.")
-	@NotBlank (message = "Password can not be blank.")
-	private String password;
+	private Integer id;
 
-	@NotNull (message = "First name must be entered.")
-	@NotBlank (message = "First name can not be blank.")
+	@NotNull(message = "Email must be entered.")
+	@NotBlank(message = "Email can not be blank.")
+	@Email(message = "Email format is incorrect.")
+	private String email;
+
+	@NotNull(message = "First name must be entered.")
+	@NotBlank(message = "First name can not be blank.")
 	private String firstName;
 
-	@NotNull (message = "Last name must be entered.")
-	@NotBlank (message = "Last name can not be blank.")
-	private String lastName;	
+	@NotNull(message = "Last name must be entered.")
+	@NotBlank(message = "Last name can not be blank.")
+	private String lastName;
 
-	@NotNull (message = "Email must be entered.")
-	@NotBlank (message = "Email can not be blank.")
-	@Email (message = "Email does not match format.")
-	private String email;	
-
-	@NotNull (message = "Phone number must be entered.")
-	@NotBlank (message = "Phone number can not be blank.")
+	@NotNull(message = "Phone number must be entered.")
+	@NotBlank(message = "Phone number can not be blank.")
 	private String phoneNumber;
 
-	@NotNull (message = "Address must be entered.")
-	@NotBlank (message = "Address can not be blank.")
+	@NotNull(message = "Address must be entered.")
+	@NotBlank(message = "Address can not be blank.")
 	private String address;
-	
+
+	private Boolean confirmedMail;
+
 	public UserProfileDTO() {
-		
+
 	}
 
 	public UserProfileDTO(User user) {
 		this.id = user.getId();
-		this.username = user.getUsername();
-		this.password = user.getPassword();
+		this.email = user.getEmail();
 		this.firstName = user.getFirstName();
 		this.lastName = user.getLastName();
-		this.email = user.getEmail();
 		this.phoneNumber = user.getPhoneNumber();
 		this.address = user.getAddress();
+		this.confirmedMail = user.getConfirmedMail();
 	}
-	
+
 	public Integer getId() {
 		return id;
 	}
@@ -65,20 +58,12 @@ public class UserProfileDTO {
 		this.id = id;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getFirstName() {
@@ -97,14 +82,6 @@ public class UserProfileDTO {
 		this.lastName = lastName;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
@@ -120,5 +97,13 @@ public class UserProfileDTO {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	
+
+	public Boolean getConfirmedMail() {
+		return confirmedMail;
+	}
+
+	public void setConfirmedMail(Boolean confirmedMail) {
+		this.confirmedMail = confirmedMail;
+	}
+
 }

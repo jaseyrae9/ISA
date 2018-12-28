@@ -10,14 +10,6 @@
   <div class="input-group form-group">
     <div class="input-group-prepend">
       <span class="input-group-text">
-        <i class="fa fa-user" aria-hidden="true"></i>
-      </span>
-    </div>
-    <input type="text" id="username" class="form-control" name="username" placeholder="Username" required="required" [(ngModel)]="form.username">
-  </div>
-  <div class="input-group form-group">
-    <div class="input-group-prepend">
-      <span class="input-group-text">
         <i class="fa fa-envelope" aria-hidden="true"></i>
       </span>
     </div>
@@ -61,7 +53,7 @@
         <i class="fa fa-lock" aria-hidden="true"></i>
       </span>
     </div>
-    <input type="password" class="form-control" id="password" name="password" placeholder="Password" required="required" [(ngModel)]="form.password">
+    <input type="password" class="form-control" id="password" name="password" placeholder="Password" required="required" [(ngModel)]="form.password" >
   </div>
   <div class="input-group form-group">
     <div class="input-group-prepend">
@@ -69,7 +61,7 @@
         <i class="fa fa-lock" aria-hidden="true"></i>
       </span>
     </div>
-    <input type="password" class="form-control" id="matchingPassword" name="matchingPassword" placeholder="Confirm Password" required="required" [(ngModel)]="form.matchingPassword">
+    <input type="password" class="form-control" id="matchingPassword" name="matchingPassword" placeholder="Confirm Password" required="required">
   </div>
   <input type="submit" class="btn btn-primary btn-block" value="Sign Up">
 </form>

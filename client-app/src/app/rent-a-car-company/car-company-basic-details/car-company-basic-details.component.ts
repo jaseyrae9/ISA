@@ -8,7 +8,7 @@ import { RentACarCompany } from 'src/app/model/rent-a-car-company/rent-a-car-com
 })
 export class CarCompanyBasicDetailsComponent implements OnInit {
   @Input() carCompany: RentACarCompany;
-  
+
   constructor() { }
 
   ngOnInit() {

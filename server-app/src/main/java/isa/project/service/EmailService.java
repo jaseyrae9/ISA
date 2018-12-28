@@ -14,25 +14,22 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmailService {
 
-    @Qualifier("getJavaMailSender")
-    @Autowired
-    JavaMailSender sender;
+	@Qualifier("getJavaMailSender")
+	@Autowired
+	JavaMailSender sender;
 
-    @Async
-    public void sendNotificaitionAsync(String recipientEmail, String subject, String message) throws MailException, InterruptedException, MessagingException {
+	@Async
+	public void sendNotificaitionAsync(String recipientEmail, String subject, String message)
+			throws MailException, InterruptedException, MessagingException {
 
-        System.out.println("Slanje emaila...");
+		MimeMessage msg = sender.createMimeMessage();
+		msg.setContent(message, "text/html");
+		MimeMessageHelper helper = new MimeMessageHelper(msg, true, "UTF-8");
 
-        MimeMessage msg = sender.createMimeMessage();
-        msg.setContent(message, "text/html");
-        MimeMessageHelper helper = new MimeMessageHelper(msg, true, "UTF-8");
-
-        helper.setTo(recipientEmail);
-        helper.setFrom("isa.team21.2019@gmail.com");
-        helper.setSubject(subject);
-        helper.setText(message, true);
-        sender.send(msg);
-
-        System.out.println("Email poslat!");
-    }
+		helper.setTo(recipientEmail);
+		helper.setFrom("isa.team21.2019@gmail.com");
+		helper.setSubject(subject);
+		helper.setText(message, true);
+		sender.send(msg);
+	}
 }

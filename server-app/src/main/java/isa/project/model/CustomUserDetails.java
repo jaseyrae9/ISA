@@ -7,7 +7,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import isa.project.model.users.Authority;
 import isa.project.model.users.User;
 
 public class CustomUserDetails extends User implements UserDetails {
@@ -24,14 +23,7 @@ public class CustomUserDetails extends User implements UserDetails {
 	
 
 	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		
-		// Ispis ispis
-		for(Authority a : super.getUserAuthorities())
-		{
-			System.err.println("Ima auth: " + a.getAuthority());
-		}
-		
+	public Collection<? extends GrantedAuthority> getAuthorities() {	
 		return super.getUserAuthorities()
 				.stream()
 				.map(authority -> new SimpleGrantedAuthority("ROLE_" + authority.getAuthority()))
@@ -45,7 +37,7 @@ public class CustomUserDetails extends User implements UserDetails {
 
 	@Override
 	public String getUsername() {
-		return super.getUsername();
+		return super.getEmail();
 	}
 
 	@Override
@@ -65,7 +57,7 @@ public class CustomUserDetails extends User implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		return true;
+		return super.getConfirmedMail();
 	}
 
 }

@@ -34,18 +34,25 @@ public class TokenUtils {
 
 	private Long expiration = new Long(604800);
 
-	public String getUsernameFromToken(String token) {
-		String username;
+	/**
+	 * @param token
+	 * @return email hidden in token
+	 */
+	public String getEmailFromToken(String token) {
+		String email;
 		try {
 			final Claims claims = this.getClaimsFromToken(token);
-			username = claims.getSubject();
-			System.out.println("USERNAMEEE: " + username);
+			email = claims.getSubject();
 		} catch (Exception e) {
-			username = null;
+			email = null;
 		}
-		return username;
+		return email;
 	}
 
+	/**
+	 * @param token
+	 * @return date when token was created
+	 */
 	public Date getCreatedDateFromToken(String token) {
 		Date created;
 		try {
@@ -57,6 +64,10 @@ public class TokenUtils {
 		return created;
 	}
 
+	/**
+	 * @param token
+	 * @return date when token will expire
+	 */
 	public Date getExpirationDateFromToken(String token) {
 		Date expiration;
 		try {
@@ -68,6 +79,10 @@ public class TokenUtils {
 		return expiration;
 	}
 
+	/**
+	 * @param token
+	 * @return for which device is token
+	 */
 	public String getAudienceFromToken(String token) {
 		String audience;
 		try {
@@ -79,6 +94,10 @@ public class TokenUtils {
 		return audience;
 	}
 
+	/**
+	 * @param token
+	 * @return what is stored in token
+	 */
 	private Claims getClaimsFromToken(String token) {
 		Claims claims;
 		try {
@@ -97,15 +116,32 @@ public class TokenUtils {
 		return new Date(System.currentTimeMillis() + this.expiration * 1000);
 	}
 
+	/**
+	 * Checks if token is expired. Compares current date to expiration date from token.
+	 * @param token
+	 * @return 
+	 */
 	private Boolean isTokenExpired(String token) {
 		final Date expiration = this.getExpirationDateFromToken(token);
 		return expiration.before(this.generateCurrentDate());
 	}
 
+	/**
+	 * Checks if token was created before last password change. Token contains password, and is no
+	 * longer valid if password was changed.
+	 * @param created
+	 * @param lastPasswordReset
+	 * @return
+	 */
 	private Boolean isCreatedBeforeLastPasswordReset(Date created, Date lastPasswordReset) {
 		return (lastPasswordReset != null && created.before(lastPasswordReset));
 	}
 
+	/**
+	 * Returns device for which token is being used.
+	 * @param device
+	 * @return
+	 */
 	private String generateAudience(Device device) {
 		String audience = this.AUDIENCE_UNKNOWN;
 		if (device.isNormal()) {
@@ -123,6 +159,12 @@ public class TokenUtils {
 		return (this.AUDIENCE_TABLET.equals(audience) || this.AUDIENCE_MOBILE.equals(audience));
 	}
 
+	/**
+	 * Creates new token for user.
+	 * @param userDetails basic user details containing username and password
+	 * @param device for which token is being created
+	 * @return
+	 */
 	public String generateToken(UserDetails userDetails, Device device) {
 		Map<String, Object> claims = new HashMap<String, Object>();
 		claims.put("sub", userDetails.getUsername());
@@ -131,6 +173,11 @@ public class TokenUtils {
 		return this.generateToken(claims);
 	}
 
+	/**
+	 * Adds claims to token being created.
+	 * @param claims
+	 * @return
+	 */
 	private String generateToken(Map<String, Object> claims) {
 		try {
 			return Jwts.builder().setClaims(claims).setExpiration(this.generateExpirationDate())
@@ -144,12 +191,23 @@ public class TokenUtils {
 		}
 	}
 
+	/**
+	 * Checks if token can be refreshed. Token can only be refreshed if password wasn't changed.
+	 * @param token
+	 * @param lastPasswordReset
+	 * @return
+	 */
 	public Boolean canTokenBeRefreshed(String token, Date lastPasswordReset) {
 		final Date created = this.getCreatedDateFromToken(token);
 		return (!(this.isCreatedBeforeLastPasswordReset(created, lastPasswordReset))
 				&& (!(this.isTokenExpired(token)) || this.ignoreTokenExpiration(token)));
 	}
 
+	/**
+	 * Changes token created date and expiration date. Token can only be refreshed if password wasn't changed.
+	 * @param token
+	 * @return refreshed token or null if token can not be refreshed.
+	 */
 	public String refreshToken(String token) {
 		String refreshedToken;
 		try {
@@ -162,15 +220,25 @@ public class TokenUtils {
 		return refreshedToken;
 	}
 
+	/**
+	 * Checks if token is valid. 
+	 * @param token
+	 * @param userDetails
+	 * @return
+	 */
 	public Boolean validateToken(String token, UserDetails userDetails) {
 		CustomUserDetails user = (CustomUserDetails) userDetails;
-		final String username = this.getUsernameFromToken(token);
+		final String email = this.getEmailFromToken(token);
 		final Date created = this.getCreatedDateFromToken(token);
-		final Date expiration = this.getExpirationDateFromToken(token);
-		return (username.equals(user.getUsername()) && !(this.isTokenExpired(token))
+		return (email.equals(user.getUsername()) && !(this.isTokenExpired(token))
 				&& !(this.isCreatedBeforeLastPasswordReset(created, user.getLastPasswordResetDate())));
 	}
 
+	/**
+	 * Finds token in HTTP request.
+	 * @param request
+	 * @return
+	 */
 	public String getToken(HttpServletRequest request) {
 		String authHeader = getAuthHeaderFromHeader(request);
 

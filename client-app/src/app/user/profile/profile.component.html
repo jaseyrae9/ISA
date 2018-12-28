@@ -4,16 +4,11 @@
         <div style="display: table-cell; width: auto; background-size: cover; background-image: url(assets/images/user_profile/profile.jpeg)"></div>
         <div style="display: table-cell; width: 800px;background: #ffffff; padding: 10px; position: relative">
           <h1 id="name">{{user.firstName}} {{user.lastName}}</h1>
-          <hr/>
-          <i class="fa fa-user" aria-hidden="true"></i><b>Username: </b>{{user.username}}<br/>        
+          <hr/>          
           <i class="fa fa-envelope" aria-hidden="true"></i><b>Email: </b>{{user.email}} <br/>
           <i class="fa fa-phone" aria-hidden="true"></i><b>Phone number: </b>{{user.phoneNumber}}<br/> 
           <i class="fa fa-map-marker" aria-hidden="true"></i><b>Address: </b>{{user.address}}<br/> 
-          
-          <div class="alert alert-danger" role="alert" *ngIf="user.confirmedMail == false">
-              <strong>Uncofirmed email!</strong> Please, confirm your email to gain full access to options.
-          </div>
-         
+                  
          <div class="btn-toolbar pull-right " role="toolbar" style="position: absolute; right: 10px; bottom:10px">
             <div class="btn-group" role="group">
                 <button type="button" class="btn  btn-primary btn-block mr-2 " data-toggle="modal" data-target="#changePassword">Change password</button>

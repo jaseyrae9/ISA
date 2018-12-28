@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { JwtInterceptor } from './auth/auth-interceptor';
@@ -31,6 +31,8 @@ import { AirCompanyService } from './services/air-company/air-company.service';
 import { FriendsComponent } from './user/friends/friends.component';
 import { NewHotelFormComponent } from './hotel/new-hotel-form/new-hotel-form.component';
 import { HotelBasicDetailsComponent } from './hotel/hotel-basic-details/hotel-basic-details.component';
+import { CarCompanyBasicDetailsComponent } from './rent-a-car-company/car-company-basic-details/car-company-basic-details.component';
+import { NewCarCompanyFormComponent } from './rent-a-car-company/new-car-company-form/new-car-company-form.component';
 
 
 @NgModule({
@@ -52,10 +54,11 @@ import { HotelBasicDetailsComponent } from './hotel/hotel-basic-details/hotel-ba
     ChangePasswordFormComponent,
     EditProfileFormComponent,
     NewCompanyFormComponent,
-    NewCarCompanyComponent,
-    NewCarCompanyFormComponent,
-    CarCompanyBasicDetailsComponent
     CompanyBasicDetailsComponent,
+    CarCompanyBasicDetailsComponent,
+    NewCarCompanyFormComponent,
+    HotelBasicDetailsComponent,
+    NewHotelFormComponent,
     FriendsComponent,
     NewHotelFormComponent,
     HotelBasicDetailsComponent

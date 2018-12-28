@@ -4,6 +4,7 @@ import static javax.persistence.DiscriminatorType.STRING;
 import static javax.persistence.InheritanceType.SINGLE_TABLE;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -33,8 +34,8 @@ public abstract class User {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	
-	@Column(name="username", unique = true, nullable = false, columnDefinition="VARCHAR(64)")
-	private String username;
+	@Column(name="email", unique = true, nullable = false, columnDefinition="VARCHAR(64)")
+	private String email;
 	
 	@Column(name="password", unique = false, nullable = false)
 	private String password;
@@ -44,10 +45,7 @@ public abstract class User {
 	
 	@Column(name="lastName", unique = false, nullable = false)
 	private String lastName;
-	
-	@Column(name="email", unique = true, nullable = false, columnDefinition="VARCHAR(64)")
-	private String email;
-	
+		
 	@Column(name="phoneNumber", unique = true, nullable = true,  columnDefinition="VARCHAR(64)")
 	private String phoneNumber;
 	
@@ -73,28 +71,27 @@ public abstract class User {
 	// Copy constructor
 	public User(User user) {
 		this.id = user.getId();
-		this.username = user.getUsername();
+		this.email = user.getEmail();
 		this.password = user.getPassword();
 		this.firstName = user.getFirstName();
 		this.lastName = user.getLastName();
-		this.email = user.getEmail();
 		this.phoneNumber = user.getPhoneNumber();
 		this.address = user.getAddress();
 		this.confirmedMail = user.getConfirmedMail(); 
 		this.authorities = user.getUserAuthorities();
 	}	
 	
-	public User(String username, String password, String firstName, String lastName, String email, String phoneNumber,
+	public User(String username, String password, String firstName, String lastName, String phoneNumber,
 			String address) {
 		super();
-		this.username = username;
+		this.email = username;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.email = email;
 		this.phoneNumber = phoneNumber;
 		this.address = address;
 		this.confirmedMail = false; //when user is created, email is not confirmed
+		this.authorities = new HashSet<>();
 	}
 	
 	public Integer getId() {
@@ -105,12 +102,12 @@ public abstract class User {
 		this.id = id;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPassword() {
@@ -137,14 +134,6 @@ public abstract class User {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 
 	public String getPhoneNumber() {
@@ -207,8 +196,8 @@ public abstract class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + ", firstName=" + firstName
-				+ ", lastName=" + lastName + ", email=" + email + ", phoneNumber=" + phoneNumber + ", address="
+		return "User [id=" + id + ", username=" + email + ", password=" + password + ", firstName=" + firstName
+				+ ", lastName=" + lastName + ", phoneNumber=" + phoneNumber + ", address="
 				+ address + ", confirmedMail=" + confirmedMail + "]";
 	}
 

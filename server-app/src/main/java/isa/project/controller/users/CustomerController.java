@@ -1,22 +1,19 @@
 package isa.project.controller.users;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
 import org.springframework.mobile.device.Device;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -67,57 +64,44 @@ public class CustomerController {
 	@Autowired
 	private EmailService emailService;
 
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	/**
-	 * Returns DTO objects for customers. Objects contain username, password, first
-	 * name, last name, email, phone number, address and information about
-	 * confirmation mail.
-	 * 
-	 * @return information about all customers.
+	 * Register new customer. Saves customer to database and send confirmation email.
+	 * Returns error response if required customer data is missing or email or phone number are not unique.
+	 * @param customerDTO data for customer being registered.
+	 * @param request
+	 * @return
 	 */
-	@PreAuthorize("hasAnyRole('CUSTOMER')")
-	@RequestMapping(value = "/all", method = RequestMethod.GET)
-	public ResponseEntity<List<UserDTO>> getAllCustomers() {
-		System.out.println("SECUREDs");
-		Iterable<Customer> customers = customerService.findAll();
-
-		// convert companies to DTO
-		List<UserDTO> ret = new ArrayList<>();
-		for (Customer customer : customers) {
-			ret.add(new UserDTO(customer));
-		}
-
-		return new ResponseEntity<>(ret, HttpStatus.OK);
-	}
-
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public ResponseEntity<?> registerUser(@RequestBody UserDTO customerDTO, WebRequest request) {
-
-		Customer customer = new Customer(customerDTO.getUsername(), customerDTO.getPassword(),
-				customerDTO.getFirstName(), customerDTO.getLastName(), customerDTO.getEmail(),
-				customerDTO.getPhoneNumber(), customerDTO.getAddress());
+	public ResponseEntity<?> registerUser(@Valid @RequestBody UserDTO customerDTO, WebRequest request) {
+		//Create new customer
+		Customer customer = new Customer(customerDTO);
 		customer.addAuthority(authorityService.findByName("CUSTOMER").get());
-		System.out.println("REGISTRACIJA: " + customer.getUsername() + " PASSWORD: " + customer.getPassword());
 
+		//save new customer to database
 		try {
 			customerService.registerCustomer(customer);
 		} catch (DataIntegrityViolationException e) {
-
-			logger.warn("Integrity constraint violated");
+			//email or phone number are not unique
 			return ResponseEntity.status(409).body(customer);
 		}
 		
-		String appUrl = request.getContextPath() + "/customers";
+		//send verification email to customer
 		try {
-			confirmRegistration(customer, appUrl);
+			confirmRegistration(customer);
 		} catch (Exception e) {
-			e.printStackTrace();
+			//TODO: Da li treba izbrisati korisnika iz baze?
+			return new ResponseEntity<>("Confirmation email could not be sent. Your email migth not be valid.", HttpStatus.BAD_REQUEST);			
 		}
 
 		return ResponseEntity.ok(customer);
 	}
 
+	/**
+	 * Confirms email of registered user.
+	 * @param token
+	 * @return
+	 */
 	@RequestMapping(value = "/confirmRegistration", method = RequestMethod.GET)
 	public ResponseEntity<?> confirmRegistration(@RequestParam("token") String token) {
 
@@ -127,13 +111,7 @@ public class CustomerController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).header(HttpHeaders.LOCATION, "/api/").build();
 		}
 
-		Customer customer = verificationToken.getCustomer();
-		//Calendar cal = Calendar.getInstance();
-
-//        if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).header(HttpHeaders.LOCATION, "/api/").build();
-//        }
-
+		Customer customer = (Customer) verificationToken.getUser();
 		customer.setConfirmedMail(true);
 		customerService.saveCustomer(customer);
 
@@ -141,27 +119,42 @@ public class CustomerController {
 		return ResponseEntity.status(HttpStatus.FOUND).header(HttpHeaders.LOCATION, "/api/").build();
 	}
 
+	/**
+	 * Tries to login user.
+	 * @param authenticationRequest contains email and password
+	 * @param response
+	 * @param device type of device on which user wants to login
+	 * @return
+	 * @throws AuthenticationException
+	 * @throws IOException
+	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest,
+	public ResponseEntity<?> createAuthenticationToken(@Valid @RequestBody JwtAuthenticationRequest authenticationRequest,
 			HttpServletResponse response, Device device) throws AuthenticationException, IOException {
-		System.out.println("[LOGIN] Username: " + authenticationRequest.getUsername() + "Password: "
-				+ authenticationRequest.getPassword());
+	
 		final Authentication authentication = authenticationManager
-				.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
+				.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(),
 						authenticationRequest.getPassword()));
 
 		// Ubaci username + password u kontext
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
 		// Kreiraj token
-		UserDetails userDetails = this.customUserDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+		UserDetails userDetails = this.customUserDetailsService.loadUserByUsername(authenticationRequest.getEmail());
 		String token = this.tokenUtils.generateToken(userDetails, device);
 
 		// Vrati token kao odgovor na uspesno autentifikaciju
 		return ResponseEntity.ok(new AuthenticationResponse(token));
 	}
 
-	private void confirmRegistration(Customer customer,String url) throws MessagingException {
+	/**
+	 * Creates email confirmation message and send it to user.
+	 * @param customer to whom message is being sent
+	 * @throws MessagingException
+	 * @throws InterruptedException 
+	 * @throws MailException 
+	 */
+	private void confirmRegistration(Customer customer) throws MessagingException, MailException, InterruptedException {
 		// Token
 		String token = UUID.randomUUID().toString();
 
@@ -170,13 +163,8 @@ public class CustomerController {
 
 		String recipientMail = customer.getEmail();
 		String subject = "Potvrda registracije";
-		String confirmationUrl = "http://localhost:8080" + url + "/confirmRegistration?token=" + token;
-		String message = "<html><body>Kliknite na sledeci link kako biste aktivirali nalog<br>" + confirmationUrl + "</body></html>";
-
-		try {
-			emailService.sendNotificaitionAsync(recipientMail, subject, message);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		String confirmationUrl = "http://localhost:8080/customers/confirmRegistration?token=" + token;
+		String message = "<html><body>Click here to activate your account<br>" + confirmationUrl + "</body></html>";
+		emailService.sendNotificaitionAsync(recipientMail, subject, message);		
 	}
 }

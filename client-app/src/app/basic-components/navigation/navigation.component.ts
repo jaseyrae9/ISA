@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient } from '@angular/common/http';
+import { TokenStorageService } from 'src/app/auth/token-storage.service';
 
 @Component({
   selector: 'app-navigation',
@@ -7,19 +8,15 @@ import { HttpClient } from "@angular/common/http";
   styleUrls: ['./navigation.component.css']
 })
 export class NavigationComponent implements OnInit {
+  public loggedIn: Boolean;
 
-  isLoggedIn = false;
-  loggedUsername = '';
-
-  constructor(private httpClient : HttpClient) { 
-
+  constructor(private httpClient: HttpClient, public tokenService: TokenStorageService) {
+    this.loggedIn = this.tokenService.loggedIn();
+    this.tokenService.logggedInEmitter.subscribe(loggedIn => {
+      this.loggedIn = loggedIn;
+    });
   }
 
   ngOnInit() {
-      if (localStorage.getItem('currentUser')) {
-        this.isLoggedIn = true;
-        this.loggedUsername = localStorage.getItem('currentUser');
-      }
   }
-
 }

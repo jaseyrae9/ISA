@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import isa.project.model.users.Customer;
 import isa.project.model.users.HotelAdmin;
 import isa.project.repository.users.HotelAdminRepository;
 
@@ -21,8 +20,7 @@ public class HotelAdminService {
 	
 	/* For registration */
 	public HotelAdmin registerHotelAdmin(HotelAdmin hotelAdmin)
-	{
-		System.out.println("Cuva se hotel admin u bazu. Username=" + hotelAdmin.getUsername() + "Sifra: " + hotelAdmin.getPassword());
+	{		
 		hotelAdmin.setPassword(passwordEncoder.encode(hotelAdmin.getPassword()));
 		return hotelAdminRepository.save(hotelAdmin);
 	}

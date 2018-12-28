@@ -13,7 +13,6 @@ public class VerificationTokenService {
     @Autowired
     VerificationTokenRepository tokenRepository;
 
-
     public void createVerificationToken(Customer customer, String token) {
         tokenRepository.save(new VerificationToken(token, customer));
     }
@@ -21,10 +20,5 @@ public class VerificationTokenService {
     
     public VerificationToken findByToken(String token) {
         return tokenRepository.findByToken(token);
-    }
-
-    
-    public VerificationToken findByCustomer(Customer customer) {
-        return tokenRepository.findByCustomer(customer);
     }
 }

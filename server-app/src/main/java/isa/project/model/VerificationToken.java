@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import isa.project.model.users.Customer;
+import isa.project.model.users.User;
 
 @Entity
 public class VerificationToken {
@@ -27,7 +28,7 @@ public class VerificationToken {
 
 	@OneToOne(targetEntity = Customer.class, fetch = FetchType.EAGER)
 	@JoinColumn(nullable = false, name = "user_id")
-	private Customer customer;
+	private User user;
 	private Date expiryDate;
 
 	private Date calculateExpiryDate(int expiryTimeInMinutes) {
@@ -40,9 +41,9 @@ public class VerificationToken {
 	public VerificationToken() {
 	}
 
-	public VerificationToken(String token, Customer customer) {
+	public VerificationToken(String token, User user) {
 		this.token = token;
-		this.customer = customer;
+		this.user = user;
 		this.expiryDate = calculateExpiryDate(EXPIRATION);
 	}
 
@@ -58,12 +59,12 @@ public class VerificationToken {
 		this.token = token;
 	}
 
-	public Customer getCustomer() {
-		return customer;
+	public User getUser() {
+		return user;
 	}
 
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public Date getExpiryDate() {

@@ -11,7 +11,6 @@ import { TokenStorageService } from 'src/app/auth/token-storage.service';
 export class LoginFormComponent implements OnInit {
 
   form: any = {};
-  isLoggedIn = false;
   isLoginFailed = false;
   errorMessage = '';
 
@@ -21,27 +20,20 @@ export class LoginFormComponent implements OnInit {
      private tokenStorage: TokenStorageService) { }
 
   ngOnInit() {
-    if (this.tokenStorage.getToken()) {
-      this.isLoggedIn = true;
-    }
   }
 
   onLogin() {
 
     this.loginInfo = new AuthLoginInfo(
-      this.form.username,
+      this.form.email,
       this.form.password
     );
 
     this.authService.attemptAuth(this.loginInfo).subscribe(
       data => {
         this.tokenStorage.saveToken(data.token);
+        this.tokenStorage.saveUsername(this.form.email);
         this.isLoginFailed = false;
-        this.isLoggedIn = true;
-
-        localStorage.setItem('currentUser', this.loginInfo.username);
-
-        this.reloadPage();
       },
       error => {
         this.errorMessage = error.error.message;

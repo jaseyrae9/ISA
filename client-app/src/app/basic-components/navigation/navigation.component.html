@@ -35,17 +35,20 @@
                     </li>
                 </ul>
 
-                <div *ngIf="isLoggedIn; else notShow">
-                    <ul class="nav navbar-nav navbar-right ml-auto">
-                        <li class="nav-item">
-                            <p>Welcome, {{loggedUsername}}</p>
-                        </li>
-                        <li class="nav-item"><a href="#" class="btn btn-primary dropdown-toggle get-started-btn mt-1 mb-1">Profile</a>
-                        </li>
-                        <li class="nav-item"><a href="#" class="btn btn-primary dropdown-toggle get-started-btn mt-1 mb-1">Logout</a>
-                        </li>
-                    </ul>
-                </div>
+                <ul class="nav navbar-nav navbar-right ml-auto" *ngIf="loggedIn; else notShow">
+                    <li class="nav-item dropdown" routerLinkActive="active">
+                            <a class="nav-link dropdown-toggle"  id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    {{tokenService.getUsername()}} <i class="fa fa-sort-down" aria-hidden="true"></i>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" routerLink="/profile">Profile</a>
+                                <a class="dropdown-item" routerLink="/find-car">Friends</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" (click)="tokenService.signOut()">Log out</a>
+                            </div>
+                    </li>  
+                </ul>                  
+               
                   
                 <ng-template #notShow>
                     <ul class="nav navbar-nav navbar-right ml-auto">

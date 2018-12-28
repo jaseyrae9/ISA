@@ -7,11 +7,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import isa.project.model.users.AirCompanyAdmin;
-import isa.project.model.users.HotelAdmin;
 import isa.project.repository.users.AvioCompanyAdminRepository;
 
 @Service
-public class AvioCompanyAdminService {
+public class AirCompanyAdminService {
 
 	@Autowired
 	private AvioCompanyAdminRepository avioCompanyAdminRepository;

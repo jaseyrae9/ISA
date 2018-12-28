@@ -28,26 +28,44 @@ public class CustomUserDetailsService implements UserDetailsService {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
-	// Funkcija koja na osnovu username-a iz baze vraca objekat User-a
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Optional<User> optionalUser = userRepository.findByUsername(username);
-		optionalUser.orElseThrow(() -> new UsernameNotFoundException("Username not found"));
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		Optional<User> optionalUser = userRepository.findByEmail(email);
+		optionalUser.orElseThrow(() -> new UsernameNotFoundException("Email not found"));
 		return optionalUser.map(CustomUserDetails::new).get();
 	}
 
-	// Funkcija pomocu koje korisnik menja svoju lozinku
-	public void changePassword(String oldPassword, String newPassword) {
+	/**
+	 * @param username
+	 * @return user with selected email
+	 */
+	public Optional<User> loadByEmail(String email) {
+		Optional<User> optionalUser = userRepository.findByEmail(email);
+		return optionalUser;
+	}
+
+	/**
+	 * Change password of currently logged in user. Saves changes in database.
+	 * 
+	 * @param oldPassword
+	 * @param newPassword
+	 * @return false if old password is not correct, true if password change is
+	 *         successful.
+	 */
+	public boolean changePassword(String oldPassword, String newPassword) {
 		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
 		String username = currentUser.getName();
 
-		if (authenticationManager != null) {
+		try {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, oldPassword));
-		} else {
-			return;
+		} catch (Exception e) {
+			return false;
 		}
-		User user = (User) loadUserByUsername(username);		
+
+		User user = (User) loadUserByUsername(username);
 		user.setPassword(passwordEncoder.encode(newPassword));
 		userRepository.save(user);
+
+		return true;
 	}
 }

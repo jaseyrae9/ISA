@@ -3,9 +3,11 @@ package isa.project.security.auth;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import isa.project.security.TokenUtils;
+
 public class TokenBasedAuthentication extends AbstractAuthenticationToken {
 	private static final long serialVersionUID = 1L;
-
+	private TokenUtils tokenUtils = new TokenUtils();
 	private String token;
 	private final UserDetails principle;
 
@@ -24,7 +26,7 @@ public class TokenBasedAuthentication extends AbstractAuthenticationToken {
 
 	@Override
 	public boolean isAuthenticated() {
-		return true;
+		return tokenUtils.validateToken(token, principle);
 	}
 
 	@Override
