@@ -17,7 +17,7 @@ import isa.project.model.rentacar.RentACarCompany;
 import isa.project.service.rentacar.RentACarCompanyService;
 
 @RestController
-@RequestMapping(value="rent_a_car_comapnies")
+@RequestMapping(value="rent_a_car_companies")
 public class RentACarCompanyController {
 
 	@Autowired

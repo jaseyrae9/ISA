@@ -31,9 +31,8 @@ import { AirCompanyService } from './services/air-company/air-company.service';
 import { FriendsComponent } from './user/friends/friends.component';
 import { NewHotelFormComponent } from './hotel/new-hotel-form/new-hotel-form.component';
 import { HotelBasicDetailsComponent } from './hotel/hotel-basic-details/hotel-basic-details.component';
-import { CarCompanyBasicDetailsComponent } from './rent-a-car-company/car-company-basic-details/car-company-basic-details.component';
 import { NewCarCompanyFormComponent } from './rent-a-car-company/new-car-company-form/new-car-company-form.component';
-
+import { CarCompanyBasicDetailsComponent} from './rent-a-car-company/car-company-basic-details/car-company-basic-details.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +53,8 @@ import { NewCarCompanyFormComponent } from './rent-a-car-company/new-car-company
     ChangePasswordFormComponent,
     EditProfileFormComponent,
     NewCompanyFormComponent,
+    NewCarCompanyFormComponent,
+    CarCompanyBasicDetailsComponent,
     CompanyBasicDetailsComponent,
     CarCompanyBasicDetailsComponent,
     NewCarCompanyFormComponent,

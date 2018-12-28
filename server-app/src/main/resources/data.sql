@@ -9,7 +9,6 @@ insert into rent_a_car_company (id, rentacar_company_name, rentacar_description)
 insert into rent_a_car_company (id, rentacar_company_name, rentacar_description) values (101, 'Rent a Panda', 'Fiat');
 insert into rent_a_car_company (id, rentacar_company_name, rentacar_description) values (102, 'Rent a AUDI', 'Q7 4.2');
 
-
 INSERT INTO authority (id, name) VALUES (1, 'CUSTOMER');
 INSERT INTO authority (id, name) VALUES (2, 'SYS');
 INSERT INTO authority (id, name) VALUES (3, 'HOTELADMIN');
@@ -23,5 +22,6 @@ INSERT INTO users (type, id, address, confirmed_mail, email, first_name, last_na
 values ('CUST', 2000, 'Marka Miljanova 7b, Novi Sad', 1, 'milicat228@gmail.com', 'Milica', 'Todorovic', '2018-12-26 23:09:42','$2a$10$QHSpHaeAyVOiqKEf5WnaK.tME9/IuK6RTwMicLrrdqCc9i1zDrX3y', '0601322175', NULL, NULL, NULL);
 
 
-INSERT INTO user_authority ( user_id, authority_id ) VALUES (1, 2);
-INSERT INTO user_authority ( user_id, authority_id ) VALUES (2, 1);
+INSERT INTO user_authority ( user_id, authority_id ) VALUES (1000, 2);
+INSERT INTO user_authority ( user_id, authority_id ) VALUES (2000, 1);
+
