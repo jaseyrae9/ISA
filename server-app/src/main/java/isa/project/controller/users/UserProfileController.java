@@ -44,7 +44,6 @@ public class UserProfileController {
 		String email = tokenUtils.getEmailFromToken(tokenUtils.getToken(request));
 		Optional<User> optionalUser = userDetailsService.loadByEmail(email);
 		return new ResponseEntity<UserProfileDTO>(new UserProfileDTO(optionalUser.get()), HttpStatus.OK);
-
 	}
 
 	/**
