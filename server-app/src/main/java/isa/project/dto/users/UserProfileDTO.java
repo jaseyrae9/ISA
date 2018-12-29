@@ -2,7 +2,6 @@ package isa.project.dto.users;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import isa.project.model.users.User;
 
@@ -13,24 +12,19 @@ import isa.project.model.users.User;
 public class UserProfileDTO {
 	private Integer id;
 
-	@NotNull(message = "Email must be entered.")
 	@NotBlank(message = "Email can not be blank.")
 	@Email(message = "Email format is incorrect.")
 	private String email;
 
-	@NotNull(message = "First name must be entered.")
 	@NotBlank(message = "First name can not be blank.")
 	private String firstName;
 
-	@NotNull(message = "Last name must be entered.")
 	@NotBlank(message = "Last name can not be blank.")
 	private String lastName;
 
-	@NotNull(message = "Phone number must be entered.")
 	@NotBlank(message = "Phone number can not be blank.")
 	private String phoneNumber;
 
-	@NotNull(message = "Address must be entered.")
 	@NotBlank(message = "Address can not be blank.")
 	private String address;
 

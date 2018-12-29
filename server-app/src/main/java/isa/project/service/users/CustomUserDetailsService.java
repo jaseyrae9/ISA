@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import isa.project.dto.users.UserProfileDTO;
 import isa.project.model.CustomUserDetails;
 import isa.project.model.users.User;
 import isa.project.repository.users.UserRepository;
@@ -67,5 +68,23 @@ public class CustomUserDetailsService implements UserDetailsService {
 		userRepository.save(user);
 
 		return true;
+	}
+
+	/**
+	 * Updates information of currently logged in user. Updates user's first name,
+	 * last name, address and phone number to match the ones in DTO object. Saves
+	 * changes to database.
+	 * 
+	 * @param profileInfo
+	 */
+	public void updateProfileInfo(UserProfileDTO profileInfo) {
+		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+		String username = currentUser.getName();
+		User user = (User) loadUserByUsername(username);
+		user.setFirstName(profileInfo.getFirstName());
+		user.setLastName(profileInfo.getLastName());
+		user.setAddress(profileInfo.getAddress());
+		user.setPhoneNumber(user.getPhoneNumber());
+		userRepository.save(user);
 	}
 }

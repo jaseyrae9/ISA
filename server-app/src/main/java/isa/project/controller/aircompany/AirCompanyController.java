@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import isa.project.dto.aircompany.AirCompanyDTO;
+import isa.project.exception_handlers.ResourceNotFoundException;
 import isa.project.model.aircompany.AirCompany;
 import isa.project.service.aircompany.AirCompanyService;
 
@@ -55,17 +56,18 @@ public class AirCompanyController {
 	
 	/**
 	 * Edit existing air company.
-	 * @param company
+	 * @param company - contains new information for air company
 	 * @return
+	 * @throws ResourceNotFoundException - if air company if not found
 	 */
 	@RequestMapping(value="/edit",method=RequestMethod.PUT, consumes="application/json")
-	public ResponseEntity<AirCompanyDTO> editAvioCompany(@Valid @RequestBody AirCompanyDTO company){
+	public ResponseEntity<AirCompanyDTO> editAvioCompany(@Valid @RequestBody AirCompanyDTO company) throws ResourceNotFoundException{
 		//air company must exist
 		Optional<AirCompany> opt = airCompanyService.findAircompany(company.getId());
 		
 		//air company is not found
 		if( opt.isPresent() == false) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			throw new ResourceNotFoundException(company.getId().toString(), "Air company not found.");
 		}
 		
 		//set name and description
@@ -73,6 +75,7 @@ public class AirCompanyController {
 			airCompany.setName(company.getName());
 			airCompany.setDescription(company.getDescription());
 		});
+		
 		return new ResponseEntity<>(new AirCompanyDTO(airCompanyService.saveAirCompany(opt.get())), HttpStatus.OK);	
 	}
 
