@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
+import { RentACarCompany } from 'src/app/model/rent-a-car-company/rent-a-car-company';
+import { Hotel } from 'src/app/model/hotel/hotel';
+import { HotelService } from 'src/app/services/hotel/hotel.service'
 
 @Component({
   selector: 'app-navigation',
@@ -9,14 +12,23 @@ import { TokenStorageService } from 'src/app/auth/token-storage.service';
 })
 export class NavigationComponent implements OnInit {
   public loggedIn: Boolean;
+  public carcompanies: RentACarCompany[]; 
+  public hotels: Hotel[];
 
-  constructor(private httpClient: HttpClient, public tokenService: TokenStorageService) {
+  constructor(private httpClient: HttpClient,
+     public tokenService: TokenStorageService,
+     private hotelService: HotelService) {
     this.loggedIn = this.tokenService.loggedIn();
     this.tokenService.logggedInEmitter.subscribe(loggedIn => {
       this.loggedIn = loggedIn;
     });
+
+
   }
 
   ngOnInit() {
+    this.hotelService.getAll().subscribe(data => {
+      this.hotels = data;
+    });
   }
 }

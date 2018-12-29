@@ -71,7 +71,8 @@ public class SystemAdminController {
 	@PreAuthorize("hasAnyRole('SYS')")
 	@RequestMapping(value = "/hotelAdmin/{hotelId}", method = RequestMethod.POST)
 	public ResponseEntity<?> createHotelAdmin(@PathVariable Integer hotelId, @Valid @RequestBody UserDTO userDTO) {
-
+		System.out.println("Kreiranje hotel admina: " + userDTO.getEmail() + " hotel: " + hotelId);
+		
 		// create new hotel administrator
 		HotelAdmin hotelAdmin = new HotelAdmin(userDTO);
 		hotelAdmin.addAuthority(authorityService.findByName("HOTELADMIN").get());

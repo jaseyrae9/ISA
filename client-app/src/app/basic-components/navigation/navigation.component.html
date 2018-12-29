@@ -22,6 +22,7 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                           <a class="dropdown-item" routerLink="/find-room">Find room</a>
                           <a class="dropdown-item" routerLink="/hotels">All hotels</a>
+                          <a class="dropdown-item" href="#" data-toggle="modal" data-target="#addHotelAdmin">Add admin</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown" routerLinkActive="active">
@@ -70,4 +71,14 @@
                     </ul>
                 </ng-template>
             </div>
+
+            <div class="modal fade" id="addHotelAdmin" role="dialog" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">    
+                  <div class="modal-content">           
+                    <div class="modal-body"> 
+                        <app-add-hotel-admin [hotels]="hotels"></app-add-hotel-admin>            
+                    </div>
+                  </div>
+                </div>
+              </div>
         </nav>

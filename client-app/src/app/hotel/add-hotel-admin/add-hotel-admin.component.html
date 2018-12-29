@@ -1,0 +1,72 @@
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+
+    <div class="modal-header">
+      <h5 class="modal-title">Add <b style="color: #33cabb;">admin</b></h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="modal-body">       
+      <form (ngSubmit)="onSubmit(f)" #f="ngForm"> 
+          <div class="input-group form-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="fa fa-envelope" aria-hidden="true"></i>
+                </span>
+              </div>
+              <input type="email" class="form-control" name="email" placeholder="email@email.com" required="required" ngModel>
+            </div>
+            <div class="input-group form-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="fa fa-address-book" aria-hidden="true"></i>
+                </span>
+              </div>
+              <input type="text" class="form-control" name="firstName" placeholder="First Name" required="required" ngModel>
+            </div>
+            <div class="input-group form-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="fa fa-address-book" aria-hidden="true"></i>
+                </span>
+              </div>
+              <input type="text" class="form-control" name="lastName" placeholder="Last Name" required="required" ngModel>
+            </div>
+            <div class="input-group form-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="fa fa-map-marker" aria-hidden="true"></i>
+                </span>
+              </div>
+              <input type="text" class="form-control" name="address" placeholder="Address" required="required" ngModel>
+            </div>
+            <div class="input-group form-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="fa fa-phone" aria-hidden="true"></i>
+                </span>
+              </div>
+              <input type="tel" class="form-control" name="phoneNumber" placeholder="Phone Number" required="required" ngModel>
+            </div>
+
+            <div class="input-group form-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-hotel" aria-hidden="true"></i>
+                  </span>
+                </div>
+                <select class="form-control" name="hotel" placeholder="Hotel" required="required" ngModel>
+                  <option *ngFor="let hotel of hotels" value="{{hotel.id}}">{{hotel.name}}</option>
+                </select>
+              </div>
+            
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Add</button>
+            </div>
+      </form>
+    </div>
+  </div>
+</div>

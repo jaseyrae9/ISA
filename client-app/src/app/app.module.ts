@@ -33,6 +33,7 @@ import { NewHotelFormComponent } from './hotel/new-hotel-form/new-hotel-form.com
 import { HotelBasicDetailsComponent } from './hotel/hotel-basic-details/hotel-basic-details.component';
 import { NewCarCompanyFormComponent } from './rent-a-car-company/new-car-company-form/new-car-company-form.component';
 import { CarCompanyBasicDetailsComponent} from './rent-a-car-company/car-company-basic-details/car-company-basic-details.component';
+import { AddHotelAdminComponent } from './hotel/add-hotel-admin/add-hotel-admin.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { CarCompanyBasicDetailsComponent} from './rent-a-car-company/car-company
     NewHotelFormComponent,
     FriendsComponent,
     NewHotelFormComponent,
-    HotelBasicDetailsComponent
+    HotelBasicDetailsComponent,
+    AddHotelAdminComponent
   ],
   imports: [
     BrowserModule, RoutingModule, HttpClientModule, FormsModule
