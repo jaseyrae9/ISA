@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,7 +48,8 @@ public class HotelController {
 	 * @return
 	 */
 	@RequestMapping(value="/add",method=RequestMethod.POST, consumes="application/json")
-	public ResponseEntity<HotelDTO> addHotel(@RequestBody HotelDTO hotelDTO){
+	public ResponseEntity<HotelDTO> addHotel(@Valid @RequestBody HotelDTO hotelDTO){
+		System.out.println("Kreira se novi hotel"  + hotelDTO.getName()) ;
 		Hotel hotel = new Hotel(hotelDTO.getName(), hotelDTO.getDescription());
 		return new ResponseEntity<>(new HotelDTO(hotelService.saveHotel(hotel)), HttpStatus.CREATED);	
 	}

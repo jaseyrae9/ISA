@@ -18,4 +18,8 @@ export class AllHotelsPageComponent implements OnInit {
     });
   }
 
+  hotelCreated(hotel: Hotel)
+  {
+    this.hotels.push(hotel);
+  }        
 }
