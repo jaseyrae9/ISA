@@ -1,14 +1,12 @@
 package isa.project.dto.aircompany;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import isa.project.model.aircompany.AirCompany;
 
 public class AirCompanyDTO {
 	private Integer id;
 	
-	@NotNull (message = "Name must be entered.")
 	@NotBlank (message = "Name can not be blank.")
 	private String name;	
 	

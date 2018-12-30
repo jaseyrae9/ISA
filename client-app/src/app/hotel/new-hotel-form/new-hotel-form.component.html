@@ -9,7 +9,7 @@
     </div>
 
     <div class="modal-body">
-      <form name="form" (ngSubmit)="onHotelAdd()" #f="ngForm">
+      <form name="form">
 
           <div class="input-group form-group">
               <div class="input-group-prepend">
@@ -36,13 +36,14 @@
                 </span>
               </div>
               <textarea class="form-control" name="description" [(ngModel)]="form.description" placeholder="Insert your description here..."></textarea>
-          </div>
-         
+          </div>           
+         </form>
+
           <div class="modal-footer">
-            <button id='closeButton' type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary btn-block">Add</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" #closeBtn>Close</button>
+            <button type="button" class="btn btn-primary" (click)="onHotelAdd()">Add</button>
           </div>
-      </form>
+                 
     </div>  
   </div>
 </div>

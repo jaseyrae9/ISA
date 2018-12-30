@@ -18,4 +18,7 @@ export class AllAvioCompaniesPageComponent implements OnInit {
     });
   }
 
+  airCompanyCreated(airCompany: AirCompany) {
+    this.companies.push(airCompany);
+  }
 }

@@ -75,10 +75,9 @@ public class UserProfileController {
 	@RequestMapping(value = "/updateProfile", method = RequestMethod.POST)
 	public ResponseEntity<?> updateProfile(@Valid @RequestBody UserProfileDTO userProfileDTO,
 			HttpServletRequest request) {
-		// save new customer to database
 		try {
-			userDetailsService.updateProfileInfo(userProfileDTO);
-			return ResponseEntity.ok("Profile update is successful.");
+			User user = userDetailsService.updateProfileInfo(userProfileDTO);
+			return new ResponseEntity<>(new UserProfileDTO(user), HttpStatus.OK);
 		} catch (DataIntegrityViolationException e) {
 			// phone number is not unique
 			return new ResponseEntity<String>("Phone number is already used.", HttpStatus.BAD_REQUEST);

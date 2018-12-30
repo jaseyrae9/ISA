@@ -1,31 +1,27 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { Hotel } from 'src/app/model/hotel/hotel';
 import { HotelService } from '../../services/hotel/hotel.service';
+import { ViewChild, ElementRef} from '@angular/core';
 
 @Component({
   selector: 'app-new-hotel-form',
   templateUrl: './new-hotel-form.component.html',
-  styleUrls: ['./new-hotel-form.component.css']
+  styleUrls: ['../../shared/css/inputField.css']
 })
 
 
 export class NewHotelFormComponent implements OnInit {
   @Output() hotelCreated: EventEmitter<Hotel> = new EventEmitter();
-  
-  // public button: Button;
   form: any = {};
   hotel: Hotel;
+  @ViewChild('closeBtn') closeBtn: ElementRef;
 
   constructor(private hotelService: HotelService) { }
 
   ngOnInit() {
   }
 
-  onHotelAdd()
-  {
-    console.log("Adding hotel");
-    console.log(this.form.description);
-
+  onHotelAdd() {
     this.hotel = new Hotel(null,
       this.form.name,
       this.form.description
@@ -33,12 +29,8 @@ export class NewHotelFormComponent implements OnInit {
 
     this.hotelService.add(this.hotel).subscribe(
       data => {
-        console.log("uspesno dodat hotel");
         this.hotelCreated.emit(data);
-        
-        let element : HTMLElement = document.getElementById('closeButton') as HTMLElement;
-        element.click();
-
+        this.closeBtn.nativeElement.click();
       },
       error => {
         console.log(error.error.message);

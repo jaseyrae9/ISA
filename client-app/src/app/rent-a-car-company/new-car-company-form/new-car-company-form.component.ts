@@ -4,7 +4,7 @@ import { RentACarCompany } from 'src/app/model/rent-a-car-company/rent-a-car-com
 @Component({
   selector: 'app-new-car-company-form',
   templateUrl: './new-car-company-form.component.html',
-  styleUrls: ['./new-car-company-form.component.css']
+  styleUrls: ['../../shared/css/inputField.css']
 })
 export class NewCarCompanyFormComponent implements OnInit {
   carCompany: RentACarCompany;

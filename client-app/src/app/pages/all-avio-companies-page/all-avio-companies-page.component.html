@@ -2,15 +2,15 @@
   <!-- Button trigger modal -->
   <div style="align-content: center" div class="row">  
     <div class="col-12 text-center">
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewCompany">
-        Add new company
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewAirCompany">
+        Add new air company
       </button>
     </div>
   </div>
 
   <!-- Modal -->
-  <app-new-company-form class="modal fade" id="addNewCompany" tabindex="-1" role="dialog" aria-hidden="true"></app-new-company-form>
+  <app-new-company-form class="modal fade" id="addNewAirCompany" tabindex="-1" role="dialog" aria-hidden="true" (airCompanyCreated)='airCompanyCreated($event)'></app-new-company-form>
   <hr>
 
-  <app-company-basic-details *ngFor="let cmp of companies" [company] = 'cmp'></app-company-basic-details>
+  <app-company-basic-details *ngFor="let company of companies" [company] = 'company'></app-company-basic-details>
 </div>

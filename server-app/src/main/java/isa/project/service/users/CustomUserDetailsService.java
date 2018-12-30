@@ -63,7 +63,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 			return false;
 		}
 
-		User user = (User) loadUserByUsername(username);
+		User user = userRepository.findByEmail(username).get();
 		user.setPassword(passwordEncoder.encode(newPassword));
 		userRepository.save(user);
 
@@ -77,14 +77,14 @@ public class CustomUserDetailsService implements UserDetailsService {
 	 * 
 	 * @param profileInfo
 	 */
-	public void updateProfileInfo(UserProfileDTO profileInfo) {
+	public User updateProfileInfo(UserProfileDTO profileInfo) {
 		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
-		String username = currentUser.getName();
-		User user = (User) loadUserByUsername(username);
+		String email = currentUser.getName();
+		User user = userRepository.findByEmail(email).get();
 		user.setFirstName(profileInfo.getFirstName());
 		user.setLastName(profileInfo.getLastName());
 		user.setAddress(profileInfo.getAddress());
-		user.setPhoneNumber(user.getPhoneNumber());
-		userRepository.save(user);
+		user.setPhoneNumber(profileInfo.getPhoneNumber());
+		return userRepository.save(user);
 	}
 }

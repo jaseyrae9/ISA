@@ -16,7 +16,7 @@
                     <i class="fa fa-address-book" aria-hidden="true"></i>
                   </span>
                 </div>
-                <input type="text" class="form-control" name="firstName" placeholder="First Name" required="required" [(value)] = "user.firstName">
+                <input type="text" class="form-control" name="firstName" placeholder="First Name" required="required" [(ngModel)]="user.firstName">
               </div>
 
             <div class="input-group form-group">
@@ -25,7 +25,7 @@
                   <i class="fa fa-address-book" aria-hidden="true"></i>
                 </span>
               </div>
-              <input type="text" class="form-control" name="lastName" placeholder="Last Name" required="required" [(value)] = "user.lastName">
+              <input type="text" class="form-control" name="lastName" placeholder="Last Name" required="required" [(ngModel)]="user.lastName">
             </div>
 
             <div class="input-group form-group">
@@ -34,7 +34,7 @@
                     <i class="fa fa-map-marker" aria-hidden="true"></i>
                   </span>
                 </div>
-                <input type="text" class="form-control" name="city" placeholder="City" required="required" [(value)] = "user.address">
+                <input type="text" class="form-control" name="city" placeholder="City" required="required" [(ngModel)]="user.address">
             </div>
 
             <div class="input-group form-group">
@@ -43,15 +43,17 @@
                   <i class="fa fa-phone" aria-hidden="true"></i>
                 </span>
               </div>
-              <input type="tel" class="form-control" name="phoneNumber" placeholder="Phone Number" required="required" [(value)] = "user.phoneNumber"> 
+              <input type="tel" class="form-control" name="phoneNumber" placeholder="Phone Number" required="required" [(ngModel)]="user.phoneNumber"> 
             </div>
-
+            <div class="alert alert-danger" role="alert" *ngIf="errorMessage.length != 0">
+              {{errorMessage}}
+            </div> 
       </form>
     </div>
 
     <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      <button type="button" class="btn btn-primary">Save changes</button>
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" #closeBtn>Close</button>
+      <button type="button" class="btn btn-primary" (click)="onUpdateProfile()">Save changes</button>
     </div>
 
   </div>

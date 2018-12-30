@@ -5,7 +5,7 @@ import { Hotel } from 'src/app/model/hotel/hotel';
 @Component({
   selector: 'app-all-hotels-page',
   templateUrl: './all-hotels-page.component.html',
-  styleUrls: ['./all-hotels-page.component.css']
+  styleUrls: ['./all-hotels-page.component.css', '../../shared/css/inputField.css']
 })
 export class AllHotelsPageComponent implements OnInit {
   hotels: Hotel[];
@@ -18,8 +18,7 @@ export class AllHotelsPageComponent implements OnInit {
     });
   }
 
-  hotelCreated(hotel: Hotel)
-  {
+  hotelCreated(hotel: Hotel) {
     this.hotels.push(hotel);
-  }        
+  }
 }

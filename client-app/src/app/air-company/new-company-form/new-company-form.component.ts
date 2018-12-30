@@ -1,5 +1,8 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, EventEmitter, Output} from '@angular/core';
 import { AirCompany } from 'src/app/model/air-company/air-company';
+import { AirCompanyService } from 'src/app/services/air-company/air-company.service';
+import { ViewChild, ElementRef} from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-new-company-form',
@@ -7,9 +10,23 @@ import { AirCompany } from 'src/app/model/air-company/air-company';
   styleUrls: ['../../shared/css/inputField.css']
 })
 export class NewCompanyFormComponent implements OnInit {
-  avioCompany: AirCompany;
+  airCompany: AirCompany = new AirCompany();
+  @Output() airCompanyCreated: EventEmitter<AirCompany> = new EventEmitter();
+  @ViewChild('closeBtn') closeBtn: ElementRef;
 
-  constructor() { }
+  constructor(private airCompanyService: AirCompanyService) { }
 
   ngOnInit() {}
+
+  onAddAirCompany() {
+    console.log(this.airCompany);
+    this.airCompanyService.add(this.airCompany).subscribe(data => {
+      this.airCompanyCreated.emit(data);
+      this.closeBtn.nativeElement.click();
+      },
+      (err: HttpErrorResponse) => {
+        console.log(err);
+      }
+    );
+  }
 }

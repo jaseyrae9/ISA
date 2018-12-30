@@ -19,4 +19,10 @@ export class ProfileComponent implements OnInit {
     );
   }
 
+  profileChanged(data: User) {
+    this.user.address = data.address;
+    this.user.lastName = data.lastName;
+    this.user.firstName = data.firstName;
+    this.user.phoneNumber = data.phoneNumber;
+  }
 }
