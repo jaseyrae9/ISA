@@ -45,6 +45,7 @@ import { AdditionalServiceComponent } from './shared/components/additional-servi
 import { AdditionalServicesTableComponent } from './shared/components/additional-services-table/additional-services-table.component';
 import { AirCompanyPageComponent } from './air-company/air-company-page/air-company-page.component';
 import { FightBasicInfoComponent } from './air-company/fight-basic-info/fight-basic-info.component';
+import { AddCarAdminComponent } from './rent-a-car-company/add-car-admin/add-car-admin.component';
 
 @NgModule({
   declarations: [
@@ -86,7 +87,8 @@ import { FightBasicInfoComponent } from './air-company/fight-basic-info/fight-ba
     AdditionalServiceComponent,
     AdditionalServicesTableComponent,
     AirCompanyPageComponent,
-    FightBasicInfoComponent
+    FightBasicInfoComponent,
+    AddCarAdminComponent
   ],
   imports: [
     BrowserModule, RoutingModule, HttpClientModule, FormsModule

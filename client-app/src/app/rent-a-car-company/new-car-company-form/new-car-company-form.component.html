@@ -17,7 +17,7 @@
                   <i class="fa fa-car" aria-hidden="true"></i>
                 </span>
               </div>
-              <input type="text" class="form-control" placeholder="Company name" required="required">
+              <input type="text" class="form-control" placeholder="Company name" required="required" [(ngModel)]="form.name" name="name">
           </div>
 
           <div class="input-group form-group">
@@ -26,7 +26,7 @@
                   <i class="fa fa-map-marker" aria-hidden="true"></i>
                 </span>
               </div>
-              <input type="text" class="form-control" name="address" placeholder="Address" required="required" #search>
+              <input type="text" class="form-control" name="address" placeholder="Address" required="required" [(ngModel)]="form.address" name="address" #search>
           </div>
 
           <div class="input-group form-group">
@@ -35,7 +35,7 @@
                   <i class="fa fa-sticky-note" aria-hidden="true"></i>
                 </span>
               </div>
-              <textarea class="form-control" name="description" placeholder="Insert your description here..."></textarea>
+              <textarea class="form-control" name="description"  [(ngModel)]="form.description" name="description" placeholder="Insert your description here..."></textarea>
           </div>
          
 

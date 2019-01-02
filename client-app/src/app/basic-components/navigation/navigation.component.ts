@@ -6,6 +6,7 @@ import { Hotel } from 'src/app/model/hotel/hotel';
 import { HotelService } from 'src/app/services/hotel/hotel.service'
 import { AirCompany } from 'src/app/model/air-company/air-company';
 import { AirCompanyService } from 'src/app/services/air-company/air-company.service';
+import { RentACarCompanyService } from 'src/app/services/rent-a-car-company/rent-a-car-company.service';
 
 @Component({
   selector: 'app-navigation',
@@ -21,7 +22,8 @@ export class NavigationComponent implements OnInit {
   constructor(private httpClient: HttpClient,
      public tokenService: TokenStorageService,
      private hotelService: HotelService,
-     private airCompanyService : AirCompanyService) {
+     private airCompanyService : AirCompanyService,
+     private carCompanyService : RentACarCompanyService) {
     this.loggedIn = this.tokenService.loggedIn();
     this.tokenService.logggedInEmitter.subscribe(loggedIn => {
       this.loggedIn = loggedIn;
@@ -36,6 +38,9 @@ export class NavigationComponent implements OnInit {
     });
     this.airCompanyService.getAll().subscribe(data => {
       this.aircompanies = data;
+    });
+    this.carCompanyService.getAll().subscribe(data => {
+      this.carcompanies = data;
     });
   }
 }
