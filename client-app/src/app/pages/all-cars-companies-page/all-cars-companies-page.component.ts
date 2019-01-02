@@ -19,4 +19,8 @@ export class AllCarsCompaniesPageComponent implements OnInit {
     });
   }
 
+  carCompanyCreated(carCompany: RentACarCompany){
+    this.companies.push(carCompany);
+  }
+
 }

@@ -9,7 +9,7 @@
   </div>
 
   <!-- Modal -->
-  <app-new-car-company-form class="modal fade" id="addNewCarCompany" tabindex="-1" role="dialog" aria-hidden="true"></app-new-car-company-form>
+  <app-new-car-company-form class="modal fade" id="addNewCarCompany" tabindex="-1" role="dialog" aria-hidden="true" (carCompanyCreated)='carCompanyCreated($event)'></app-new-car-company-form>
   <hr>
 
   <app-car-company-basic-details *ngFor="let cmp of companies" [carCompany] = 'cmp'></app-car-company-basic-details>
