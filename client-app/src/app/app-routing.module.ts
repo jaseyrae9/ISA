@@ -12,7 +12,7 @@ import { CarSearchPageComponent } from './pages/car-search-page/car-search-page.
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { ProfileComponent } from './user/profile/profile.component';
 import { LoginFormComponent} from './user/login-form/login-form.component';
-import { FriendsComponent } from './user/friends/friends.component';
+import { FriendsPageComponent } from './user/friends/friends-page/friends-page.component';
 
 const routes: Routes = [
   { path: '', component: HomePageComponent},
@@ -23,7 +23,7 @@ const routes: Routes = [
   { path: 'rent-a-car-companies', component: AllCarsCompaniesPageComponent },
   { path: 'find-car', component: CarSearchPageComponent },
   { path: 'profile', component: ProfileComponent },
-  { path: 'friends', component: FriendsComponent },
+  { path: 'friends', component: FriendsPageComponent },
   { path: 'login', component: LoginFormComponent }
 ];
 

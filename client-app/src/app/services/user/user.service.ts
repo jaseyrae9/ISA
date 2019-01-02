@@ -30,4 +30,8 @@ export class UserService {
   updateProfile(info: User): Observable<any> {
     return this.http.post<ChangePasswordData>('//localhost:8080/profile/updateProfile', info, httpOptions);
   }
+
+  getFriendRequests(): Observable<any> {
+    return this.http.get('//localhost:8080/friendship/friendRequests');
+  }
 }
