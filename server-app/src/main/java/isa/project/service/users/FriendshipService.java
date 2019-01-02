@@ -1,11 +1,13 @@
 package isa.project.service.users;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import isa.project.exception_handlers.RequestDataException;
 import isa.project.exception_handlers.ResourceNotFoundException;
 import isa.project.model.users.Customer;
 import isa.project.model.users.friendship.Friendship;
@@ -22,108 +24,122 @@ public class FriendshipService {
 	private CustomerRepository customerRepository;
 
 	/**
-	 * Kreira novo prijateljstvo. Kreirano prijateljstvo nije potvrđeno.
+	 * Creates new friendship request.
 	 * 
-	 * @param from - ko šalje zahtev
-	 * @param to   - kome se zahtev šalje
-	 * @throws ResourceNotFoundException - ukoliko nije pronađen neki od korisnika
+	 * @param from - email of person sending request
+	 * @param to   - id of user receiving the request
+	 * @throws ResourceNotFoundException - if user receiving request is not found
+	 * @throws RequestDataException      - if user tries to send friend request to
+	 *                                   self, or to someone he has friend request
+	 *                                   from, or to a friend
 	 */
-	public Friendship sendFriendRequest(String email, Integer to) throws ResourceNotFoundException {
-		Optional<Customer> from_cust = customerRepository.findByEmail(email);
-		if (!from_cust.isPresent()) {
-			throw new ResourceNotFoundException(email, "User not found");
-		}
-		Optional<Customer> to_cust = customerRepository.findById(to);
-		if (!to_cust.isPresent()) {
+	public Friendship sendFriendRequest(String email, Integer to)
+			throws ResourceNotFoundException, RequestDataException {
+		// Pronadji oba korisnika
+		Optional<Customer> fromCustOpt = customerRepository.findByEmail(email);
+		Optional<Customer> toCustOpt = customerRepository.findById(to);
+		if (!toCustOpt.isPresent()) {
 			throw new ResourceNotFoundException(to.toString(), "User not found");
 		}
-		Friendship friendship = new Friendship(new FriendshipKey(from_cust.get(), to_cust.get()), false);
+		Customer fromCust = fromCustOpt.get();
+		Customer toCust = toCustOpt.get();
+
+		// Proveri da li korisnik zahtev salje samom sebi
+		if (fromCust.getId().equals(toCust.getId())) {
+			throw new RequestDataException("You are trying to send friendrequest to yourself.");
+		}
+
+		// proveri da li vec postoji zahtev u suprotnom smeru
+		if (friendshipRepository.findFriendship(fromCust.getId(), toCust.getId()).isPresent()) {
+			throw new RequestDataException("There's already existing friendship or friend request.");
+		}
+
+		Friendship friendship = new Friendship(new FriendshipKey(fromCust, toCust), false);
 		return friendshipRepository.save(friendship);
 	}
 
 	/**
-	 * Prihvata zahtev za prijateljstvo.
+	 * Accepts friend request.
 	 * 
-	 * @param from - čiji zahtev se prihvata
-	 * @param email - korisnika koji prihvata zahtev
-	 * @return - prihvaćeno prijateljstvo
-	 * @throws ResourceNotFoundException - ako nije pronađen korisnik ili zahtev
+	 * @param from  - id of user whose friend request is being accepted
+	 * @param email - email of user accepting friend request
+	 * @return - accepted friendship
+	 * @throws ResourceNotFoundException - if user whose request is being accepted
+	 *                                   is not found, or friend request is not
+	 *                                   found
 	 */
 	public Friendship acceptRequest(Integer from, String email) throws ResourceNotFoundException {
-		Optional<Customer> to_cust = customerRepository.findByEmail(email);
-		if (!to_cust.isPresent()) {
-			throw new ResourceNotFoundException(email, "User not found");
-		}
-		Optional<Customer> from_cust = customerRepository.findById(from);
-		if (!from_cust.isPresent()) {
+		// pronadji oba kupca
+		Optional<Customer> toCustOpt = customerRepository.findByEmail(email);
+		Optional<Customer> fromCustOpt = customerRepository.findById(from);
+		if (!fromCustOpt.isPresent()) {
 			throw new ResourceNotFoundException(from.toString(), "User not found");
 		}
-		Optional<Friendship> friendship = friendshipRepository.findRequest(from_cust.get().getId(),
-				to_cust.get().getId());
+		Customer fromCust = fromCustOpt.get();
+		Customer toCust = toCustOpt.get();
+
+		// pronadji zahtev
+		Optional<Friendship> friendship = friendshipRepository.findRequest(fromCust.getId(), toCust.getId());
 		if (!friendship.isPresent()) {
 			throw new ResourceNotFoundException(from.toString(), "You don't have friend request from this user.");
 		}
 		if (friendship.get().isActive()) {
 			throw new ResourceNotFoundException(from.toString(), "You are already friends with this user.");
 		}
+
+		// prihvati zahtev
 		friendship.get().setActive(true);
 		return friendshipRepository.save(friendship.get());
 	}
-	
+
 	/**
-	 * Briše postojeći zahtev za prijateljstvo.
+	 * Delete friend or friendship request
 	 * 
-	 * @param otherPerson - čiji zahtev se briše
-	 * @param email - korisnika koji briše zahtev
-	 * @throws ResourceNotFoundException - ako nije pronađen korisnik ili zahtev
+	 * @param otherPerson - id of user whose friend request/friendship is being
+	 *                    delete
+	 * @param from        - email of user deleting friend request
+	 * @throws ResourceNotFoundException - if other user of friendship is not found
 	 */
-	public void deleteRequest(Integer otherPerson, String email) throws ResourceNotFoundException {
-		Optional<Customer> to_cust = customerRepository.findByEmail(email);
-		if (!to_cust.isPresent()) {
-			throw new ResourceNotFoundException(email, "User not found");
+	public void deleteRequest(Integer otherPerson, String from) throws ResourceNotFoundException {
+		// pronadji oba kupca
+		Optional<Customer> toCustOpt = customerRepository.findByEmail(from);
+		Optional<Customer> fromCustOpt = customerRepository.findById(otherPerson);
+		if (!fromCustOpt.isPresent()) {
+			throw new ResourceNotFoundException(from.toString(), "User not found");
 		}
-		Optional<Customer> from_cust = customerRepository.findById(otherPerson);
-		if (!from_cust.isPresent()) {
-			throw new ResourceNotFoundException(otherPerson.toString(), "User not found");
-		}
-		Optional<Friendship> friendship = friendshipRepository.findFriendship(from_cust.get().getId(),
-				to_cust.get().getId());
+		Customer fromCust = fromCustOpt.get();
+		Customer toCust = toCustOpt.get();
+
+		// pronadji zahtev
+		Optional<Friendship> friendship = friendshipRepository.findFriendship(fromCust.getId(), toCust.getId());
 		if (!friendship.isPresent()) {
-			throw new ResourceNotFoundException(otherPerson.toString(), "Friendship or friend request don't exist.");
+			throw new ResourceNotFoundException(from.toString(), "You don't have friend request from this user.");
 		}
-				
+		
+		//izbrisi prijateljstvo
 		friendshipRepository.delete(friendship.get());
 	}
 
 	/**
-	 * Vraća listu zahteva za prijateljstvo za korisnika sa prosleđenim mejlom.
+	 * Gets friend requests sent to users.
 	 * 
-	 * @param email - mejl korisnika čiji zahtevi se traže
-	 * @return - lista nepotvrđenih zahteva
-	 * @throws ResourceNotFoundException
+	 * @param email - email of user asking to see friend requests
+	 * @return - list of friend requests
 	 */
-	public List<Friendship> getFriendshipRequests(String email) throws ResourceNotFoundException {
+	public Page<Friendship> getFriendshipRequests(String email, Pageable page){
 		Optional<Customer> to = customerRepository.findByEmail(email);
-		if (!to.isPresent()) {
-			throw new ResourceNotFoundException(email, "User not found");
-		}
-		return friendshipRepository.findFriendshipRequests(to.get().getId());
+		return friendshipRepository.findFriendshipRequests(to.get().getId(), page);
 	}
-	
+
 	/**
-	 * Vraća listu prijatelja korisnika sa prosleđenim mejlom.
+	 * Gets list of friendship that user has
 	 * 
-	 * @param email - mejl korisnika čiji zahtevi se traže
-	 * @return - lista potvrđenih zahteva
-	 * @throws ResourceNotFoundException
+	 * @param email - email of user asking to see friendships
+	 * @return - friendships
 	 */
-	public List<Friendship> getFriendships(String email) throws ResourceNotFoundException {
+	public Page<Friendship> getFriendships(String email, Pageable page){
 		Optional<Customer> person = customerRepository.findByEmail(email);
-		if (!person.isPresent()) {
-			throw new ResourceNotFoundException(email, "User not found");
-		}
-		return friendshipRepository.findActiveFriendships(person.get().getId());
+		return friendshipRepository.findActiveFriendships(person.get().getId(), page);
 	}
-	
 
 }

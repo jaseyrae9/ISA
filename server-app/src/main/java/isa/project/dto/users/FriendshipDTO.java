@@ -1,56 +1,78 @@
 package isa.project.dto.users;
 
 import isa.project.model.users.friendship.Friendship;
+import isa.project.model.users.friendship.FriendshipKey;
 
 /**
- * Klasa za slanje informacija o prijateljstvu.
+ * DTO containing friendship information.
  *
  */
 public class FriendshipDTO {
-	private String from_firstname;
-	private String from_lastname;
-	private String to_firstname;
-	private String to_lastname;
+	private Integer fromId;
+	private Integer toId;
+	private String fromFirstname;
+	private String fromLastname;
+	private String toFirstname;
+	private String toLastname;
 	private Boolean active;
 
 	public FriendshipDTO(Friendship friendship) {
-		from_firstname = friendship.getKey().getFrom().getFirstName();
-		from_lastname = friendship.getKey().getFrom().getLastName();
-		to_firstname = friendship.getKey().getTo().getFirstName();
-		to_lastname = friendship.getKey().getTo().getLastName();
+		FriendshipKey key = friendship.getKey();
+		fromId = key.getFrom().getId();
+		toId = key.getTo().getId();
+		fromFirstname = key.getFrom().getFirstName();
+		fromLastname = key.getFrom().getLastName();
+		toFirstname = key.getTo().getFirstName();
+		toLastname = key.getTo().getLastName();
 		active = friendship.isActive();
 	}
 
-	public String getFrom_firstname() {
-		return from_firstname;
+	public Integer getFromId() {
+		return fromId;
 	}
 
-	public void setFrom_firstname(String from_firstname) {
-		this.from_firstname = from_firstname;
+	public void setFromId(Integer fromId) {
+		this.fromId = fromId;
 	}
 
-	public String getFrom_lastname() {
-		return from_lastname;
+	public Integer getToId() {
+		return toId;
 	}
 
-	public void setFrom_lastname(String from_lastname) {
-		this.from_lastname = from_lastname;
+	public void setToId(Integer toId) {
+		this.toId = toId;
 	}
 
-	public String getTo_firstname() {
-		return to_firstname;
+	public String getFromFirstname() {
+		return fromFirstname;
 	}
 
-	public void setTo_firstname(String to_firstname) {
-		this.to_firstname = to_firstname;
+	public void setFromFirstname(String fromFirstname) {
+		this.fromFirstname = fromFirstname;
 	}
 
-	public String getTo_lastname() {
-		return to_lastname;
+	public String getFromLastname() {
+		return fromLastname;
 	}
 
-	public void setTo_lastname(String to_lastname) {
-		this.to_lastname = to_lastname;
+	public void setFromLastname(String fromLastname) {
+		this.fromLastname = fromLastname;
+	}
+
+	public String getToFirstname() {
+		return toFirstname;
+	}
+
+	public void setToFirstname(String toFirstname) {
+		this.toFirstname = toFirstname;
+	}
+
+	public String getToLastname() {
+		return toLastname;
+	}
+
+	public void setToLastname(String toLastname) {
+		this.toLastname = toLastname;
 	}
 
 	public Boolean getActive() {

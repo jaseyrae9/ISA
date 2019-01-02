@@ -48,6 +48,19 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 	
 	/**
+	 * Handles errors when data sent in request is incorrect.
+	 * @param ex
+	 * @return custom error response
+	 */
+	@ExceptionHandler(RequestDataException.class)
+	public ResponseEntity<Object> requestDataNotValid(RequestDataException ex) {
+		List<String> details = new ArrayList<>();
+		details.add(ex.getMessage());
+		ErrorResponse response = new ErrorResponse("Request error", details);
+		return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST);
+	}
+	
+	/**
 	 * Handles errors triggered by database, such as violation of unique constrain.
 	 * @param ex
 	 * @return custom error response

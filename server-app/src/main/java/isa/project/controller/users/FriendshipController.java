@@ -6,6 +6,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import isa.project.dto.users.FriendshipDTO;
+import isa.project.exception_handlers.RequestDataException;
 import isa.project.exception_handlers.ResourceNotFoundException;
 import isa.project.model.users.friendship.Friendship;
 import isa.project.security.TokenUtils;
@@ -29,49 +33,53 @@ public class FriendshipController {
 	private FriendshipService friendshipService;
 
 	/**
-	 * Šalje zahtev za prijateljstvo od ulogovan korisnika, ka drugom korisniku.
+	 * Sends friend request from logged in user to selected user.
 	 * 
-	 * @param to      - kome se zahtev šalje
+	 * @param to      - id of user receiving friend request
 	 * @param request
-	 * @return - DTO prijateljstva
-	 * @throws ResourceNotFoundException - ako nije pronađena osoba kojoj se šalje
+	 * @return - friendship
+	 * @throws ResourceNotFoundException - if user receiving request is not found
+	 * @throws RequestDataException      - if user is trying to send friend request
+	 *                                   to self, or friendship already exists
 	 */
 	@PreAuthorize("hasAnyRole('CUSTOMER')")
 	@RequestMapping(value = "/sendRequest/{to}", method = RequestMethod.GET)
 	public ResponseEntity<?> sendFriendRequest(@PathVariable Integer to, HttpServletRequest request)
-			throws ResourceNotFoundException {
+			throws ResourceNotFoundException, RequestDataException {
 		String email = tokenUtils.getEmailFromToken(tokenUtils.getToken(request));
 		Friendship friendship = friendshipService.sendFriendRequest(email, to);
 		return ResponseEntity.ok(new FriendshipDTO(friendship));
 	}
 
 	/**
-	 * Vraća listu zahteva za prijateljstvo trenutnog korisnika.
+	 * Returns list of friend requests of logged in user.
 	 * 
 	 * @param request
-	 * @return
+	 * @return - DTOs od friend requests
 	 * @throws ResourceNotFoundException
 	 */
 	@PreAuthorize("hasAnyRole('CUSTOMER')")
 	@RequestMapping(value = "/friendRequests", method = RequestMethod.GET)
-	public ResponseEntity<?> getAllFriendRequests(HttpServletRequest request) throws ResourceNotFoundException {
+	public ResponseEntity<?> getAllFriendRequests(HttpServletRequest request, Pageable page) {
 		String email = tokenUtils.getEmailFromToken(tokenUtils.getToken(request));
-		List<Friendship> requests = friendshipService.getFriendshipRequests(email);
-		List<FriendshipDTO> requestsDTO = new ArrayList<>();
+
+		Page<Friendship> requests = friendshipService.getFriendshipRequests(email, page);
+		List<FriendshipDTO> friendshipsDTO = new ArrayList<>();
 		for (Friendship req : requests) {
-			requestsDTO.add(new FriendshipDTO(req));
+			friendshipsDTO.add(new FriendshipDTO(req));
 		}
-		return ResponseEntity.ok(requestsDTO);
+		
+		Page<FriendshipDTO> ret = new PageImpl<>(friendshipsDTO, requests.getPageable(), requests.getTotalElements());
+		return ResponseEntity.ok(ret);
 	}
 
 	/**
-	 * Prihvata zahtev za prijateljstvo.
+	 * Accepts friendship request.
 	 * 
-	 * @param from    - čiji zahtev se prihvata
+	 * @param from    - id of user whose request is being accepted
 	 * @param request
 	 * @return
-	 * @throws ResourceNotFoundException - ako ne postoji zahtev za prijateljstvo,
-	 *                                   ili ne postoji korisnik
+	 * @throws ResourceNotFoundException - if user, or request are not found
 	 */
 	@PreAuthorize("hasAnyRole('CUSTOMER')")
 	@RequestMapping(value = "/acceptRequest/{from}", method = RequestMethod.GET)
@@ -83,13 +91,12 @@ public class FriendshipController {
 	}
 
 	/**
-	 * Briše postojeće prijateljstvo ili zahtev.
+	 * Deletes existing friendship or friend request.
 	 * 
-	 * @param from    - drugi učesnik u prijateljstvu
+	 * @param from    - id of other friend
 	 * @param request
 	 * @return
-	 * @throws ResourceNotFoundException - ako se ne pronađe prijateljstvo ili drugi
-	 *                                   učesnik
+	 * @throws ResourceNotFoundException - if other user, of friendship are not found
 	 */
 	@PreAuthorize("hasAnyRole('CUSTOMER')")
 	@RequestMapping(value = "/delete/{from}", method = RequestMethod.GET)
@@ -101,22 +108,23 @@ public class FriendshipController {
 	}
 
 	/**
-	 * Pronalazi prijatelje korisnika.
+	 * Finds all friendships of logged in user.
 	 * 
 	 * @param request
-	 * @return
-	 * @throws ResourceNotFoundException
+	 * @return - DTOs of friendships
 	 */
 	@PreAuthorize("hasAnyRole('CUSTOMER')")
 	@RequestMapping(value = "/friends", method = RequestMethod.GET)
-	public ResponseEntity<?> getFriends(HttpServletRequest request) throws ResourceNotFoundException {
+	public ResponseEntity<?> getFriends(HttpServletRequest request, Pageable page){
 		String email = tokenUtils.getEmailFromToken(tokenUtils.getToken(request));
-		List<Friendship> requests = friendshipService. getFriendships(email);
-		List<FriendshipDTO> requestsDTO = new ArrayList<>();
-		for (Friendship req : requests) {
-			requestsDTO.add(new FriendshipDTO(req));
+		Page<Friendship> friends = friendshipService.getFriendships(email, page);
+		List<FriendshipDTO> friendshipsDTO = new ArrayList<>();
+		for (Friendship req : friends) {
+			friendshipsDTO.add(new FriendshipDTO(req));
 		}
-		return ResponseEntity.ok(requestsDTO);
+		
+		Page<FriendshipDTO> ret = new PageImpl<>(friendshipsDTO, friends.getPageable(), friends.getTotalElements());
+		return ResponseEntity.ok(ret);
 	}
 
 }

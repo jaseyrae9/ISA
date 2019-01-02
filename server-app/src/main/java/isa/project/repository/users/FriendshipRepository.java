@@ -1,8 +1,9 @@
 package isa.project.repository.users;
 
-import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,14 +13,13 @@ import isa.project.model.users.friendship.FriendshipKey;
 
 public interface FriendshipRepository extends JpaRepository<Friendship, FriendshipKey> {
 	/**
-	 * Pronalazi neprihvaćene zahteve za prijateljstvo korisnika sa identifikacijom
-	 * to.
+	 * Finds friend requests of user.
 	 * 
-	 * @param to - čije zahteve treba pronaći
+	 * @param to - if of user whose requests are needed
 	 * @return - list pronađenih zahteva
 	 */
 	@Query("SELECT f FROM Friendship f WHERE f.key.to.id = :to AND f.active = 0")
-	List<Friendship> findFriendshipRequests(@Param("to") Integer to);
+	Page<Friendship> findFriendshipRequests(@Param("to") Integer to, Pageable pageable);
 
 	/**
 	 * Pronalazi sve prijatelje osobe sa identifikacijom user.
@@ -28,7 +28,7 @@ public interface FriendshipRepository extends JpaRepository<Friendship, Friendsh
 	 * @return - listu prijateljstava
 	 */
 	@Query("SELECT f FROM Friendship f WHERE (f.key.to.id = :user OR f.key.from.id = :user) AND f.active = 1")
-	List<Friendship> findActiveFriendships(@Param("user") Integer user);
+	Page<Friendship> findActiveFriendships(@Param("user") Integer user, Pageable pageable);
 
 	/**
 	 * Pronalazi zahtev upućen od strane osobe from osobi to, bez obzira da li je
