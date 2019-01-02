@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Friendship } from 'src/app/model/users/friendship';
-import { UserService } from 'src/app/services/user/user.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FriendshipsPageComponent } from '../friendships-page/friendships-page.component';
 
 @Component({
   selector: 'app-friends-page',
@@ -8,15 +7,15 @@ import { UserService } from 'src/app/services/user/user.service';
   styleUrls: ['./friends-page.component.css']
 })
 export class FriendsPageComponent implements OnInit {
-  requests: Friendship[] = [];
-  friends: Friendship[] = [];
+  @ViewChild(FriendshipsPageComponent)
+  private friendshipsPage: FriendshipsPageComponent;
 
-  constructor(private userService: UserService) { }
+  constructor() { }
 
-  ngOnInit() {
-    this.userService.getFriendRequests().subscribe(
-      (data) => this.requests = data
-    );
+  ngOnInit() { }
+
+  friendAdded() {
+    this.friendshipsPage.loadFriends();
   }
 
 }

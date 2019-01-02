@@ -1,8 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormsModule} from '@angular/forms';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NgxNotificationComponent } from 'ngx-notification';
 
 import { JwtInterceptor } from './auth/auth-interceptor';
 
@@ -36,10 +37,19 @@ import { AddHotelAdminComponent } from './hotel/add-hotel-admin/add-hotel-admin.
 import { FriendsPageComponent } from './user/friends/friends-page/friends-page.component';
 import { FriendRequestComponent } from './user/friends/friend-request/friend-request.component';
 import { AddAirCompanyAdminComponent } from './air-company/add-air-company-admin/add-air-company-admin.component';
+import { FriendRequestsPageComponent } from './user/friends/friend-requests-page/friend-requests-page.component';
+import { FriendshipsPageComponent } from './user/friends/friendships-page/friendships-page.component';
+import { FindFriendsPageComponent } from './user/friends/find-friends-page/find-friends-page.component';
+import { FriendshipComponent } from './user/friends/friendship/friendship.component';
+import { AdditionalServiceComponent } from './shared/components/additional-service/additional-service.component';
+import { AdditionalServicesTableComponent } from './shared/components/additional-services-table/additional-services-table.component';
+import { AirCompanyPageComponent } from './air-company/air-company-page/air-company-page.component';
+import { FightBasicInfoComponent } from './air-company/fight-basic-info/fight-basic-info.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    NgxNotificationComponent,
     NavigationComponent,
     BannerComponent,
     FooterComponent,
@@ -68,7 +78,15 @@ import { AddAirCompanyAdminComponent } from './air-company/add-air-company-admin
     AddHotelAdminComponent,
     FriendsPageComponent,
     FriendRequestComponent,
-    AddAirCompanyAdminComponent
+    AddAirCompanyAdminComponent,
+    FriendRequestsPageComponent,
+    FriendshipsPageComponent,
+    FindFriendsPageComponent,
+    FriendshipComponent,
+    AdditionalServiceComponent,
+    AdditionalServicesTableComponent,
+    AirCompanyPageComponent,
+    FightBasicInfoComponent
   ],
   imports: [
     BrowserModule, RoutingModule, HttpClientModule, FormsModule

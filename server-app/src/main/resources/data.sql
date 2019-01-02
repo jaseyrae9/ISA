@@ -21,8 +21,22 @@ values ('SYS', 1000, 'FTN, Novi Sad', 1, 'admin@admin.com', 'Admin', 'Admin', '2
 INSERT INTO users (type, id, address, confirmed_mail, email, first_name, last_name, last_password_reset_date, password, phone_number, air_company_id, hotel_id, rent_a_car_company_id)
 values ('CUST', 2000, 'Marka Miljanova 7b, Novi Sad', 1, 'milicat228@gmail.com', 'Milica', 'Todorovic', '2018-12-26 23:09:42','$2a$10$QHSpHaeAyVOiqKEf5WnaK.tME9/IuK6RTwMicLrrdqCc9i1zDrX3y', '0601322175', NULL, NULL, NULL);
 INSERT INTO users (type, id, address, confirmed_mail, email, first_name, last_name, last_password_reset_date, password, phone_number, air_company_id, hotel_id, rent_a_car_company_id)
-values ('CUST', 2001, 'Marka Miljanova 7b, Novi Sad', 1, 'majak96@gmail.com', 'Marijana', 'Kolosnjaji', '2018-12-26 23:09:42','$2a$10$QHSpHaeAyVOiqKEf5WnaK.tME9/IuK6RTwMicLrrdqCc9i1zDrX3y', '0601342175', NULL, NULL, NULL);
+values ('CUST', 2001, 'Dom A, Novi Sad', 1, 'majak96@gmail.com', 'Marijana', 'Kolosnjaji', '2018-12-26 23:09:42','$2a$10$QHSpHaeAyVOiqKEf5WnaK.tME9/IuK6RTwMicLrrdqCc9i1zDrX3y', '0601344575', NULL, NULL, NULL);
+INSERT INTO users (type, id, address, confirmed_mail, email, first_name, last_name, last_password_reset_date, password, phone_number, air_company_id, hotel_id, rent_a_car_company_id)
+values ('CUST', 2002, 'Jozefa Marcoka, Novi Sad', 1, 'jaseyrea9@gmail.com', 'Jelena', 'Surlan', '2018-12-26 23:09:42','$2a$10$QHSpHaeAyVOiqKEf5WnaK.tME9/IuK6RTwMicLrrdqCc9i1zDrX3y', '0605642175', NULL, NULL, NULL);
+INSERT INTO users (type, id, address, confirmed_mail, email, first_name, last_name, last_password_reset_date, password, phone_number, air_company_id, hotel_id, rent_a_car_company_id)
+values ('CUST', 2003, 'Dom A, Novi Sad', 1, 'miloskrstic@gmail.com', 'Milos', 'Krstic', '2018-12-26 23:09:42','$2a$10$QHSpHaeAyVOiqKEf5WnaK.tME9/IuK6RTwMicLrrdqCc9i1zDrX3y', '0601342565', NULL, NULL, NULL);
+INSERT INTO users (type, id, address, confirmed_mail, email, first_name, last_name, last_password_reset_date, password, phone_number, air_company_id, hotel_id, rent_a_car_company_id)
+values ('CUST', 2004, 'Marka Miljanova 7b', 1, 'lanat98@gmail.com', 'Milana', 'Todorovic', '2018-12-26 23:09:42','$2a$10$QHSpHaeAyVOiqKEf5WnaK.tME9/IuK6RTwMicLrrdqCc9i1zDrX3y', '060134565', NULL, NULL, NULL);
 
 INSERT INTO user_authority ( user_id, authority_id ) VALUES (1000, 2);
 INSERT INTO user_authority ( user_id, authority_id ) VALUES (2000, 1);
 INSERT INTO user_authority ( user_id, authority_id ) VALUES (2001, 1);
+INSERT INTO user_authority ( user_id, authority_id ) VALUES (2002, 1);
+INSERT INTO user_authority ( user_id, authority_id ) VALUES (2003, 1);
+INSERT INTO user_authority ( user_id, authority_id ) VALUES (2004, 1);
+
+INSERT INTO friendships (from_id, to_id, active) VALUE (2001, 2000, 0);
+INSERT INTO friendships (from_id, to_id, active) VALUE (2002, 2000, 0);
+INSERT INTO friendships (from_id, to_id, active) VALUE (2003, 2000, 0);
+INSERT INTO friendships (from_id, to_id, active) VALUE (2004, 2000, 0);

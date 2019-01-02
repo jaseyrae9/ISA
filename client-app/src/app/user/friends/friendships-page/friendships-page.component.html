@@ -1,0 +1,31 @@
+<div> 
+    <div *ngIf="friendships.length == 0 else requestsDiv">
+            <p> You have no friends.</p>
+    </div>
+    <ng-template #requestsDiv>
+            <div >
+            <app-friendship *ngFor="let friendship of friendships" [friendship]= 'friendship' (friendshipRemoved)="friendRemoved($event)"></app-friendship>
+                 
+            <nav style="padding-top: 20px">
+                <ul class="pagination" style="justify-content: center">
+                        <li class="page-item">
+                                <a class="page-link" aria-label="Previous" (click)="arrowAction(-1)">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                                </a>
+                        </li>
+                        <li class="page-item" *ngFor="let item of pages; let i = index" [ngClass]="{'active': i == pageNumber}">
+                                <a class="page-link" (click)="changePage(i,$event)"> {{i + 1}} </a>
+                        </li>
+                        <li class="page-item">
+                                <a class="page-link" aria-label="Next" (click)="arrowAction(1, $event)">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                                </a>
+                        </li>
+                </ul>
+             </nav>
+           </div>
+    </ng-template>
+</div>
+ 

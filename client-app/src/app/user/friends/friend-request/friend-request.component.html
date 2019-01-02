@@ -1,16 +1,15 @@
-<li class="media">
-  <a href="#" class="pull-left">
-      <img src="assets/img/1.png" alt="" class="img-circle">
-  </a>
-  <div class="media-body">
-      <span class="text-muted pull-right">
-          <small class="text-muted">30 min ago</small>
-      </span>
-      <strong class="text-success">{{request.to_firstname}} {{request.to_lastname}}</strong>
-      <p>
-          Wants to be your friend.          
-      </p>
-      <button type="button" class="btn btn-primary">Accept</button>
-      <button type="button" class="btn btn-secondary">Refuse</button>
+<div class="container">
+    <div class="row border rounded align-items-center p-2 mt-3">
+            <div class="col-auto p-2">
+                  <img src="assets/images/user_profile/friend.jpg" class="rounded-circle">
+            </div>
+            <div class="col-auto p-2" align="left">
+                <h3 class="pl-2">{{request.fromFirstname}} {{request.fromLastname}}</h3>
+                <span class="text-muted pl-2">wants to be your friend</span>
+        </div>
+            <div class="col p-3" align="right">
+              <button class="btn btn-secondary px-4 m-2" (click)="declineFriendRequest()">Decline</button>
+              <button class="btn btn-primary px-4 m-2" (click)="acceptFriendRequest()">Accept</button>
+        </div>
+      </div>
   </div>
-</li>

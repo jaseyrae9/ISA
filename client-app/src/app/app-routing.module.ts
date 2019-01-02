@@ -13,10 +13,12 @@ import { HomePageComponent } from './pages/home-page/home-page.component';
 import { ProfileComponent } from './user/profile/profile.component';
 import { LoginFormComponent} from './user/login-form/login-form.component';
 import { FriendsPageComponent } from './user/friends/friends-page/friends-page.component';
+import { AirCompanyPageComponent } from './air-company/air-company-page/air-company-page.component';
 
 const routes: Routes = [
   { path: '', component: HomePageComponent},
   { path: 'aircompanies', component: AllAvioCompaniesPageComponent},
+  { path: 'aircompany/:id', component: AirCompanyPageComponent},
   { path: 'find-flight', component: FlightSearchPageComponent },
   { path: 'hotels', component: AllHotelsPageComponent },
   { path: 'find-room', component: RoomSearchPageComponent },

@@ -19,6 +19,10 @@ export class AirCompanyService {
     return this.http.get('//localhost:8080/aircompanies/all');
   }
 
+  get(id: string): Observable<any> {
+    return this.http.get('//localhost:8080/aircompanies/get/' + id);
+  }
+
   add(airCompany: AirCompany): Observable<AirCompany> {
     return this.http.post<AirCompany>('http://localhost:8080/aircompanies/add', airCompany, httpOptions);
   }

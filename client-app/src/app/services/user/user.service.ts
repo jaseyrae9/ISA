@@ -31,7 +31,19 @@ export class UserService {
     return this.http.post<ChangePasswordData>('//localhost:8080/profile/updateProfile', info, httpOptions);
   }
 
-  getFriendRequests(): Observable<any> {
-    return this.http.get('//localhost:8080/friendship/friendRequests');
+  getFriendRequests(pageNumber: number): Observable<any> {
+    return this.http.get('//localhost:8080/friendship/friendRequests?page=' + pageNumber + '&size=2');
+  }
+
+  getFriends(pageNumber: number): Observable<any> {
+    return this.http.get('//localhost:8080/friendship/friends?page=' + pageNumber + '&size=2');
+  }
+
+  acceptFriendRequest(fromId: number): Observable<any> {
+    return this.http.get('//localhost:8080/friendship/acceptRequest/' + fromId);
+  }
+
+  deleteFriendship(fromId: number): Observable<any> {
+    return this.http.get('//localhost:8080/friendship/delete/' + fromId);
   }
 }

@@ -19,28 +19,11 @@
   </ul>
 
   <div class="tab-content">          
-    <div class="tab-pane active" role="tabpanel" id="requests">
-        <div class="tabContent">
-            <app-friend-request *ngFor="let req of requests" [request]= 'req'></app-friend-request>
-            <div *ngIf="requests.length == 0">
-                You don't have any new friend requests.
-            </div>
-        </div>
-    </div>          
-  </div>
-
-  <div class="tab-content">          
-    <div class="tab-pane active" role="tabpanel" id="friends">
-        <div class="tabContent">
-        </div>
-    </div>          
-  </div>
-
-  <div class="tab-content">          
-    <div class="tab-pane active" role="tabpanel" id="newFriends">
-        <div class="tabContent">
-        </div>
-    </div>          
+    <app-friend-requests-page id="requests" role="tabpanel" class="tab-pane active" (friendRequestAccepted)="friendAdded($event)"></app-friend-requests-page>        
+        
+    <app-friendships-page id="friends" role="tabpanel" class="tab-pane"></app-friendships-page>          
+          
+    <app-find-friends-page id="newFriends" role="tabpanel" class="tab-pane"></app-find-friends-page>       
   </div>
  
 
