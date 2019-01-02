@@ -11,7 +11,7 @@ import isa.project.repository.VerificationTokenRepository;
 public class VerificationTokenService {
 
     @Autowired
-    VerificationTokenRepository tokenRepository;
+    private VerificationTokenRepository tokenRepository;
 
     public void createVerificationToken(Customer customer, String token) {
         tokenRepository.save(new VerificationToken(token, customer));

@@ -64,7 +64,7 @@ public class RentACarCompanyController {
 		Optional<RentACarCompany> opt = rentACarCompanyService.findRentACarCompany(company.getId());
 		
 		//rent a car company is not found
-		if( opt.isPresent() == false) {
+		if(!opt.isPresent()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		

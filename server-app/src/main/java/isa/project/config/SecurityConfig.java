@@ -24,12 +24,7 @@ import isa.project.service.users.CustomUserDetailsService;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-	
-	@Bean
-	PasswordEncoder getEncoder() {
-	    return new BCryptPasswordEncoder();
-	}
-	
+
 	@Autowired
 	private EntryPoint entryPoint;
 
@@ -37,12 +32,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private CustomUserDetailsService userDetailsService;
 
 	@Autowired
-	TokenUtils tokenUtils;
+	private TokenUtils tokenUtils;
 	
 	@Bean
 	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception {
 		return super.authenticationManagerBean();
+	}
+	
+	@Bean
+	public PasswordEncoder getEncoder() {
+	    return new BCryptPasswordEncoder();
 	}
 	
 	@Override 

@@ -16,7 +16,7 @@ public class AirCompanyAdminService {
 	private AvioCompanyAdminRepository avioCompanyAdminRepository;
 	
 	@Autowired
-	PasswordEncoder passwordEncoder;
+	private PasswordEncoder passwordEncoder;
 	
 	/* For registration */
 	public AirCompanyAdmin registerAvioCompanyAdmin(AirCompanyAdmin airCompanyAdmin)

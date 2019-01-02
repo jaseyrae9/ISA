@@ -16,7 +16,7 @@ public class HotelAdminService {
 	private HotelAdminRepository hotelAdminRepository;
 	
 	@Autowired
-	PasswordEncoder passwordEncoder;
+	private PasswordEncoder passwordEncoder;
 	
 	/* For registration */
 	public HotelAdmin registerHotelAdmin(HotelAdmin hotelAdmin)

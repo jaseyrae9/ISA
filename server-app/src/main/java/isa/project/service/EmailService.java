@@ -16,7 +16,7 @@ public class EmailService {
 
 	@Qualifier("getJavaMailSender")
 	@Autowired
-	JavaMailSender sender;
+	private JavaMailSender sender;
 
 	@Async
 	public void sendNotificaitionAsync(String recipientEmail, String subject, String message)

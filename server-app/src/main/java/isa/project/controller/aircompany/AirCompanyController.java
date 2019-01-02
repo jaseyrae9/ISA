@@ -91,7 +91,7 @@ public class AirCompanyController {
 		Optional<AirCompany> opt = airCompanyService.findAircompany(company.getId());
 
 		// air company is not found
-		if (opt.isPresent() == false) {
+		if (!opt.isPresent()) {
 			throw new ResourceNotFoundException(company.getId().toString(), "Air company not found.");
 		}
 

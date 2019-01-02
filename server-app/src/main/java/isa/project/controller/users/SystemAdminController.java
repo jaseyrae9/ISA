@@ -42,22 +42,22 @@ public class SystemAdminController {
 	private AuthorityService authorityService;
 
 	@Autowired
-	HotelAdminService hotelAdminService;
+	private HotelAdminService hotelAdminService;
 
 	@Autowired
-	AirCompanyAdminService airCompanyAdminService;
+	private AirCompanyAdminService airCompanyAdminService;
 
 	@Autowired
-	RentACarAdminService rentACarCompanyAdminService;
+	private RentACarAdminService rentACarCompanyAdminService;
 
 	@Autowired
-	HotelService hotelService;
+	private HotelService hotelService;
 
 	@Autowired
-	AirCompanyService airCompanyService;
+	private AirCompanyService airCompanyService;
 
 	@Autowired
-	RentACarCompanyService rentACarCompanyService;
+	private RentACarCompanyService rentACarCompanyService;
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 

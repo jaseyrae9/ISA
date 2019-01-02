@@ -11,7 +11,7 @@ import isa.project.repository.users.AuthorityRepository;
 @Service
 public class AuthorityService {
 	@Autowired
-	AuthorityRepository authorityRepository;
+	private AuthorityRepository authorityRepository;
 	
 	public Optional<Authority> findByName(String name){
 		return authorityRepository.findByName(name);

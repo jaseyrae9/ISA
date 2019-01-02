@@ -7,9 +7,4 @@ import javax.persistence.Entity;
 @DiscriminatorValue("SYS")
 public class SystemAdmin extends User{
 	
-	
-	
-	public SystemAdmin() {
-		
-	}
 }

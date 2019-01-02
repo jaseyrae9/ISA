@@ -65,7 +65,7 @@ public class HotelController {
 		Optional<Hotel> opt = hotelService.findHotel(hotelDTO.getId());
 		
 		//hotel is not found
-		if( opt.isPresent() == false) {
+		if(!opt.isPresent()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		

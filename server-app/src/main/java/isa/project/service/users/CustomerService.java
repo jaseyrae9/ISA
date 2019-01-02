@@ -16,7 +16,7 @@ public class CustomerService {
 	private CustomerRepository customerRepository;
 	
 	@Autowired
-	PasswordEncoder passwordEncoder;
+	private PasswordEncoder passwordEncoder;
 	
 	/* For registration */
 	public Customer registerCustomer(Customer customer)

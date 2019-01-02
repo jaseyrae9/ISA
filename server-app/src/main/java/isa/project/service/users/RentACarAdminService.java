@@ -16,7 +16,7 @@ public class RentACarAdminService {
 	private RentACarAdminRepository rentACarRepository;
 	
 	@Autowired
-	PasswordEncoder passwordEncoder;
+	private PasswordEncoder passwordEncoder;
 	
 	/* For registration */
 	public RentACarAdmin registerRentACarCompanyAdmin(RentACarAdmin rentACarCompanyAdmin)

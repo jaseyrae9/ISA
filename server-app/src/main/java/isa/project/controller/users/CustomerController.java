@@ -47,7 +47,7 @@ public class CustomerController {
 	private CustomerService customerService;
 
 	@Autowired
-	TokenUtils tokenUtils;
+	private TokenUtils tokenUtils;
 
 	@Autowired
 	private AuthenticationManager authenticationManager;

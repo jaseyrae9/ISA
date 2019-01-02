@@ -84,7 +84,7 @@ public class FriendshipService {
 			throw new ResourceNotFoundException(from.toString(), "You don't have friend request from this user.");
 		}
 		if (friendship.get().isActive()) {
-			throw new ResourceNotFoundException(from.toString(), "You are already friends with this user.");
+			throw new ResourceNotFoundException(from.toString() + toCust.getId().toString(), "You are already friends with this user.");
 		}
 
 		// prihvati zahtev
@@ -97,15 +97,15 @@ public class FriendshipService {
 	 * 
 	 * @param otherPerson - id of user whose friend request/friendship is being
 	 *                    delete
-	 * @param from        - email of user deleting friend request
+	 * @param email       - email of user deleting friend request
 	 * @throws ResourceNotFoundException - if other user of friendship is not found
 	 */
-	public void deleteRequest(Integer otherPerson, String from) throws ResourceNotFoundException {
+	public void deleteRequest(Integer otherPerson, String email) throws ResourceNotFoundException {
 		// pronadji oba kupca
-		Optional<Customer> toCustOpt = customerRepository.findByEmail(from);
+		Optional<Customer> toCustOpt = customerRepository.findByEmail(email);
 		Optional<Customer> fromCustOpt = customerRepository.findById(otherPerson);
 		if (!fromCustOpt.isPresent()) {
-			throw new ResourceNotFoundException(from.toString(), "User not found");
+			throw new ResourceNotFoundException(otherPerson.toString(), "User not found");
 		}
 		Customer fromCust = fromCustOpt.get();
 		Customer toCust = toCustOpt.get();
@@ -113,7 +113,7 @@ public class FriendshipService {
 		// pronadji zahtev
 		Optional<Friendship> friendship = friendshipRepository.findFriendship(fromCust.getId(), toCust.getId());
 		if (!friendship.isPresent()) {
-			throw new ResourceNotFoundException(from.toString(), "You don't have friend request from this user.");
+			throw new ResourceNotFoundException( otherPerson.toString() + toCust.getId().toString(), "You don't have friend request from this user.");
 		}
 		
 		//izbrisi prijateljstvo
