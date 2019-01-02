@@ -33,12 +33,9 @@ import { HotelBasicDetailsComponent } from './hotel/hotel-basic-details/hotel-ba
 import { NewCarCompanyFormComponent } from './rent-a-car-company/new-car-company-form/new-car-company-form.component';
 import { CarCompanyBasicDetailsComponent} from './rent-a-car-company/car-company-basic-details/car-company-basic-details.component';
 import { AddHotelAdminComponent } from './hotel/add-hotel-admin/add-hotel-admin.component';
-<<<<<<< HEAD
 import { FriendsPageComponent } from './user/friends/friends-page/friends-page.component';
 import { FriendRequestComponent } from './user/friends/friend-request/friend-request.component';
-=======
 import { AddAirCompanyAdminComponent } from './air-company/add-air-company-admin/add-air-company-admin.component';
->>>>>>> 89ed9151f8fbdc12d80a019e38e6ab985893e593
 
 @NgModule({
   declarations: [
@@ -69,12 +66,9 @@ import { AddAirCompanyAdminComponent } from './air-company/add-air-company-admin
     NewHotelFormComponent,
     HotelBasicDetailsComponent,
     AddHotelAdminComponent,
-<<<<<<< HEAD
     FriendsPageComponent,
-    FriendRequestComponent
-=======
+    FriendRequestComponent,
     AddAirCompanyAdminComponent
->>>>>>> 89ed9151f8fbdc12d80a019e38e6ab985893e593
   ],
   imports: [
     BrowserModule, RoutingModule, HttpClientModule, FormsModule
