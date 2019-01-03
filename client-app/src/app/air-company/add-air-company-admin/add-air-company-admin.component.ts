@@ -3,6 +3,7 @@ import { AirCompany } from 'src/app/model/air-company/air-company';
 import { User } from 'src/app/model/users/user';
 import { NgForm } from '@angular/forms';
 import { AirCompanyService } from 'src/app/services/air-company/air-company.service'
+import { DataService } from 'src/app/shared/services/data.service'
 
 @Component({
   selector: 'app-add-air-company-admin',
@@ -10,13 +11,22 @@ import { AirCompanyService } from 'src/app/services/air-company/air-company.serv
   styleUrls: ['./add-air-company-admin.component.css']
 })
 export class AddAirCompanyAdminComponent implements OnInit {
-  @Input() aircompanies: AirCompany[];
+  aircompanies: AirCompany[];
 
   private user : User;
 
-  constructor(private airCompanyService: AirCompanyService) { }
+  constructor(private airCompanyService: AirCompanyService, private dataService : DataService) { }
  
   ngOnInit() {
+    this.airCompanyService.getAll().subscribe(data => {
+      this.aircompanies = data;
+    });
+    this.dataService.currentAirCompany.subscribe(aircompany => { 
+      if(aircompany.id != null)
+      {
+        this.aircompanies.push(aircompany)
+      }
+    });
   }
 
   onSubmit(form : NgForm)

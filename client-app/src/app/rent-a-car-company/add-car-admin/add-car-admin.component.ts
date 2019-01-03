@@ -3,6 +3,7 @@ import { RentACarCompany } from 'src/app/model/rent-a-car-company/rent-a-car-com
 import { User } from 'src/app/model/users/user';
 import { RentACarCompanyService } from 'src/app/services/rent-a-car-company/rent-a-car-company.service'
 import { NgForm } from '@angular/forms';
+import { DataService } from 'src/app/shared/services/data.service'
 
 @Component({
   selector: 'app-add-car-admin',
@@ -10,13 +11,21 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./add-car-admin.component.css']
 })
 export class AddCarAdminComponent implements OnInit {
-  @Input() carcompanies: RentACarCompany[];
+  carcompanies: RentACarCompany[];
 
   private user : User;
 
-  constructor(private rentACarCompanyService : RentACarCompanyService) { }
+  constructor(private rentACarCompanyService : RentACarCompanyService, private dataService : DataService) { }
 
   ngOnInit() {
+    this.rentACarCompanyService.getAll().subscribe(data =>{
+      this.carcompanies = data;
+    });
+    this.dataService.currentCarCompany.subscribe(car => {
+      if(car.id != null){
+        this.carcompanies.push(car);
+      }
+    });
   }
 
   onSubmit(form : NgForm)

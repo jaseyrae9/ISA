@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HotelService } from '../../services/hotel/hotel.service';
 import { Hotel } from 'src/app/model/hotel/hotel';
+import { DataService } from 'src/app/shared/services/data.service';
 
 @Component({
   selector: 'app-all-hotels-page',
@@ -10,7 +11,7 @@ import { Hotel } from 'src/app/model/hotel/hotel';
 export class AllHotelsPageComponent implements OnInit {
   hotels: Hotel[];
 
-  constructor(private hotelService: HotelService) { }
+  constructor(private hotelService: HotelService, private dataService : DataService) { }
 
   ngOnInit() {
     this.hotelService.getAll().subscribe(data => {
@@ -20,5 +21,6 @@ export class AllHotelsPageComponent implements OnInit {
 
   hotelCreated(hotel: Hotel) {
     this.hotels.push(hotel);
+    this.dataService.changeHotel(hotel);
   }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RentACarCompany } from 'src/app/model/rent-a-car-company/rent-a-car-company';
 import { RentACarCompanyService } from 'src/app/services/rent-a-car-company/rent-a-car-company.service';
+import { DataService } from 'src/app/shared/services/data.service';
 
 
 @Component({
@@ -11,7 +12,7 @@ import { RentACarCompanyService } from 'src/app/services/rent-a-car-company/rent
 export class AllCarsCompaniesPageComponent implements OnInit {
   companies: RentACarCompany[];
 
-  constructor(private rentACarCompanyService: RentACarCompanyService) { }
+  constructor(private rentACarCompanyService: RentACarCompanyService, private dataService : DataService) { }
  
   ngOnInit() {
     this.rentACarCompanyService.getAll().subscribe(data => {
@@ -21,6 +22,7 @@ export class AllCarsCompaniesPageComponent implements OnInit {
 
   carCompanyCreated(carCompany: RentACarCompany){
     this.companies.push(carCompany);
+    this.dataService.changeCarCompany(carCompany);
   }
 
 }

@@ -46,6 +46,7 @@ import { AdditionalServicesTableComponent } from './shared/components/additional
 import { AirCompanyPageComponent } from './air-company/air-company-page/air-company-page.component';
 import { FightBasicInfoComponent } from './air-company/fight-basic-info/fight-basic-info.component';
 import { AddCarAdminComponent } from './rent-a-car-company/add-car-admin/add-car-admin.component';
+import { DataService } from './shared/services/data.service';
 
 @NgModule({
   declarations: [
@@ -93,7 +94,7 @@ import { AddCarAdminComponent } from './rent-a-car-company/add-car-admin/add-car
   imports: [
     BrowserModule, RoutingModule, HttpClientModule, FormsModule
   ],
-  providers: [HotelService, AirCompanyService, UserService,
+  providers: [HotelService, AirCompanyService, UserService, DataService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
