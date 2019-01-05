@@ -6,7 +6,7 @@ import { Hotel } from 'src/app/model/hotel/hotel';
 @Component({
   selector: 'app-hotel-page',
   templateUrl: './hotel-page.component.html',
-  styleUrls: ['./hotel-page.component.css']
+  styleUrls: ['./hotel-page.component.css', '../../shared/css/inputField.css']
 })
 export class HotelPageComponent implements OnInit {
 

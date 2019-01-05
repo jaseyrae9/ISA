@@ -51,6 +51,10 @@ import { HotelPageComponent } from './hotel/hotel-page/hotel-page.component';
 import { CarCompanyPageComponent } from './rent-a-car-company/car-company-page/car-company-page.component';
 import { CarBasicInfoComponent } from './rent-a-car-company/car-basic-info/car-basic-info.component';
 import { NewCarFormComponent } from './rent-a-car-company/new-car-form/new-car-form.component';
+import { EditHotelFormComponent } from './hotel/edit-hotel-form/edit-hotel-form.component';
+import { EditCarCompanyFormComponent } from './rent-a-car-company/edit-car-company-form/edit-car-company-form.component';
+import { EditCompanyFormComponent } from './air-company/edit-company-form/edit-company-form.component';
+import { EditCarFormComponent } from './rent-a-car-company/edit-car-form/edit-car-form.component';
 
 
 @NgModule({
@@ -98,7 +102,11 @@ import { NewCarFormComponent } from './rent-a-car-company/new-car-form/new-car-f
     HotelPageComponent,
     CarCompanyPageComponent,
     CarBasicInfoComponent,
-    NewCarFormComponent
+    NewCarFormComponent,
+    EditHotelFormComponent,
+    EditCarCompanyFormComponent,
+    EditCompanyFormComponent,
+    EditCarFormComponent
   ],
   imports: [
     BrowserModule, RoutingModule, HttpClientModule, FormsModule

@@ -77,22 +77,25 @@ public class HotelController {
 	 * Edit existing hotel.
 	 * @param hotel
 	 * @return
+	 * @throws ResourceNotFoundException 
 	 */
 	@RequestMapping(value="/edit",method=RequestMethod.PUT, consumes="application/json")
-	public ResponseEntity<HotelDTO> editHotel(@RequestBody HotelDTO hotelDTO){
+	public ResponseEntity<HotelDTO> editHotel(@RequestBody HotelDTO hotelDTO) throws ResourceNotFoundException{
 		//hotel must exist
 		Optional<Hotel> opt = hotelService.findHotel(hotelDTO.getId());
 		
 		//hotel is not found
-		if(!opt.isPresent()) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		if (!opt.isPresent()) {
+			throw new ResourceNotFoundException(hotelDTO.getId().toString(), "Hotel not found");
 		}
 		
 		//set name and description
 		opt.ifPresent( hotel -> {
-			hotel.setName(hotel.getName());
-			hotel.setDescription(hotel.getDescription());
+			System.out.println("New name is: " + hotelDTO.getName());
+			hotel.setName(hotelDTO.getName());
+			hotel.setDescription(hotelDTO.getDescription());
 		});
+		
 		return new ResponseEntity<>(new HotelDTO(hotelService.saveHotel(opt.get())), HttpStatus.OK);	
 	}
 	

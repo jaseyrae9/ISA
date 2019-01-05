@@ -4,6 +4,13 @@
     margin: 5px;
 }
 
+button>.fa{
+    color: #fff;
+    width: 15px;
+    margin-left: 3px;
+    margin-right: 10px;
+}
+
 .tab-content{
 
     border-left: 1px solid #ddd;

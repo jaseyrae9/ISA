@@ -11,13 +11,18 @@
           <i class="fa fa-male" aria-hidden="true"></i>{{car.seatsNumber}} Seats
           <i class="fa fa-car-side" aria-hidden="true"></i> {{car.doorsNumber}} Doors
           <br> <i class="fa fa-calendar-alt" aria-hidden="true"></i>{{car.yearOfProduction}} Year
-      </div>
-      
+      </div>      
   </div>
+  
   <div class="col border-left p-3" align="center">
       <p style="font-size: 45px; color:  #33cabb;">€{{car.price}}</p>
       <hr>
-      <button class="btn btn-primary px-4 m-2">Edit</button>
+      <button class="btn btn-primary px-4 m-2" data-toggle="modal" data-target="#editCar">Edit</button>
       <button class="btn btn-primary px-4 m-2">Rent</button>
   </div>  
 </div>
+
+<!-- Modal (carEdited)='carEdited($event)' -->
+<app-edit-car-form [car]="car" class="modal fade" id="editCar" tabindex="-1" role="dialog" aria-hidden="true"></app-edit-car-form>
+
+

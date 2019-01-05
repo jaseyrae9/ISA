@@ -84,7 +84,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				"/aircompanies/all","/aircompanies/get/{id}",
 				"/rent_a_car_companies/all",
 				"/rent_a_car_companies/get/{id}",
-				"/hotels/all", "/hotels/add",
+				"/hotels/all", "/hotels/add", "/hotels/edit",
 				"/hotels/get/{id}"); 
 	}
 }

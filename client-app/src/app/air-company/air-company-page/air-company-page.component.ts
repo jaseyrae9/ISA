@@ -6,7 +6,7 @@ import { AirCompanyService } from 'src/app/services/air-company/air-company.serv
 @Component({
   selector: 'app-air-company-page',
   templateUrl: './air-company-page.component.html',
-  styleUrls: ['./air-company-page.component.css']
+  styleUrls: ['./air-company-page.component.css', '../../shared/css/inputField.css']
 })
 export class AirCompanyPageComponent implements OnInit {
   airCompany: AirCompany = new AirCompany();

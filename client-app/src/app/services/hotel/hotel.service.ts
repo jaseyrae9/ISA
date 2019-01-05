@@ -36,5 +36,8 @@ export class HotelService {
     return this.http.post<User>('http://localhost:8080/sys/hotelAdmin/' + hotelId, user, httpOptions);
   }
 
- 
+  edit(hotel: Hotel): Observable<Hotel> {
+    console.log(hotel);
+    return this.http.put<Hotel>('http://localhost:8080/hotels/edit', hotel, httpOptions);
+  }
 }
