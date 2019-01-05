@@ -55,6 +55,8 @@ import { EditHotelFormComponent } from './hotel/edit-hotel-form/edit-hotel-form.
 import { EditCarCompanyFormComponent } from './rent-a-car-company/edit-car-company-form/edit-car-company-form.component';
 import { EditCompanyFormComponent } from './air-company/edit-company-form/edit-company-form.component';
 import { EditCarFormComponent } from './rent-a-car-company/edit-car-form/edit-car-form.component';
+import { RoomBasicInfoComponent } from './hotel/room-basic-info/room-basic-info.component';
+import { NewRoomFormComponent } from './hotel/new-room-form/new-room-form.component';
 
 
 @NgModule({
@@ -106,7 +108,9 @@ import { EditCarFormComponent } from './rent-a-car-company/edit-car-form/edit-ca
     EditHotelFormComponent,
     EditCarCompanyFormComponent,
     EditCompanyFormComponent,
-    EditCarFormComponent
+    EditCarFormComponent,
+    RoomBasicInfoComponent,
+    NewRoomFormComponent
   ],
   imports: [
     BrowserModule, RoutingModule, HttpClientModule, FormsModule

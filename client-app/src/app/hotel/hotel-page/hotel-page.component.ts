@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HotelService } from '../../services/hotel/hotel.service';
 import { Hotel } from 'src/app/model/hotel/hotel';
+import { Room } from 'src/app/model/hotel/room';
 
 @Component({
   selector: 'app-hotel-page',
@@ -23,4 +24,7 @@ export class HotelPageComponent implements OnInit {
     );
   }
 
+  roomCreated(room: Room) {
+    this.hotel.rooms.push(room);
+  }
 }

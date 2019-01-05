@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Hotel } from '../../model/hotel/hotel';
 import { User } from 'src/app/model/users/user';
+import { Room } from 'src/app/model/hotel/room';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -39,5 +40,9 @@ export class HotelService {
   edit(hotel: Hotel): Observable<Hotel> {
     console.log(hotel);
     return this.http.put<Hotel>('http://localhost:8080/hotels/edit', hotel, httpOptions);
+  }
+  
+  addRoom(room: Room, hotelId: String): Observable<Room> {
+    return this.http.post<Room>('http://localhost:8080/hotels/addRoom/' + hotelId, room, httpOptions);
   }
 }

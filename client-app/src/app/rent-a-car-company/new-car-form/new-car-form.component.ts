@@ -14,38 +14,36 @@ export class NewCarFormComponent implements OnInit {
   form: any = {};
   @ViewChild('closeBtn') closeBtn: ElementRef;
   car: Car;
-  id : string;
+  id: string;
 
   constructor(private route: ActivatedRoute, private rentACarCompanyService: RentACarCompanyService) { }
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     this.id = id;
-    console.log('Id: ' + id);
   }
-
-
-  onCarAdd(){
+  
+  onCarAdd() {
     this.car = new Car(null,
       this.form.brand,
       this.form.model,
       this.form.seatsNumber,
       this.form.doorsNumber,
       this.form.yearOfProduction,
-      this.form.price  );
+      this.form.price);
 
-      console.log(this.car);
+    console.log(this.car);
 
-  this.rentACarCompanyService.addCar(this.car, this.id).subscribe(
-    data => {
-      this.carCreated.emit(data);
-      this.closeBtn.nativeElement.click();
-    },
-    error => {
-      console.log(error.error.message);
-    }
+    this.rentACarCompanyService.addCar(this.car, this.id).subscribe(
+      data => {
+        this.carCreated.emit(data);
+        this.closeBtn.nativeElement.click();
+      },
+      error => {
+        console.log(error.error.message);
+      }
 
-  );
+    );
   }
 
 }

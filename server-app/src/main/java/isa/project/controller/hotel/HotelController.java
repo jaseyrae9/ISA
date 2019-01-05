@@ -16,9 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import isa.project.dto.hotel.HotelDTO;
+import isa.project.dto.hotel.RoomDTO;
 import isa.project.exception_handlers.ResourceNotFoundException;
-import isa.project.model.aircompany.AirCompany;
 import isa.project.model.hotel.Hotel;
+import isa.project.model.hotel.Room;
 import isa.project.service.hotel.HotelService;
 
 @RestController
@@ -99,4 +100,24 @@ public class HotelController {
 		return new ResponseEntity<>(new HotelDTO(hotelService.saveHotel(opt.get())), HttpStatus.OK);	
 	}
 	
+	/**
+	 * Adds new room to hotel. 
+	 * @param car
+	 * @return
+	 */
+	//public Room(Integer floor, Integer roomNumber, Integer numberOfBeds, Double price) {
+	@RequestMapping(value="/addRoom/{hotelId}",method=RequestMethod.POST, consumes="application/json")
+	public ResponseEntity<RoomDTO> addRoom(@RequestBody RoomDTO roomDTO, @PathVariable Integer hotelId) throws ResourceNotFoundException{
+		Room room = new Room(roomDTO.getFloor(), roomDTO.getRoomNumber(), roomDTO.getNumberOfBeds(), roomDTO.getPrice());
+		Optional<Hotel> hotel = hotelService.findHotel(hotelId);
+		
+		if (!hotel.isPresent()) {
+			throw new ResourceNotFoundException(hotelId.toString(), "Rent a car company not found");
+		}
+		
+		hotel.get().getRooms().add(room);
+		hotelService.saveHotel(hotel.get());
+		System.out.println("Dodavanje hotela!");
+		return new ResponseEntity<>(new RoomDTO(room), HttpStatus.CREATED);	
+	}
 }

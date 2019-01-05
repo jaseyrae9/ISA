@@ -58,7 +58,7 @@ public class RentACarCompanyController {
 		if (!carCompany.isPresent()) {
 			throw new ResourceNotFoundException(id.toString(), "Rent a car company not found");
 		}
-		return new ResponseEntity<>(carCompany.get(), HttpStatus.OK);
+		return new ResponseEntity<>(carCompany.get(), HttpStatus.OK); // Maybe, DTO
 	}
 	
 	/**

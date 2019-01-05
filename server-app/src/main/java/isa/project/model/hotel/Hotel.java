@@ -1,12 +1,17 @@
 package isa.project.model.hotel;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -22,6 +27,10 @@ public class Hotel {
 	
 	@Column(name = "HotelDescription", nullable = true)
 	private String description;
+	
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "hotel_id")
+	private Set<Room> rooms = new HashSet<Room>();
 
 	public Hotel() {
 		super();
@@ -57,6 +66,14 @@ public class Hotel {
 		this.description = description;
 	}
 	
+	public Set<Room> getRooms() {
+		return rooms;
+	}
+
+	public void setRooms(Set<Room> rooms) {
+		this.rooms = rooms;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(id);
