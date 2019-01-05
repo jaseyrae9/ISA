@@ -8,14 +8,14 @@ import { DataService } from 'src/app/shared/services/data.service'
 @Component({
   selector: 'app-add-hotel-admin',
   templateUrl: './add-hotel-admin.component.html',
-  styleUrls: ['./add-hotel-admin.component.css']
+  styleUrls: ['./add-hotel-admin.component.css',  '../../shared/css/inputField.css']
 })
 export class AddHotelAdminComponent implements OnInit {
   hotels: Hotel[];
 
   private user : User;
 
-  constructor(private hotelService : HotelService,private dataService : DataService) {
+  constructor(private hotelService : HotelService, private dataService : DataService) {
   }
 
   ngOnInit() {

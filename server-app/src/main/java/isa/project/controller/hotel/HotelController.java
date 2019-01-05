@@ -9,12 +9,15 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import isa.project.dto.hotel.HotelDTO;
+import isa.project.exception_handlers.ResourceNotFoundException;
+import isa.project.model.aircompany.AirCompany;
 import isa.project.model.hotel.Hotel;
 import isa.project.service.hotel.HotelService;
 
@@ -40,6 +43,22 @@ public class HotelController {
 		}
 		
 		return new ResponseEntity<>(ret, HttpStatus.OK);
+	}
+	
+	/**
+	 * Returns data about hotel with selected id.
+	 * 
+	 * @param id - id of hotel
+	 * @return
+	 * @throws ResourceNotFoundException - if there is no hotel with selected id
+	 */
+	@RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
+	public ResponseEntity<?> getCompany(@PathVariable Integer id) throws ResourceNotFoundException {
+		Optional<Hotel> hotel = hotelService.findHotel(id);
+		if (!hotel.isPresent()) {
+			throw new ResourceNotFoundException(id.toString(), "Hotel not found");
+		}
+		return new ResponseEntity<>(hotel.get(), HttpStatus.OK);
 	}
 	
 	/**

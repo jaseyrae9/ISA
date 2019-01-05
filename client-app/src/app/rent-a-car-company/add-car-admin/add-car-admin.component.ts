@@ -8,7 +8,7 @@ import { DataService } from 'src/app/shared/services/data.service'
 @Component({
   selector: 'app-add-car-admin',
   templateUrl: './add-car-admin.component.html',
-  styleUrls: ['./add-car-admin.component.css']
+  styleUrls: ['./add-car-admin.component.css',  '../../shared/css/inputField.css']
 })
 export class AddCarAdminComponent implements OnInit {
   carcompanies: RentACarCompany[];

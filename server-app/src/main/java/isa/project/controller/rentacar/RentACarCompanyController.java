@@ -7,12 +7,15 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import isa.project.dto.rentacar.RentACarCompanyDTO;
+import isa.project.exception_handlers.ResourceNotFoundException;
+import isa.project.model.hotel.Hotel;
 import isa.project.model.rentacar.RentACarCompany;
 import isa.project.service.rentacar.RentACarCompanyService;
 
@@ -39,6 +42,22 @@ public class RentACarCompanyController {
 		}
 		
 		return new ResponseEntity<>(ret, HttpStatus.OK);
+	}
+	
+	/**
+	 * Returns data about rent a car company with selected id.
+	 * 
+	 * @param id - id of rent a car company
+	 * @return
+	 * @throws ResourceNotFoundException - if there is no hotel with selected id
+	 */
+	@RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
+	public ResponseEntity<?> getCarCompany(@PathVariable Integer id) throws ResourceNotFoundException {
+		Optional<RentACarCompany> carCompany = rentACarCompanyService.findRentACarCompany(id);
+		if (!carCompany.isPresent()) {
+			throw new ResourceNotFoundException(id.toString(), "Rent a car company not found");
+		}
+		return new ResponseEntity<>(carCompany.get(), HttpStatus.OK);
 	}
 	
 	/**

@@ -1,10 +1,17 @@
 package isa.project.model.rentacar;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -20,6 +27,10 @@ public class RentACarCompany {
 	
 	@Column(name = "RentACarDescription", nullable = true)
 	private String description;
+	
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "rentacar_company_id")
+	private Set<Car> cars = new HashSet<Car>();
 	
 	public RentACarCompany() {
 		super();
@@ -53,6 +64,14 @@ public class RentACarCompany {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Set<Car> getCars() {
+		return cars;
+	}
+
+	public void setCars(Set<Car> cars) {
+		this.cars = cars;
 	}
 
 	@Override

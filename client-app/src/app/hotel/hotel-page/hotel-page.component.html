@@ -1,0 +1,47 @@
+<div style="margin: 20px; padding: 20px">
+  <ul class="nav nav-tabs">
+      <li class = "nav-item active">
+        <a href = "#info" role="tab" data-toggle="tab" class = "nav-link active">
+          <i class="fa fa-info" aria-hidden="true"></i>Info
+        </a>
+      </li>
+      <li class = "nav-item">
+        <a href = "#services" role="tab" data-toggle="tab" class = "nav-link">
+          <i class="fa fa-tag" aria-hidden="true"></i>Services
+        </a>
+      </li>	
+      <li class = "nav-item">
+          <a href = "#rooms" role="tab" data-toggle="tab" class = "nav-link">
+            <i class="fa fa-hotel" aria-hidden="true"></i>Rooms
+          </a>
+      </li>		        
+  </ul>
+
+  <div class="tab-content" id="myTabContent">
+    
+      <div class="tab-pane fade show active p-3" id="info" aria-labelledby="info-tab">
+        <div class="media">
+          <img src="//placehold.it/200x150" class="align-self-start mr-4 pt-2" alt="...">
+          <div class="media-body pr-3">  
+                <h3 class="display-4" align="left">{{hotel.name}}</h3>
+                <p class="text-muted" align="left">Adresa</p>
+                <hr>
+                <div class="text-muted pr-2" align="justify">
+                  <p>{{hotel.description}}</p>
+                </div>
+          </div>
+      </div>
+      </div>
+    
+      <div class="tab-pane fade" id="services" aria-labelledby="services-tab">  		  	
+          <app-additional-services-table></app-additional-services-table>
+      </div>
+
+      <div class="tab-pane fade" id="rooms" aria-labelledby="services-tab">  		  	
+          <div class="container">
+           
+          </div>
+      </div>
+
+  </div>
+</div>

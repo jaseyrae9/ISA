@@ -1,0 +1,23 @@
+<div class="row border rounded align-items-center p-2 mt-2">
+  <div class="col-sm-3 pt-2" align="center">
+    <img src="assets/images/car/car.png" class="rounded-circle">
+  </div>
+  <div class="col-sm-5 pt-2 border-left p-3" align="center">
+      <p style="font-size: 22px;">Car info
+          <br><small class="text-muted">{{car.brand}} {{car.model}}</small>
+          </p>
+          <hr>
+      <div>
+          <i class="fa fa-male" aria-hidden="true"></i>{{car.seatsNumber}} Seats
+          <i class="fa fa-car-side" aria-hidden="true"></i> {{car.doorsNumber}} Doors
+          <br> <i class="fa fa-calendar-alt" aria-hidden="true"></i>{{car.yearOfProduction}} Year
+      </div>
+      
+  </div>
+  <div class="col border-left p-3" align="center">
+      <p style="font-size: 45px; color:  #33cabb;">€{{car.price}}</p>
+      <hr>
+      <button class="btn btn-primary px-4 m-2">Edit</button>
+      <button class="btn btn-primary px-4 m-2">Rent</button>
+  </div>  
+</div>

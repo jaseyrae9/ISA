@@ -47,6 +47,11 @@ import { AirCompanyPageComponent } from './air-company/air-company-page/air-comp
 import { FightBasicInfoComponent } from './air-company/fight-basic-info/fight-basic-info.component';
 import { AddCarAdminComponent } from './rent-a-car-company/add-car-admin/add-car-admin.component';
 import { DataService } from './shared/services/data.service';
+import { HotelPageComponent } from './hotel/hotel-page/hotel-page.component';
+import { CarCompanyPageComponent } from './rent-a-car-company/car-company-page/car-company-page.component';
+import { CarBasicInfoComponent } from './rent-a-car-company/car-basic-info/car-basic-info.component';
+import { NewCarFormComponent } from './rent-a-car-company/new-car-form/new-car-form.component';
+
 
 @NgModule({
   declarations: [
@@ -89,7 +94,11 @@ import { DataService } from './shared/services/data.service';
     AdditionalServicesTableComponent,
     AirCompanyPageComponent,
     FightBasicInfoComponent,
-    AddCarAdminComponent
+    AddCarAdminComponent,
+    HotelPageComponent,
+    CarCompanyPageComponent,
+    CarBasicInfoComponent,
+    NewCarFormComponent
   ],
   imports: [
     BrowserModule, RoutingModule, HttpClientModule, FormsModule

@@ -20,6 +20,10 @@ export class HotelService {
     return this.http.get('http://localhost:8080/hotels/all');
   }
 
+  get(id: string): Observable<any> {
+    return this.http.get('//localhost:8080/hotels/get/' + id);
+  }
+
   add(hotel: Hotel): Observable<Hotel> {
     console.log(hotel);
     return this.http.post<Hotel>('http://localhost:8080/hotels/add', hotel, httpOptions);
@@ -31,4 +35,6 @@ export class HotelService {
     console.log('Za hoted' + hotelId);
     return this.http.post<User>('http://localhost:8080/sys/hotelAdmin/' + hotelId, user, httpOptions);
   }
+
+ 
 }

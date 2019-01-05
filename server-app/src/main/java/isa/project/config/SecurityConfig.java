@@ -83,6 +83,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				"/customers/login",
 				"/aircompanies/all","/aircompanies/get/{id}",
 				"/rent_a_car_companies/all",
-				"/hotels/all", "/hotels/add"); 
+				"/rent_a_car_companies/get/{id}",
+				"/hotels/all", "/hotels/add",
+				"/hotels/get/{id}"); 
 	}
 }

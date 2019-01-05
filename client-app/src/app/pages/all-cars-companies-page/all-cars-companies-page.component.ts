@@ -7,7 +7,7 @@ import { DataService } from 'src/app/shared/services/data.service';
 @Component({
   selector: 'app-all-cars-companies-page',
   templateUrl: './all-cars-companies-page.component.html',
-  styleUrls: ['./all-cars-companies-page.component.css']
+  styleUrls: ['./all-cars-companies-page.component.css', '../../shared/css/inputField.css']
 })
 export class AllCarsCompaniesPageComponent implements OnInit {
   companies: RentACarCompany[];

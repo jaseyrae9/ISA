@@ -8,7 +8,7 @@ import { DataService } from 'src/app/shared/services/data.service'
 @Component({
   selector: 'app-add-air-company-admin',
   templateUrl: './add-air-company-admin.component.html',
-  styleUrls: ['./add-air-company-admin.component.css']
+  styleUrls: ['./add-air-company-admin.component.css',  '../../shared/css/inputField.css']
 })
 export class AddAirCompanyAdminComponent implements OnInit {
   aircompanies: AirCompany[];

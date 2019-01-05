@@ -6,7 +6,7 @@ import { NgxNotificationService } from 'ngx-notification';
 @Component({
   selector: 'app-friend-requests-page',
   templateUrl: './friend-requests-page.component.html',
-  styleUrls: []
+  styleUrls: ['./friend-requests-page.component.css']
 })
 export class FriendRequestsPageComponent implements OnInit {
   requests: Array<Friendship> = new Array();

@@ -6,6 +6,7 @@ import { Hotel } from 'src/app/model/hotel/hotel';
   templateUrl: './hotel-basic-details.component.html',
   styleUrls: ['./hotel-basic-details.component.css']
 })
+
 export class HotelBasicDetailsComponent implements OnInit {
   @Input() hotel: Hotel;
 
