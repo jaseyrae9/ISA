@@ -1,0 +1,28 @@
+<div class="container">
+    <div class="row border rounded align-items-center p-2 mt-3">
+            <div class="col-auto p-2">
+                  <img src="assets/images/user_profile/user.png" class="rounded-circle">
+            </div>
+            <div class="col-auto p-2" align="left">
+                <h3 class="pl-2">{{friendship.user2Firstname}} {{friendship.user2Lastname}}</h3>
+                <span class="text-muted pl-2" *ngIf="friendship.status == 1">wants to be your friend</span>
+            </div>
+            <!-- for friend request --> 
+            <div class="col p-3" align="right" *ngIf="friendship.status == 1">
+              <button class="btn btn-secondary px-4 m-2" (click)="deleteFriendship()">Decline</button>
+              <button class="btn btn-primary px-4 m-2" (click)="acceptFriendRequest()">Accept</button>
+            </div>
+             <!-- for friend --> 
+            <div class="col p-3" align="right" *ngIf="friendship.status == 0">
+                <button class="btn btn-secondary px-4 m-2" (click)="deleteFriendship()">Remove friend</button>
+            </div>
+             <!-- not a friend and no request --> 
+            <div class="col p-3" align="right" *ngIf="friendship.status == 3">
+                <button class="btn btn-secondary px-4 m-2" (click)="sendRequest()">Send request</button>
+            </div>
+            <!-- request sent, but not answered --> 
+            <div class="col p-3" align="right" *ngIf="friendship.status == 2">
+                <span class="text-muted pl-2">waiting for response...</span>
+            </div>
+      </div>
+  </div>

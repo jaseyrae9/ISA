@@ -1,12 +1,16 @@
 package isa.project.service.users;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import isa.project.dto.users.FriendshipDTO;
 import isa.project.exception_handlers.RequestDataException;
 import isa.project.exception_handlers.ResourceNotFoundException;
 import isa.project.model.users.Customer;
@@ -84,7 +88,8 @@ public class FriendshipService {
 			throw new ResourceNotFoundException(from.toString(), "You don't have friend request from this user.");
 		}
 		if (friendship.get().isActive()) {
-			throw new ResourceNotFoundException(from.toString() + toCust.getId().toString(), "You are already friends with this user.");
+			throw new ResourceNotFoundException(from.toString() + toCust.getId().toString(),
+					"You are already friends with this user.");
 		}
 
 		// prihvati zahtev
@@ -113,10 +118,11 @@ public class FriendshipService {
 		// pronadji zahtev
 		Optional<Friendship> friendship = friendshipRepository.findFriendship(fromCust.getId(), toCust.getId());
 		if (!friendship.isPresent()) {
-			throw new ResourceNotFoundException( otherPerson.toString() + toCust.getId().toString(), "You don't have friend request from this user.");
+			throw new ResourceNotFoundException(otherPerson.toString() + toCust.getId().toString(),
+					"You don't have friend request from this user.");
 		}
-		
-		//izbrisi prijateljstvo
+
+		// izbrisi prijateljstvo
 		friendshipRepository.delete(friendship.get());
 	}
 
@@ -126,7 +132,7 @@ public class FriendshipService {
 	 * @param email - email of user asking to see friend requests
 	 * @return - list of friend requests
 	 */
-	public Page<Friendship> getFriendshipRequests(String email, Pageable page){
+	public Page<Friendship> getFriendshipRequests(String email, Pageable page) {
 		Optional<Customer> to = customerRepository.findByEmail(email);
 		return friendshipRepository.findFriendshipRequests(to.get().getId(), page);
 	}
@@ -137,9 +143,37 @@ public class FriendshipService {
 	 * @param email - email of user asking to see friendships
 	 * @return - friendships
 	 */
-	public Page<Friendship> getFriendships(String email, Pageable page){
+	public Page<Friendship> getFriendships(String email, Pageable page) {
 		Optional<Customer> person = customerRepository.findByEmail(email);
 		return friendshipRepository.findActiveFriendships(person.get().getId(), page);
+	}
+
+	/**
+	 * Pretražuje korisnike po zadanom terminu.
+	 * 
+	 * @param searchTerm
+	 * @param email
+	 * @param page
+	 * @return
+	 */
+	public Page<FriendshipDTO> searchCustomers(String searchTerm, String email, Pageable page) {
+		Optional<Customer> userSearching = customerRepository.findByEmail(email);
+		Page<Customer> searchResult = customerRepository.searchByName("%" + searchTerm.toLowerCase() + "%",
+				userSearching.get().getId(), page);
+		
+		List<Friendship> friendships = friendshipRepository.getAll(userSearching.get().getId());
+		List<FriendshipDTO> res = new ArrayList<>();
+		for (Customer c : searchResult.getContent()) {
+			Optional<Friendship> f = friendships.stream().filter(o -> o.getKey().getFrom().equals(c) || o.getKey().getTo().equals(c)).findFirst();
+			if(f.isPresent()) {
+				res.add(new FriendshipDTO(f.get(), f.get().getKey().getFrom().getEmail().equals(email)));
+			}
+			else {
+				res.add(new FriendshipDTO(c));
+			}
+		}
+
+		return new PageImpl<>(res, searchResult.getPageable(), searchResult.getTotalElements());
 	}
 
 }

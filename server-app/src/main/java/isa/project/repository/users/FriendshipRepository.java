@@ -1,5 +1,6 @@
 package isa.project.repository.users;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -51,4 +52,13 @@ public interface FriendshipRepository extends JpaRepository<Friendship, Friendsh
 	 */
 	@Query("SELECT f FROM Friendship f WHERE (f.key.to.id = :user1 AND f.key.from.id = :user2) OR (f.key.to.id = :user2 AND f.key.from.id = :user1)")
 	Optional<Friendship> findFriendship(@Param("user1") Integer user1, @Param("user2") Integer user2);
+
+	/**
+	 * Pronalazi sve postojeće zahteve u koje je uključen trenutni korisnik.
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@Query("SELECT f FROM Friendship f WHERE f.key.to.id = :id OR f.key.from.id = :id")
+	List<Friendship> getAll(Integer id);
 }

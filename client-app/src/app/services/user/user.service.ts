@@ -46,4 +46,12 @@ export class UserService {
   deleteFriendship(fromId: number): Observable<any> {
     return this.http.get('//localhost:8080/friendship/delete/' + fromId);
   }
+
+  sendRequest(to: number): Observable<any> {
+    return this.http.get('//localhost:8080/friendship/sendRequest/' + to);
+  }
+
+  searchCustomers(searchTerm: string, pageNumber: number): Observable<any> {
+    return this.http.get('//localhost:8080/friendship/search?search=' + searchTerm + '&page=' + pageNumber + '&size=2');
+  }
 }

@@ -1,6 +1,48 @@
 <div> 
-      
-  <p> Find friends. </p>
-      
+ 
+  <div class="container align-items-center">
+  <form class="form-inline row align-items-center mt-3">
+      <div class="input-group col">
+        <div class="input-group-prepend">
+            <span class="input-group-text">
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </span>
+        </div>
+        <input type="text" class="form-control" placeholder="Search..." name="search" [(ngModel)]="searchTerm">
+        <div class="input-group-append">
+                <button type="button" class="btn btn-primary" (click)="search()">Search</button>
+        </div>
+      </div>
+  </form>
+  </div>
+
+  <div *ngIf="searchResult.length == 0 else requestsDiv">
+          <p> No users found.</p>
+  </div>
+  <ng-template #requestsDiv>
+          <div >
+          <app-friendship-display *ngFor="let friendship of searchResult" [friendship]= 'friendship' (friendshipEvent)="friendEvent($event)"></app-friendship-display>
+               
+          <nav style="padding-top: 20px">
+              <ul class="pagination" style="justify-content: center">
+                      <li class="page-item">
+                              <a class="page-link" aria-label="Previous" (click)="arrowAction(-1)">
+                              <span aria-hidden="true">&laquo;</span>
+                              <span class="sr-only">Previous</span>
+                              </a>
+                      </li>
+                      <li class="page-item" *ngFor="let item of pages; let i = index" [ngClass]="{'active': i == pageNumber}">
+                              <a class="page-link" (click)="changePage(i)"> {{i + 1}} </a>
+                      </li>
+                      <li class="page-item">
+                              <a class="page-link" aria-label="Next" (click)="arrowAction(1)">
+                              <span aria-hidden="true">&raquo;</span>
+                              <span class="sr-only">Next</span>
+                              </a>
+                      </li>
+              </ul>
+           </nav>
+         </div>
+  </ng-template>
 </div>
  

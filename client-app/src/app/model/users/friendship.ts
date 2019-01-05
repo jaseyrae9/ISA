@@ -1,10 +1,10 @@
 export class Friendship {
-    fromId: number;
-    toId: number;
-    fromFirstname: string;
-    fromLastname: string;
-    toFirstname: string;
-    toLastname: string;
-    active: boolean;
+    user1Id: number;
+    user1Firstname: string;
+    user1Lastname: string;
+    user2Id: number;
+    user2Firstname: string;
+    user2Lastname: string;
+    status: number; // 0 - prijatelji, 1 - primljen zahtev, 2 - poslan zahtev, 3 - nista
 }
 

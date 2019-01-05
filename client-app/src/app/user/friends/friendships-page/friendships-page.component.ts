@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Friendship } from 'src/app/model/users/friendship';
 import { UserService } from 'src/app/services/user/user.service';
 import { NgxNotificationService } from 'ngx-notification';
@@ -12,8 +12,9 @@ export class FriendshipsPageComponent implements OnInit {
   friendships: Array<Friendship> = new Array();
   pageNumber = 0;
   pages: Array<Number> = new Array();
+  @Output() friendshipEvent: EventEmitter<Object> = new EventEmitter();
 
-  constructor(private userService: UserService, private ngxNotificationService: NgxNotificationService) { }
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
     this.loadFriends();
@@ -38,18 +39,23 @@ export class FriendshipsPageComponent implements OnInit {
   }
 
   arrowAction(i: number, event: any) {
-    if ( this.pageNumber + i >= 0 && this.pageNumber + i <= this.pages.length) {
+    if ( this.pageNumber + i >= 0 && this.pageNumber + i < this.pages.length) {
       this.pageNumber += i;
       this.loadFriends();
     }
   }
 
   friendRemoved(data) {
-    // tslint:disable-next-line:max-line-length
-    this.ngxNotificationService.sendMessage(data.fromFirstname + ' ' + data.fromLastname + ' is no longer your friend.', 'dark', 'bottom-right');
-    const index: number = this.friendships.indexOf(data);
-    if (index !== -1) {
-        this.loadFriends();
+    this.reloadIfNeeded(data);
+    this.friendshipEvent.emit(data);
+  }
+
+  /**
+   * Ucitavanje ako je potrebno
+   */
+  reloadIfNeeded(data) {
+    if ( data['event'] === 0 || data['event'] === 1) {
+      this.loadFriends();
     }
   }
 

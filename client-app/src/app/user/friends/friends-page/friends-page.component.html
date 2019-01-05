@@ -19,11 +19,9 @@
   </ul>
 
   <div class="tab-content">          
-    <app-friend-requests-page id="requests" role="tabpanel" class="tab-pane active" (friendRequestAccepted)="friendAdded($event)"></app-friend-requests-page>        
-        
-    <app-friendships-page id="friends" role="tabpanel" class="tab-pane"></app-friendships-page>          
-          
-    <app-find-friends-page id="newFriends" role="tabpanel" class="tab-pane"></app-find-friends-page>       
+    <app-friend-requests-page id="requests" role="tabpanel" class="tab-pane active" (friendRequestEvent)="requestPageEvent($event)"></app-friend-requests-page>  
+    <app-friendships-page id="friends" role="tabpanel" class="tab-pane" (friendshipEvent)="friendPageEvent($event)"></app-friendships-page>   
+    <app-find-friends-page id="newFriends" role="tabpanel" class="tab-pane" (friendshipEvent)="searchPageEvent($event)"></app-find-friends-page>       
   </div>
  
 

@@ -15,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import isa.project.dto.users.FriendshipDTO;
@@ -48,7 +49,7 @@ public class FriendshipController {
 			throws ResourceNotFoundException, RequestDataException {
 		String email = tokenUtils.getEmailFromToken(tokenUtils.getToken(request));
 		Friendship friendship = friendshipService.sendFriendRequest(email, to);
-		return ResponseEntity.ok(new FriendshipDTO(friendship));
+		return ResponseEntity.ok(new FriendshipDTO(friendship, true));
 	}
 
 	/**
@@ -66,7 +67,7 @@ public class FriendshipController {
 		Page<Friendship> requests = friendshipService.getFriendshipRequests(email, page);
 		List<FriendshipDTO> friendshipsDTO = new ArrayList<>();
 		for (Friendship req : requests) {
-			friendshipsDTO.add(new FriendshipDTO(req));
+			friendshipsDTO.add(new FriendshipDTO(req, false));
 		}
 		
 		Page<FriendshipDTO> ret = new PageImpl<>(friendshipsDTO, requests.getPageable(), requests.getTotalElements());
@@ -87,7 +88,7 @@ public class FriendshipController {
 			throws ResourceNotFoundException {
 		String email = tokenUtils.getEmailFromToken(tokenUtils.getToken(request));
 		Friendship friendship = friendshipService.acceptRequest(from, email);
-		return ResponseEntity.ok(new FriendshipDTO(friendship));
+		return ResponseEntity.ok(new FriendshipDTO(friendship, false));
 	}
 
 	/**
@@ -119,12 +120,22 @@ public class FriendshipController {
 		String email = tokenUtils.getEmailFromToken(tokenUtils.getToken(request));
 		Page<Friendship> friends = friendshipService.getFriendships(email, page);
 		List<FriendshipDTO> friendshipsDTO = new ArrayList<>();
-		for (Friendship req : friends) {
-			friendshipsDTO.add(new FriendshipDTO(req));
+		for (Friendship freindship : friends) {
+			friendshipsDTO.add(new FriendshipDTO(freindship, email.equals(freindship.getKey().getFrom().getEmail())));
 		}
 		
 		Page<FriendshipDTO> ret = new PageImpl<>(friendshipsDTO, friends.getPageable(), friends.getTotalElements());
 		return ResponseEntity.ok(ret);
+	}
+	
+	@PreAuthorize("hasAnyRole('CUSTOMER')")
+	@RequestMapping(value = "/search", method = RequestMethod.GET)
+	public ResponseEntity<?> searchForFriends(@RequestParam("search") String searchTerm, HttpServletRequest request, Pageable page){
+		if(searchTerm == null) {
+			searchTerm = "";
+		}
+		String email = tokenUtils.getEmailFromToken(tokenUtils.getToken(request));
+		return ResponseEntity.ok(friendshipService.searchCustomers(searchTerm, email, page));
 	}
 
 }

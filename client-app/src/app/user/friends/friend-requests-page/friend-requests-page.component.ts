@@ -12,7 +12,7 @@ export class FriendRequestsPageComponent implements OnInit {
   requests: Array<Friendship> = new Array();
   pageNumber = 0;
   pages: Array<Number> = new Array();
-  @Output() friendRequestAccepted: EventEmitter<Friendship> = new EventEmitter();
+  @Output() friendRequestEvent: EventEmitter<Object> = new EventEmitter();
 
   constructor(private userService: UserService, private ngxNotificationService: NgxNotificationService) { }
 
@@ -40,24 +40,26 @@ export class FriendRequestsPageComponent implements OnInit {
   }
 
   arrowAction(i: number, event: any) {
-    if ( this.pageNumber + i >= 0 && this.pageNumber + i <= this.pages.length) {
+    if ( this.pageNumber + i >= 0 && this.pageNumber + i < this.pages.length) {
       this.pageNumber += i;
       this.loadRequests();
     }
   }
 
+  /**
+   * Reakcija na prihvatanje/odbijanje zahteva na stranici
+   */
   requestEvent(data) {
-    const index: number = this.requests.indexOf(data['request']);
-    const f: Friendship = data['request'];
-    if (data['action'] === 0) {
-      this.ngxNotificationService.sendMessage(f.fromFirstname + ' ' + f.fromLastname + ' is now your friend!', 'dark', 'bottom-right');
-      this.friendRequestAccepted.emit(f);
-    } else {
-      this.ngxNotificationService.sendMessage(f.fromFirstname + ' ' + f.fromLastname + ' declined.', 'light', 'bottom-right');
-    }
-    if (index !== -1) {
-        this.loadRequests();
-    }
+    this.reloadIfNeeded(data);
+    this.friendRequestEvent.emit(data);
   }
 
+  /**
+   * Ucitavanje ponovo, ako se u okviru prikaza nalazilo dato prijateljstvo
+   */
+  reloadIfNeeded(data) {
+    if (data['event'] === 0 || data['event'] === 1) {
+      this.loadRequests();
+    }
+  }
 }

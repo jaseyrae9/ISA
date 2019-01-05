@@ -35,12 +35,11 @@ import { NewCarCompanyFormComponent } from './rent-a-car-company/new-car-company
 import { CarCompanyBasicDetailsComponent} from './rent-a-car-company/car-company-basic-details/car-company-basic-details.component';
 import { AddHotelAdminComponent } from './hotel/add-hotel-admin/add-hotel-admin.component';
 import { FriendsPageComponent } from './user/friends/friends-page/friends-page.component';
-import { FriendRequestComponent } from './user/friends/friend-request/friend-request.component';
+import { FriendshipDisplayComponent } from './user/friends/friendship-display/friendship-display.component';
 import { AddAirCompanyAdminComponent } from './air-company/add-air-company-admin/add-air-company-admin.component';
 import { FriendRequestsPageComponent } from './user/friends/friend-requests-page/friend-requests-page.component';
 import { FriendshipsPageComponent } from './user/friends/friendships-page/friendships-page.component';
 import { FindFriendsPageComponent } from './user/friends/find-friends-page/find-friends-page.component';
-import { FriendshipComponent } from './user/friends/friendship/friendship.component';
 import { AdditionalServiceComponent } from './shared/components/additional-service/additional-service.component';
 import { AdditionalServicesTableComponent } from './shared/components/additional-services-table/additional-services-table.component';
 import { AirCompanyPageComponent } from './air-company/air-company-page/air-company-page.component';
@@ -90,12 +89,11 @@ import { NewRoomFormComponent } from './hotel/new-room-form/new-room-form.compon
     HotelBasicDetailsComponent,
     AddHotelAdminComponent,
     FriendsPageComponent,
-    FriendRequestComponent,
+    FriendshipDisplayComponent,
     AddAirCompanyAdminComponent,
     FriendRequestsPageComponent,
     FriendshipsPageComponent,
     FindFriendsPageComponent,
-    FriendshipComponent,
     AdditionalServiceComponent,
     AdditionalServicesTableComponent,
     AirCompanyPageComponent,

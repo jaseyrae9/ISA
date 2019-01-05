@@ -4,7 +4,7 @@
     </div>
     <ng-template #requestsDiv>
             <div >
-            <app-friendship *ngFor="let friendship of friendships" [friendship]= 'friendship' (friendshipRemoved)="friendRemoved($event)"></app-friendship>
+            <app-friendship-display *ngFor="let friendship of friendships" [friendship]= 'friendship' (friendshipEvent)="friendRemoved($event)"></app-friendship-display>
                  
             <nav style="padding-top: 20px">
                 <ul class="pagination" style="justify-content: center">

@@ -1,5 +1,6 @@
 package isa.project.dto.users;
 
+import isa.project.model.users.Customer;
 import isa.project.model.users.friendship.Friendship;
 import isa.project.model.users.friendship.FriendshipKey;
 
@@ -8,79 +9,105 @@ import isa.project.model.users.friendship.FriendshipKey;
  *
  */
 public class FriendshipDTO {
-	private Integer fromId;
-	private Integer toId;
-	private String fromFirstname;
-	private String fromLastname;
-	private String toFirstname;
-	private String toLastname;
-	private Boolean active;
-
-	public FriendshipDTO(Friendship friendship) {
+	private Integer user1Id;
+	private Integer user2Id;
+	private String user1Firstname;
+	private String user1Lastname;
+	private String user2Firstname;
+	private String user2Lastname;
+	//0 - prijatelji, 1 - primljen zahtev, 2 - poslan zahtev, 3 - nista
+	private int status;
+	
+	public FriendshipDTO(Friendship friendship, boolean isSender) {
 		FriendshipKey key = friendship.getKey();
-		fromId = key.getFrom().getId();
-		toId = key.getTo().getId();
-		fromFirstname = key.getFrom().getFirstName();
-		fromLastname = key.getFrom().getLastName();
-		toFirstname = key.getTo().getFirstName();
-		toLastname = key.getTo().getLastName();
-		active = friendship.isActive();
+		if(isSender) {
+			user1Id = key.getFrom().getId();
+			user1Firstname = key.getFrom().getFirstName();
+			user1Lastname = key.getFrom().getLastName();
+			user2Id = key.getTo().getId();
+			user2Firstname = key.getTo().getFirstName();
+			user2Lastname = key.getTo().getLastName();
+		}
+		else {
+			user2Id = key.getFrom().getId();
+			user2Firstname = key.getFrom().getFirstName();
+			user2Lastname = key.getFrom().getLastName();
+			user1Id = key.getTo().getId();
+			user1Firstname = key.getTo().getFirstName();
+			user1Lastname = key.getTo().getLastName();
+		}
+		
+		if(friendship.isActive()) {
+			status = 0;
+		}
+		else if(!isSender) {
+			status = 1;
+		}
+		else {
+			status = 2;
+		}		
+	}
+	
+	public FriendshipDTO(Customer customer) {
+		user2Id = customer.getId();
+		user2Firstname = customer.getFirstName();
+		user2Lastname = customer.getLastName();
+		status = 3;
 	}
 
-	public Integer getFromId() {
-		return fromId;
+	public Integer getUser1Id() {
+		return user1Id;
 	}
 
-	public void setFromId(Integer fromId) {
-		this.fromId = fromId;
+	public void setUser1Id(Integer user1Id) {
+		this.user1Id = user1Id;
 	}
 
-	public Integer getToId() {
-		return toId;
+	public Integer getUser2Id() {
+		return user2Id;
 	}
 
-	public void setToId(Integer toId) {
-		this.toId = toId;
+	public void setUser2Id(Integer user2Id) {
+		this.user2Id = user2Id;
 	}
 
-	public String getFromFirstname() {
-		return fromFirstname;
+	public String getUser1Firstname() {
+		return user1Firstname;
 	}
 
-	public void setFromFirstname(String fromFirstname) {
-		this.fromFirstname = fromFirstname;
+	public void setUser1Firstname(String user1Firstname) {
+		this.user1Firstname = user1Firstname;
 	}
 
-	public String getFromLastname() {
-		return fromLastname;
+	public String getUser1Lastname() {
+		return user1Lastname;
 	}
 
-	public void setFromLastname(String fromLastname) {
-		this.fromLastname = fromLastname;
+	public void setUser1Lastname(String user1Lastname) {
+		this.user1Lastname = user1Lastname;
 	}
 
-	public String getToFirstname() {
-		return toFirstname;
+	public String getUser2Firstname() {
+		return user2Firstname;
 	}
 
-	public void setToFirstname(String toFirstname) {
-		this.toFirstname = toFirstname;
+	public void setUser2Firstname(String user2Firstname) {
+		this.user2Firstname = user2Firstname;
 	}
 
-	public String getToLastname() {
-		return toLastname;
+	public String getUser2Lastname() {
+		return user2Lastname;
 	}
 
-	public void setToLastname(String toLastname) {
-		this.toLastname = toLastname;
+	public void setUser2Lastname(String user2Lastname) {
+		this.user2Lastname = user2Lastname;
 	}
 
-	public Boolean getActive() {
-		return active;
+	public int getStatus() {
+		return status;
 	}
 
-	public void setActive(Boolean active) {
-		this.active = active;
-	}
-
+	public void setStatus(int status) {
+		this.status = status;
+	}	
 }

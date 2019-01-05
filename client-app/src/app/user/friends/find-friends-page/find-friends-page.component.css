@@ -1,0 +1,14 @@
+.page-item.active .page-link {
+    color: #fff;
+    background-color: #33cabb;
+    border-color: #33cabb;
+}
+
+.fa{
+    color:#33cabb;
+    width: 15px;
+}
+
+.btn-primary{
+    background-color: #33cabb;
+}
