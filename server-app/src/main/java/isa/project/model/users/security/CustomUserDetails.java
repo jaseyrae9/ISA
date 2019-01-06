@@ -1,4 +1,4 @@
-package isa.project.model;
+package isa.project.model.users.security;
 
 import java.util.Collection;
 import java.util.stream.Collectors;

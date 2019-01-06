@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
 
 import isa.project.dto.users.UserDTO;
 import isa.project.model.hotel.Hotel;
+import isa.project.model.users.security.Authority;
 
 @Entity
 @DiscriminatorValue("HA")

@@ -17,8 +17,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import isa.project.dto.aircompany.AirCompanyDTO;
+import isa.project.dto.aircompany.DestinationDTO;
 import isa.project.exception_handlers.ResourceNotFoundException;
 import isa.project.model.aircompany.AirCompany;
+import isa.project.model.aircompany.Destination;
+import isa.project.model.shared.AdditionalService;
 import isa.project.service.aircompany.AirCompanyService;
 
 @RestController
@@ -52,7 +55,8 @@ public class AirCompanyController {
 	 * 
 	 * @param id - id of air company
 	 * @return
-	 * @throws ResourceNotFoundException - if there is no aircompany with selected id
+	 * @throws ResourceNotFoundException - if there is no aircompany with selected
+	 *                                   id
 	 */
 	@RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
 	public ResponseEntity<?> getCompany(@PathVariable Integer id) throws ResourceNotFoundException {
@@ -84,6 +88,7 @@ public class AirCompanyController {
 	 * @return
 	 * @throws ResourceNotFoundException - if air company if not found
 	 */
+	@PreAuthorize("hasAnyRole('AIRADMIN')")
 	@RequestMapping(value = "/edit", method = RequestMethod.PUT, consumes = "application/json")
 	public ResponseEntity<AirCompanyDTO> editAvioCompany(@Valid @RequestBody AirCompanyDTO company)
 			throws ResourceNotFoundException {
@@ -102,6 +107,38 @@ public class AirCompanyController {
 		});
 
 		return new ResponseEntity<>(new AirCompanyDTO(airCompanyService.saveAirCompany(opt.get())), HttpStatus.OK);
+	}
+
+	/**
+	 * Dodaje novu destinaciju na listu destinacija avio kompanije.
+	 * 
+	 * @param destinationDTO - informacije o destinaciji
+	 * @param id - id avio kompanije kojoj se dodaje destinacija
+	 * @return
+	 * @throws ResourceNotFoundException - ako se ne pronađe avio kompanija kojoj se dodaje destinacija
+	 */
+	@PreAuthorize("hasAnyRole('AIRADMIN')")
+	@RequestMapping(value = "/addDestination/{id}", method = RequestMethod.POST, consumes = "application/json")
+	public ResponseEntity<?> addDestinatin(@Valid @RequestBody DestinationDTO destinationDTO, @PathVariable Integer id)
+			throws ResourceNotFoundException {
+		Destination destination = airCompanyService.addDestination(destinationDTO, id);
+		return new ResponseEntity<>(new DestinationDTO(destination), HttpStatus.OK);
+	}
+	
+	/**
+	 * Dodaje novu informaciju o ceni prevoza prtljaga.
+	 * 
+	 * @param destinationDTO - informacije o prtljagu
+	 * @param id - id avio kompanije kojoj se dodaje destinacija
+	 * @return
+	 * @throws ResourceNotFoundException - ako se ne pronađe avio kompanija kojoj se dodaje destinacija
+	 */
+	@PreAuthorize("hasAnyRole('AIRADMIN')")
+	@RequestMapping(value = "/addBaggageInformation/{id}", method = RequestMethod.POST, consumes = "application/json")
+	public ResponseEntity<?> addBaggageInformation(@Valid @RequestBody AdditionalService baggageInformation, @PathVariable Integer id)
+			throws ResourceNotFoundException {
+		AdditionalService service = airCompanyService.addBaggageInformation(baggageInformation, id);
+		return new ResponseEntity<>(service, HttpStatus.OK);
 	}
 
 }

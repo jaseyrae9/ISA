@@ -12,7 +12,7 @@ insert into rent_a_car_company (id, rentacar_company_name, rentacar_description)
 INSERT INTO authority (id, name) VALUES (1, 'CUSTOMER');
 INSERT INTO authority (id, name) VALUES (2, 'SYS');
 INSERT INTO authority (id, name) VALUES (3, 'HOTELADMIN');
-INSERT INTO authority (id, name) VALUES (4, 'AVIOADMIN');
+INSERT INTO authority (id, name) VALUES (4, 'AIRADMIN');
 INSERT INTO authority (id, name) VALUES (5, 'CARADMIN');
 
 insert into car (id,brand,doors_number,model, price, seats_number, year_of_production, rentacar_company_id) values (500, 'Fiat', 5, 'Punto 1.2', 39, 5, 2010, 100);
@@ -20,6 +20,8 @@ insert into car (id,brand,doors_number,model, price, seats_number, year_of_produ
 
 INSERT INTO users (type, id, address, confirmed_mail, email, first_name, last_name, last_password_reset_date, password, phone_number, air_company_id, hotel_id, rent_a_car_company_id)
 values ('SYS', 1000, 'FTN, Novi Sad', 1, 'admin@admin.com', 'Admin', 'Admin', '2018-12-26 23:09:42','$2a$10$QQxHVraAtUHQqf266vLzfuNLsF5XVS7W4AnJatRZR2gtQpk1LMD0K', 'admin phone', NULL, NULL, NULL);
+INSERT INTO users (type, id, address, confirmed_mail, email, first_name, last_name, last_password_reset_date, password, phone_number, air_company_id, hotel_id, rent_a_car_company_id)
+values ('ACA', 1001, 'FTN, Novi Sad', 1, 'airadmin@admin.com', 'Air', 'Admin', '2018-12-26 23:09:42','$2a$10$QQxHVraAtUHQqf266vLzfuNLsF5XVS7W4AnJatRZR2gtQpk1LMD0K', 'air admin phone', 100, NULL, NULL);
 INSERT INTO users (type, id, address, confirmed_mail, email, first_name, last_name, last_password_reset_date, password, phone_number, air_company_id, hotel_id, rent_a_car_company_id)
 values ('CUST', 2000, 'Marka Miljanova 7b, Novi Sad', 1, 'milicat228@gmail.com', 'Milica', 'Todorovic', '2018-12-26 23:09:42','$2a$10$QHSpHaeAyVOiqKEf5WnaK.tME9/IuK6RTwMicLrrdqCc9i1zDrX3y', '0601322175', NULL, NULL, NULL);
 INSERT INTO users (type, id, address, confirmed_mail, email, first_name, last_name, last_password_reset_date, password, phone_number, air_company_id, hotel_id, rent_a_car_company_id)
@@ -32,6 +34,7 @@ INSERT INTO users (type, id, address, confirmed_mail, email, first_name, last_na
 values ('CUST', 2004, 'Marka Miljanova 7b', 1, 'lanat98@gmail.com', 'Milana', 'Todorovic', '2018-12-26 23:09:42','$2a$10$QHSpHaeAyVOiqKEf5WnaK.tME9/IuK6RTwMicLrrdqCc9i1zDrX3y', '060134565', NULL, NULL, NULL);
 
 INSERT INTO user_authority ( user_id, authority_id ) VALUES (1000, 2);
+INSERT INTO user_authority ( user_id, authority_id ) VALUES (1001, 4);
 INSERT INTO user_authority ( user_id, authority_id ) VALUES (2000, 1);
 INSERT INTO user_authority ( user_id, authority_id ) VALUES (2001, 1);
 INSERT INTO user_authority ( user_id, authority_id ) VALUES (2002, 1);

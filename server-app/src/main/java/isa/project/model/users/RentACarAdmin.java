@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
 
 import isa.project.dto.users.UserDTO;
 import isa.project.model.rentacar.RentACarCompany;
+import isa.project.model.users.security.Authority;
 
 @Entity
 @DiscriminatorValue("RACA")

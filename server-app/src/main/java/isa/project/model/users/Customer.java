@@ -6,6 +6,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 import isa.project.dto.users.UserDTO;
+import isa.project.model.users.security.Authority;
 
 @Entity
 @DiscriminatorValue("CUST")

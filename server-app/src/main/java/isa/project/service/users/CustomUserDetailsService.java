@@ -14,8 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import isa.project.dto.users.UserProfileDTO;
-import isa.project.model.CustomUserDetails;
 import isa.project.model.users.User;
+import isa.project.model.users.security.CustomUserDetails;
 import isa.project.repository.users.UserRepository;
 
 @Service

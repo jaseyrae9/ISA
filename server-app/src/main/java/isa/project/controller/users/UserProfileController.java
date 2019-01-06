@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import isa.project.dto.users.AuthenticationResponse;
 import isa.project.dto.users.ChangePasswordDTO;
 import isa.project.dto.users.UserProfileDTO;
-import isa.project.model.json.AuthenticationResponse;
 import isa.project.model.users.User;
 import isa.project.security.TokenUtils;
 import isa.project.service.users.CustomUserDetailsService;

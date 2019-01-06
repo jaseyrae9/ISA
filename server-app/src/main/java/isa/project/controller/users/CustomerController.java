@@ -27,10 +27,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 
+import isa.project.dto.users.AuthenticationResponse;
 import isa.project.dto.users.UserDTO;
-import isa.project.model.VerificationToken;
-import isa.project.model.json.AuthenticationResponse;
 import isa.project.model.users.Customer;
+import isa.project.model.users.security.VerificationToken;
 import isa.project.security.TokenUtils;
 import isa.project.security.auth.JwtAuthenticationRequest;
 import isa.project.service.EmailService;

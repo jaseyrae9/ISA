@@ -1,4 +1,4 @@
-package isa.project.model.json;
+package isa.project.dto.users;
 
 import java.io.Serializable;
 

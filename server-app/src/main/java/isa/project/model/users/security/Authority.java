@@ -1,4 +1,4 @@
-package isa.project.model.users;
+package isa.project.model.users.security;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

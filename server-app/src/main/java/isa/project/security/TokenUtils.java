@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import isa.project.model.CustomUserDetails;
+import isa.project.model.users.security.CustomUserDetails;
 
 @Component
 public class TokenUtils {

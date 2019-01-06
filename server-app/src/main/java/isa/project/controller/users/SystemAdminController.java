@@ -103,7 +103,7 @@ public class SystemAdminController {
 			@Valid @RequestBody UserDTO userDTO) {
 		// create new air company administrator
 		AirCompanyAdmin airCompanyAdmin = new AirCompanyAdmin(userDTO);
-		airCompanyAdmin.addAuthority(authorityService.findByName("AVIOADMIN").get());
+		airCompanyAdmin.addAuthority(authorityService.findByName("AIRADMIN").get());
 
 		// set air company
 		Optional<AirCompany> airCompany = airCompanyService.findAircompany(airCompanyId);

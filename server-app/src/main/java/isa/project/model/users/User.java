@@ -24,6 +24,8 @@ import javax.persistence.Table;
 
 import org.joda.time.DateTime;
 
+import isa.project.model.users.security.Authority;
+
 @Entity
 @Table(name="users")
 @Inheritance(strategy=SINGLE_TABLE)

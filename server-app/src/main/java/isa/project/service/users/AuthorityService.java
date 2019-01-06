@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import isa.project.model.users.Authority;
+import isa.project.model.users.security.Authority;
 import isa.project.repository.users.AuthorityRepository;
 
 @Service

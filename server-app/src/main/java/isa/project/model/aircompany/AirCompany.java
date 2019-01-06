@@ -1,13 +1,19 @@
 package isa.project.model.aircompany;
 
+import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import isa.project.model.shared.AdditionalService;
 
 
 @Entity
@@ -22,6 +28,12 @@ public class AirCompany {
 	
 	@Column(nullable = true)
 	private String description;
+	
+	@OneToMany(mappedBy = "airCompany", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Destination> destinations;
+	
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<AdditionalService> baggageInformation;
 	
 	public AirCompany() {
 		super();
@@ -55,6 +67,22 @@ public class AirCompany {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public List<Destination> getDestinations() {
+		return destinations;
+	}
+
+	public void setDestinations(List<Destination> destinations) {
+		this.destinations = destinations;
+	}	
+
+	public List<AdditionalService> getBaggageInformation() {
+		return baggageInformation;
+	}
+
+	public void setBaggageInformation(List<AdditionalService> baggageInformation) {
+		this.baggageInformation = baggageInformation;
 	}
 
 	@Override
