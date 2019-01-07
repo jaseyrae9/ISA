@@ -4,7 +4,7 @@ export class Hotel {
     id: number;
     name: string;
     description: string;
-    rooms : Room[];
+    rooms: Room[];
 
     constructor(id?: number, name?: string, description?: string, rooms?: Room[]) {
         this.id = id;

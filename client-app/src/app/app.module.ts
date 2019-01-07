@@ -8,11 +8,11 @@ import { NgxNotificationComponent } from 'ngx-notification';
 import { JwtInterceptor } from './auth/auth-interceptor';
 
 import { AppComponent } from './app.component';
-import { NavigationComponent } from './basic-components/navigation/navigation.component';
-import { BannerComponent } from './basic-components/banner/banner.component';
-import { FooterComponent } from './basic-components/footer/footer.component';
+import { NavigationComponent } from './components/basic-components/navigation/navigation.component';
+import { BannerComponent } from './components/basic-components/banner/banner.component';
+import { FooterComponent } from './components/basic-components/footer/footer.component';
 import { FlightSearchPageComponent } from './pages/flight-search-page/flight-search-page.component';
-import { AllAvioCompaniesPageComponent } from './pages/all-avio-companies-page/all-avio-companies-page.component';
+import { AllAirCompaniesPageComponent } from './pages/all-air-companies-page/all-air-companies-page.component';
 import { RoomSearchPageComponent } from './pages/room-search-page/room-search-page.component';
 import { AllHotelsPageComponent } from './pages/all-hotels-page/all-hotels-page.component';
 import { AllCarsCompaniesPageComponent } from './pages/all-cars-companies-page/all-cars-companies-page.component';
@@ -20,42 +20,44 @@ import { CarSearchPageComponent } from './pages/car-search-page/car-search-page.
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { RoutingModule } from './app-routing.module';
 import { HotelService } from './services/hotel/hotel.service';
-import { ProfileComponent } from './user/profile/profile.component';
-import { ChangePasswordFormComponent } from './user/change-password-form/change-password-form.component';
-import { LoginFormComponent } from './user/login-form/login-form.component';
-import { RegisterFormComponent } from './user/register-form/register-form.component';
-import { EditProfileFormComponent } from './user/edit-profile-form/edit-profile-form.component';
+import { ProfileComponent } from './components/user/profile/profile.component';
+import { ChangePasswordFormComponent } from './components/user/change-password-form/change-password-form.component';
+import { LoginFormComponent } from './components/user/login-form/login-form.component';
+import { RegisterFormComponent } from './components/user/register-form/register-form.component';
+import { EditProfileFormComponent } from './components/user/edit-profile-form/edit-profile-form.component';
 import { UserService } from './services/user/user.service';
-import { NewCompanyFormComponent } from './air-company/new-company-form/new-company-form.component';
-import { CompanyBasicDetailsComponent } from './air-company/company-basic-details/company-basic-details.component';
+import { NewAirCompanyFormComponent } from './components/air-company/new-air-company-form/new-air-company-form.component';
+import { CompanyBasicDetailsComponent } from './components/air-company/company-basic-details/company-basic-details.component';
 import { AirCompanyService } from './services/air-company/air-company.service';
-import { NewHotelFormComponent } from './hotel/new-hotel-form/new-hotel-form.component';
-import { HotelBasicDetailsComponent } from './hotel/hotel-basic-details/hotel-basic-details.component';
-import { NewCarCompanyFormComponent } from './rent-a-car-company/new-car-company-form/new-car-company-form.component';
-import { CarCompanyBasicDetailsComponent} from './rent-a-car-company/car-company-basic-details/car-company-basic-details.component';
-import { AddHotelAdminComponent } from './hotel/add-hotel-admin/add-hotel-admin.component';
-import { FriendsPageComponent } from './user/friends/friends-page/friends-page.component';
-import { FriendshipDisplayComponent } from './user/friends/friendship-display/friendship-display.component';
-import { AddAirCompanyAdminComponent } from './air-company/add-air-company-admin/add-air-company-admin.component';
-import { FriendRequestsPageComponent } from './user/friends/friend-requests-page/friend-requests-page.component';
-import { FriendshipsPageComponent } from './user/friends/friendships-page/friendships-page.component';
-import { FindFriendsPageComponent } from './user/friends/find-friends-page/find-friends-page.component';
-import { AdditionalServiceComponent } from './shared/components/additional-service/additional-service.component';
-import { AdditionalServicesTableComponent } from './shared/components/additional-services-table/additional-services-table.component';
-import { AirCompanyPageComponent } from './air-company/air-company-page/air-company-page.component';
-import { FightBasicInfoComponent } from './air-company/fight-basic-info/fight-basic-info.component';
-import { AddCarAdminComponent } from './rent-a-car-company/add-car-admin/add-car-admin.component';
-import { DataService } from './shared/services/data.service';
-import { HotelPageComponent } from './hotel/hotel-page/hotel-page.component';
-import { CarCompanyPageComponent } from './rent-a-car-company/car-company-page/car-company-page.component';
-import { CarBasicInfoComponent } from './rent-a-car-company/car-basic-info/car-basic-info.component';
-import { NewCarFormComponent } from './rent-a-car-company/new-car-form/new-car-form.component';
-import { EditHotelFormComponent } from './hotel/edit-hotel-form/edit-hotel-form.component';
-import { EditCarCompanyFormComponent } from './rent-a-car-company/edit-car-company-form/edit-car-company-form.component';
-import { EditCompanyFormComponent } from './air-company/edit-company-form/edit-company-form.component';
-import { EditCarFormComponent } from './rent-a-car-company/edit-car-form/edit-car-form.component';
-import { RoomBasicInfoComponent } from './hotel/room-basic-info/room-basic-info.component';
-import { NewRoomFormComponent } from './hotel/new-room-form/new-room-form.component';
+import { NewHotelFormComponent } from './components/hotel/new-hotel-form/new-hotel-form.component';
+import { HotelBasicDetailsComponent } from './components/hotel/hotel-basic-details/hotel-basic-details.component';
+import { NewCarCompanyFormComponent } from './components/rent-a-car-company/new-car-company-form/new-car-company-form.component';
+// tslint:disable-next-line:max-line-length
+import { CarCompanyBasicDetailsComponent} from './components/rent-a-car-company/car-company-basic-details/car-company-basic-details.component';
+import { AddHotelAdminComponent } from './components/hotel/add-hotel-admin/add-hotel-admin.component';
+import { FriendsPageComponent } from './components/user/friends/friends-page/friends-page.component';
+import { FriendshipDisplayComponent } from './components/user/friends/friendship-display/friendship-display.component';
+import { AddAirCompanyAdminComponent } from './components/air-company/add-air-company-admin/add-air-company-admin.component';
+import { FriendRequestsPageComponent } from './components/user/friends/friend-requests-page/friend-requests-page.component';
+import { FriendshipsPageComponent } from './components/user/friends/friendships-page/friendships-page.component';
+import { FindFriendsPageComponent } from './components/user/friends/find-friends-page/find-friends-page.component';
+import { AdditionalServiceComponent } from './components/shared/components/additional-service/additional-service.component';
+// tslint:disable-next-line:max-line-length
+import { AdditionalServicesTableComponent } from './components/shared/components/additional-services-table/additional-services-table.component';
+import { AirCompanyPageComponent } from './components/air-company/air-company-page/air-company-page.component';
+import { FightBasicInfoComponent } from './components/air-company/fight-basic-info/fight-basic-info.component';
+import { AddCarAdminComponent } from './components/rent-a-car-company/add-car-admin/add-car-admin.component';
+import { DataService } from './observables/data.service';
+import { HotelPageComponent } from './components/hotel/hotel-page/hotel-page.component';
+import { CarCompanyPageComponent } from './components/rent-a-car-company/car-company-page/car-company-page.component';
+import { CarBasicInfoComponent } from './components/rent-a-car-company/car-basic-info/car-basic-info.component';
+import { NewCarFormComponent } from './components/rent-a-car-company/new-car-form/new-car-form.component';
+import { EditHotelFormComponent } from './components/hotel/edit-hotel-form/edit-hotel-form.component';
+import { EditCarCompanyFormComponent } from './components/rent-a-car-company/edit-car-company-form/edit-car-company-form.component';
+import { EditAirCompanyFormComponent } from './components/air-company/edit-air-company-form/edit-air-company-form.component';
+import { EditCarFormComponent } from './components/rent-a-car-company/edit-car-form/edit-car-form.component';
+import { RoomBasicInfoComponent } from './components/hotel/room-basic-info/room-basic-info.component';
+import { NewRoomFormComponent } from './components/hotel/new-room-form/new-room-form.component';
 
 
 @NgModule({
@@ -68,7 +70,7 @@ import { NewRoomFormComponent } from './hotel/new-room-form/new-room-form.compon
     LoginFormComponent,
     RegisterFormComponent,
     HomePageComponent,
-    AllAvioCompaniesPageComponent,
+    AllAirCompaniesPageComponent,
     AllHotelsPageComponent,
     AllCarsCompaniesPageComponent,
     FlightSearchPageComponent,
@@ -77,7 +79,7 @@ import { NewRoomFormComponent } from './hotel/new-room-form/new-room-form.compon
     ProfileComponent,
     ChangePasswordFormComponent,
     EditProfileFormComponent,
-    NewCompanyFormComponent,
+    NewAirCompanyFormComponent,
     NewCarCompanyFormComponent,
     CarCompanyBasicDetailsComponent,
     CompanyBasicDetailsComponent,
@@ -105,7 +107,7 @@ import { NewRoomFormComponent } from './hotel/new-room-form/new-room-form.compon
     NewCarFormComponent,
     EditHotelFormComponent,
     EditCarCompanyFormComponent,
-    EditCompanyFormComponent,
+    EditAirCompanyFormComponent,
     EditCarFormComponent,
     RoomBasicInfoComponent,
     NewRoomFormComponent
