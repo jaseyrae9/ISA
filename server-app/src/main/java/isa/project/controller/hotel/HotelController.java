@@ -9,12 +9,15 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import isa.project.aspects.AdminAccountActiveCheck;
+import isa.project.aspects.HotelAdminCheck;
 import isa.project.dto.hotel.HotelDTO;
 import isa.project.dto.hotel.RoomDTO;
 import isa.project.exception_handlers.ResourceNotFoundException;
@@ -67,6 +70,7 @@ public class HotelController {
 	 * @param hotel
 	 * @return
 	 */
+	@PreAuthorize("hasAnyRole('SYS')")
 	@RequestMapping(value="/add",method=RequestMethod.POST, consumes="application/json")
 	public ResponseEntity<HotelDTO> addHotel(@Valid @RequestBody HotelDTO hotelDTO){
 		System.out.println("Kreira se novi hotel"  + hotelDTO.getName()) ;
@@ -80,8 +84,11 @@ public class HotelController {
 	 * @return
 	 * @throws ResourceNotFoundException 
 	 */
-	@RequestMapping(value="/edit",method=RequestMethod.PUT, consumes="application/json")
-	public ResponseEntity<HotelDTO> editHotel(@RequestBody HotelDTO hotelDTO) throws ResourceNotFoundException{
+	@PreAuthorize("hasAnyRole('HOTELADMIN')")
+	@AdminAccountActiveCheck
+	@HotelAdminCheck
+	@RequestMapping(value="/edit/{id}",method=RequestMethod.PUT, consumes="application/json")
+	public ResponseEntity<HotelDTO> editHotel(@PathVariable Integer id, @RequestBody HotelDTO hotelDTO) throws ResourceNotFoundException{
 		//hotel must exist
 		Optional<Hotel> opt = hotelService.findHotel(hotelDTO.getId());
 		
@@ -104,20 +111,21 @@ public class HotelController {
 	 * Adds new room to hotel. 
 	 * @param car
 	 * @return
-	 */
-	//public Room(Integer floor, Integer roomNumber, Integer numberOfBeds, Double price) {
+	 */	
+	@PreAuthorize("hasAnyRole('HOTELADMIN')")
+	@AdminAccountActiveCheck
+	@HotelAdminCheck
 	@RequestMapping(value="/addRoom/{hotelId}",method=RequestMethod.POST, consumes="application/json")
-	public ResponseEntity<RoomDTO> addRoom(@RequestBody RoomDTO roomDTO, @PathVariable Integer hotelId) throws ResourceNotFoundException{
+	public ResponseEntity<RoomDTO> addRoom(@PathVariable Integer hotelId, @RequestBody RoomDTO roomDTO) throws ResourceNotFoundException{
 		Room room = new Room(roomDTO.getFloor(), roomDTO.getRoomNumber(), roomDTO.getNumberOfBeds(), roomDTO.getPrice());
 		Optional<Hotel> hotel = hotelService.findHotel(hotelId);
 		
 		if (!hotel.isPresent()) {
-			throw new ResourceNotFoundException(hotelId.toString(), "Rent a car company not found");
+			throw new ResourceNotFoundException(hotelId.toString(), "Hotel not found");
 		}
 		
 		hotel.get().getRooms().add(room);
 		hotelService.saveHotel(hotel.get());
-		System.out.println("Dodavanje hotela!");
 		return new ResponseEntity<>(new RoomDTO(room), HttpStatus.CREATED);	
 	}
 }

@@ -7,12 +7,15 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import isa.project.aspects.AdminAccountActiveCheck;
+import isa.project.aspects.RentACarCompanyAdminCheck;
 import isa.project.dto.rentacar.CarDTO;
 import isa.project.dto.rentacar.RentACarCompanyDTO;
 import isa.project.exception_handlers.ResourceNotFoundException;
@@ -66,6 +69,7 @@ public class RentACarCompanyController {
 	 * @param company
 	 * @return
 	 */
+	@PreAuthorize("hasAnyRole('SYS')")
 	@RequestMapping(value="/add",method=RequestMethod.POST, consumes="application/json")
 	public ResponseEntity<RentACarCompanyDTO> addRentACarCompany(@RequestBody RentACarCompanyDTO rentACarCompanyDTO){
 		RentACarCompany company = new RentACarCompany(rentACarCompanyDTO.getName(), rentACarCompanyDTO.getDescription());
@@ -77,8 +81,11 @@ public class RentACarCompanyController {
 	 * @param company
 	 * @return
 	 */
-	@RequestMapping(value="/edit",method=RequestMethod.PUT, consumes="application/json")
-	public ResponseEntity<RentACarCompanyDTO> editRentACarCompany(@RequestBody RentACarCompanyDTO company){
+	@PreAuthorize("hasAnyRole('CARADMIN')")
+	@AdminAccountActiveCheck
+	@RentACarCompanyAdminCheck
+	@RequestMapping(value="/edit/{id}",method=RequestMethod.PUT, consumes="application/json")
+	public ResponseEntity<RentACarCompanyDTO> editRentACarCompany(@PathVariable Integer id, @RequestBody RentACarCompanyDTO company){
 		//rent a car company must exist
 		Optional<RentACarCompany> opt = rentACarCompanyService.findRentACarCompany(company.getId());
 		
@@ -100,8 +107,11 @@ public class RentACarCompanyController {
 	 * @param car
 	 * @return
 	 */
+	@PreAuthorize("hasAnyRole('CARADMIN')")
+	@AdminAccountActiveCheck
+	@RentACarCompanyAdminCheck
 	@RequestMapping(value="/addCar/{companyId}",method=RequestMethod.POST, consumes="application/json")
-	public ResponseEntity<CarDTO> addCar(@RequestBody CarDTO carDTO, @PathVariable Integer companyId) throws ResourceNotFoundException{
+	public ResponseEntity<CarDTO> addCar(@PathVariable Integer companyId, @RequestBody CarDTO carDTO) throws ResourceNotFoundException{
 		Car car = new Car(carDTO.getBrand(), carDTO.getModel(), carDTO.getYearOfProduction(), carDTO.getSeatsNumber(), carDTO.getDoorsNumber(), carDTO.getPrice());
 		Optional<RentACarCompany> carCompany = rentACarCompanyService.findRentACarCompany(companyId);
 		
@@ -120,8 +130,11 @@ public class RentACarCompanyController {
 	 * @param car
 	 * @return
 	 */
+	@PreAuthorize("hasAnyRole('CARADMIN')")
+	@AdminAccountActiveCheck
+	@RentACarCompanyAdminCheck
 	@RequestMapping(value="/editCar/{companyId}",method=RequestMethod.PUT, consumes="application/json")
-	public ResponseEntity<CarDTO> editCar(@RequestBody CarDTO carDTO, @PathVariable Integer companyId) throws ResourceNotFoundException{
+	public ResponseEntity<CarDTO> editCar(@PathVariable Integer companyId, @RequestBody CarDTO carDTO) throws ResourceNotFoundException{
 		Optional<RentACarCompany> carCompany = rentACarCompanyService.findRentACarCompany(companyId);
 		
 		if (!carCompany.isPresent()) {
@@ -132,7 +145,6 @@ public class RentACarCompanyController {
 		{
 			if(c.getId().equals(carDTO.getId()))
 			{
-				System.out.println("nasao auto");
 				c.setBrand(carDTO.getBrand());
 				c.setModel(carDTO.getModel());
 				c.setYearOfProduction(carDTO.getYearOfProduction());

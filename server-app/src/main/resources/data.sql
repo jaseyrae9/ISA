@@ -33,6 +33,13 @@ values ('CUST', 2003, 'Dom A, Novi Sad', 1, 'miloskrstic@gmail.com', 'Milos', 'K
 INSERT INTO users (type, id, address, confirmed_mail, email, first_name, last_name, last_password_reset_date, password, needs_password_change, phone_number, air_company_id, hotel_id, rent_a_car_company_id)
 values ('CUST', 2004, 'Marka Miljanova 7b', 1, 'lanat98@gmail.com', 'Milana', 'Todorovic', '2018-12-26 23:09:42','$2a$10$QHSpHaeAyVOiqKEf5WnaK.tME9/IuK6RTwMicLrrdqCc9i1zDrX3y', 0, '060134565', NULL, NULL, NULL);
 
+INSERT INTO users (type, id, address, confirmed_mail, email, first_name, last_name, last_password_reset_date, password, needs_password_change, phone_number, air_company_id, hotel_id, rent_a_car_company_id)
+values ('HA', 3000, 'FTN, Novi Sad', 1, 'krstic@admin.com', 'Admin', 'Admin', '2018-12-26 23:09:42','$2a$10$QQxHVraAtUHQqf266vLzfuNLsF5XVS7W4AnJatRZR2gtQpk1LMD0K', 0, 'admin phone1', NULL, 100, NULL);
+
+INSERT INTO users (type, id, address, confirmed_mail, email, first_name, last_name, last_password_reset_date, password, needs_password_change, phone_number, air_company_id, hotel_id, rent_a_car_company_id)
+values ('RACA', 3001, 'FTN, Novi Sad', 1, 'jelena@admin.com', 'Admin', 'Admin', '2018-12-26 23:09:42','$2a$10$QQxHVraAtUHQqf266vLzfuNLsF5XVS7W4AnJatRZR2gtQpk1LMD0K', 0, 'admin phone2', NULL, NULL, 100);
+
+
 INSERT INTO user_authority ( user_id, authority_id ) VALUES (1000, 2);
 INSERT INTO user_authority ( user_id, authority_id ) VALUES (1001, 4);
 INSERT INTO user_authority ( user_id, authority_id ) VALUES (2000, 1);
@@ -40,6 +47,8 @@ INSERT INTO user_authority ( user_id, authority_id ) VALUES (2001, 1);
 INSERT INTO user_authority ( user_id, authority_id ) VALUES (2002, 1);
 INSERT INTO user_authority ( user_id, authority_id ) VALUES (2003, 1);
 INSERT INTO user_authority ( user_id, authority_id ) VALUES (2004, 1);
+INSERT INTO user_authority ( user_id, authority_id ) VALUES (3000, 3);
+INSERT INTO user_authority ( user_id, authority_id ) VALUES (3001, 5);
 
 INSERT INTO friendships (from_id, to_id, active) VALUE (2001, 2000, 0);
 INSERT INTO friendships (from_id, to_id, active) VALUE (2002, 2000, 0);
