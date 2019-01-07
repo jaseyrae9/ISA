@@ -33,7 +33,6 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 		String authToken = tokenUtils.getToken(request);  
 
 		if (authToken != null) {
-			System.out.println("Hi");
 			//pronadji email u tokenu
 			email= tokenUtils.getEmailFromToken(authToken);
 			

@@ -4,17 +4,15 @@
         <div style="display: table-cell; width: auto; background-size: cover; background-image: url(assets/images/user_profile/profile.jpeg)"></div>
         <div style="display: table-cell; width: 800px;background: #ffffff; padding: 10px; position: relative">
           <h1 id="name">{{user.firstName}} {{user.lastName}}</h1>
-          <hr/>          
+          <hr/>
           <i class="fa fa-envelope" aria-hidden="true"></i><b>Email: </b>{{user.email}} <br/>
-          <i class="fa fa-phone" aria-hidden="true"></i><b>Phone number: </b>{{user.phoneNumber}}<br/> 
-          <i class="fa fa-map-marker" aria-hidden="true"></i><b>Address: </b>{{user.address}}<br/> 
-                  
+          <i class="fa fa-phone" aria-hidden="true"></i><b>Phone number: </b>{{user.phoneNumber}}<br/>
+          <i class="fa fa-map-marker" aria-hidden="true"></i><b>Address: </b>{{user.address}}<br/>
+
          <div class="btn-toolbar pull-right " role="toolbar" style="position: absolute; right: 10px; bottom:10px">
-            <div class="btn-group" role="group">
-                <button type="button" class="btn  btn-primary btn-block mr-2 " data-toggle="modal" data-target="#changePassword">Change password</button>
-                <!-- Modal za promenu sifre -->
-                <app-change-password-form class="modal fade" id="changePassword" tabindex="-1" role="dialog" aria-hidden="true"></app-change-password-form>
-              </div>
+            <div class="btn-group mr-2" role="group">
+                <app-change-password-form></app-change-password-form>
+            </div>
             <div class="btn-group" role="group">
                 <button type="button" class="btn  btn-primary btn-block mr-2" data-toggle="modal" data-target="#editProfile">Change information</button>
                  <!-- Modal za promenu user info -->
@@ -24,5 +22,5 @@
 
         </div>
       </div>
-          
+
 </div>

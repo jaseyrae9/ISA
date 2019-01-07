@@ -11,11 +11,17 @@ import isa.project.model.aircompany.AirCompany;
 import isa.project.model.aircompany.Destination;
 import isa.project.model.shared.AdditionalService;
 import isa.project.repository.aircompany.AirCompanyRepository;
+import isa.project.repository.aircompany.DestinationRepository;
+import isa.project.repository.shared.AdditionalServiceRepository;
 
 @Service
 public class AirCompanyService {
 	@Autowired
 	private AirCompanyRepository airCompanyRespository;
+	@Autowired
+	private DestinationRepository destinationRepository;	
+	@Autowired
+	private AdditionalServiceRepository additionalServiceRepository;
 
 	public Iterable<AirCompany> findAll() {
 		return airCompanyRespository.findAll();
@@ -49,11 +55,8 @@ public class AirCompanyService {
 		Destination destination = new Destination(airCompany, destinationDTO.getLabel(), destinationDTO.getCountry(),
 				destinationDTO.getAirportName());
 
-		// sacuvaj destinaciju u avio komapniji
-		airCompany.getDestinations().add(destination);
-		airCompanyRespository.save(airCompany);
-
-		return airCompany.getDestinations().get(airCompany.getDestinations().size() - 1);
+		// sacuvaj 
+		return destinationRepository.save(destination);
 	}
 
 	/**
@@ -72,12 +75,15 @@ public class AirCompanyService {
 			throw new ResourceNotFoundException(id.toString(), "Air company not found.");
 		}
 		AirCompany airCompany = airCompanyOpt.get();
+		
+		//sacuvaj dodatnu uslugu
+		AdditionalService service = additionalServiceRepository.save(baggageInformation);
 
 		// sacuvaj informaciju o prtljagu u aviokompaniji
 		airCompany.getBaggageInformation().add(baggageInformation);
 		airCompanyRespository.save(airCompany);
 
-		return airCompany.getBaggageInformation().get(airCompany.getBaggageInformation().size() - 1);
+		return service;
 	}
 
 }

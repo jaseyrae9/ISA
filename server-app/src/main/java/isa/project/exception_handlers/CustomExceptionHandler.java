@@ -70,7 +70,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 		List<String> details = new ArrayList<>();
 		details.add(ex.getMessage());
 		ErrorResponse response = new ErrorResponse("Constrain violation.", details);
-		return new ResponseEntity<Object>(response, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST);
 	}
 	
 	/**
@@ -83,6 +83,6 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 		List<String> details = new ArrayList<>();
 		details.add("Password or email are incorrect.");
 		ErrorResponse response = new ErrorResponse("Bad credentials", details);
-		return new ResponseEntity<Object>(response, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST);
 	}
 }

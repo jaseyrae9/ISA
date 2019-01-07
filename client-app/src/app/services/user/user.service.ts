@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { ChangePasswordData } from 'src/app/model/users/changePassword';
 
 
@@ -23,8 +23,16 @@ export class UserService {
       return this.http.get('//localhost:8080/profile/info');
   }
 
-  changePassword(data: ChangePasswordData): Observable<any> {
-    return this.http.post<ChangePasswordData>('//localhost:8080/profile/changePassword', data, httpOptions);
+  changePassword(data: ChangePasswordData, jwtToken: String = '' ): Observable<any> {
+    if (jwtToken.length > 0) {
+      // za admine koji moraju prvi put da promene sifru
+      const differentHttpOptions = {
+        headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + jwtToken })
+      };
+      return this.http.post<ChangePasswordData>('//localhost:8080/profile/changePassword', data, differentHttpOptions);
+    } else {
+      return this.http.post<ChangePasswordData>('//localhost:8080/profile/changePassword', data, httpOptions);
+    }
   }
 
   updateProfile(info: User): Observable<any> {

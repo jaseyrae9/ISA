@@ -11,15 +11,18 @@ import { AirCompany } from 'src/app/model/air-company/air-company';
 })
 export class NavigationComponent implements OnInit {
   public loggedIn: Boolean;
+  public username: String;
   public carcompanies: RentACarCompany[];
   public hotels: Hotel[];
   public aircompanies: AirCompany[];
 
-  constructor(private httpClient: HttpClient, public tokenService: TokenStorageService) {
-    this.loggedIn = this.tokenService.loggedIn();
+  constructor(public tokenService: TokenStorageService) {
+    this.loggedIn = tokenService.checkIsLoggedIn();
     this.tokenService.logggedInEmitter.subscribe(loggedIn => {
       this.loggedIn = loggedIn;
     });
+    this.username = tokenService.getUsername();
+    this.tokenService.usernameEmitter.subscribe(username => this.username = username);
   }
 
   ngOnInit() {

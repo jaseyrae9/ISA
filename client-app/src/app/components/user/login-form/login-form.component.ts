@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangePasswordFormComponent } from './../change-password-form/change-password-form.component';
+import { JwtResponse } from './../../../auth/jwt-response';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { AuthLoginInfo } from 'src/app/auth/login-info';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -11,8 +13,9 @@ import { AuthService } from 'src/app/auth/auth.service';
 export class LoginFormComponent implements OnInit {
 
   form: any = {};
-  isLoginFailed = false;
   errorMessage = '';
+  @ViewChild(ChangePasswordFormComponent)
+  private changePasswordModal: ChangePasswordFormComponent;
 
   private loginInfo: AuthLoginInfo;
 
@@ -30,14 +33,16 @@ export class LoginFormComponent implements OnInit {
     );
 
     this.authService.attemptAuth(this.loginInfo).subscribe(
-      data => {
-        this.tokenStorage.saveToken(data.token);
-        this.tokenStorage.saveUsername(this.form.email);
-        this.isLoginFailed = false;
+      (data: JwtResponse) => {
+        if (data.needsPasswordChange) {
+          this.changePasswordModal.openModalWithToken(data.token);
+        } else {
+          this.tokenStorage.saveToken(data.token);
+          this.tokenStorage.saveUsername(this.form.email);
+        }
       },
       error => {
-        this.errorMessage = error.error.message;
-        this.isLoginFailed = true;
+        this.errorMessage = error.error.details;
       }
     );
 

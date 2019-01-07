@@ -1,12 +1,9 @@
 package isa.project.model.users;
 
-import java.util.HashSet;
-
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 import isa.project.dto.users.UserDTO;
-import isa.project.model.users.security.Authority;
 
 @Entity
 @DiscriminatorValue("CUST")
@@ -14,12 +11,6 @@ public class Customer extends User {
 
 	public Customer() {
 		super();
-	}
-
-	public Customer(String email, String password, String firstName, String lastName, String phoneNumber,
-			String address) {
-		super(email, password, firstName, lastName, phoneNumber, address);
-		super.authorities = new HashSet<Authority>();
 	}
 
 	/**
@@ -30,6 +21,6 @@ public class Customer extends User {
 	 */
 	public Customer(UserDTO userDTO) {
 		super(userDTO.getEmail(), userDTO.getPassword(), userDTO.getFirstName(), userDTO.getLastName(),
-				userDTO.getPhoneNumber(), userDTO.getAddress());
+				userDTO.getPhoneNumber(), userDTO.getAddress(), false);
 	}
 }

@@ -60,7 +60,7 @@ public class UserProfileController {
 			String email = tokenUtils.getEmailFromToken(tokenUtils.getToken(request));
 			UserDetails userDetails = userDetailsService.loadUserByUsername(email);
 			String token = this.tokenUtils.generateToken(userDetails, device);
-			return new ResponseEntity<>(new AuthenticationResponse(token), HttpStatus.OK);
+			return new ResponseEntity<>(new AuthenticationResponse(token, false), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<String>("Old password is incorrect.", HttpStatus.BAD_REQUEST);
 		}

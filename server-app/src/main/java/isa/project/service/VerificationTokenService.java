@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import isa.project.model.users.Customer;
 import isa.project.model.users.security.VerificationToken;
-import isa.project.repository.VerificationTokenRepository;
+import isa.project.repository.users.VerificationTokenRepository;
 
 @Service
 public class VerificationTokenService {

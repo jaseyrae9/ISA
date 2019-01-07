@@ -1,7 +1,7 @@
 package isa.project.model.aircompany;
 
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -30,10 +30,10 @@ public class AirCompany {
 	private String description;
 	
 	@OneToMany(mappedBy = "airCompany", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Destination> destinations;
+	private Set<Destination> destinations;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<AdditionalService> baggageInformation;
+	private Set<AdditionalService> baggageInformation;
 	
 	public AirCompany() {
 		super();
@@ -69,19 +69,19 @@ public class AirCompany {
 		this.description = description;
 	}
 
-	public List<Destination> getDestinations() {
+	public Set<Destination> getDestinations() {
 		return destinations;
 	}
 
-	public void setDestinations(List<Destination> destinations) {
+	public void setDestinations(Set<Destination> destinations) {
 		this.destinations = destinations;
 	}	
 
-	public List<AdditionalService> getBaggageInformation() {
+	public Set<AdditionalService> getBaggageInformation() {
 		return baggageInformation;
 	}
 
-	public void setBaggageInformation(List<AdditionalService> baggageInformation) {
+	public void setBaggageInformation(Set<AdditionalService> baggageInformation) {
 		this.baggageInformation = baggageInformation;
 	}
 

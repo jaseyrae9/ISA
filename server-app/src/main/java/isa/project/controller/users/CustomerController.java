@@ -30,6 +30,7 @@ import org.springframework.web.context.request.WebRequest;
 import isa.project.dto.users.AuthenticationResponse;
 import isa.project.dto.users.UserDTO;
 import isa.project.model.users.Customer;
+import isa.project.model.users.User;
 import isa.project.model.users.security.VerificationToken;
 import isa.project.security.TokenUtils;
 import isa.project.security.auth.JwtAuthenticationRequest;
@@ -142,9 +143,12 @@ public class CustomerController {
 		// Kreiraj token
 		UserDetails userDetails = this.customUserDetailsService.loadUserByUsername(authenticationRequest.getEmail());
 		String token = this.tokenUtils.generateToken(userDetails, device);
+		
+		// Pronadji korisnika (potrebno da bi se znalo mora li se sifra menjati)
+		User user = this.customUserDetailsService.loadByEmail(userDetails.getUsername()).get();
 
 		// Vrati token kao odgovor na uspesno autentifikaciju
-		return ResponseEntity.ok(new AuthenticationResponse(token));
+		return ResponseEntity.ok(new AuthenticationResponse(token, user.getNeedsPasswordChange()));
 	}
 
 	/**

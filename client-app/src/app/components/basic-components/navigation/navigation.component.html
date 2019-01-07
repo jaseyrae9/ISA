@@ -41,7 +41,7 @@
                 <ul class="nav navbar-nav navbar-right ml-auto" *ngIf="loggedIn; else notShow">
                     <li class="nav-item dropdown" routerLinkActive="active">
                             <a class="nav-link dropdown-toggle"  id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {{tokenService.getUsername()}} <i class="fa fa-sort-down" aria-hidden="true"></i>
+                                    {{username}} <i class="fa fa-sort-down" aria-hidden="true"></i>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" routerLink="/profile">Profile</a>
@@ -49,10 +49,10 @@
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" (click)="tokenService.signOut()">Log out</a>
                             </div>
-                    </li>  
-                </ul>                  
-               
-                  
+                    </li>
+                </ul>
+
+
                 <ng-template #notShow>
                     <ul class="nav navbar-nav navbar-right ml-auto">
                         <li class="nav-item"><a data-toggle="dropdown" class="nav-link dropdown-toggle" href="#">Log In</a>
@@ -75,30 +75,30 @@
             </div>
 
             <div class="modal fade" id="addHotelAdmin" role="dialog" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog">    
-                  <div class="modal-content">           
-                    <div class="modal-body"> 
-                        <app-add-hotel-admin></app-add-hotel-admin>            
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-body">
+                        <app-add-hotel-admin></app-add-hotel-admin>
                     </div>
                   </div>
                 </div>
             </div>
 
             <div class="modal fade" id="addAirCompanyAdmin" role="dialog" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog">    
-                  <div class="modal-content">           
-                    <div class="modal-body"> 
-                        <app-add-air-company-admin></app-add-air-company-admin>            
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-body">
+                        <app-add-air-company-admin></app-add-air-company-admin>
                     </div>
                   </div>
                 </div>
             </div>
 
             <div class="modal fade" id="addCarCompanyAdmin" role="dialog" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog">    
-                  <div class="modal-content">           
-                    <div class="modal-body"> 
-                        <app-add-car-admin></app-add-car-admin>            
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-body">
+                        <app-add-car-admin></app-add-car-admin>
                     </div>
                   </div>
                 </div>

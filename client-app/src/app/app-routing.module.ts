@@ -1,3 +1,4 @@
+import { ChangePasswordFormComponent } from './components/user/change-password-form/change-password-form.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
@@ -11,7 +12,6 @@ import { AllCarsCompaniesPageComponent } from './pages/all-cars-companies-page/a
 import { CarSearchPageComponent } from './pages/car-search-page/car-search-page.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { ProfileComponent } from './components/user/profile/profile.component';
-import { LoginFormComponent} from './components/user/login-form/login-form.component';
 import { FriendsPageComponent } from './components/user/friends/friends-page/friends-page.component';
 import { AirCompanyPageComponent } from './components/air-company/air-company-page/air-company-page.component';
 import { HotelPageComponent } from './components/hotel/hotel-page/hotel-page.component';
@@ -30,7 +30,7 @@ const routes: Routes = [
   { path: 'find-car', component: CarSearchPageComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'friends', component: FriendsPageComponent },
-  { path: 'login', component: LoginFormComponent }
+  { path: '**', redirectTo: '' }
 ];
 
 export const RoutingModule: ModuleWithProviders = RouterModule.forRoot(routes, {

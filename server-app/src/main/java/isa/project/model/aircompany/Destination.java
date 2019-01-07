@@ -116,9 +116,4 @@ public class Destination implements Serializable {
 		return true;
 	}
 	
-	public class DestinationPK implements Serializable{
-		private static final long serialVersionUID = 5404985301096120042L;
-		
-	}
-
 }

@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule} from '@angular/forms';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgxNotificationComponent } from 'ngx-notification';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { JwtInterceptor } from './auth/auth-interceptor';
 
@@ -113,7 +114,7 @@ import { NewRoomFormComponent } from './components/hotel/new-room-form/new-room-
     NewRoomFormComponent
   ],
   imports: [
-    BrowserModule, RoutingModule, HttpClientModule, FormsModule
+    BrowserModule, RoutingModule, HttpClientModule, FormsModule, ModalModule.forRoot()
   ],
   providers: [HotelService, AirCompanyService, UserService, DataService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }

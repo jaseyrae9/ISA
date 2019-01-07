@@ -1,7 +1,5 @@
 package isa.project.model.users;
 
-import java.util.HashSet;
-
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -9,7 +7,6 @@ import javax.persistence.ManyToOne;
 
 import isa.project.dto.users.UserDTO;
 import isa.project.model.rentacar.RentACarCompany;
-import isa.project.model.users.security.Authority;
 
 @Entity
 @DiscriminatorValue("RACA")
@@ -22,12 +19,6 @@ public class RentACarAdmin extends User {
 	public RentACarAdmin() {
 		super();
 	}
-
-	public RentACarAdmin(String email, String password, String firstName, String lastName, String phoneNumber,
-			String address) {
-		super(email, password, firstName, lastName, phoneNumber, address);
-		super.authorities = new HashSet<Authority>();
-	}
 	
 	/**
 	 * Create rent a car admin based on UserDTO object. Used when new hotel rent a car admin is being
@@ -36,7 +27,7 @@ public class RentACarAdmin extends User {
 	 */
 	public RentACarAdmin(UserDTO userDTO) {
 		super(userDTO.getEmail(), userDTO.getPassword(), userDTO.getFirstName(), userDTO.getLastName(),
-				userDTO.getPhoneNumber(), userDTO.getAddress());
+				userDTO.getPhoneNumber(), userDTO.getAddress(), false);
 	}
 
 	public RentACarCompany getRentACarCompany() {

@@ -1,4 +1,4 @@
-package isa.project.repository;
+package isa.project.repository.users;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

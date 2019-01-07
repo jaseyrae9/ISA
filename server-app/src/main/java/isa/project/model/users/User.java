@@ -36,28 +36,31 @@ public abstract class User {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	
-	@Column(name="email", unique = true, nullable = false, columnDefinition="VARCHAR(64)")
+	@Column(unique = true, nullable = false, columnDefinition="VARCHAR(64)")
 	private String email;
 	
-	@Column(name="password", unique = false, nullable = false)
+	@Column(nullable = false)
 	private String password;
 	
-	@Column(name="firstName", unique = false, nullable = false)
+	@Column(nullable = false)
 	private String firstName;
 	
-	@Column(name="lastName", unique = false, nullable = false)
+	@Column(nullable = false)
 	private String lastName;
 		
-	@Column(name="phoneNumber", unique = true, nullable = true,  columnDefinition="VARCHAR(64)")
+	@Column(unique = true, nullable = false,  columnDefinition="VARCHAR(64)")
 	private String phoneNumber;
 	
-	@Column(name="address", unique = false, nullable = false)
+	@Column
 	private String address;
 	
-	@Column(name="confirmedMail", nullable = false)
+	@Column(nullable = false)
 	private Boolean confirmedMail;
 	
-	@Column(name = "last_password_reset_date")
+	@Column(nullable = false)
+	private Boolean needsPasswordChange;
+	
+	@Column
     private Timestamp lastPasswordResetDate;
 	
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -84,7 +87,7 @@ public abstract class User {
 	}	
 	
 	public User(String username, String password, String firstName, String lastName, String phoneNumber,
-			String address) {
+			String address, Boolean needsPasswordChange) {
 		super();
 		this.email = username;
 		this.password = password;
@@ -94,6 +97,7 @@ public abstract class User {
 		this.address = address;
 		this.confirmedMail = false; //when user is created, email is not confirmed
 		this.authorities = new HashSet<>();
+		this.needsPasswordChange = needsPasswordChange;
 	}
 	
 	public Integer getId() {
@@ -173,7 +177,23 @@ public abstract class User {
     public void addAuthority(Authority authority) {
     	authorities.add(authority);
     }
+
+	public Set<Authority> getUserAuthorities() {
+		return authorities;
+	}
+
+	public void setUserAuthorities(Set<Authority> authorities) {
+		this.authorities = authorities;
+	}	
 	
+	public Boolean getNeedsPasswordChange() {
+		return needsPasswordChange;
+	}
+
+	public void setNeedsPasswordChange(Boolean needsPasswordChange) {
+		this.needsPasswordChange = needsPasswordChange;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(id);
@@ -203,11 +223,4 @@ public abstract class User {
 				+ address + ", confirmedMail=" + confirmedMail + "]";
 	}
 
-	public Set<Authority> getUserAuthorities() {
-		return authorities;
-	}
-
-	public void setUserAuthorities(Set<Authority> authorities) {
-		this.authorities = authorities;
-	}
 }

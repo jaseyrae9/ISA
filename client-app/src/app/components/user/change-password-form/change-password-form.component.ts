@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, TemplateRef } from '@angular/core';
 import { ChangePasswordData } from 'src/app/model/users/changePassword';
 import { UserService } from 'src/app/services/user/user.service';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ViewChild, ElementRef} from '@angular/core';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { config } from 'rxjs';
 
 @Component({
   selector: 'app-change-password-form',
@@ -13,21 +16,41 @@ import { ViewChild, ElementRef} from '@angular/core';
 export class ChangePasswordFormComponent implements OnInit {
   data: ChangePasswordData = new ChangePasswordData();
   errorMessage: String = '';
-  @ViewChild('closeBtn') closeBtn: ElementRef;
+  jwtToken: String = '';
+  modalRef: BsModalRef;
+  config = {
+    keyboard: true,
+    ignoreBackdropClick: true
+  };
 
-  constructor(private userService: UserService, private tokenService: TokenStorageService) { }
+  @ViewChild('changePasswordModal') changePasswordModal;
+
+  constructor(private userService: UserService, private tokenService: TokenStorageService, private modalService: BsModalService) { }
 
   ngOnInit() {
   }
 
+  openModal() {
+    this.modalRef = this.modalService.show(this.changePasswordModal, this.config);
+  }
+
+  openModalWithToken(jwtToken: String) {
+    this.jwtToken = jwtToken;
+    if (this.jwtToken.length > 0) {
+      config['keyboard'] = false;
+      config['ignoreBackdropClick'] = false;
+    }
+    this.modalRef = this.modalService.show(this.changePasswordModal, this.config);
+  }
+
   onChangePassword() {
-    this.userService.changePassword(this.data).subscribe(
+    this.userService.changePassword(this.data, this.jwtToken).subscribe(
       data => {
         this.tokenService.saveToken(data.token);
-        this.closeBtn.nativeElement.click();
+        this.modalRef.hide();
       },
       (err: HttpErrorResponse) => {
-        this.errorMessage = err.error;
+        this.errorMessage = err.error.details;
       }
     );
   }
