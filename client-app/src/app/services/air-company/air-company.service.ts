@@ -28,14 +28,10 @@ export class AirCompanyService {
   }
 
   addAdmin(user: User, airId: String): Observable<User> {
-    console.log('Dodat admin:');
-    console.log(user);
-    console.log('Za avio kompaniju' + airId);
     return this.http.post<User>('http://localhost:8080/sys/airCompanyAdmin/' + airId, user, httpOptions);
   }
 
   edit(airCompany: AirCompany): Observable<AirCompany> {
-    console.log(airCompany);
-    return this.http.put<AirCompany>('http://localhost:8080/aircompanies/edit', airCompany, httpOptions);
+    return this.http.put<AirCompany>('http://localhost:8080/aircompanies/edit/' + airCompany.id, airCompany, httpOptions);
   }
 }

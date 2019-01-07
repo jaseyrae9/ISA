@@ -74,7 +74,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 	
 	/**
-	 * Handles errors triggered by database, such as violation of unique constrain.
+	 * Handles errors triggered by bad credentials.
 	 * @param ex
 	 * @return custom error response
 	 */
@@ -84,5 +84,18 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 		details.add("Password or email are incorrect.");
 		ErrorResponse response = new ErrorResponse("Bad credentials", details);
 		return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST);
+	}
+	
+	/**
+	 * Handles errors triggered by admin accounts.
+	 * @param ex
+	 * @return custom error response
+	 */
+	@ExceptionHandler(AdminAccountException.class)
+	public ResponseEntity<Object> adminAccountExceptionHandler(AdminAccountException ex) {
+		List<String> details = new ArrayList<>();
+		details.add(ex.getMessage());
+		ErrorResponse response = new ErrorResponse("Admin account exception", details);
+		return new ResponseEntity<Object>(response, HttpStatus.UNAUTHORIZED);
 	}
 }

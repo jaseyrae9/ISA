@@ -1,0 +1,28 @@
+<div id="notfound">
+		<div class="notfound">
+
+      <div *ngIf="is401; else error404">
+            <div class="notfound-404">
+              <h1>401</h1>
+            </div>
+            <h2>Oops! Access denied</h2>
+            <p>
+              You do not have permission to perform specified action. Please login in, or if you're already logged in,
+              change your account.
+              <a routerLink="/">Return to homepage</a>
+            </p>
+      </div>
+
+      <ng-template #error404>
+        <div class="notfound-404">
+          <h1>404</h1>
+        </div>
+        <h2>Oops! Nothing was found</h2>
+        <p>
+          The resource you are trying to access is not avaibale.
+          <a routerLink="/">Return to homepage</a>
+        </p>
+      </ng-template>
+
+	  </div>
+</div>

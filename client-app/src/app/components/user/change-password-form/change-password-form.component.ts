@@ -50,6 +50,10 @@ export class ChangePasswordFormComponent implements OnInit {
         this.modalRef.hide();
       },
       (err: HttpErrorResponse) => {
+        // interceptor je hendlovao ove zahteve
+        if (err.status === 401 || err.status === 403 || err.status === 404) {
+          this.modalRef.hide();
+        }
         this.errorMessage = err.error.details;
       }
     );

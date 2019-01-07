@@ -1,7 +1,8 @@
+import { AirCompany } from './../../../model/air-company/air-company';
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { ViewChild, ElementRef } from '@angular/core';
-import { AirCompany } from 'src/app/model/air-company/air-company';
 import { AirCompanyService } from 'src/app/services/air-company/air-company.service';
+import { NgModule } from '@angular/core';
 
 @Component({
   selector: 'app-edit-air-company-form',
@@ -12,8 +13,7 @@ export class EditAirCompanyFormComponent implements OnInit {
   @Output() airCompanyEdited: EventEmitter<AirCompany> = new EventEmitter();
   @ViewChild('closeBtn') closeBtn: ElementRef;
   @Input() airCompany: AirCompany;
-  editedAirCompany: AirCompany = new AirCompany();
-
+  errorMessage: String = '';
 
   constructor(private airCompanyService: AirCompanyService) { }
 
@@ -21,14 +21,17 @@ export class EditAirCompanyFormComponent implements OnInit {
   }
 
   onEditAirCompany() {
-    this.editedAirCompany.id = this.airCompany.id;
-    this.airCompanyService.edit(this.editedAirCompany).subscribe(
+    this.airCompanyService.edit(this.airCompany).subscribe(
       data => {
         this.airCompanyEdited.emit(data);
         this.closeBtn.nativeElement.click();
       },
       error => {
-        console.log(error.error.message);
+        // interceptor je hendlovao ove zahteve
+        if (error.status === 401 || error.status === 403 || error.status === 404) {
+          this.closeBtn.nativeElement.click();
+        }
+        this.errorMessage = error.error.details;
       }
     );
   }

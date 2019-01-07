@@ -7,13 +7,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import isa.project.model.users.AirCompanyAdmin;
-import isa.project.repository.users.AvioCompanyAdminRepository;
+import isa.project.repository.users.AirCompanyAdminRepository;
 
 @Service
 public class AirCompanyAdminService {
 
 	@Autowired
-	private AvioCompanyAdminRepository avioCompanyAdminRepository;
+	private AirCompanyAdminRepository airCompanyAdminRepository;
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -22,18 +22,18 @@ public class AirCompanyAdminService {
 	public AirCompanyAdmin registerAvioCompanyAdmin(AirCompanyAdmin airCompanyAdmin)
 	{
 		airCompanyAdmin.setPassword(passwordEncoder.encode(airCompanyAdmin.getPassword()));
-		return avioCompanyAdminRepository.save(airCompanyAdmin);
+		return airCompanyAdminRepository.save(airCompanyAdmin);
 	}
 	
 	public Iterable<AirCompanyAdmin> findAll(){
-		return avioCompanyAdminRepository.findAll();
+		return airCompanyAdminRepository.findAll();
 	}
 	
 	public Optional<AirCompanyAdmin> findCustomer(Integer id){
-		return avioCompanyAdminRepository.findById(id);
+		return airCompanyAdminRepository.findById(id);
 	}
 	
 	public AirCompanyAdmin saveAvioCompanyAdmin(AirCompanyAdmin admin) {
-		return avioCompanyAdminRepository.save(admin);
+		return airCompanyAdminRepository.save(admin);
 	}
 }

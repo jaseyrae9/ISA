@@ -16,6 +16,7 @@ import { FriendsPageComponent } from './components/user/friends/friends-page/fri
 import { AirCompanyPageComponent } from './components/air-company/air-company-page/air-company-page.component';
 import { HotelPageComponent } from './components/hotel/hotel-page/hotel-page.component';
 import { CarCompanyPageComponent } from './components/rent-a-car-company/car-company-page/car-company-page.component';
+import { ErrorPageComponent } from './pages/error-page/error-page.component';
 
 const routes: Routes = [
   { path: '', component: HomePageComponent},
@@ -30,6 +31,7 @@ const routes: Routes = [
   { path: 'find-car', component: CarSearchPageComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'friends', component: FriendsPageComponent },
+  { path: 'error/:code', component: ErrorPageComponent },
   { path: '**', redirectTo: '' }
 ];
 

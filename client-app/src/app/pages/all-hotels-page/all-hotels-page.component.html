@@ -1,6 +1,6 @@
-<div style="padding: 1%" class="container">  
+<div style="padding: 1%" class="container">
   <!-- Button trigger modal -->
-  <div style="align-content: center" div class="row">  
+  <div style="align-content: center" div class="row">
     <div class="col-12 text-center">
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewHotel">
         Add new hotel
@@ -12,5 +12,5 @@
   <app-new-hotel-form class="modal fade" id="addNewHotel" tabindex="-1" role="dialog" aria-hidden="true" (hotelCreated)='hotelCreated($event)'></app-new-hotel-form>
   <hr>
 
-  <app-hotel-basic-details *ngFor="let hotel of hotels" [hotel] = 'hotel'></app-hotel-basic-details>
+  <app-hotel-basic-details *ngFor="let hotel of hotels" [hotel] = 'hotel' class="row border rounded align-items-center p-1 mt-3"></app-hotel-basic-details>
 </div>

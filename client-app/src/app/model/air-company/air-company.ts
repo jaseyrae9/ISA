@@ -8,4 +8,12 @@ export class AirCompany {
         this.name = name;
         this.description = description;
     }
+
+    copy(airCompany: AirCompany): AirCompany {
+      if (airCompany === undefined) {
+        return new AirCompany();
+      }
+      const ret = new AirCompany(airCompany.id, airCompany.name, airCompany.description);
+      return ret;
+    }
 }

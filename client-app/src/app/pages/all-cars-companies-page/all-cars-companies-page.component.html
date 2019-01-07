@@ -1,6 +1,6 @@
-<div style="padding: 1%" class="container">  
+<div style="padding: 1%" class="container">
   <!-- Button trigger modal -->
-  <div style="align-content: center" div class="row">  
+  <div style="align-content: center" div class="row">
     <div class="col-12 text-center">
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewCarCompany">
         Add new company
@@ -12,5 +12,5 @@
   <app-new-car-company-form class="modal fade" id="addNewCarCompany" tabindex="-1" role="dialog" aria-hidden="true" (carCompanyCreated)='carCompanyCreated($event)'></app-new-car-company-form>
   <hr>
 
-  <app-car-company-basic-details *ngFor="let cmp of companies" [carCompany] = 'cmp'></app-car-company-basic-details>
+  <app-car-company-basic-details *ngFor="let cmp of companies" [carCompany] = 'cmp' class="row border rounded align-items-center p-1 mt-3"></app-car-company-basic-details>
 </div>

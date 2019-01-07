@@ -37,8 +37,10 @@
               </div>
               <textarea [(ngModel)]="airCompany.description" name="description" class="form-control" name="description" placeholder="Insert your description here..."></textarea>
           </div>
-         
 
+          <div class="alert alert-danger" role="alert" *ngIf="errorMessage.length != 0">
+              {{errorMessage}}
+          </div>
       </form>
     </div>
 

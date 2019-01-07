@@ -2,7 +2,7 @@
     <div class="modal-content">
 
       <div class="modal-header">
-        <h5 class="modal-title">Edit<b style="color: #33cabb;">avio-company</b></h5>
+        <h5 class="modal-title">Edit <b style="color: #33cabb;">avio-company</b></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -17,7 +17,7 @@
                     <i class="fa fa-plane" aria-hidden="true"></i>
                   </span>
                 </div>
-                <input [ngModel]="airCompany.name" [(ngModel)]="editedAirCompany.name" name="name" type="text" class="form-control" placeholder="Company name" required="required">
+                <input [(ngModel)]="airCompany.name" name="name" type="text" class="form-control" placeholder="Company name" required="required">
             </div>
 
             <div class="input-group form-group">
@@ -35,10 +35,12 @@
                     <i class="fa fa-sticky-note" aria-hidden="true"></i>
                   </span>
                 </div>
-                <textarea [ngModel]="airCompany.description" [(ngModel)]="editedAirCompany.description" name="description" class="form-control" name="description" placeholder="Insert your description here..."></textarea>
+                <textarea [(ngModel)]="airCompany.description" name="description" class="form-control" name="description" placeholder="Insert your description here..."></textarea>
             </div>
 
-
+            <div class="alert alert-danger" role="alert" *ngIf="errorMessage.length != 0">
+                {{errorMessage}}
+            </div>
         </form>
       </div>
 

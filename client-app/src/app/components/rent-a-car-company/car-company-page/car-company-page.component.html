@@ -4,43 +4,41 @@
         <a href = "#info" role="tab" data-toggle="tab" class = "nav-link active">
           <i class="fa fa-info" aria-hidden="true"></i>Info
         </a>
-      </li>      
+      </li>
       <li class = "nav-item">
           <a href = "#cars" role="tab" data-toggle="tab" class = "nav-link">
             <i class="fa fa-car" aria-hidden="true"></i>Cars
           </a>
-      </li>		        
+      </li>
   </ul>
 
   <div class="tab-content" id="myTabContent">
-    
+
       <div class="tab-pane fade show active p-3" id="info" aria-labelledby="info-tab">
         <div class="media">
           <img src="//placehold.it/200x150" class="align-self-start mr-4 pt-2" alt="...">
-          <div class="media-body pr-3">  
+          <div class="media-body pr-3">
                 <h3 class="display-4" align="left">{{carCompany.name}}</h3>
                 <p class="text-muted" align="left">Adresa</p>
                 <hr>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <p>{{carCompany.description}}</p>
-                        <button class="btn btn-primary float-right" data-toggle="modal" data-target="#editCarCompany" ><i class="fa fa-edit" aria-hidden="true"></i>Edit</button>
-                    </div>
+                <p>{{carCompany.description}}</p>
+                <div align="right">
+                  <button class="btn btn-primary float-right" data-toggle="modal" data-target="#editCarCompany" ><i class="fa fa-edit" aria-hidden="true"></i>Edit</button>
                 </div>
           </div>
       </div>
       </div>
-    
-     
-      <div class="tab-pane fade" id="cars" aria-labelledby="services-tab">  		  	
+
+
+      <div class="tab-pane fade" id="cars" aria-labelledby="services-tab">
         <!-- Button trigger modal -->
-        <div style="align-content: center" div class="row">  
+        <div style="align-content: center" div class="row">
             <div class="col-12 text-center">
               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewCar">
                 Add new car
               </button>
             </div>
-          </div>  
+          </div>
         <div class="container" >
           <div *ngFor="let car of carCompany.cars">
               <app-car-basic-info [car] = 'car'></app-car-basic-info>
@@ -54,4 +52,3 @@
 <app-new-car-form class="modal fade" id="addNewCar" tabindex="-1" role="dialog" aria-hidden="true" (carCreated)='carCreated($event)' ></app-new-car-form>
 <!-- Modal -->
 <app-edit-car-company-form [carCompany]="carCompany" class="modal fade" id="editCarCompany" tabindex="-1" role="dialog" aria-hidden="true" (carEdited)='carEdited($event)'></app-edit-car-company-form>
-    

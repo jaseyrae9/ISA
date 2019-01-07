@@ -13,6 +13,7 @@ export class NewAirCompanyFormComponent implements OnInit {
   airCompany: AirCompany = new AirCompany();
   @Output() airCompanyCreated: EventEmitter<AirCompany> = new EventEmitter();
   @ViewChild('closeBtn') closeBtn: ElementRef;
+  errorMessage: String = '';
 
   constructor(private airCompanyService: AirCompanyService) { }
 
@@ -26,6 +27,11 @@ export class NewAirCompanyFormComponent implements OnInit {
       },
       (err: HttpErrorResponse) => {
         console.log(err);
+        // interceptor je hendlovao ove zahteve
+        if (err.status === 401 || err.status === 403 || err.status === 404) {
+          this.closeBtn.nativeElement.click();
+        }
+        this.errorMessage = err.error.details;
       }
     );
   }

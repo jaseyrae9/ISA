@@ -24,6 +24,11 @@ export class HotelPageComponent implements OnInit {
     );
   }
 
+  hotelEdited(data: Hotel) {
+      this.hotel.name = data.name;
+      this.hotel.description = data.description;
+  }
+
   roomCreated(room: Room) {
     this.hotel.rooms.push(room);
   }

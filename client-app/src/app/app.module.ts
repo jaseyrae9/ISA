@@ -1,3 +1,4 @@
+import { ErrorInterceptor } from './auth/response-interceptor';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
@@ -59,6 +60,7 @@ import { EditAirCompanyFormComponent } from './components/air-company/edit-air-c
 import { EditCarFormComponent } from './components/rent-a-car-company/edit-car-form/edit-car-form.component';
 import { RoomBasicInfoComponent } from './components/hotel/room-basic-info/room-basic-info.component';
 import { NewRoomFormComponent } from './components/hotel/new-room-form/new-room-form.component';
+import { ErrorPageComponent } from './pages/error-page/error-page.component';
 
 
 @NgModule({
@@ -111,13 +113,15 @@ import { NewRoomFormComponent } from './components/hotel/new-room-form/new-room-
     EditAirCompanyFormComponent,
     EditCarFormComponent,
     RoomBasicInfoComponent,
-    NewRoomFormComponent
+    NewRoomFormComponent,
+    ErrorPageComponent
   ],
   imports: [
     BrowserModule, RoutingModule, HttpClientModule, FormsModule, ModalModule.forRoot()
   ],
   providers: [HotelService, AirCompanyService, UserService, DataService,
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

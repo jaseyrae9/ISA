@@ -34,11 +34,11 @@ export class LoginFormComponent implements OnInit {
 
     this.authService.attemptAuth(this.loginInfo).subscribe(
       (data: JwtResponse) => {
+        this.tokenStorage.saveUsername(this.form.email);
         if (data.needsPasswordChange) {
           this.changePasswordModal.openModalWithToken(data.token);
         } else {
           this.tokenStorage.saveToken(data.token);
-          this.tokenStorage.saveUsername(this.form.email);
         }
       },
       error => {

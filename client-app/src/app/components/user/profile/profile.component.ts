@@ -9,12 +9,15 @@ import { User } from 'src/app/model/users/user';
 })
 export class ProfileComponent implements OnInit {
   user: User = new User();
+  forEditing: User = new User();
   constructor(private userService: UserService) { }
 
   ngOnInit() {
     this.userService.getCurrentUserProfile().subscribe(
       user => {
         this.user = user;
+        // tslint:disable-next-line:max-line-length
+        this.forEditing = new User(null, this.user.firstName, this.user.lastName, this.user.email, this.user.phoneNumber, this.user.address);
       }
     );
   }
@@ -24,5 +27,6 @@ export class ProfileComponent implements OnInit {
     this.user.lastName = data.lastName;
     this.user.firstName = data.firstName;
     this.user.phoneNumber = data.phoneNumber;
+    this.forEditing = new User(null, this.user.firstName, this.user.lastName, this.user.email, this.user.phoneNumber, this.user.address);
   }
 }

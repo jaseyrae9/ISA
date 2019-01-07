@@ -10,6 +10,7 @@ import { AirCompanyService } from 'src/app/services/air-company/air-company.serv
 })
 export class AirCompanyPageComponent implements OnInit {
   airCompany: AirCompany = new AirCompany();
+  forEditing: AirCompany = new AirCompany();
 
   constructor(private route: ActivatedRoute, private airCompanyService: AirCompanyService) { }
 
@@ -18,6 +19,7 @@ export class AirCompanyPageComponent implements OnInit {
     this.airCompanyService.get(id).subscribe(
       (data) => {
         this.airCompany = data;
+        this.forEditing = new AirCompany(data.id, data.name, data.description);
       }
     );
   }
@@ -26,6 +28,7 @@ export class AirCompanyPageComponent implements OnInit {
     this.airCompany.id = data.id;
     this.airCompany.name = data.name;
     this.airCompany.description = data.description;
+    this.forEditing = new AirCompany(data.id, data.name, data.description);
   }
 
 }

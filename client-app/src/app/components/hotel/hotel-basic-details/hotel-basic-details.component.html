@@ -1,21 +1,11 @@
-<div class="card mb-3">
-  <table>
-    <tr>
-      <td>
-          <div style="height: 100%; width: 100%">
-              //TODO: Dodati mapu
-          </div> 
-      </td>
-      <td>
-          <div class="card-body">
-              <h3 class="mb-0">
-                  <a class="text-dark" href="#">{{hotel.name}}</a>
-              </h3>
-              <div class="mb-1 text-muted">TODO Staviti adresu ovde</div>
-              <p class="card-text mb-auto">{{hotel.description}}</p>
-              <a routerLink="/hotel/{{hotel.id}}">More about hotel...</a>
-          </div>
-      </td>
-    </tr>
-  </table>
-</div>
+<div class="col">
+    <div class="media">
+    <img src="//placehold.it/200x150" class="align-self-start mr-4 py-2" alt="...">
+    <div class="media-body pr-3">
+          <h3 class="display-4" align="left">{{hotel.name}}</h3>
+          <p class="text-muted" align="left">Adresa</p>
+          <hr>
+          <a routerLink="/hotel/{{hotel.id}}">Details...</a>
+    </div>
+    </div>
+  </div>

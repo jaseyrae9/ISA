@@ -27,7 +27,11 @@ export class EditProfileFormComponent implements OnInit {
         this.closeBtn.nativeElement.click();
       },
       (err: HttpErrorResponse) => {
-        this.errorMessage = err.error;
+        // interceptor je hendlovao ove zahteve
+        if (err.status === 401 || err.status === 403 || err.status === 404) {
+          this.closeBtn.nativeElement.click();
+        }
+        this.errorMessage = err.error.details;
       }
     );
   }
