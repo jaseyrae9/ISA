@@ -2,8 +2,8 @@ import { DataService } from './../../observables/data.service';
 import { Component, OnInit } from '@angular/core';
 import { RentACarCompany } from 'src/app/model/rent-a-car-company/rent-a-car-company';
 import { RentACarCompanyService } from 'src/app/services/rent-a-car-company/rent-a-car-company.service';
-import * as decode from 'jwt-decode';
-import { TokenPayload } from 'src/app/model/token-payload';
+import { Role } from 'src/app/model/role';
+import { TokenStorageService } from 'src/app/auth/token-storage.service';
 
 @Component({
   selector: 'app-all-cars-companies-page',
@@ -13,19 +13,18 @@ import { TokenPayload } from 'src/app/model/token-payload';
 
 export class AllCarsCompaniesPageComponent implements OnInit {
   companies: RentACarCompany[];
-  tokenPayload : TokenPayload;
+  roles: Role[];
 
-  constructor(private rentACarCompanyService: RentACarCompanyService, private dataService: DataService) {  
-   }
+  constructor(private rentACarCompanyService: RentACarCompanyService, private dataService: DataService,public tokenService: TokenStorageService) {
+    
+  }
 
   ngOnInit() {
     this.rentACarCompanyService.getAll().subscribe(data => {
       this.companies = data;
     });
-    const token =  sessionStorage.getItem('AuthToken');
-    // decode the token to get its payload
-    const tokenPayload : TokenPayload = decode(token);
-    this.tokenPayload = tokenPayload;
+    this.roles = this.tokenService.getRoles();
+    this.tokenService.rolesEmitter.subscribe(roles => this.roles = roles);
   }
 
   carCompanyCreated(carCompany: RentACarCompany) {
@@ -33,14 +32,14 @@ export class AllCarsCompaniesPageComponent implements OnInit {
     this.dataService.changeCarCompany(carCompany);
   }
 
-  isSysAdmin()
-  {
-    for(let role of this.tokenPayload.roles)
-    {
-      if(role.authority == 'ROLE_SYS')
-      {
-        return true;
+  isSysAdmin() {
+    if (this.roles != undefined) {
+      for (let role of this.roles) {
+        if (role.authority == 'ROLE_SYS') {
+          return true;
+        }
       }
+      return false;
     }
     return false;
   }

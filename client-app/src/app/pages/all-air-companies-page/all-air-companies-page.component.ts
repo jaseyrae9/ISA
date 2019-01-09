@@ -2,8 +2,8 @@ import { DataService } from './../../observables/data.service';
 import { Component, OnInit } from '@angular/core';
 import { AirCompanyService } from 'src/app/services/air-company/air-company.service';
 import { AirCompany } from 'src/app/model/air-company/air-company';
-import * as decode from 'jwt-decode';
-import { TokenPayload } from 'src/app/model/token-payload';
+import { TokenStorageService } from 'src/app/auth/token-storage.service';
+import { Role } from 'src/app/model/role';
 
 @Component({
   selector: 'app-all-air-companies-page',
@@ -12,19 +12,17 @@ import { TokenPayload } from 'src/app/model/token-payload';
 })
 export class AllAirCompaniesPageComponent implements OnInit {
   companies: AirCompany[];
-  tokenPayload : TokenPayload;
+  roles: Role[];
 
-  constructor(private airCompanyService: AirCompanyService, private dataService: DataService) {
+  constructor(private airCompanyService: AirCompanyService, private dataService: DataService, public tokenService: TokenStorageService) {
    }
 
   ngOnInit() {
     this.airCompanyService.getAll().subscribe(data => {
       this.companies = data;
     });
-    const token =  sessionStorage.getItem('AuthToken');
-    // decode the token to get its payload
-    const tokenPayload : TokenPayload = decode(token);
-    this.tokenPayload = tokenPayload;
+    this.roles = this.tokenService.getRoles();
+    this.tokenService.rolesEmitter.subscribe(roles => this.roles = roles);
   
   }
 
@@ -33,14 +31,14 @@ export class AllAirCompaniesPageComponent implements OnInit {
     this.dataService.changeAirCompany(airCompany);
   }
 
-  isSysAdmin()
-  {
-    for(let role of this.tokenPayload.roles)
-    {
-      if(role.authority == 'ROLE_SYS')
-      {
-        return true;
+  isSysAdmin() {
+    if (this.roles != undefined) {
+      for (let role of this.roles) {
+        if (role.authority == 'ROLE_SYS') {
+          return true;
+        }
       }
+      return false;
     }
     return false;
   }

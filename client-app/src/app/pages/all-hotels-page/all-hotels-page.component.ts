@@ -2,8 +2,9 @@ import { DataService } from './../../observables/data.service';
 import { Component, OnInit } from '@angular/core';
 import { HotelService } from '../../services/hotel/hotel.service';
 import { Hotel } from 'src/app/model/hotel/hotel';
-import * as decode from 'jwt-decode';
-import { TokenPayload } from 'src/app/model/token-payload';
+
+import { TokenStorageService } from 'src/app/auth/token-storage.service';
+import { Role } from 'src/app/model/role';
 
 @Component({
   selector: 'app-all-hotels-page',
@@ -12,21 +13,18 @@ import { TokenPayload } from 'src/app/model/token-payload';
 })
 export class AllHotelsPageComponent implements OnInit {
   hotels: Hotel[];
-  tokenPayload : TokenPayload;
+  roles: Role[];
 
-  constructor(private hotelService: HotelService, private dataService: DataService) 
-  {
-    
+  constructor(private hotelService: HotelService, private dataService: DataService, public tokenService: TokenStorageService) {
+
   }
 
   ngOnInit() {
     this.hotelService.getAll().subscribe(data => {
       this.hotels = data;
     });
-    const token =  sessionStorage.getItem('AuthToken');
-    // decode the token to get its payload
-    const tokenPayload : TokenPayload = decode(token);
-    this.tokenPayload = tokenPayload;
+    this.roles = this.tokenService.getRoles();
+    this.tokenService.rolesEmitter.subscribe(roles => this.roles = roles);
   }
 
   hotelCreated(hotel: Hotel) {
@@ -34,17 +32,16 @@ export class AllHotelsPageComponent implements OnInit {
     this.dataService.changeHotel(hotel);
   }
 
-  isSysAdmin()
-  {
-    for(let role of this.tokenPayload.roles)
-    {
-      console.log(role.authority);
-      if(role.authority == 'ROLE_SYS')
-      {
-        return true;
+  isSysAdmin() {
+    if (this.roles != undefined) {
+      for (let role of this.roles) {
+        if (role.authority == 'ROLE_SYS') {
+          return true;
+        }
       }
+      return false;
     }
     return false;
   }
-  
+
 }
