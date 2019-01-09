@@ -61,7 +61,7 @@ import { EditCarFormComponent } from './components/rent-a-car-company/edit-car-f
 import { RoomBasicInfoComponent } from './components/hotel/room-basic-info/room-basic-info.component';
 import { NewRoomFormComponent } from './components/hotel/new-room-form/new-room-form.component';
 import { ErrorPageComponent } from './pages/error-page/error-page.component';
-
+import { RoleGuardService } from 'src/app/auth/role-guard.service';
 
 @NgModule({
   declarations: [
@@ -119,7 +119,7 @@ import { ErrorPageComponent } from './pages/error-page/error-page.component';
   imports: [
     BrowserModule, RoutingModule, HttpClientModule, FormsModule, ModalModule.forRoot()
   ],
-  providers: [HotelService, AirCompanyService, UserService, DataService,
+  providers: [HotelService, AirCompanyService, UserService, DataService, RoleGuardService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],

@@ -17,20 +17,33 @@ import { AirCompanyPageComponent } from './components/air-company/air-company-pa
 import { HotelPageComponent } from './components/hotel/hotel-page/hotel-page.component';
 import { CarCompanyPageComponent } from './components/rent-a-car-company/car-company-page/car-company-page.component';
 import { ErrorPageComponent } from './pages/error-page/error-page.component';
+import { RoleGuardService } from 'src/app/auth/role-guard.service';
 
 const routes: Routes = [
-  { path: '', component: HomePageComponent},
-  { path: 'aircompanies', component: AllAirCompaniesPageComponent},
-  { path: 'aircompany/:id', component: AirCompanyPageComponent},
+  { path: '', component: HomePageComponent },
+  { path: 'aircompanies', component: AllAirCompaniesPageComponent },
+  { path: 'aircompany/:id', component: AirCompanyPageComponent },
   { path: 'find-flight', component: FlightSearchPageComponent },
   { path: 'hotels', component: AllHotelsPageComponent },
   { path: 'hotel/:id', component: HotelPageComponent },
   { path: 'find-room', component: RoomSearchPageComponent },
   { path: 'rent-a-car-companies', component: AllCarsCompaniesPageComponent },
-  { path: 'rent-a-car-company/:id', component: CarCompanyPageComponent},
+  { path: 'rent-a-car-company/:id', component: CarCompanyPageComponent },
   { path: 'find-car', component: CarSearchPageComponent },
-  { path: 'profile', component: ProfileComponent },
-  { path: 'friends', component: FriendsPageComponent },
+  {
+    path: 'profile', component: ProfileComponent,
+    canActivate: [RoleGuardService],
+    data: {
+      expectedRoles: ['CUSTOMER', 'AIRADMIN', 'HOTELADMIN', 'CARADMIN']
+    }
+  },
+  {
+    path: 'friends', component: FriendsPageComponent,
+    canActivate: [RoleGuardService],
+    data: {
+      expectedRoles: ['CUSTOMER']
+    }
+  },
   { path: 'error/:code', component: ErrorPageComponent },
   { path: '**', redirectTo: '' }
 ];
