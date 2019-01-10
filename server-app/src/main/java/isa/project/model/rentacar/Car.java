@@ -16,6 +16,9 @@ public class Car {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	
+	@Column(name = "type")
+	private String type;
+	
 	@Column(name = "brand", nullable = false)
 	private String brand;
 	
@@ -39,7 +42,7 @@ public class Car {
 	}
 	
 	public Car(String brand, String model, Integer yearOfProduction, Integer seatsNumber, Integer doorsNumber,
-			Integer price) {
+			Integer price, String type) {
 		super();
 		this.brand = brand;
 		this.model = model;
@@ -47,6 +50,7 @@ public class Car {
 		this.seatsNumber = seatsNumber;
 		this.doorsNumber = doorsNumber;
 		this.price = price;
+		this.type = type;
 	}
 
 	public Integer getId() {
@@ -105,6 +109,13 @@ public class Car {
 		this.price = price;
 	}
 	
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
 
 	@Override
 	public int hashCode() {

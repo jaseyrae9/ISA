@@ -28,7 +28,7 @@
                 <hr>
                 <p>{{airCompany.description}}</p>
                 <div align = "right">
-                  <button class="btn btn-primary float-right"  data-toggle="modal" data-target="#editAirCompany"><i class="fa fa-edit" aria-hidden="true"></i>Edit</button>
+                  <button *ngIf="isAirAdmin()" class="btn btn-primary float-right"  data-toggle="modal" data-target="#editAirCompany"><i class="fa fa-edit" aria-hidden="true"></i>Edit</button>
                 </div>
         </div>
       </div>

@@ -112,7 +112,7 @@ public class RentACarCompanyController {
 	@RentACarCompanyAdminCheck
 	@RequestMapping(value="/addCar/{companyId}",method=RequestMethod.POST, consumes="application/json")
 	public ResponseEntity<CarDTO> addCar(@PathVariable Integer companyId, @RequestBody CarDTO carDTO) throws ResourceNotFoundException{
-		Car car = new Car(carDTO.getBrand(), carDTO.getModel(), carDTO.getYearOfProduction(), carDTO.getSeatsNumber(), carDTO.getDoorsNumber(), carDTO.getPrice());
+		Car car = new Car(carDTO.getBrand(), carDTO.getModel(), carDTO.getYearOfProduction(), carDTO.getSeatsNumber(), carDTO.getDoorsNumber(), carDTO.getPrice(), carDTO.getType());
 		Optional<RentACarCompany> carCompany = rentACarCompanyService.findRentACarCompany(companyId);
 		
 		if (!carCompany.isPresent()) {
@@ -147,6 +147,7 @@ public class RentACarCompanyController {
 			{
 				c.setBrand(carDTO.getBrand());
 				c.setModel(carDTO.getModel());
+				c.setType(carDTO.getType());
 				c.setYearOfProduction(carDTO.getYearOfProduction());
 				c.setSeatsNumber(carDTO.getSeatsNumber());
 				c.setDoorsNumber(carDTO.getDoorsNumber());

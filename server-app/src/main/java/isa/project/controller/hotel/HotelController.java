@@ -18,11 +18,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import isa.project.aspects.AdminAccountActiveCheck;
 import isa.project.aspects.HotelAdminCheck;
+import isa.project.aspects.RentACarCompanyAdminCheck;
 import isa.project.dto.hotel.HotelDTO;
 import isa.project.dto.hotel.RoomDTO;
+import isa.project.dto.rentacar.CarDTO;
 import isa.project.exception_handlers.ResourceNotFoundException;
 import isa.project.model.hotel.Hotel;
 import isa.project.model.hotel.Room;
+import isa.project.model.rentacar.Car;
+import isa.project.model.rentacar.RentACarCompany;
 import isa.project.service.hotel.HotelService;
 
 @RestController
@@ -117,7 +121,7 @@ public class HotelController {
 	@HotelAdminCheck
 	@RequestMapping(value="/addRoom/{hotelId}",method=RequestMethod.POST, consumes="application/json")
 	public ResponseEntity<RoomDTO> addRoom(@PathVariable Integer hotelId, @RequestBody RoomDTO roomDTO) throws ResourceNotFoundException{
-		Room room = new Room(roomDTO.getFloor(), roomDTO.getRoomNumber(), roomDTO.getNumberOfBeds(), roomDTO.getPrice());
+		Room room = new Room(roomDTO.getFloor(), roomDTO.getRoomNumber(), roomDTO.getNumberOfBeds(), roomDTO.getPrice(), roomDTO.getType());
 		Optional<Hotel> hotel = hotelService.findHotel(hotelId);
 		
 		if (!hotel.isPresent()) {
@@ -128,4 +132,37 @@ public class HotelController {
 		hotelService.saveHotel(hotel.get());
 		return new ResponseEntity<>(new RoomDTO(room), HttpStatus.CREATED);	
 	}
+	
+	/**
+	 * Edit room of hotel. 
+	 * @param room
+	 * @return
+	 */
+	@PreAuthorize("hasAnyRole('HOTELADMIN')")
+	@AdminAccountActiveCheck
+	@HotelAdminCheck
+	@RequestMapping(value="/editRoom/{hotelId}",method=RequestMethod.PUT, consumes="application/json")
+	public ResponseEntity<RoomDTO> editRoom(@PathVariable Integer hotelId, @RequestBody RoomDTO roomDTO) throws ResourceNotFoundException{
+		Optional<Hotel> hotel = hotelService.findHotel(hotelId);
+		
+		if (!hotel.isPresent()) {
+			throw new ResourceNotFoundException(hotelId.toString(), "Hotel not found");
+		}
+		
+		for(Room r : hotel.get().getRooms())
+		{
+			if(r.getId().equals(roomDTO.getId()))
+			{
+				r.setRoomNumber(roomDTO.getRoomNumber());
+				r.setFloor(roomDTO.getFloor());
+				r.setNumberOfBeds(roomDTO.getNumberOfBeds());
+				r.setPrice(roomDTO.getPrice());
+				r.setType(roomDTO.getType());
+			}
+		}
+				
+		hotelService.saveHotel(hotel.get());
+		return new ResponseEntity<>(roomDTO, HttpStatus.OK);	
+	}
+	
 }

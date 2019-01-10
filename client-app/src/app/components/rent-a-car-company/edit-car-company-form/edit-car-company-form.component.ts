@@ -10,11 +10,9 @@ import { RentACarCompanyService} from 'src/app/services/rent-a-car-company/rent-
   styleUrls: ['./edit-car-company-form.component.css',  '../../../shared/css/inputField.css']
 })
 export class EditCarCompanyFormComponent implements OnInit {
-  @Output() carEdited: EventEmitter<RentACarCompany> = new EventEmitter();
+  @Output() carCompanyEdited: EventEmitter<RentACarCompany> = new EventEmitter();
   @ViewChild('closeBtn') closeBtn: ElementRef;
   @Input() carCompany: RentACarCompany;
-  editedCarCompany: RentACarCompany;
-
 
   constructor (private carCompanyService: RentACarCompanyService) { }
 
@@ -22,10 +20,9 @@ export class EditCarCompanyFormComponent implements OnInit {
   }
 
   onCarCompanyEdit() {
-    this.editedCarCompany.id = this.carCompany.id;
-    this.carCompanyService.edit(this.editedCarCompany).subscribe(
+    this.carCompanyService.edit(this.carCompany).subscribe(
       data => {
-        this.carEdited.emit(data);
+        this.carCompanyEdited.emit(data);
         this.closeBtn.nativeElement.click();
       },
       error => {

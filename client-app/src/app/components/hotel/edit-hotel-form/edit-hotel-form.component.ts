@@ -13,7 +13,6 @@ export class EditHotelFormComponent implements OnInit {
   @Output() hotelEdited: EventEmitter<Hotel> = new EventEmitter();
   @ViewChild('closeBtn') closeBtn: ElementRef;
   @Input() hotel: Hotel;
-  editedHotel: Hotel = new Hotel();
 
   constructor(private hotelService: HotelService) { }
 
@@ -21,9 +20,9 @@ export class EditHotelFormComponent implements OnInit {
   }
 
   onHotelEdit() {
-    this.editedHotel.id = this.hotel.id;
-    this.hotelService.edit(this.editedHotel).subscribe(
+    this.hotelService.edit(this.hotel).subscribe(
       data => {
+        console.log("Stigao odgovor", data);
         this.hotelEdited.emit(data);
         this.closeBtn.nativeElement.click();
       },

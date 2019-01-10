@@ -15,7 +15,8 @@ INSERT INTO authority (id, name) VALUES (3, 'HOTELADMIN');
 INSERT INTO authority (id, name) VALUES (4, 'AIRADMIN');
 INSERT INTO authority (id, name) VALUES (5, 'CARADMIN');
 
-insert into car (id,brand,doors_number,model, price, seats_number, year_of_production, rentacar_company_id) values (500, 'Fiat', 5, 'Punto 1.2', 39, 5, 2010, 100);
+insert into car (id,brand,doors_number,model, price, seats_number, type, year_of_production, rentacar_company_id) values (500, 'Fiat', 5, 'Punto 1.2', 39, 5, 'Sedan', 2010, 100);
+INSERT INTO room (id, floor, number_of_beds, price, room_number, type, hotel_id) VALUES (600, 4, 2, 20, 20, 'Regular', 100);
 
 
 INSERT INTO users (type, id, address, confirmed_mail, email, first_name, last_name, last_password_reset_date, password, needs_password_change, phone_number, air_company_id, hotel_id, rent_a_car_company_id)

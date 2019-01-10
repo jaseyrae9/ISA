@@ -19,7 +19,8 @@ export class EditCarFormComponent implements OnInit {
   ngOnInit() {
     const companyId = this.route.snapshot.paramMap.get('id');
     this.companyId = companyId;
-    console.log(companyId);
+    console.log("car type" + this.car.type);
+
   }
 
   onCarEdit() {

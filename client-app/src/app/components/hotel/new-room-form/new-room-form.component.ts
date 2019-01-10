@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-new-room-form',
   templateUrl: './new-room-form.component.html',
-  styleUrls: ['./new-room-form.component.css']
+  styleUrls: ['./new-room-form.component.css', '../../../shared/css/inputField.css']
 })
 export class NewRoomFormComponent implements OnInit {
   @Output() roomCreated: EventEmitter<Room> = new EventEmitter();
@@ -21,6 +21,7 @@ export class NewRoomFormComponent implements OnInit {
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     this.id = id;
+    this.form.type = 'Regular';
   }
 
   onRoomAdd() {
@@ -28,7 +29,10 @@ export class NewRoomFormComponent implements OnInit {
       this.form.floor,
       this.form.roomNumber,
       this.form.numberOfBeds,
-      this.form.price);
+      this.form.price,
+      this.form.type
+      );
+
 
     this.hotelService.addRoom(this.room, this.id).subscribe(
       data => {

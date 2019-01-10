@@ -36,6 +36,20 @@
                 </div>
                 <input type="text" class="form-control" name="model" placeholder="Car model" required="required" [(ngModel)]="car.model">
             </div>
+
+            <div class="input-group form-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
+                  </span>
+                </div>
+                <select [(ngModel)]="car.type" class="form-control" name="type" required="required">
+                    <option value="Sedan">Sedan</option>
+                    <option value="SUV">SUV</option>
+                    <option value="People Carrier/MPV">People Carrier/MPV</option>
+                    <option value="Convertible">Convertible</option>
+                </select>
+            </div>
             
             <div class="input-group form-group">
                 <div class="input-group-prepend">

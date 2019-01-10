@@ -9,6 +9,7 @@ public class RoomDTO {
 	private Integer roomNumber;
 	private Integer numberOfBeds;
 	private Double price;
+	private String type;
 	
 	public RoomDTO()
 	{
@@ -22,6 +23,7 @@ public class RoomDTO {
 		this.roomNumber = room.getRoomNumber();
 		this.numberOfBeds = room.getNumberOfBeds();
 		this.price = room.getPrice();
+		this.type = room.getType();
 	}
 
 	public Integer getId() {
@@ -63,4 +65,13 @@ public class RoomDTO {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+	
 }

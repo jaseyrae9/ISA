@@ -21,10 +21,12 @@ export class NewCarFormComponent implements OnInit {
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     this.id = id;
+    this.form.type = "Sedan";
   }
 
   onCarAdd() {
     this.car = new Car(null,
+      this.form.type,
       this.form.brand,
       this.form.model,
       this.form.seatsNumber,

@@ -3,8 +3,8 @@
     <img src="assets/images/car/car.png" class="rounded-circle">
   </div>
   <div class="col-sm-5 pt-2 border-left p-3" align="center">
-      <p style="font-size: 22px;">Car info
-          <br><small class="text-muted">{{car.brand}} {{car.model}}</small>
+      <p style="font-size: 22px;">{{car.brand}} {{car.model}}
+          <br><small class="text-muted">Type: {{car.type}}</small>
           </p>
           <hr>
       <div>
@@ -17,12 +17,12 @@
   <div class="col border-left p-3" align="center">
       <p style="font-size: 45px; color:  #33cabb;">€{{car.price}}</p>
       <hr>
-      <button class="btn btn-primary px-4 m-2" data-toggle="modal" data-target="#editCar">Edit</button>
+      <button *ngIf="isCarAdmin()" class="btn btn-primary px-4 m-2" data-toggle="modal" data-target="#editCar" (click)="click()">Edit</button>
       <button class="btn btn-primary px-4 m-2">Rent</button>
   </div>  
 </div>
 
-<!-- Modal (carEdited)='carEdited($event)' -->
-<app-edit-car-form [car]="car" class="modal fade" id="editCar" tabindex="-1" role="dialog" aria-hidden="true"></app-edit-car-form>
+<!-- Modal  -->
+<app-edit-car-form [car]="getCar()" class="modal fade" id="editCar" tabindex="-1" role="dialog" aria-hidden="true" (carEdited)='carEdited($event)'></app-edit-car-form>
 
 

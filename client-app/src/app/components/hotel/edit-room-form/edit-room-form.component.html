@@ -2,7 +2,7 @@
   <div class="modal-content">
 
     <div class="modal-header">
-      <h5 class="modal-title">Add new <b style="color: #33cabb;">room</b></h5>
+      <h5 class="modal-title">Edit <b style="color: #33cabb;">room</b></h5>
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -17,7 +17,7 @@
                   <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
                 </span>
               </div>
-              <select [(ngModel)]="form.type" class="form-control" name="type" required="required">
+              <select [(ngModel)]="room.type" class="form-control" name="type" required="required">
                 <option value='Regular'>Regular</option>
                 <option value='Apartman'>Apartman</option>
               </select>
@@ -29,7 +29,7 @@
               <i class="fa fa-hashtag" aria-hidden="true"></i>
             </span>
           </div>
-          <input type="text" class="form-control" placeholder="Room floor" required="required" [(ngModel)]="form.floor"
+          <input type="text" class="form-control" placeholder="Room floor" required="required" [(ngModel)]="room.floor"
             name="floor">
         </div>
 
@@ -40,7 +40,7 @@
             </span>
           </div>
           <input type="text" class="form-control" name="roomNumber" placeholder="Room number" required="required"
-            [(ngModel)]="form.roomNumber">
+            [(ngModel)]="room.roomNumber">
         </div>
 
         <div class="input-group form-group">
@@ -50,7 +50,7 @@
             </span>
           </div>
           <input type="text" class="form-control" name="numberOfBeds" placeholder="Number of beds" required="required"
-            [(ngModel)]="form.numberOfBeds">
+            [(ngModel)]="room.numberOfBeds">
         </div>
 
         <div class="input-group form-group">
@@ -60,14 +60,14 @@
             </span>
           </div>
           <input type="text" class="form-control" name="price" placeholder="Price per night" required="required"
-            [(ngModel)]="form.price">
+            [(ngModel)]="room.price">
         </div>
       </form>
     </div>
 
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" data-dismiss="modal" #closeBtn>Close</button>
-      <button type="button" class="btn btn-primary" (click)="onRoomAdd()">Add</button>
+      <button type="button" class="btn btn-primary" (click)="onRoomEdit()">Edit</button>
     </div>
 
   </div>

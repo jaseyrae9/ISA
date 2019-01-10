@@ -5,6 +5,7 @@ import isa.project.model.rentacar.Car;
 public class CarDTO {
 
 	private Integer id;
+	private String type;
 	private String brand;
 	private String model;
 	private Integer yearOfProduction;
@@ -24,6 +25,7 @@ public class CarDTO {
 		this.seatsNumber = car.getSeatsNumber();
 		this.doorsNumber = car.getDoorsNumber();
 		this.price = car.getPrice();
+		this.type = car.getType();
 	}
 
 	public Integer getId() {
@@ -82,4 +84,11 @@ public class CarDTO {
 		this.price = price;
 	}
 
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
 }

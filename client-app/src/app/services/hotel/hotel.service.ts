@@ -45,4 +45,9 @@ export class HotelService {
   addRoom(room: Room, hotelId: String): Observable<Room> {
     return this.http.post<Room>('http://localhost:8080/hotels/addRoom/' + hotelId, room, httpOptions);
   }
+
+  editRoom(room: Room, hotelId: String): Observable<Room> {
+    // console.log("EDITUJEM", car);
+     return this.http.put<Room>('http://localhost:8080/hotels/editRoom/' + hotelId, room, httpOptions);
+   }
 }

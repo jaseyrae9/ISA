@@ -26,20 +26,23 @@ public class Room {
 
 	@Column(name = "price", nullable = false)
 	private Double price;
+	
+	@Column(name = "type")
+	private String type;
+	
 
 	public Room() {
 		super();
 	}
 	
-	public Room(Integer floor, Integer roomNumber, Integer numberOfBeds, Double price) {
+	public Room(Integer floor, Integer roomNumber, Integer numberOfBeds, Double price, String type) {
 		super();
 		this.floor = floor;
 		this.roomNumber = roomNumber;
 		this.numberOfBeds = numberOfBeds;
 		this.price = price;
+		this.type = type;
 	}
-
-
 
 	public Integer getId() {
 		return id;
@@ -79,6 +82,14 @@ public class Room {
 
 	public void setFloor(Integer floor) {
 		this.floor = floor;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	@Override
