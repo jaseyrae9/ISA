@@ -25,7 +25,8 @@ export class HotelPageComponent implements OnInit {
     this.hotelService.get(id).subscribe(
       (data) => {
         this.hotel = data;
-        this.forEditing = new Hotel(data.id, data.name, data.description, data.rooms);
+        console.log(this.hotel);
+        this.forEditing = new Hotel(data.id, data.name, data.description);
       }
     );
     this.roles = this.tokenService.getRoles();
@@ -36,7 +37,7 @@ export class HotelPageComponent implements OnInit {
     this.hotel.id = data.id;
     this.hotel.name = data.name;
     this.hotel.description = data.description;
-    this.forEditing = new Hotel(data.id, data.name, data.description, data.rooms);
+    this.forEditing = new Hotel(data.id, data.name, data.description);
   }
 
   roomCreated(room: Room) {

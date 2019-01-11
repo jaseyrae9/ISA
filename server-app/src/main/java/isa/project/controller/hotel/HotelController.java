@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import isa.project.aspects.AdminAccountActiveCheck;
+import isa.project.aspects.AirCompanyAdminCheck;
 import isa.project.aspects.HotelAdminCheck;
 import isa.project.aspects.RentACarCompanyAdminCheck;
 import isa.project.dto.hotel.HotelDTO;
@@ -27,6 +28,7 @@ import isa.project.model.hotel.Hotel;
 import isa.project.model.hotel.Room;
 import isa.project.model.rentacar.Car;
 import isa.project.model.rentacar.RentACarCompany;
+import isa.project.model.shared.AdditionalService;
 import isa.project.service.hotel.HotelService;
 
 @RestController
@@ -187,5 +189,14 @@ public class HotelController {
 				
 		hotelService.saveHotel(hotel.get());
 		return new ResponseEntity<>(roomId, HttpStatus.OK);	
+	}
+	
+	@PreAuthorize("hasAnyRole('HOTELADMIN')")
+	@AdminAccountActiveCheck
+	@HotelAdminCheck
+	@RequestMapping(value = "/addAdditionalService/{id}", method = RequestMethod.POST, consumes = "application/json")
+	public ResponseEntity<?> addBaggageInformation(@PathVariable Integer id, @Valid @RequestBody AdditionalService additionalService) throws ResourceNotFoundException {
+		AdditionalService service = hotelService.addAdditionalService(additionalService, id);
+		return new ResponseEntity<>(service, HttpStatus.OK);
 	}
 }

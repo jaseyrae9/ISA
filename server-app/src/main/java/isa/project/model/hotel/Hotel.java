@@ -15,6 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import isa.project.model.shared.AdditionalService;
+
 @Entity
 @Table(name = "hotel")
 public class Hotel {
@@ -32,6 +34,9 @@ public class Hotel {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	@JoinColumn(name = "hotel_id")
 	private Set<Room> rooms = new HashSet<Room>();
+	
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<AdditionalService> additionalServices;	
 
 	public Hotel() {
 		super();
@@ -73,6 +78,14 @@ public class Hotel {
 
 	public void setRooms(Set<Room> rooms) {
 		this.rooms = rooms;
+	}
+
+	public Set<AdditionalService> getAdditionalServices() {
+		return additionalServices;
+	}
+
+	public void setAdditionalServices(Set<AdditionalService> additionalServices) {
+		this.additionalServices = additionalServices;
 	}
 
 	@Override

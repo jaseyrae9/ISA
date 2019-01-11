@@ -173,10 +173,8 @@ public class RentACarCompanyController {
 			throw new ResourceNotFoundException(carCompanyId.toString(), "Rent a car company not found");
 		}
 		
-		for(Car c : rentACarCompany.get().getCars())
-		{
-			if(c.getId().equals(carId))
-			{
+		for(Car c : rentACarCompany.get().getCars()){
+			if(c.getId().equals(carId)){
 				c.setActive(false);
 				break;
 			}

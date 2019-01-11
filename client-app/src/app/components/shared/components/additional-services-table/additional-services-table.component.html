@@ -1,11 +1,7 @@
 <section class="pricing-table">
     <div class="container">
-        <div class="row pt-4 justify-content-md-center">
-            <app-additional-service class="col-md-5 col-lg-4"></app-additional-service>
-            <app-additional-service class="col-md-5 col-lg-4"></app-additional-service>
-            <app-additional-service class="col-md-5 col-lg-4"></app-additional-service>            
-            <app-additional-service class="col-md-5 col-lg-4"></app-additional-service>
-            <app-additional-service class="col-md-5 col-lg-4"></app-additional-service>
+        <div class="row pt-4 justify-content-md-center" >
+            <app-additional-service *ngFor="let additionalService of additionalServices" class="col-md-5 col-lg-4" [additionalService]="additionalService"></app-additional-service>
         </div>
     </div>
-</section>  
+</section>

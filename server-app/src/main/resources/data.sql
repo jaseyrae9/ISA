@@ -1,6 +1,20 @@
 insert into hotel (id, hotel_name, hotel_description) values (100, 'Hotel proba 1', 'Opis 1');
 insert into hotel (id, hotel_name, hotel_description) values (101, 'Hotel proba 2', 'Opis 2');
 
+
+INSERT INTO services (id, description, name, price) VALUES (100, 'Opis usluge', 'WiFi', 5);
+INSERT INTO services (id, description, name, price) VALUES (101, 'Opis usluge', 'Parking lot',  10);
+INSERT INTO services (id, description, name, price) VALUES (102, 'Opis usluge', 'Air conditioning', 5);
+INSERT INTO services (id, description, name, price) VALUES (104, 'Opis usluge', 'Welness', 15);
+INSERT INTO services (id, description, name, price) VALUES (105, 'Opis usluge', 'Room service', 10);
+
+insert into hotel_additional_services (hotel_id, additional_services_id) value (100, 100);
+insert into hotel_additional_services (hotel_id, additional_services_id) value (100, 101);
+insert into hotel_additional_services (hotel_id, additional_services_id) value (100, 102);
+insert into hotel_additional_services (hotel_id, additional_services_id) value (100, 103);
+insert into hotel_additional_services (hotel_id, additional_services_id) value (100, 104);
+insert into hotel_additional_services (hotel_id, additional_services_id) value (100, 105);
+
 insert into air_company (id, name, description) values (100, 'Aviokompanija 1', 'Opis 1');
 insert into air_company (id, name, description) values (101, 'Aviokompanija 2', 'Opis 2');
 insert into air_company (id, name, description) values (102, 'Aviokompanija 3', 'Opis 3');
