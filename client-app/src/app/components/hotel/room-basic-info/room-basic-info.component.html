@@ -1,6 +1,9 @@
 <div class="row border rounded align-items-center p-2 mt-2">
   <div class="col-sm-3 pt-2" align="center">
-    <img src="assets/images/hotel/queen.png" >
+        <img *ngIf="room.type == 'Regular'" src="assets/images/hotel/single1.png" class="rounded-circle">
+        <img *ngIf="room.type == 'Studio'" src="assets/images/hotel/king.png" class="rounded-circle">
+        <img *ngIf="room.type == 'Apartman'" src="assets/images/hotel/queen.png" class="rounded-circle">
+       
   </div>
   <div class="col-sm-5 pt-2 border-left p-3" align="center">
       <p style="font-size: 22px;"> {{room.type}} Room
@@ -16,9 +19,8 @@
   <div class="col border-left p-3" align="center">
       <p style="font-size: 45px; color:  #33cabb;">€{{room.price}}</p>
       <hr>
-      <button *ngIf="isHotelAdmin()" class="btn btn-primary px-4 m-2" data-toggle="modal" data-target="#editRoom">Edit</button>
+      <button *ngIf="isHotelAdmin()" class="btn btn-primary px-4 m-2" (click)="openEditModal()">Edit</button>
+      <button *ngIf="isHotelAdmin()" class="btn btn-primary px-4 m-2" (click)="deleteRoom()">Delete</button>
       <button class="btn btn-primary px-4 m-2">Book</button>
   </div>  
 </div>
-
-<app-edit-room-form [room]="forEditing" class="modal fade" id="editRoom" tabindex="-1" role="dialog" aria-hidden="true" (roomEdited)="roomEdited($event)"></app-edit-room-form>

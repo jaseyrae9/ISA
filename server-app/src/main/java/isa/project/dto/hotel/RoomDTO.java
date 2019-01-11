@@ -10,6 +10,7 @@ public class RoomDTO {
 	private Integer numberOfBeds;
 	private Double price;
 	private String type;
+	private Boolean active;
 	
 	public RoomDTO()
 	{
@@ -24,6 +25,7 @@ public class RoomDTO {
 		this.numberOfBeds = room.getNumberOfBeds();
 		this.price = room.getPrice();
 		this.type = room.getType();
+		this.active = room.getActive();
 	}
 
 	public Integer getId() {
@@ -73,5 +75,12 @@ public class RoomDTO {
 	public void setType(String type) {
 		this.type = type;
 	}
-	
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
 }

@@ -13,7 +13,7 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                           <a class="dropdown-item" routerLink="/find-flight">Find flight</a>
                           <a class="dropdown-item" routerLink="/aircompanies">All companies</a>
-                          <a class="dropdown-item" href="#" data-toggle="modal" data-target="#addAirCompanyAdmin">Add admin</a>
+                          <a *ngIf="isSysAdmin()" class="dropdown-item" href="#" data-toggle="modal" data-target="#addAirCompanyAdmin">Add admin</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown" routerLinkActive="active">
@@ -23,7 +23,7 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                           <a class="dropdown-item" routerLink="/find-room">Find room</a>
                           <a class="dropdown-item" routerLink="/hotels">All hotels</a>
-                          <a class="dropdown-item" href="#" data-toggle="modal" data-target="#addHotelAdmin">Add admin</a>
+                          <a *ngIf="isSysAdmin()" class="dropdown-item" href="#" data-toggle="modal" data-target="#addHotelAdmin">Add admin</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown" routerLinkActive="active">
@@ -33,7 +33,7 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                           <a class="dropdown-item" routerLink="/find-car">Find car</a>
                           <a class="dropdown-item" routerLink="/rent-a-car-companies">All rent-a-car companies</a>
-                          <a class="dropdown-item" href="#" data-toggle="modal" data-target="#addCarCompanyAdmin">Add admin</a>
+                          <a *ngIf="isSysAdmin()" class="dropdown-item" href="#" data-toggle="modal" data-target="#addCarCompanyAdmin">Add admin</a>
                         </div>
                     </li>
                 </ul>

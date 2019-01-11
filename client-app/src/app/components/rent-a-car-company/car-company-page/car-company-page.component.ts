@@ -36,19 +36,25 @@ export class CarCompanyPageComponent implements OnInit {
     this.carCompany.cars.push(car);
   }
 
-  carCompanyEdited(data)
-  {
-    console.log("edited..");
+  carCompanyEdited(data) {
     this.carCompany.id = data.id;
     this.carCompany.name = data.name;
     this.carCompany.description = data.description;
     this.forEditing = new RentACarCompany(data.id, data.name, data.description, data.cars);
   }
 
+  carDeleted(carId: number) {
+    for (const car of this.carCompany.cars) {
+      if (car.id === carId) {
+        car.active = false;
+      }
+    }
+  }
+
   isCarAdmin() {
-    if (this.roles != undefined) {
-      for (let role of this.roles) {
-        if (role.authority == 'ROLE_CARADMIN') {
+    if (this.roles !== null) {
+      for (const role of this.roles) {
+        if (role.authority === 'ROLE_CARADMIN') {
           return true;
         }
       }

@@ -1,12 +1,13 @@
 export class Room {
-    id: number; 
+    id: number;
     floor: number;
     roomNumber: number;
     numberOfBeds: number;
     price: number;
     type: string;
+    active: boolean;
 
-    constructor(id?: number, floor?: number, roomNumber?: number, numberOfBeds?: number, price?: number, type?: string)
+    constructor(id?: number, floor?: number, roomNumber?: number, numberOfBeds?: number, price?: number, type?: string, active?: boolean)
     {
         this.id = id;
         this.floor = floor;
@@ -14,5 +15,6 @@ export class Room {
         this.numberOfBeds = numberOfBeds;
         this.price = price;
         this.type = type;
+        this.active = active;
     }
 }

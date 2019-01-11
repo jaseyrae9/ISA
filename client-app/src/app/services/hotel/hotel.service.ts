@@ -47,7 +47,10 @@ export class HotelService {
   }
 
   editRoom(room: Room, hotelId: String): Observable<Room> {
-    // console.log("EDITUJEM", car);
      return this.http.put<Room>('http://localhost:8080/hotels/editRoom/' + hotelId, room, httpOptions);
    }
+
+  delete(roomId: number, hotelId: String): Observable<number> {
+    return this.http.delete<number>('http://localhost:8080/hotels/deleteRoom/' + hotelId + '/' + roomId, httpOptions);
+  }
 }

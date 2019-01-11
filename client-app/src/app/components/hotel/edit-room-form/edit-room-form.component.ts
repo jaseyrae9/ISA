@@ -2,6 +2,8 @@ import { Component, OnInit, Input, ViewChild, ElementRef, Output, EventEmitter }
 import { Room } from 'src/app/model/hotel/room'
 import { ActivatedRoute } from '@angular/router';
 import { HotelService } from 'src/app/services/hotel/hotel.service';
+import { BsModalRef } from 'ngx-bootstrap/modal';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'app-edit-room-form',
@@ -9,24 +11,22 @@ import { HotelService } from 'src/app/services/hotel/hotel.service';
   styleUrls: ['./edit-room-form.component.css', '../../../shared/css/inputField.css']
 })
 export class EditRoomFormComponent implements OnInit {
-  @Output() roomEdited: EventEmitter<Room> = new EventEmitter();
-  @ViewChild('closeBtn') closeBtn: ElementRef;
   @Input() room: Room;
-  hotelId: string;
+  @Input() hotelId: string;
 
-  constructor(private route: ActivatedRoute, private hotelService: HotelService) { }
+  public onClose: Subject<Room>;
+
+  constructor(private hotelService: HotelService, public modalRef: BsModalRef) { }
 
   ngOnInit() {
-    console.log("soba" + this.room.type);
-    const hotelId = this.route.snapshot.paramMap.get('id');
-    this.hotelId = hotelId;
+    this.onClose = new Subject();
   }
 
   onRoomEdit() {
     this.hotelService.editRoom(this.room, this.hotelId).subscribe(
       data => {
-        this.roomEdited.emit(data);
-        this.closeBtn.nativeElement.click();
+        this.onClose.next(this.room);
+        this.modalRef.hide();
       },
       error => {
         console.log(error.error.message);

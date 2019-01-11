@@ -41,8 +41,11 @@ export class RentACarCompanyService {
   }
 
   editCar(car: Car, carCompanyId: String): Observable<Car> {
-   // console.log("EDITUJEM", car);
     return this.http.put<Car>('http://localhost:8080/rent_a_car_companies/editCar/' + carCompanyId, car, httpOptions);
+  }
+
+  delete(carId: number, carCompanyId: String): Observable<number> {
+    return this.http.delete<number>('http://localhost:8080/rent_a_car_companies/deleteCar/' + carCompanyId + '/' + carId, httpOptions);
   }
 
 }

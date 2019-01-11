@@ -125,6 +125,7 @@ import { EditRoomFormComponent } from './components/hotel/edit-room-form/edit-ro
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [EditCarFormComponent, EditRoomFormComponent]
 })
 export class AppModule { }

@@ -37,6 +37,9 @@ public class Car {
 	@Column(name = "price", nullable = false)
 	private Integer price;
 	
+	@Column(name = "active")
+	private Boolean active;
+	
 	public Car() {
 		super();
 	}
@@ -51,6 +54,7 @@ public class Car {
 		this.doorsNumber = doorsNumber;
 		this.price = price;
 		this.type = type;
+		this.active = true;
 	}
 
 	public Integer getId() {
@@ -115,6 +119,14 @@ public class Car {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
 	}
 
 	@Override

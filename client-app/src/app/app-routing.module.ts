@@ -1,5 +1,3 @@
-import { ChangePasswordFormComponent } from './components/user/change-password-form/change-password-form.component';
-import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
 
@@ -34,7 +32,7 @@ const routes: Routes = [
     path: 'profile', component: ProfileComponent,
     canActivate: [RoleGuardService],
     data: {
-      expectedRoles: ['CUSTOMER', 'AIRADMIN', 'HOTELADMIN', 'CARADMIN']
+      expectedRoles: ['CUSTOMER', 'AIRADMIN', 'HOTELADMIN', 'CARADMIN', 'SYS']
     }
   },
   {

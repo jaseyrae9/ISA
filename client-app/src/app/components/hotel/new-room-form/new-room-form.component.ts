@@ -30,7 +30,8 @@ export class NewRoomFormComponent implements OnInit {
       this.form.roomNumber,
       this.form.numberOfBeds,
       this.form.price,
-      this.form.type
+      this.form.type,
+      true // <- for acitve
       );
 
 

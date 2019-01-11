@@ -30,6 +30,9 @@ public class Room {
 	@Column(name = "type")
 	private String type;
 	
+	@Column(name = "active")
+	private Boolean active;
+	
 
 	public Room() {
 		super();
@@ -42,6 +45,7 @@ public class Room {
 		this.numberOfBeds = numberOfBeds;
 		this.price = price;
 		this.type = type;
+		this.active = true;
 	}
 
 	public Integer getId() {
@@ -90,6 +94,14 @@ public class Room {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+	
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
 	}
 
 	@Override

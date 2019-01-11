@@ -7,8 +7,11 @@ export class Car {
     doorsNumber: number;
     yearOfProduction: number;
     price: number;
+    active: boolean;
 
-    constructor(id?: number,type?: string, brand?: string, model?: string, seatsNumber?: number, doorsNumber?: number, yearOfProduction?: number, price?: number){
+    constructor(id?: number, type?: string, brand?: string, model?: string,
+        seatsNumber?: number, doorsNumber?: number, yearOfProduction?: number,
+        price?: number, active?: boolean) {
         this.id = id;
         this.brand = brand;
         this.model = model;

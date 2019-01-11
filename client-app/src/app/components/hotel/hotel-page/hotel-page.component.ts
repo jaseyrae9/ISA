@@ -43,10 +43,18 @@ export class HotelPageComponent implements OnInit {
     this.hotel.rooms.push(room);
   }
 
+  roomDeleted(roomId: number) {
+    for (const room of this.hotel.rooms) {
+      if (room.id === roomId) {
+        room.active = false;
+      }
+    }
+  }
+
   isHotelAdmin() {
-    if (this.roles != undefined) {
-      for (let role of this.roles) {
-        if (role.authority == 'ROLE_HOTELADMIN') {
+    if (this.roles !== null) {
+      for (const role of this.roles) {
+        if (role.authority === 'ROLE_HOTELADMIN') {
           return true;
         }
       }

@@ -165,4 +165,27 @@ public class HotelController {
 		return new ResponseEntity<>(roomDTO, HttpStatus.OK);	
 	}
 	
+	@PreAuthorize("hasAnyRole('HOTELADMIN')")
+	@AdminAccountActiveCheck
+	@HotelAdminCheck
+	@RequestMapping(value="/deleteRoom/{hotelId}/{roomId}",method=RequestMethod.DELETE, consumes="application/json")
+	public ResponseEntity<?> deleteRoom(@PathVariable Integer hotelId, @PathVariable Integer roomId) throws ResourceNotFoundException{
+		Optional<Hotel> hotel = hotelService.findHotel(hotelId);
+		
+		if (!hotel.isPresent()) {
+			throw new ResourceNotFoundException(hotelId.toString(), "Hotel not found");
+		}
+		
+		for(Room r : hotel.get().getRooms())
+		{
+			if(r.getId().equals(roomId))
+			{
+				r.setActive(false);
+				break;
+			}
+		}
+				
+		hotelService.saveHotel(hotel.get());
+		return new ResponseEntity<>(roomId, HttpStatus.OK);	
+	}
 }

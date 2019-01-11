@@ -57,8 +57,7 @@ export class TokenStorageService {
     this.rolesEmitChange(roles);
   }
 
-  public getRoles() : Role[]
-  {
+  public getRoles(): Role[] {
     return JSON.parse(sessionStorage.getItem(ROLES_KEY));
   }
 

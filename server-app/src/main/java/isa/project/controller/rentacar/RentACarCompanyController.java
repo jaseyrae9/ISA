@@ -15,10 +15,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import isa.project.aspects.AdminAccountActiveCheck;
+import isa.project.aspects.HotelAdminCheck;
 import isa.project.aspects.RentACarCompanyAdminCheck;
 import isa.project.dto.rentacar.CarDTO;
 import isa.project.dto.rentacar.RentACarCompanyDTO;
 import isa.project.exception_handlers.ResourceNotFoundException;
+import isa.project.model.hotel.Hotel;
+import isa.project.model.hotel.Room;
 import isa.project.model.rentacar.Car;
 import isa.project.model.rentacar.RentACarCompany;
 import isa.project.service.rentacar.RentACarCompanyService;
@@ -157,6 +160,30 @@ public class RentACarCompanyController {
 				
 		rentACarCompanyService.saveRentACarCompany(carCompany.get());
 		return new ResponseEntity<>(carDTO, HttpStatus.OK);	
+	}
+	
+	@PreAuthorize("hasAnyRole('CARADMIN')")
+	@AdminAccountActiveCheck
+	@RentACarCompanyAdminCheck
+	@RequestMapping(value="/deleteCar/{carCompanyId}/{carId}",method=RequestMethod.DELETE, consumes="application/json")
+	public ResponseEntity<?> deleteCar(@PathVariable Integer carCompanyId, @PathVariable Integer carId) throws ResourceNotFoundException{
+		Optional<RentACarCompany> rentACarCompany = rentACarCompanyService.findRentACarCompany(carCompanyId);
+		
+		if (!rentACarCompany.isPresent()) {
+			throw new ResourceNotFoundException(carCompanyId.toString(), "Rent a car company not found");
+		}
+		
+		for(Car c : rentACarCompany.get().getCars())
+		{
+			if(c.getId().equals(carId))
+			{
+				c.setActive(false);
+				break;
+			}
+		}
+				
+		rentACarCompanyService.saveRentACarCompany(rentACarCompany.get());
+		return new ResponseEntity<>(carId, HttpStatus.OK);	
 	}
 	
 	

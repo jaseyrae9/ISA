@@ -50,7 +50,7 @@
       </div>
       <div class="container">
         <div *ngFor="let room of hotel.rooms">
-          <app-room-basic-info [room]='room'></app-room-basic-info>
+          <app-room-basic-info *ngIf="room.active" [room]='room' (roomDeleted)="roomDeleted($event)"></app-room-basic-info>
         </div>
       </div>
     </div>
