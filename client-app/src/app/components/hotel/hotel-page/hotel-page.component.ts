@@ -5,6 +5,7 @@ import { Hotel } from 'src/app/model/hotel/hotel';
 import { Room } from 'src/app/model/hotel/room';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { Role } from 'src/app/model/role';
+import { AdditionalService } from 'src/app/model/additional-service';
 
 
 @Component({
@@ -62,6 +63,11 @@ export class HotelPageComponent implements OnInit {
       return false;
     }
     return false;
+  }
+
+  additionalServiceCreated(additionalService: AdditionalService) {
+    console.log('Service created', additionalService);
+    this.hotel.additionalServices.push(additionalService);
   }
 
 

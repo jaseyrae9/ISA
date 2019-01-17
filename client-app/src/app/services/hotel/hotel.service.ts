@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Hotel } from '../../model/hotel/hotel';
 import { User } from 'src/app/model/users/user';
 import { Room } from 'src/app/model/hotel/room';
+import { AdditionalService } from 'src/app/model/additional-service';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -53,4 +54,11 @@ export class HotelService {
   delete(roomId: number, hotelId: String): Observable<number> {
     return this.http.delete<number>('http://localhost:8080/hotels/deleteRoom/' + hotelId + '/' + roomId, httpOptions);
   }
+
+  addAdditionService(additionalService: AdditionalService, hotelId: String): Observable<AdditionalService> {
+    return this.http.post<AdditionalService>('http://localhost:8080/hotels/addAdditionalService/' + hotelId,
+     additionalService, httpOptions);
+  }
+
+
 }

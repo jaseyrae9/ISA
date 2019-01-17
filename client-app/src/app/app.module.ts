@@ -63,6 +63,7 @@ import { NewRoomFormComponent } from './components/hotel/new-room-form/new-room-
 import { ErrorPageComponent } from './pages/error-page/error-page.component';
 import { RoleGuardService } from 'src/app/auth/role-guard.service';
 import { EditRoomFormComponent } from './components/hotel/edit-room-form/edit-room-form.component';
+import { NewServiceFormComponent } from './components/hotel/new-service-form/new-service-form.component';
 
 @NgModule({
   declarations: [
@@ -116,7 +117,8 @@ import { EditRoomFormComponent } from './components/hotel/edit-room-form/edit-ro
     RoomBasicInfoComponent,
     NewRoomFormComponent,
     ErrorPageComponent,
-    EditRoomFormComponent
+    EditRoomFormComponent,
+    NewServiceFormComponent
   ],
   imports: [
     BrowserModule, RoutingModule, HttpClientModule, FormsModule, ModalModule.forRoot()

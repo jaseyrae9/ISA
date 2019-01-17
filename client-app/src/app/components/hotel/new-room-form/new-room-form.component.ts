@@ -16,7 +16,7 @@ export class NewRoomFormComponent implements OnInit {
   id: string;
 
 
-  constructor(private route: ActivatedRoute, private hotelService : HotelService) { }
+  constructor(private route: ActivatedRoute, private hotelService: HotelService) { }
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');

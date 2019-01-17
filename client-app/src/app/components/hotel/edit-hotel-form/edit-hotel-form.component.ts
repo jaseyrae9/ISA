@@ -22,7 +22,6 @@ export class EditHotelFormComponent implements OnInit {
   onHotelEdit() {
     this.hotelService.edit(this.hotel).subscribe(
       data => {
-        console.log("Stigao odgovor", data);
         this.hotelEdited.emit(data);
         this.closeBtn.nativeElement.click();
       },

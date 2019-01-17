@@ -84,5 +84,5 @@
     <app-edit-hotel-form [hotel]="forEditing" class="modal fade" id="editHotel" tabindex="-1" role="dialog" aria-hidden="true"
       (hotelEdited)='hotelEdited($event)'></app-edit-hotel-form>
 
-    <!-- Modal (roomCreated)='roomCreated($event)'' -->
-    <app-new-service-form class="modal fade" id="addNewService" tabindex="-1" role="dialog" aria-hidden="true"></app-new-service-form>
+    <!-- Modal ' -->
+    <app-new-service-form class="modal fade" id="addNewService" tabindex="-1" role="dialog" aria-hidden="true" (additionalServiceCreated)='additionalServiceCreated($event)'></app-new-service-form>
