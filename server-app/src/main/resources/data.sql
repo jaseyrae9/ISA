@@ -1,7 +1,6 @@
 insert into hotel (id, hotel_name, hotel_description) values (100, 'Hotel proba 1', 'Opis 1');
 insert into hotel (id, hotel_name, hotel_description) values (101, 'Hotel proba 2', 'Opis 2');
 
-
 INSERT INTO services (id, description, name, price) VALUES (100, 'Opis usluge', 'WiFi', 5);
 INSERT INTO services (id, description, name, price) VALUES (101, 'Opis usluge', 'Parking lot',  10);
 INSERT INTO services (id, description, name, price) VALUES (102, 'Opis usluge', 'Air conditioning', 5);
@@ -33,7 +32,7 @@ insert into car (id, active, brand,doors_number,model, price, seats_number, type
 INSERT INTO room (id, active, floor, number_of_beds, price, room_number, type, hotel_id) VALUES (600, 1, 4, 2, 20, 20, 'Regular', 100);
 
 
-INSERT branch_office (id, branch_office_name, rentacar_company_id) VALUES (100, 'Branch office name 1', 100);
+INSERT branch_office (id, active, branch_office_name, rentacar_company_id) VALUES (100, 1, 'Branch office name 1', 100);
 
 INSERT INTO users (type, id, address, confirmed_mail, email, first_name, last_name, last_password_reset_date, password, needs_password_change, phone_number, air_company_id, hotel_id, rent_a_car_company_id)
 values ('SYS', 1000, 'FTN, Novi Sad', 1, 'admin@admin.com', 'Admin', 'Admin', '2018-12-26 23:09:42','$2a$10$QQxHVraAtUHQqf266vLzfuNLsF5XVS7W4AnJatRZR2gtQpk1LMD0K', 0, 'admin phone', NULL, NULL, NULL);

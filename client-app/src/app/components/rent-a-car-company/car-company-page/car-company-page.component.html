@@ -1,59 +1,83 @@
 <div style="margin: 20px; padding: 20px">
   <ul class="nav nav-tabs">
-      <li class = "nav-item active">
-        <a href = "#info" role="tab" data-toggle="tab" class = "nav-link active">
-          <i class="fa fa-info" aria-hidden="true"></i>Info
-        </a>
-      </li>
-      <li class="nav-item">
-        <a href="#branchOffices" role="tab" data-toggle="tab" class="nav-link">
-          <i class="fa fa-tag" aria-hidden="true"></i>Branch Offices
-        </a>
-      </li>
-      <li class = "nav-item">
-          <a href = "#cars" role="tab" data-toggle="tab" class = "nav-link">
-            <i class="fa fa-car" aria-hidden="true"></i>Cars
-          </a>
-      </li>
+    <li class="nav-item active">
+      <a href="#info" role="tab" data-toggle="tab" class="nav-link active">
+        <i class="fa fa-info" aria-hidden="true"></i>Info
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="#branchOffices" role="tab" data-toggle="tab" class="nav-link">
+        <i class="fa fa-tag" aria-hidden="true"></i>Branch Offices
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="#cars" role="tab" data-toggle="tab" class="nav-link">
+        <i class="fa fa-car" aria-hidden="true"></i>Cars
+      </a>
+    </li>
   </ul>
 
   <div class="tab-content" id="myTabContent">
 
-      <div class="tab-pane fade show active p-3" id="info" aria-labelledby="info-tab">
-        <div class="media">
-          <img src="//placehold.it/200x150" class="align-self-start mr-4 pt-2" alt="...">
-          <div class="media-body pr-3">
-                <h3 class="display-4" align="left">{{carCompany.name}}</h3>
-                <p class="text-muted" align="left">Adresa</p>
-                <hr>
-                <p>{{carCompany.description}}</p>
-                <div align="right">
-                  <button *ngIf="isCarAdmin()" class="btn btn-primary float-right" data-toggle="modal" data-target="#editCarCompany" ><i class="fa fa-edit" aria-hidden="true"></i>Edit</button>
-                </div>
-          </div>
-      </div>
-      </div>
-
-
-      <div class="tab-pane fade" id="cars" aria-labelledby="services-tab">
-        <!-- Button trigger modal -->
-        <div *ngIf="isCarAdmin()" style="align-content: center" div class="row">
-            <div class="col-12 text-center">
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewCar">
-                Add new car
-              </button>
-            </div>
-          </div>
-        <div class="container" >
-          <div *ngFor="let car of carCompany.cars">
-              <app-car-basic-info *ngIf="car.active" (carDeleted)="carDeleted($event)" [car] = 'car'></app-car-basic-info>
+    <div class="tab-pane fade show active p-3" id="info" aria-labelledby="info-tab">
+      <div class="media">
+        <img src="//placehold.it/200x150" class="align-self-start mr-4 pt-2" alt="...">
+        <div class="media-body pr-3">
+          <h3 class="display-4" align="left">{{carCompany.name}}</h3>
+          <p class="text-muted" align="left">Adresa</p>
+          <hr>
+          <p>{{carCompany.description}}</p>
+          <div align="right">
+            <button *ngIf="isCarAdmin()" class="btn btn-primary float-right" data-toggle="modal" data-target="#editCarCompany"><i
+                class="fa fa-edit" aria-hidden="true"></i>Edit</button>
           </div>
         </div>
       </div>
+    </div>
+
+
+    <div class="tab-pane fade" id="cars" aria-labelledby="services-tab">
+      <!-- Button trigger modal -->
+      <div *ngIf="isCarAdmin()" style="align-content: center" div class="row">
+        <div class="col-12 text-center">
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewCar">
+            Add new car
+          </button>
+        </div>
+      </div>
+      <div class="container">
+        <div *ngFor="let car of carCompany.cars">
+          <app-car-basic-info *ngIf="car.active" (carDeleted)="carDeleted($event)" [car]='car'></app-car-basic-info>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-pane fade" id="branchOffices" aria-labelledby="services-tab">
+      <!-- Button trigger modal -->
+      <div *ngIf="isCarAdmin()" style="align-content: center" div class="row">
+        <div class="col-12 text-center">
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewBranchOffice">
+            Add new branch office
+          </button>
+        </div>
+      </div>
+      <div class="container">
+        <div *ngFor="let branchOffice of carCompany.branchOffices">
+          <app-branch-office-basic-details *ngIf="branchOffice.active" (branchOfficeDeleted)="branchOfficeDeleted($event)" [branchOffice]='branchOffice'></app-branch-office-basic-details>
+        </div>
+        </div>
+    </div>
+
+
+
+
   </div>
 </div>
 
 <!-- Modal (hotelCreated)='hotelCreated($event)'-->
-<app-new-car-form class="modal fade" id="addNewCar" tabindex="-1" role="dialog" aria-hidden="true" (carCreated)='carCreated($event)' ></app-new-car-form>
+<app-new-car-form class="modal fade" id="addNewCar" tabindex="-1" role="dialog" aria-hidden="true" (carCreated)='carCreated($event)'></app-new-car-form>
 <!-- Modal -->
-<app-edit-car-company-form [carCompany]="forEditing" class="modal fade" id="editCarCompany" tabindex="-1" role="dialog" aria-hidden="true" (carCompanyEdited)='carCompanyEdited($event)'></app-edit-car-company-form>
+<app-edit-car-company-form [carCompany]="forEditing" class="modal fade" id="editCarCompany" tabindex="-1" role="dialog"
+  aria-hidden="true" (carCompanyEdited)='carCompanyEdited($event)'></app-edit-car-company-form>
+
+<app-new-branch-office-form class="modal fade" id="addNewBranchOffice" tabindex="-1" role="dialog" aria-hidden="true" (branchOfficeCreated)='branchOfficeCreated($event)'></app-new-branch-office-form>

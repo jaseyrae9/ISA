@@ -64,6 +64,8 @@ import { ErrorPageComponent } from './pages/error-page/error-page.component';
 import { RoleGuardService } from 'src/app/auth/role-guard.service';
 import { EditRoomFormComponent } from './components/hotel/edit-room-form/edit-room-form.component';
 import { NewServiceFormComponent } from './components/hotel/new-service-form/new-service-form.component';
+import { BranchOfficeBasicDetailsComponent } from './components/rent-a-car-company/branch-office-basic-details/branch-office-basic-details.component';
+import { NewBranchOfficeFormComponent } from './components/rent-a-car-company/new-branch-office-form/new-branch-office-form.component';
 
 @NgModule({
   declarations: [
@@ -118,7 +120,9 @@ import { NewServiceFormComponent } from './components/hotel/new-service-form/new
     NewRoomFormComponent,
     ErrorPageComponent,
     EditRoomFormComponent,
-    NewServiceFormComponent
+    NewServiceFormComponent,
+    BranchOfficeBasicDetailsComponent,
+    NewBranchOfficeFormComponent
   ],
   imports: [
     BrowserModule, RoutingModule, HttpClientModule, FormsModule, ModalModule.forRoot()

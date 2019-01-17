@@ -6,6 +6,7 @@ public class BranchOfficeDTO {
 
 	private Integer id;
 	private String name;
+	private Boolean active;
 	
 	public BranchOfficeDTO() {
 		
@@ -14,6 +15,7 @@ public class BranchOfficeDTO {
 	public BranchOfficeDTO(BranchOffice branchOffice) {
 		this.id = branchOffice.getId();
 		this.name = branchOffice.getName();
+		this.active = branchOffice.getActive();
 	}
 
 	public Integer getId() {
@@ -31,6 +33,13 @@ public class BranchOfficeDTO {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
 	
 }

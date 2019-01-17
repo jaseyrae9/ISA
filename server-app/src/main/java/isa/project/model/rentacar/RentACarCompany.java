@@ -34,6 +34,10 @@ public class RentACarCompany {
 	@OneToMany(mappedBy = "rentACarCompany", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Car> cars;
 	
+	@JsonManagedReference
+	@OneToMany(mappedBy = "rentACarCompany", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<BranchOffice> branchOffices;	
+	
 	public RentACarCompany() {
 		super();
 	}
@@ -74,6 +78,14 @@ public class RentACarCompany {
 
 	public void setCars(Set<Car> cars) {
 		this.cars = cars;
+	}
+
+	public Set<BranchOffice> getBranchOffices() {
+		return branchOffices;
+	}
+
+	public void setBranchOffices(Set<BranchOffice> branchOffices) {
+		this.branchOffices = branchOffices;
 	}
 
 	@Override

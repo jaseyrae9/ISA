@@ -28,6 +28,9 @@ public class BranchOffice {
 	@Column(name = "branch_office_name", nullable = false)
 	private String name;
 	
+	@Column(name = "active")
+	private Boolean active;
+	
 	public BranchOffice() {
 		
 	}
@@ -36,6 +39,7 @@ public class BranchOffice {
 		super();
 		this.rentACarCompany = rentACarCompany;
 		this.name = name;
+		this.active = true;
 	}
 
 	public Integer getId() {
@@ -60,6 +64,14 @@ public class BranchOffice {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
 	}
 	
 	@Override

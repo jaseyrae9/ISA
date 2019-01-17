@@ -1,0 +1,17 @@
+<div class="col">
+    <div class="media">
+    <img src="//placehold.it/200x150" class="align-self-start mr-4 py-2" alt="...">
+    <div class="media-body pr-3">
+          <h3 class="display-4" align="left">{{branchOffice.name}}</h3>
+          <p class="text-muted" align="left">Adresa</p>
+          <hr>
+          <!--dugmici-->
+          <!--(click)="openEditModal()"-->
+          <button *ngIf="isCarAdmin()" class="btn btn-primary px-4 m-2"
+            >Edit</button>
+        <button *ngIf="isCarAdmin()" class="btn btn-primary px-4 m-2" (click)="deleteBranchOffice()">Delete</button>
+        
+          
+    </div>
+    </div>
+  </div>

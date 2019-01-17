@@ -5,7 +5,7 @@ import { RentACarCompanyService } from 'src/app/services/rent-a-car-company/rent
 import { Car } from 'src/app/model/rent-a-car-company/car';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { Role } from 'src/app/model/role';
-
+import { BranchOffice } from 'src/app/model/rent-a-car-company/branch-offfice';
 
 @Component({
   selector: 'app-car-company-page',
@@ -24,6 +24,7 @@ export class CarCompanyPageComponent implements OnInit {
     this.carService.get(id).subscribe(
       (data) => {
         this.carCompany = data;
+        console.log('Aaa', data);
         this.forEditing = new RentACarCompany(data.id, data.name, data.description, data.cars);
 
       }
@@ -37,6 +38,11 @@ export class CarCompanyPageComponent implements OnInit {
     this.carCompany.cars.push(car);
   }
 
+  branchOfficeCreated(branchOffice: BranchOffice) {
+    console.log('Kreirana je filijala', branchOffice);
+    this.carCompany.branchOffices.push(branchOffice);
+  }
+
   carCompanyEdited(data) {
     this.carCompany.id = data.id;
     this.carCompany.name = data.name;
@@ -48,6 +54,14 @@ export class CarCompanyPageComponent implements OnInit {
     for (const car of this.carCompany.cars) {
       if (car.id === carId) {
         car.active = false;
+      }
+    }
+  }
+
+  branchOfficeDeleted(branchOfficeId: number) {
+    for (const branchOffice of this.carCompany.branchOffices) {
+      if (branchOffice.id === branchOfficeId) {
+        branchOffice.active = false;
       }
     }
   }

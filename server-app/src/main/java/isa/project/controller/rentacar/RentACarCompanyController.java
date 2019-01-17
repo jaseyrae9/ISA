@@ -189,4 +189,29 @@ public class RentACarCompanyController {
 		return new ResponseEntity<>(new BranchOfficeDTO(branchOffice), HttpStatus.CREATED);	
 	}	
 	
+	@PreAuthorize("hasAnyRole('CARADMIN')")
+	@AdminAccountActiveCheck
+	@RentACarCompanyAdminCheck
+	@RequestMapping(value="/deleteBranchOffice/{carCompanyId}/{branchOfficeId}",method=RequestMethod.DELETE, consumes="application/json")
+	public ResponseEntity<?> deleteBranchOffice(@PathVariable Integer carCompanyId, @PathVariable Integer branchOfficeId) throws ResourceNotFoundException{
+		Optional<RentACarCompany> rentACarCompany = rentACarCompanyService.findRentACarCompany(carCompanyId);
+		
+		if (!rentACarCompany.isPresent()) {
+			throw new ResourceNotFoundException(carCompanyId.toString(), "Rent a car company not found");
+		}
+		
+		for(BranchOffice bo : rentACarCompany.get().getBranchOffices()){
+			System.out.println("ime filijale " + bo.getName() + ", id filijale: " + bo.getId());
+			if(bo.getId().equals(branchOfficeId)){
+				System.out.println("pronasao");
+				bo.setActive(false);
+				break;
+			}
+		}
+				
+		rentACarCompanyService.saveRentACarCompany(rentACarCompany.get());
+		return new ResponseEntity<>(branchOfficeId, HttpStatus.OK);	
+	}
+	
+	
 }
