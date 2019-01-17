@@ -12,6 +12,7 @@ public class CarDTO {
 	private Integer seatsNumber;
 	private Integer doorsNumber;
 	private Integer price;
+	private Boolean active;
 
 	public CarDTO() {
 
@@ -26,6 +27,7 @@ public class CarDTO {
 		this.doorsNumber = car.getDoorsNumber();
 		this.price = car.getPrice();
 		this.type = car.getType();
+		this.active = car.getActive();
 	}
 
 	public Integer getId() {
@@ -91,4 +93,14 @@ public class CarDTO {
 	public void setType(String type) {
 		this.type = type;
 	}
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
+	
+	
 }

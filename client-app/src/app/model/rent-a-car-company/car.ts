@@ -20,5 +20,6 @@ export class Car {
         this.yearOfProduction = yearOfProduction;
         this.price = price;
         this.type = type;
+        this.active = active;
     }
 }

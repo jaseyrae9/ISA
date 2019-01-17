@@ -33,6 +33,7 @@ export class CarCompanyPageComponent implements OnInit {
   }
 
   carCreated(car: Car) {
+    console.log('Kreiran je automobil', car);
     this.carCompany.cars.push(car);
   }
 

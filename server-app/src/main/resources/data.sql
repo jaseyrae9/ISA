@@ -33,6 +33,8 @@ insert into car (id, active, brand,doors_number,model, price, seats_number, type
 INSERT INTO room (id, active, floor, number_of_beds, price, room_number, type, hotel_id) VALUES (600, 1, 4, 2, 20, 20, 'Regular', 100);
 
 
+INSERT branch_office (id, branch_office_name, rentacar_company_id) VALUES (100, 'Branch office name 1', 100);
+
 INSERT INTO users (type, id, address, confirmed_mail, email, first_name, last_name, last_password_reset_date, password, needs_password_change, phone_number, air_company_id, hotel_id, rent_a_car_company_id)
 values ('SYS', 1000, 'FTN, Novi Sad', 1, 'admin@admin.com', 'Admin', 'Admin', '2018-12-26 23:09:42','$2a$10$QQxHVraAtUHQqf266vLzfuNLsF5XVS7W4AnJatRZR2gtQpk1LMD0K', 0, 'admin phone', NULL, NULL, NULL);
 INSERT INTO users (type, id, address, confirmed_mail, email, first_name, last_name, last_password_reset_date, password, needs_password_change, phone_number, air_company_id, hotel_id, rent_a_car_company_id)

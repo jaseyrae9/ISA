@@ -15,13 +15,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import isa.project.aspects.AdminAccountActiveCheck;
-import isa.project.aspects.HotelAdminCheck;
 import isa.project.aspects.RentACarCompanyAdminCheck;
+import isa.project.dto.rentacar.BranchOfficeDTO;
 import isa.project.dto.rentacar.CarDTO;
 import isa.project.dto.rentacar.RentACarCompanyDTO;
 import isa.project.exception_handlers.ResourceNotFoundException;
-import isa.project.model.hotel.Hotel;
-import isa.project.model.hotel.Room;
+import isa.project.model.rentacar.BranchOffice;
 import isa.project.model.rentacar.Car;
 import isa.project.model.rentacar.RentACarCompany;
 import isa.project.service.rentacar.RentACarCompanyService;
@@ -115,16 +114,7 @@ public class RentACarCompanyController {
 	@RentACarCompanyAdminCheck
 	@RequestMapping(value="/addCar/{companyId}",method=RequestMethod.POST, consumes="application/json")
 	public ResponseEntity<CarDTO> addCar(@PathVariable Integer companyId, @RequestBody CarDTO carDTO) throws ResourceNotFoundException{
-		Car car = new Car(carDTO.getBrand(), carDTO.getModel(), carDTO.getYearOfProduction(), carDTO.getSeatsNumber(), carDTO.getDoorsNumber(), carDTO.getPrice(), carDTO.getType());
-		Optional<RentACarCompany> carCompany = rentACarCompanyService.findRentACarCompany(companyId);
-		
-		if (!carCompany.isPresent()) {
-			throw new ResourceNotFoundException(companyId.toString(), "Rent a car company not found");
-		}
-		
-		carCompany.get().getCars().add(car);
-		rentACarCompanyService.saveRentACarCompany(carCompany.get());
-		System.out.println("Dodavanje auta!");
+		Car car = rentACarCompanyService.addCar(companyId, carDTO);
 		return new ResponseEntity<>(new CarDTO(car), HttpStatus.CREATED);	
 	}
 	
@@ -184,5 +174,19 @@ public class RentACarCompanyController {
 		return new ResponseEntity<>(carId, HttpStatus.OK);	
 	}
 	
+	
+	/**
+	 * Adds new branch office to rent a car company. 
+	 * @param branch office
+	 * @return
+	 */
+	@PreAuthorize("hasAnyRole('CARADMIN')")
+	@AdminAccountActiveCheck
+	@RentACarCompanyAdminCheck
+	@RequestMapping(value="/addBranchOffice/{companyId}",method=RequestMethod.POST, consumes="application/json")
+	public ResponseEntity<BranchOfficeDTO> addBranchOffice(@PathVariable Integer companyId, @RequestBody BranchOfficeDTO branchOfficeDTO) throws ResourceNotFoundException{
+		BranchOffice branchOffice = rentACarCompanyService.addBranchOffice(companyId, branchOfficeDTO);
+		return new ResponseEntity<>(new BranchOfficeDTO(branchOffice), HttpStatus.CREATED);	
+	}	
 	
 }
