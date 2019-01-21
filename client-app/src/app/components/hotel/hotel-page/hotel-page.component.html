@@ -15,6 +15,11 @@
         <i class="fa fa-hotel" aria-hidden="true"></i>Rooms
       </a>
     </li>
+    <li class="nav-item">
+      <a href="#admin-info" role="tab" data-toggle="tab" class="nav-link">
+        <i class="fa fa-info" aria-hidden="true"></i>Admin info
+      </a>
+    </li>
   </ul>
 
   <div class="tab-content" id="myTabContent">
@@ -63,12 +68,35 @@
           </button>
         </div>
       </div>
+      <div style="align-content: center" div class="row">
+        <div class="col-6 text-center">
+          <input type="text" placeholder="Check in"  bsDatepicker [bsConfig]='datePickerConfig'/>
+        </div>
+        <div class="col-6 text-center">
+          <input type="text" placeholder="Check out"  bsDatepicker [bsConfig]='datePickerConfig'/>
+        </div>
+      </div>
       <div class="container">
         <div *ngFor="let room of hotel.rooms">
           <app-room-basic-info *ngIf="room.active" [room]='room' (roomDeleted)="roomDeleted($event)"></app-room-basic-info>
         </div>
       </div>
     </div>
+
+    <!------------------------------------------------------------------------------->
+    <!---------------------------INFO FOR ADMIN-------------------------------------->
+    <!------------------------------------------------------------------------------->
+    <div *ngIf="isHotelAdmin()" class="tab-pane fade" id="admin-info" aria-labelledby="admin-info-tab">
+      <rating [(ngModel)]="rate" [max]="max" [readonly]="isReadonly"></rating>
+
+      <div class="col-xs-12 col-12 col-md-4 form-group">
+        <input class="form-control" #drp="bsDaterangepicker" bsDaterangepicker [(ngModel)]="bsRangeValue">
+      </div>
+
+
+    </div>
+    
+
 
   </div>
 </div>

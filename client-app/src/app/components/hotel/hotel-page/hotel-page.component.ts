@@ -6,7 +6,8 @@ import { Room } from 'src/app/model/hotel/room';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { Role } from 'src/app/model/role';
 import { AdditionalService } from 'src/app/model/additional-service';
-
+import { NgxNotificationService } from 'ngx-notification';
+import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 
 @Component({
   selector: 'app-hotel-page',
@@ -14,12 +15,29 @@ import { AdditionalService } from 'src/app/model/additional-service';
   styleUrls: ['./hotel-page.component.css', '../../../shared/css/inputField.css']
 })
 export class HotelPageComponent implements OnInit {
+  datePickerConfig: Partial<BsDatepickerConfig>;
+
+  max = 5;
+  rate = 3;
+  isReadonly = false;
 
   hotel: Hotel = new Hotel();
   forEditing: Hotel = new Hotel();
   roles: Role[];
+  bsRangeValue: Date[];
 
-  constructor(private route: ActivatedRoute, private hotelService: HotelService, public tokenService: TokenStorageService) { }
+  constructor(private route: ActivatedRoute,
+     private hotelService: HotelService,
+      public tokenService: TokenStorageService,
+      public ngxNotificationService: NgxNotificationService) {
+
+      this.datePickerConfig = Object.assign({},
+        {
+           containerClass: 'theme-default',
+           dateInputFormat: 'DD/MM/YYYY'
+        });
+
+  }
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
@@ -68,6 +86,7 @@ export class HotelPageComponent implements OnInit {
   additionalServiceCreated(additionalService: AdditionalService) {
     console.log('Service created', additionalService);
     this.hotel.additionalServices.push(additionalService);
+    this.ngxNotificationService.sendMessage('Service ' + additionalService.name + ' created!', 'dark', 'bottom-right');
   }
 
 

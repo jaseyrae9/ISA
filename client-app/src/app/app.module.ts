@@ -65,6 +65,12 @@ import { RoleGuardService } from 'src/app/auth/role-guard.service';
 import { EditRoomFormComponent } from './components/hotel/edit-room-form/edit-room-form.component';
 import { NewServiceFormComponent } from './components/hotel/new-service-form/new-service-form.component';
 
+// rating
+import { RatingModule } from 'ngx-rating';
+// datepicker
+import { BsDatepickerModule } from 'ngx-bootstrap';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -121,7 +127,13 @@ import { NewServiceFormComponent } from './components/hotel/new-service-form/new
     NewServiceFormComponent
   ],
   imports: [
-    BrowserModule, RoutingModule, HttpClientModule, FormsModule, ModalModule.forRoot()
+    BrowserModule,
+    RoutingModule,
+    HttpClientModule,
+    FormsModule,
+    ModalModule.forRoot(),
+    RatingModule,
+    BsDatepickerModule.forRoot()
   ],
   providers: [HotelService, AirCompanyService, UserService, DataService, RoleGuardService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
