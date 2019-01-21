@@ -66,6 +66,7 @@ import { EditRoomFormComponent } from './components/hotel/edit-room-form/edit-ro
 import { NewServiceFormComponent } from './components/hotel/new-service-form/new-service-form.component';
 import { BranchOfficeBasicDetailsComponent } from './components/rent-a-car-company/branch-office-basic-details/branch-office-basic-details.component';
 import { NewBranchOfficeFormComponent } from './components/rent-a-car-company/new-branch-office-form/new-branch-office-form.component';
+import { DestinationComponent } from './components/air-company/destination/destination.component';
 
 @NgModule({
   declarations: [
@@ -122,7 +123,8 @@ import { NewBranchOfficeFormComponent } from './components/rent-a-car-company/ne
     EditRoomFormComponent,
     NewServiceFormComponent,
     BranchOfficeBasicDetailsComponent,
-    NewBranchOfficeFormComponent
+    NewBranchOfficeFormComponent,
+    DestinationComponent
   ],
   imports: [
     BrowserModule, RoutingModule, HttpClientModule, FormsModule, ModalModule.forRoot()

@@ -66,7 +66,7 @@ public class AirCompanyController {
 		if (!airCompany.isPresent()) {
 			throw new ResourceNotFoundException(id.toString(), "Air company not found");
 		}
-		return new ResponseEntity<>(airCompany.get(), HttpStatus.OK);
+		return new ResponseEntity<>(new AirCompanyDTO(airCompany.get()), HttpStatus.OK);
 	}
 
 	/**

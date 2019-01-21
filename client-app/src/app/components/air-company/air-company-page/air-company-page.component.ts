@@ -13,7 +13,6 @@ import { Role } from 'src/app/model/role';
 export class AirCompanyPageComponent implements OnInit {
   airCompany: AirCompany = new AirCompany();
   forEditing: AirCompany = new AirCompany();
-  roles: Role[];
 
   constructor(private route: ActivatedRoute, private airCompanyService: AirCompanyService, public tokenService: TokenStorageService) { }
 
@@ -25,8 +24,6 @@ export class AirCompanyPageComponent implements OnInit {
         this.forEditing = new AirCompany(data.id, data.name, data.description);
       }
     );
-    this.roles = this.tokenService.getRoles();
-    this.tokenService.rolesEmitter.subscribe(roles => this.roles = roles);
    }
 
   airCompanyEdited(data) {
@@ -34,18 +31,6 @@ export class AirCompanyPageComponent implements OnInit {
     this.airCompany.name = data.name;
     this.airCompany.description = data.description;
     this.forEditing = new AirCompany(data.id, data.name, data.description);
-  }
-
-  isAirAdmin() {
-    if (this.roles != undefined) {
-      for (let role of this.roles) {
-        if (role.authority == 'ROLE_AIRADMIN') {
-          return true;
-        }
-      }
-      return false;
-    }
-    return false;
   }
 
 }

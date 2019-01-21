@@ -14,6 +14,8 @@ export class TokenStorageService {
   private username = new Subject<String>();
   private roles = new Subject<Role[]>();
 
+  public isAirAdmin = false;
+
   public logggedInEmitter = this.isLoggedIn.asObservable();
   public usernameEmitter = this.username.asObservable();
   public rolesEmitter = this.roles.asObservable();
@@ -21,6 +23,7 @@ export class TokenStorageService {
   constructor() {
     this.isLoggedIn.next(false);
     this.roles.next(null);
+    this.checkRoles();
   }
 
   loggedInEmitChange(loggedIn: Boolean) {
@@ -40,6 +43,7 @@ export class TokenStorageService {
     this.loggedInEmitChange(false);
     this.usernameEmitChange(null);
     this.rolesEmitChange(null);
+    this.checkRoles();
   }
 
   public saveToken(token: string) {
@@ -55,10 +59,26 @@ export class TokenStorageService {
   public saveRoles(roles: Role[]) {
     window.sessionStorage.setItem(ROLES_KEY, JSON.stringify(roles));
     this.rolesEmitChange(roles);
+    this.checkRoles();
+  }
+
+  public checkRoles() {
+    this.isAirAdmin = false;
+    const roles = this.getRoles();
+    if (roles) {
+      for (const role of roles) {
+        if ( role.authority === 'ROLE_AIRADMIN') {
+          this.isAirAdmin = true;
+        }
+      }
+    }
   }
 
   public getRoles(): Role[] {
-    return JSON.parse(sessionStorage.getItem(ROLES_KEY));
+    if (sessionStorage.getItem(ROLES_KEY)) {
+      return JSON.parse(sessionStorage.getItem(ROLES_KEY));
+    }
+    return null;
   }
 
   public getToken(): string {
