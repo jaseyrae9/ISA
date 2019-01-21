@@ -1,53 +1,46 @@
-<div class="modal-dialog" role="document">
-    <div class="modal-content">
+<div class="modal-header">
+  <h5 class="modal-title">Edit <b style="color: #33cabb;">avio-company</b></h5>
+  <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
 
-      <div class="modal-header">
-        <h5 class="modal-title">Edit <b style="color: #33cabb;">avio-company</b></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+<form (validSubmit) = "onEditAirCompany()" [formGroup]="editForm">
+<div class="modal-body">
+      <div class="input-group form-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fa fa-plane" aria-hidden="true"></i>
+            </span>
+          </div>
+          <input formControlName="name" name="name" type="text" class="form-control" placeholder="Company name" required="required">
       </div>
 
-      <div class="modal-body">
-        <form>
-
-            <div class="input-group form-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text">
-                    <i class="fa fa-plane" aria-hidden="true"></i>
-                  </span>
-                </div>
-                <input [(ngModel)]="airCompany.name" name="name" type="text" class="form-control" placeholder="Company name" required="required">
-            </div>
-
-            <div class="input-group form-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text">
-                    <i class="fa fa-map-marker" aria-hidden="true"></i>
-                  </span>
-                </div>
-                <input type="text" class="form-control" name="address" placeholder="Address" required="required" #search>
-            </div>
-
-            <div class="input-group form-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text">
-                    <i class="fa fa-sticky-note" aria-hidden="true"></i>
-                  </span>
-                </div>
-                <textarea [(ngModel)]="airCompany.description" name="description" class="form-control" name="description" placeholder="Insert your description here..."></textarea>
-            </div>
-
-            <div class="alert alert-danger" role="alert" *ngIf="errorMessage.length != 0">
-                {{errorMessage}}
-            </div>
-        </form>
+      <div class="input-group form-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fa fa-map-marker" aria-hidden="true"></i>
+            </span>
+          </div>
+          <input type="text" class="form-control" name="address" placeholder="Address">
       </div>
 
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" #closeBtn>Close</button>
-        <button type="button" class="btn btn-primary" (click)="onEditAirCompany()">Edit</button>
+      <div class="input-group form-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fa fa-sticky-note" aria-hidden="true"></i>
+            </span>
+          </div>
+          <textarea formControlName="description" name="description" class="form-control" name="description" placeholder="Insert your description here..."></textarea>
       </div>
 
-    </div>
-  </div>
+      <div class="alert alert-danger" role="alert" *ngIf="errorMessage.length != 0">
+          {{errorMessage}}
+      </div>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Close</button>
+  <input type="submit" class="btn btn-primary" value="Edit">
+</div>
+</form>

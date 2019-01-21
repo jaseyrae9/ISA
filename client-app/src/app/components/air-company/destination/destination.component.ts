@@ -16,7 +16,7 @@ export class DestinationComponent implements OnInit {
   @Output() destinationEvent: EventEmitter<Object> = new EventEmitter();
   modalRef: BsModalRef;
 
-  constructor(private modalService: BsModalService, private airService: AirCompanyService, private tokenService: TokenStorageService) { }
+  constructor(private modalService: BsModalService, private airService: AirCompanyService, public tokenService: TokenStorageService) { }
 
   ngOnInit() {
   }

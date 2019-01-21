@@ -1,3 +1,6 @@
+import { Subject } from 'rxjs';
+import { BsModalRef } from 'ngx-bootstrap/modal';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AirCompany } from './../../../model/air-company/air-company';
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { ViewChild, ElementRef } from '@angular/core';
@@ -10,26 +13,33 @@ import { NgModule } from '@angular/core';
   styleUrls: ['./edit-air-company-form.component.css',  '../../../shared/css/inputField.css']
 })
 export class EditAirCompanyFormComponent implements OnInit {
-  @Output() airCompanyEdited: EventEmitter<AirCompany> = new EventEmitter();
-  @ViewChild('closeBtn') closeBtn: ElementRef;
+  public onClose: Subject<AirCompany>;
   @Input() airCompany: AirCompany;
   errorMessage: String = '';
+  editForm: FormGroup;
 
-  constructor(private airCompanyService: AirCompanyService) { }
+  constructor(public modalRef: BsModalRef, private formBuilder: FormBuilder, private airCompanyService: AirCompanyService ) { }
 
   ngOnInit() {
+    this.onClose = new Subject();
+    this.editForm = this.formBuilder.group({
+      name: [this.airCompany.name, [Validators.required]],
+      description: [this.airCompany.description]
+    });
   }
 
   onEditAirCompany() {
-    this.airCompanyService.edit(this.airCompany).subscribe(
+    const value = this.editForm.value;
+    value.id = this.airCompany.id;
+    this.airCompanyService.edit(value).subscribe(
       data => {
-        this.airCompanyEdited.emit(data);
-        this.closeBtn.nativeElement.click();
+        this.onClose.next(data);
+        this.modalRef.hide();
       },
       error => {
         // interceptor je hendlovao ove zahteve
         if (error.status === 401 || error.status === 403 || error.status === 404) {
-          this.closeBtn.nativeElement.click();
+          this.modalRef.hide();
         }
         this.errorMessage = error.error.details;
       }

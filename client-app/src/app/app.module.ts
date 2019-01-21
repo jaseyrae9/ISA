@@ -8,6 +8,7 @@ import { NgxNotificationComponent } from 'ngx-notification';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { JwtInterceptor } from './auth/auth-interceptor';
+import { NgBootstrapFormValidationModule } from 'ng-bootstrap-form-validation';
 
 import { AppComponent } from './app.component';
 import { NavigationComponent } from './components/basic-components/navigation/navigation.component';
@@ -144,13 +145,20 @@ import { BsDatepickerModule } from 'ngx-bootstrap';
     ModalModule.forRoot(),
     RatingModule,
     BsDatepickerModule.forRoot(),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgBootstrapFormValidationModule.forRoot(),
+    NgBootstrapFormValidationModule
   ],
   providers: [HotelService, AirCompanyService, UserService, DataService, RoleGuardService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [EditCarFormComponent, EditRoomFormComponent, DestinationFormComponent, EditBranchOfficeFormComponent]
+  entryComponents: [
+    EditCarFormComponent,
+    EditRoomFormComponent,
+    DestinationFormComponent,
+    EditBranchOfficeFormComponent,
+    EditAirCompanyFormComponent]
 })
 export class AppModule { }

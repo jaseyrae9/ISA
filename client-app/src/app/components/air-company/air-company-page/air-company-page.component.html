@@ -32,8 +32,8 @@
                 <p class="text-muted" align="left">Adresa</p>
                 <hr>
                 <p>{{airCompany.description}}</p>
-                <div align = "right">
-                  <button *ngIf="tokenService.isAirAdmin" class="btn btn-primary float-right"  data-toggle="modal" data-target="#editAirCompany"><i class="fa fa-edit" aria-hidden="true"></i>Edit</button>
+                <div align = "right" *ngIf="tokenService.isAirAdmin">
+                  <button class="btn btn-primary float-right" (click)="openEditAirCompanyModal()"><i class="fa fa-edit" aria-hidden="true"></i>Edit</button>
                 </div>
         </div>
       </div>
@@ -73,6 +73,3 @@
 
   </div>
 </div>
-
- <!-- Modal -->
- <app-edit-air-company-form [airCompany]="forEditing" class="modal fade" id="editAirCompany" tabindex="-1" role="dialog" aria-hidden="true" (airCompanyEdited)='airCompanyEdited($event)'></app-edit-air-company-form>

@@ -1,3 +1,4 @@
+import { EditAirCompanyFormComponent } from './../edit-air-company-form/edit-air-company-form.component';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { DestinationFormComponent } from './../destination-form/destination-form.component';
@@ -17,7 +18,6 @@ import { Role } from 'src/app/model/role';
 export class AirCompanyPageComponent implements OnInit {
   modalRef: BsModalRef;
   airCompany: AirCompany = new AirCompany();
-  forEditing: AirCompany = new AirCompany();
 
   constructor(private modalService: BsModalService, private route: ActivatedRoute, private airCompanyService: AirCompanyService,
     public tokenService: TokenStorageService) { }
@@ -27,19 +27,11 @@ export class AirCompanyPageComponent implements OnInit {
     this.airCompanyService.get(id).subscribe(
       (data) => {
         this.airCompany = data;
-        this.forEditing = new AirCompany(data.id, data.name, data.description);
       }
     );
    }
 
-  airCompanyEdited(data) {
-    this.airCompany.id = data.id;
-    this.airCompany.name = data.name;
-    this.airCompany.description = data.description;
-    this.forEditing = new AirCompany(data.id, data.name, data.description);
-  }
-
-  openAddDestinationModal() {
+   openAddDestinationModal() {
     const initialState = {
       aircompanyId: this.airCompany.id,
       isAddForm: true
@@ -55,5 +47,15 @@ export class AirCompanyPageComponent implements OnInit {
     if (index !== -1) {
       this.airCompany.destinations.splice(index, 1);
     }
+  }
+
+  openEditAirCompanyModal() {
+    const initialState = {
+      airCompany: this.airCompany
+    };
+    this.modalRef = this.modalService.show(EditAirCompanyFormComponent, { initialState });
+    this.modalRef.content.onClose.subscribe(data => {
+      this.airCompany = data;
+    });
   }
 }

@@ -4,7 +4,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Subject } from 'rxjs/Subject';
 import { Destination } from './../../../model/air-company/destination';
 import { Component, OnInit, Input } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-destination-form',
@@ -25,9 +25,9 @@ export class DestinationFormComponent implements OnInit {
   ngOnInit() {
     this.onClose = new Subject();
     this.destinationForm = this.formBuilder.group({
-      label: [this.destination.label],
-      country: [this.destination.country],
-      airportName: [this.destination.airportName]
+      label: [this.destination.label, [Validators.required, Validators.minLength(3), Validators.maxLength(3)]],
+      country: [this.destination.country, [Validators.required]],
+      airportName: [this.destination.airportName, [Validators.required]]
     });
   }
 
