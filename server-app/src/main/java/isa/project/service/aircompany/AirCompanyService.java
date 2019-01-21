@@ -19,7 +19,7 @@ public class AirCompanyService {
 	@Autowired
 	private AirCompanyRepository airCompanyRepository;
 	@Autowired
-	private DestinationRepository destinationRepository;	
+	private DestinationRepository destinationRepository;
 	@Autowired
 	private AdditionalServiceRepository additionalServiceRepository;
 
@@ -55,8 +55,63 @@ public class AirCompanyService {
 		Destination destination = new Destination(airCompany, destinationDTO.getLabel(), destinationDTO.getCountry(),
 				destinationDTO.getAirportName());
 
-		// sacuvaj 
+		// sacuvaj
 		return destinationRepository.save(destination);
+	}
+
+	/**
+	 * Deaktivira destinaciju.
+	 * 
+	 * @param destinationId - oznaka destinacije
+	 * @param airport       - oznaka aerodruma
+	 * @throws ResourceNotFoundException - ako nisu pronađeni aerodrum ili
+	 *                                   destinacija
+	 */
+	public void deleteDestination(Long destinationId, Integer airport) throws ResourceNotFoundException {
+		Destination destination = findDestination(destinationId, airport);
+		destination.setActive(false);
+		destinationRepository.save(destination);
+	}
+
+	/**
+	 * Za uređivanje postojeće destinacije. Deaktivira staru destinaciju i kreira
+	 * novu.
+	 * 
+	 * @param destinationId - oznaka destiancije
+	 * @param airport - oznaka aerodruma
+	 * @param destinationDTO - informacije o destianciji
+	 * @throws ResourceNotFoundException - ako nisu pronađeni aerodrum ili destinacija
+	 */
+	public Destination editDestination(Long destinationId, Integer airport, DestinationDTO destinationDTO)
+			throws ResourceNotFoundException {
+		// obrisi staru
+		deleteDestination(destinationId, airport);
+		// kreiraj novu
+		return addDestination(destinationDTO, airport);
+	}
+
+	/**
+	 * Pronalazi destinaciju sa prosleđenim id.
+	 * 
+	 * @param destinationId - oznaka destinacije
+	 * @param airport       - oznaka aerodruma
+	 * @return - destinacija
+	 * @throws ResourceNotFoundException - ako nisu pronađeni aerodrum ili
+	 *                                   destinacija
+	 */
+	private Destination findDestination(Long destinationId, Integer airport) throws ResourceNotFoundException {
+		// pronadji avio kompaniju u kojoj pripada destinacija
+		Optional<AirCompany> airCompanyOpt = airCompanyRepository.findById(airport);
+		if (!airCompanyOpt.isPresent()) {
+			throw new ResourceNotFoundException(airport.toString(), "Air company not found.");
+		}
+		AirCompany airCompany = airCompanyOpt.get();
+		Optional<Destination> destination = airCompany.getDestinations().stream()
+				.filter(d -> d.getId().equals(destinationId)).findFirst();
+		if (!destination.isPresent()) {
+			throw new ResourceNotFoundException(destinationId.toString(), "Destination not found.");
+		}
+		return destination.get();
 	}
 
 	/**
@@ -75,8 +130,8 @@ public class AirCompanyService {
 			throw new ResourceNotFoundException(id.toString(), "Air company not found.");
 		}
 		AirCompany airCompany = airCompanyOpt.get();
-		
-		//sacuvaj dodatnu uslugu
+
+		// sacuvaj dodatnu uslugu
 		AdditionalService service = additionalServiceRepository.save(baggageInformation);
 
 		// sacuvaj informaciju o prtljagu u aviokompaniji

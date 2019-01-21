@@ -51,7 +51,7 @@ public class AirplaneController {
 	@RequestMapping(value = "/editAirplane/{id}", method = RequestMethod.PUT, consumes = "application/json")
 	public ResponseEntity<?> editAirplane(@PathVariable Integer id, @Valid @RequestBody AirplaneDTO airplaneDTO)
 			throws ResourceNotFoundException, RequestDataException {
-		return new ResponseEntity<>(airplaneService.editAirplane(airplaneDTO), HttpStatus.OK);
+		return new ResponseEntity<>(airplaneService.editAirplane(airplaneDTO, id), HttpStatus.OK);
 	}
 	
 	/**
@@ -64,7 +64,7 @@ public class AirplaneController {
 	 */
 	@RequestMapping(value = "/activateAirplane/{id}/{airplane}", method = RequestMethod.PUT)
 	public ResponseEntity<?> activateAirplane(@PathVariable Integer id, @PathVariable Integer airplane) throws ResourceNotFoundException, RequestDataException{
-		return new ResponseEntity<>(airplaneService.activateAirplane(airplane), HttpStatus.OK);
+		return new ResponseEntity<>(airplaneService.activateAirplane(airplane, id), HttpStatus.OK);
 	}
 	
 	/**
@@ -78,7 +78,7 @@ public class AirplaneController {
 	 */
 	@RequestMapping(value = "/deleteAirplane/{id}/{airplane}", method = RequestMethod.DELETE)
 	public ResponseEntity<?> deleteAirplane(@PathVariable Integer id, @PathVariable Integer airplane) throws ResourceNotFoundException, RequestDataException{
-		airplaneService.deleteAirplane(airplane);
+		airplaneService.deleteAirplane(airplane, id);
 		return ResponseEntity.ok().build();
 	}
 

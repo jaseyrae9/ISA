@@ -1,6 +1,6 @@
 package isa.project.dto.aircompany;
 
-import java.util.Set;
+import java.util.ArrayList;
 
 import javax.validation.constraints.NotBlank;
 
@@ -15,7 +15,7 @@ public class AirCompanyDTO {
 	
 	private String description;
 	
-	private Set<Destination> destinations;
+	private ArrayList<DestinationDTO> destinations;
 	
 	public AirCompanyDTO() {
 		
@@ -25,7 +25,10 @@ public class AirCompanyDTO {
 		this.id = company.getId();
 		this.name = company.getName();
 		this.description = company.getDescription();
-		this.destinations = company.getDestinations();
+		this.destinations = new ArrayList<>();
+		for(Destination destination:company.getDestinations()) {
+			this.destinations.add(new DestinationDTO(destination));
+		}
 	}
 
 	public Integer getId() {
@@ -52,11 +55,12 @@ public class AirCompanyDTO {
 		this.description = description;
 	}
 
-	public Set<Destination> getDestinations() {
+	public ArrayList<DestinationDTO> getDestinations() {
 		return destinations;
 	}
 
-	public void setDestinations(Set<Destination> destinations) {
+	public void setDestinations(ArrayList<DestinationDTO> destinations) {
 		this.destinations = destinations;
 	}
+
 }

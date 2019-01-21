@@ -49,7 +49,7 @@ public class AirplaneService {
 		}
 		return airplanes;
 	}
-	
+
 	/**
 	 * Prosleđuje sve avione sa statusima ACTIVE neke aviokompanije.
 	 * 
@@ -102,17 +102,13 @@ public class AirplaneService {
 	 * Uređuje postojeći avion.
 	 * 
 	 * @param airplaneDTO - informacije o avionu.
+	 * @param company - oznaka aviokomapnije
 	 * @return - DTO objekat uređenog aviona.
 	 * @throws ResourceNotFoundException - ako avion nije pronađen.
 	 * @throws RequestDataException      - ako avion nije u statusu IN_PROGRESS
 	 */
-	public AirplaneDTO editAirplane(AirplaneDTO airplaneDTO) throws ResourceNotFoundException, RequestDataException {
-		// pronadji avion
-		Optional<Airplane> airplaneOpt = airplaneRepository.findById(airplaneDTO.getId());
-		if (!airplaneOpt.isPresent()) {
-			throw new ResourceNotFoundException(airplaneDTO.getId().toString(), "Airplane not found.");
-		}
-		Airplane airplane = airplaneOpt.get();
+	public AirplaneDTO editAirplane(AirplaneDTO airplaneDTO, Integer company) throws ResourceNotFoundException, RequestDataException {
+		Airplane airplane = findAirplane(airplaneDTO.getId(), company);
 
 		if (airplane.getStatus() != AirplaneStatus.IN_PROGRESS) {
 			throw new RequestDataException(
@@ -143,16 +139,12 @@ public class AirplaneService {
 	 * se koristi za letove.
 	 * 
 	 * @param id - oznaka aviona
+	 * @param company - oznaka aviokomapnije
 	 * @throws ResourceNotFoundException - ako avion nije pronađen
 	 * @throws RequestDataException      - ako prosleđeni avion ima status obrisan
 	 */
-	public void deleteAirplane(Integer id) throws ResourceNotFoundException, RequestDataException {
-		// pronadji avion
-		Optional<Airplane> airplaneOpt = airplaneRepository.findById(id);
-		if (!airplaneOpt.isPresent()) {
-			throw new ResourceNotFoundException(id.toString(), "Airplane not found.");
-		}
-		Airplane airplane = airplaneOpt.get();
+	public void deleteAirplane(Integer id, Integer company) throws ResourceNotFoundException, RequestDataException {
+		Airplane airplane = findAirplane(id, company);
 
 		if (airplane.getStatus() == AirplaneStatus.DELETED) {
 			throw new RequestDataException("Airplane already deleted.");
@@ -161,28 +153,49 @@ public class AirplaneService {
 		airplane.setStatus(AirplaneStatus.DELETED);
 		airplaneRepository.save(airplane);
 	}
-	
+
 	/**
-	 * Postavlja status aviona na aktivan. Avion čiji status je aktivan može biti uporebljen za letove.
+	 * Postavlja status aviona na aktivan. Avion čiji status je aktivan može biti
+	 * uporebljen za letove.
 	 * 
 	 * @param id - oznaka aviona
+	 * @param company - oznaka aviokomapnije
 	 * @return - izmenjeni avion
 	 * @throws ResourceNotFoundException - ako avion nije pronađen
 	 * @throws RequestDataException      - ako prosleđeni avion ima status obrisan
 	 */
-	public AirplaneDTO activateAirplane(Integer id) throws ResourceNotFoundException, RequestDataException {
-		// pronadji avion
-		Optional<Airplane> airplaneOpt = airplaneRepository.findById(id);
-		if (!airplaneOpt.isPresent()) {
-			throw new ResourceNotFoundException(id.toString(), "Airplane not found.");
-		}
-		Airplane airplane = airplaneOpt.get();
+	public AirplaneDTO activateAirplane(Integer id, Integer company) throws ResourceNotFoundException, RequestDataException {
+		Airplane airplane = findAirplane(id, company);
 
 		if (airplane.getStatus() != AirplaneStatus.IN_PROGRESS) {
-			throw new RequestDataException("Airplane can not be activated. Only airplanes in status IN_PROGRESS can be activated.");
+			throw new RequestDataException(
+					"Airplane can not be activated. Only airplanes in status IN_PROGRESS can be activated.");
 		}
 
 		airplane.setStatus(AirplaneStatus.ACTIVE);
 		return new AirplaneDTO(airplaneRepository.save(airplane));
+	}
+
+	/**
+	 * Pronalazi avion u okviru aviokompanije.
+	 * 
+	 * @param airplaneId - oznaka aviona
+	 * @param airCompanyId - oznaka aviokomapnije
+	 * @return - avion
+	 * @throws ResourceNotFoundException - ako nisu pronađeni avion ili aviokomapnija
+	 */
+	private Airplane findAirplane(Integer airplaneId, Integer airCompanyId) throws ResourceNotFoundException {
+		// pronadji avio kompaniju u koju se dodaje novi avion
+		Optional<AirCompany> airCompanyOpt = airCompanyRepository.findById(airCompanyId);
+		if (!airCompanyOpt.isPresent()) {
+			throw new ResourceNotFoundException(airCompanyId.toString(), "Air company not found.");
+		}
+		AirCompany airCompany = airCompanyOpt.get();
+		Optional<Airplane> airplane = airCompany.getAirplanes().stream().filter(a -> a.getId().equals(airplaneId))
+				.findFirst();
+		if (!airplane.isPresent()) {
+			throw new ResourceNotFoundException(airplaneId.toString(), "Airplane not found.");
+		}
+		return airplane.get();
 	}
 }

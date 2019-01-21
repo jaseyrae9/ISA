@@ -1,0 +1,46 @@
+<div class="modal-header">
+  <h5 class="modal-title" *ngIf="!isAddForm" >Edit <b style="color: #33cabb;">destination</b></h5>
+  <h5 class="modal-title" *ngIf="isAddForm" >Add <b style="color: #33cabb;">destination</b></h5>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<form name="form" [formGroup]="destinationForm" (ngSubmit)="onSubmit()">
+  <div class="modal-body">
+      <div class="input-group form-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fa fa-tag" aria-hidden="true"></i>
+            </span>
+          </div>
+          <input type="text" class="form-control" placeholder="Destination label" required="required" formControlName="label">
+      </div>
+      <div class="input-group form-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fa fa-flag" aria-hidden="true"></i>
+            </span>
+          </div>
+          <input type="text" class="form-control" placeholder="Country" required="required" formControlName="country">
+      </div>
+      <div class="input-group form-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fa fa-plane" aria-hidden="true"></i>
+            </span>
+          </div>
+          <input type="text" class="form-control" placeholder="Airport name" required="required" formControlName="airportName">
+      </div>
+      <div class="alert alert-danger" role="alert" *ngIf="errorMessage.length != 0">
+          {{errorMessage}}
+      </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modalRef.hide()">Close</button>
+    <input type="submit" class="btn btn-primary" value="Save"/>
+  </div>
+
+</form>
+

@@ -2,7 +2,7 @@ import { ErrorInterceptor } from './auth/response-interceptor';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgxNotificationComponent } from 'ngx-notification';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -67,6 +67,7 @@ import { NewServiceFormComponent } from './components/hotel/new-service-form/new
 import { BranchOfficeBasicDetailsComponent } from './components/rent-a-car-company/branch-office-basic-details/branch-office-basic-details.component';
 import { NewBranchOfficeFormComponent } from './components/rent-a-car-company/new-branch-office-form/new-branch-office-form.component';
 import { DestinationComponent } from './components/air-company/destination/destination.component';
+import { DestinationFormComponent } from './components/air-company/destination-form/destination-form.component';
 
 @NgModule({
   declarations: [
@@ -124,16 +125,17 @@ import { DestinationComponent } from './components/air-company/destination/desti
     NewServiceFormComponent,
     BranchOfficeBasicDetailsComponent,
     NewBranchOfficeFormComponent,
-    DestinationComponent
+    DestinationComponent,
+    DestinationFormComponent
   ],
   imports: [
-    BrowserModule, RoutingModule, HttpClientModule, FormsModule, ModalModule.forRoot()
+    BrowserModule, RoutingModule, HttpClientModule, FormsModule, ModalModule.forRoot(),   ReactiveFormsModule
   ],
   providers: [HotelService, AirCompanyService, UserService, DataService, RoleGuardService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [EditCarFormComponent, EditRoomFormComponent]
+  entryComponents: [EditCarFormComponent, EditRoomFormComponent, DestinationFormComponent]
 })
 export class AppModule { }

@@ -1,3 +1,7 @@
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { DestinationFormComponent } from './../destination-form/destination-form.component';
+import { Destination } from './../../../model/air-company/destination';
 import { Component, OnInit } from '@angular/core';
 import { AirCompany } from 'src/app/model/air-company/air-company';
 import { ActivatedRoute } from '@angular/router';
@@ -11,10 +15,12 @@ import { Role } from 'src/app/model/role';
   styleUrls: ['./air-company-page.component.css', '../../../shared/css/inputField.css']
 })
 export class AirCompanyPageComponent implements OnInit {
+  modalRef: BsModalRef;
   airCompany: AirCompany = new AirCompany();
   forEditing: AirCompany = new AirCompany();
 
-  constructor(private route: ActivatedRoute, private airCompanyService: AirCompanyService, public tokenService: TokenStorageService) { }
+  constructor(private modalService: BsModalService, private route: ActivatedRoute, private airCompanyService: AirCompanyService,
+    public tokenService: TokenStorageService) { }
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
@@ -33,4 +39,21 @@ export class AirCompanyPageComponent implements OnInit {
     this.forEditing = new AirCompany(data.id, data.name, data.description);
   }
 
+  openAddDestinationModal() {
+    const initialState = {
+      aircompanyId: this.airCompany.id,
+      isAddForm: true
+    };
+    this.modalRef = this.modalService.show(DestinationFormComponent, { initialState });
+    this.modalRef.content.onClose.subscribe(destination => {
+      this.airCompany.destinations.push(destination);
+    });
+  }
+
+  onDeleteDestination(destination: Destination) {
+    const index: number = this.airCompany.destinations.indexOf(destination);
+    if (index !== -1) {
+      this.airCompany.destinations.splice(index, 1);
+    }
+  }
 }

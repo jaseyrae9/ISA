@@ -1,0 +1,15 @@
+.fa {
+  color: #33cabb;
+}
+
+.delete > .fa:hover{
+  color: red;
+}
+
+.edit{
+  margin-right: 3px;
+}
+
+.edit > .fa:hover{
+  color:red;
+}

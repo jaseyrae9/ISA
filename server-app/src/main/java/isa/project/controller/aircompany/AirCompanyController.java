@@ -131,11 +131,44 @@ public class AirCompanyController {
 		Destination destination = airCompanyService.addDestination(destinationDTO, id);
 		return new ResponseEntity<>(new DestinationDTO(destination), HttpStatus.OK);
 	}
+	
+	/**
+	 * Briše (logički) destinaciju.
+	 * 
+	 * @param id - oznaka aviokomapnije
+	 * @param destination - oznaka destinacije
+	 * @throws ResourceNotFoundException - ako nisu pronađeni aerodrum ili destinacija
+	 */
+	@PreAuthorize("hasAnyRole('AIRADMIN')")
+	@AdminAccountActiveCheck
+	@AirCompanyAdminCheck
+	@RequestMapping(value = "/deleteDestination/{id}/{destination}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> editDestination(@PathVariable Integer id, @PathVariable Long destination) throws ResourceNotFoundException{
+		airCompanyService.deleteDestination(destination, id);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	/**
+	 * Menja postojeću destinaciju.
+	 * 
+	 * @param id - oznaka aviokomapnije
+	 * @param destinationDTO - informacije o destinaciji
+	 * @return - destinacija
+	 * @throws ResourceNotFoundException - ako nisu pronađeni aerodrum ili destinacija
+	 */
+	@PreAuthorize("hasAnyRole('AIRADMIN')")
+	@AdminAccountActiveCheck
+	@AirCompanyAdminCheck
+	@RequestMapping(value = "/editDestination/{id}", method = RequestMethod.PUT, consumes = "application/json")
+	public ResponseEntity<?> editDestination(@PathVariable Integer id, @Valid @RequestBody DestinationDTO destinationDTO) throws ResourceNotFoundException{
+		Destination destination = airCompanyService.editDestination(destinationDTO.getId(),id, destinationDTO);
+		return new ResponseEntity<>(new DestinationDTO(destination), HttpStatus.OK);
+	}
 
 	/**
 	 * Dodaje novu informaciju o ceni prevoza prtljaga.
 	 * 
-	 * @param destinationDTO - informacije o prtljagu
+	 * @param AdditionalService - informacije o prtljagu
 	 * @param id             - id avio kompanije kojoj se dodaje destinacija
 	 * @return
 	 * @throws ResourceNotFoundException - ako se ne pronađe avio kompanija kojoj se

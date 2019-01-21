@@ -1,3 +1,4 @@
+import { Destination } from './../../model/air-company/destination';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
@@ -33,5 +34,17 @@ export class AirCompanyService {
 
   edit(airCompany: AirCompany): Observable<AirCompany> {
     return this.http.put<AirCompany>('http://localhost:8080/aircompanies/edit/' + airCompany.id, airCompany, httpOptions);
+  }
+
+  addDestination(destination, id): Observable<Destination> {
+    return this.http.post<Destination>('http://localhost:8080/aircompanies/addDestination/' + id, destination, httpOptions);
+  }
+
+  deleteDestination(destination, id): Observable<any> {
+    return this.http.delete<Object>('http://localhost:8080/aircompanies/deleteDestination/' + id + '/' + destination);
+  }
+
+  editDestination(destination, id): Observable<Destination> {
+    return this.http.put<Destination>('http://localhost:8080/aircompanies/editDestination/' + id, destination, httpOptions);
   }
 }

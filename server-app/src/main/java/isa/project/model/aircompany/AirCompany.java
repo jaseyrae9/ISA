@@ -2,6 +2,7 @@ package isa.project.model.aircompany;
 
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -73,7 +74,7 @@ public class AirCompany {
 	}
 
 	public Set<Destination> getDestinations() {
-		return destinations;
+		return destinations.stream().filter(d -> d.getActive()).collect(Collectors.toSet());
 	}
 
 	public void setDestinations(Set<Destination> destinations) {
