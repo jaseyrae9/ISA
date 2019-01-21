@@ -20,7 +20,6 @@ export class EditCarCompanyFormComponent implements OnInit {
   }
 
   onCarCompanyEdit() {
-    
     this.carCompanyService.edit(this.carCompany).subscribe(
       data => {
         this.carCompanyEdited.emit(data);

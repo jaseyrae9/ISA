@@ -6,6 +6,7 @@ import { Car } from 'src/app/model/rent-a-car-company/car';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { Role } from 'src/app/model/role';
 import { BranchOffice } from 'src/app/model/rent-a-car-company/branch-offfice';
+import { NgxNotificationService } from 'ngx-notification';
 
 @Component({
   selector: 'app-car-company-page',
@@ -17,7 +18,8 @@ export class CarCompanyPageComponent implements OnInit {
   forEditing: RentACarCompany = new RentACarCompany();
   roles: Role[];
 
-  constructor(private route: ActivatedRoute, private carService: RentACarCompanyService, public tokenService: TokenStorageService) { }
+  constructor(private route: ActivatedRoute, private carService: RentACarCompanyService,
+    public tokenService: TokenStorageService,  public ngxNotificationService: NgxNotificationService) { }
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
@@ -34,13 +36,16 @@ export class CarCompanyPageComponent implements OnInit {
   }
 
   carCreated(car: Car) {
-    console.log('Kreiran je automobil', car);
+   // console.log('Kreiran je automobil', car);
     this.carCompany.cars.push(car);
+    this.ngxNotificationService.sendMessage(car.brand + ' ' + car.model + ' created!', 'dark', 'bottom-right');
   }
 
   branchOfficeCreated(branchOffice: BranchOffice) {
-    console.log('Kreirana je filijala', branchOffice);
+ //   console.log('Kreirana je filijala', branchOffice);
     this.carCompany.branchOffices.push(branchOffice);
+    this.ngxNotificationService.sendMessage(branchOffice.name + ' created!', 'dark', 'bottom-right');
+
   }
 
   carCompanyEdited(data) {
@@ -48,12 +53,15 @@ export class CarCompanyPageComponent implements OnInit {
     this.carCompany.name = data.name;
     this.carCompany.description = data.description;
     this.forEditing = new RentACarCompany(data.id, data.name, data.description, data.cars);
+    this.ngxNotificationService.sendMessage('Rent a car company is changed!', 'dark', 'bottom-right' );
   }
 
   carDeleted(carId: number) {
     for (const car of this.carCompany.cars) {
       if (car.id === carId) {
         car.active = false;
+        this.ngxNotificationService.sendMessage(car.model + ' ' + car.brand + ' is deleted!', 'dark', 'bottom-right' );
+        break;
       }
     }
   }
@@ -62,6 +70,8 @@ export class CarCompanyPageComponent implements OnInit {
     for (const branchOffice of this.carCompany.branchOffices) {
       if (branchOffice.id === branchOfficeId) {
         branchOffice.active = false;
+        this.ngxNotificationService.sendMessage(branchOffice.name + ' is deleted!', 'dark', 'bottom-right' );
+        break;
       }
     }
   }
