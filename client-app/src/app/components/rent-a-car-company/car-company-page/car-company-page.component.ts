@@ -19,7 +19,7 @@ export class CarCompanyPageComponent implements OnInit {
   roles: Role[];
 
   constructor(private route: ActivatedRoute, private carService: RentACarCompanyService,
-    public tokenService: TokenStorageService,  public ngxNotificationService: NgxNotificationService) { }
+    public tokenService: TokenStorageService, public ngxNotificationService: NgxNotificationService) { }
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');

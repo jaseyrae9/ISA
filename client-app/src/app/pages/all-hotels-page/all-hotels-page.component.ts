@@ -2,7 +2,7 @@ import { DataService } from './../../observables/data.service';
 import { Component, OnInit } from '@angular/core';
 import { HotelService } from '../../services/hotel/hotel.service';
 import { Hotel } from 'src/app/model/hotel/hotel';
-
+import { NgxNotificationService } from 'ngx-notification';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { Role } from 'src/app/model/role';
 
@@ -15,7 +15,8 @@ export class AllHotelsPageComponent implements OnInit {
   hotels: Hotel[];
   roles: Role[];
 
-  constructor(private hotelService: HotelService, private dataService: DataService, public tokenService: TokenStorageService) {
+  constructor(private hotelService: HotelService, private dataService: DataService, public tokenService: TokenStorageService,
+    public ngxNotificationService: NgxNotificationService) {
 
   }
 
@@ -30,12 +31,14 @@ export class AllHotelsPageComponent implements OnInit {
   hotelCreated(hotel: Hotel) {
     this.hotels.push(hotel);
     this.dataService.changeHotel(hotel);
+    this.ngxNotificationService.sendMessage(hotel.name + ' is created!', 'dark', 'bottom-right' );
+
   }
 
   isSysAdmin() {
-    if (this.roles != undefined) {
-      for (let role of this.roles) {
-        if (role.authority == 'ROLE_SYS') {
+    if (this.roles !== undefined) {
+      for (const role of this.roles) {
+        if (role.authority === 'ROLE_SYS') {
           return true;
         }
       }

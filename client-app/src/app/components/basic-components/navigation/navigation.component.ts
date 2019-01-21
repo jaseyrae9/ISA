@@ -39,11 +39,10 @@ export class NavigationComponent implements OnInit {
   }
 
 
-  isSysAdmin()
-  {
-    if (this.roles != undefined) {
-      for (let role of this.roles) {
-        if (role.authority == 'ROLE_SYS') {
+  isSysAdmin() {
+    if (this.roles !== null) {
+      for (const role of this.roles) {
+        if (role.authority === 'ROLE_SYS') {
           return true;
         }
       }
