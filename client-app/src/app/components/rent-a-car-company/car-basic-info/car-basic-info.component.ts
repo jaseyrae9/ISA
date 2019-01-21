@@ -31,7 +31,7 @@ export class CarBasicInfoComponent implements OnInit {
     this.car.yearOfProduction, this.car.price, this.car.active);
 
     this.roles = this.tokenService.getRoles();
-    this.tokenService.rolesEmitter.subscribe(roles => this.roles = roles);
+    this.roles = this.tokenService.getRoles();
 
     const companyId = this.route.snapshot.paramMap.get('id');
     this.companyId = companyId;

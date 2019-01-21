@@ -1,6 +1,5 @@
 package isa.project.model.hotel;
 
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -11,9 +10,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import isa.project.model.shared.AdditionalService;
 
@@ -31,9 +31,9 @@ public class Hotel {
 	@Column(name = "HotelDescription", nullable = true)
 	private String description;
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-	@JoinColumn(name = "hotel_id")
-	private Set<Room> rooms = new HashSet<Room>();
+	@JsonManagedReference
+	@OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+	private Set<Room> rooms;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<AdditionalService> additionalServices;	

@@ -21,7 +21,7 @@ export class NewCarFormComponent implements OnInit {
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     this.id = id;
-    this.form.type = "Sedan";
+    this.form.type = 'Sedan';
   }
 
   onCarAdd() {
@@ -32,7 +32,8 @@ export class NewCarFormComponent implements OnInit {
       this.form.seatsNumber,
       this.form.doorsNumber,
       this.form.yearOfProduction,
-      this.form.price);
+      this.form.price,
+      true);
 
     console.log(this.car);
 

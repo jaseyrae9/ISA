@@ -17,17 +17,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import isa.project.aspects.AdminAccountActiveCheck;
-import isa.project.aspects.AirCompanyAdminCheck;
 import isa.project.aspects.HotelAdminCheck;
-import isa.project.aspects.RentACarCompanyAdminCheck;
 import isa.project.dto.hotel.HotelDTO;
 import isa.project.dto.hotel.RoomDTO;
-import isa.project.dto.rentacar.CarDTO;
 import isa.project.exception_handlers.ResourceNotFoundException;
 import isa.project.model.hotel.Hotel;
 import isa.project.model.hotel.Room;
-import isa.project.model.rentacar.Car;
-import isa.project.model.rentacar.RentACarCompany;
 import isa.project.model.shared.AdditionalService;
 import isa.project.service.hotel.HotelService;
 
@@ -123,15 +118,7 @@ public class HotelController {
 	@HotelAdminCheck
 	@RequestMapping(value="/addRoom/{hotelId}",method=RequestMethod.POST, consumes="application/json")
 	public ResponseEntity<RoomDTO> addRoom(@PathVariable Integer hotelId, @RequestBody RoomDTO roomDTO) throws ResourceNotFoundException{
-		Room room = new Room(roomDTO.getFloor(), roomDTO.getRoomNumber(), roomDTO.getNumberOfBeds(), roomDTO.getPrice(), roomDTO.getType());
-		Optional<Hotel> hotel = hotelService.findHotel(hotelId);
-		
-		if (!hotel.isPresent()) {
-			throw new ResourceNotFoundException(hotelId.toString(), "Hotel not found");
-		}
-		
-		hotel.get().getRooms().add(room);
-		hotelService.saveHotel(hotel.get());
+		Room room = hotelService.addRoom(hotelId, roomDTO);
 		return new ResponseEntity<>(new RoomDTO(room), HttpStatus.CREATED);	
 	}
 	

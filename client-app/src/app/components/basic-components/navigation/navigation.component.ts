@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit} from '@angular/core';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { RentACarCompany } from 'src/app/model/rent-a-car-company/rent-a-car-company';
@@ -18,7 +19,7 @@ export class NavigationComponent implements OnInit {
   public aircompanies: AirCompany[];
   roles: Role[];
 
-  constructor(public tokenService: TokenStorageService) {
+  constructor(public tokenService: TokenStorageService, private router: Router) {
     this.loggedIn = tokenService.checkIsLoggedIn();
     this.tokenService.logggedInEmitter.subscribe(loggedIn => {
       this.loggedIn = loggedIn;
@@ -31,6 +32,12 @@ export class NavigationComponent implements OnInit {
     this.roles = this.tokenService.getRoles();
     this.tokenService.rolesEmitter.subscribe(roles => this.roles = roles);
   }
+
+  logout() {
+    this.router.navigateByUrl('http://localhost:4200');
+    this.tokenService.signOut();
+  }
+
 
   isSysAdmin()
   {

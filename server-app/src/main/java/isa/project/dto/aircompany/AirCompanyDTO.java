@@ -1,8 +1,11 @@
 package isa.project.dto.aircompany;
 
+import java.util.Set;
+
 import javax.validation.constraints.NotBlank;
 
 import isa.project.model.aircompany.AirCompany;
+import isa.project.model.aircompany.Destination;
 
 public class AirCompanyDTO {
 	private Integer id;
@@ -12,6 +15,8 @@ public class AirCompanyDTO {
 	
 	private String description;
 	
+	private Set<Destination> destinations;
+	
 	public AirCompanyDTO() {
 		
 	}
@@ -20,6 +25,7 @@ public class AirCompanyDTO {
 		this.id = company.getId();
 		this.name = company.getName();
 		this.description = company.getDescription();
+		this.destinations = company.getDestinations();
 	}
 
 	public Integer getId() {
@@ -44,5 +50,13 @@ public class AirCompanyDTO {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Set<Destination> getDestinations() {
+		return destinations;
+	}
+
+	public void setDestinations(Set<Destination> destinations) {
+		this.destinations = destinations;
 	}
 }

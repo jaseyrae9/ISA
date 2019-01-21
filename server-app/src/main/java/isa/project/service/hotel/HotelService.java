@@ -3,14 +3,15 @@ package isa.project.service.hotel;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
+import isa.project.dto.hotel.RoomDTO;
 import isa.project.exception_handlers.ResourceNotFoundException;
-import isa.project.model.aircompany.AirCompany;
 import isa.project.model.hotel.Hotel;
+import isa.project.model.hotel.Room;
 import isa.project.model.shared.AdditionalService;
 import isa.project.repository.hotel.HotelRepository;
+import isa.project.repository.hotel.RoomRepository;
 import isa.project.repository.shared.AdditionalServiceRepository;
 
 @Service
@@ -18,6 +19,9 @@ public class HotelService {
 	
 	@Autowired
 	private HotelRepository hotelRepository;
+	
+	@Autowired
+	private RoomRepository roomRepository;
 	
 	@Autowired
 	private AdditionalServiceRepository additionalServiceRepository;
@@ -60,5 +64,18 @@ public class HotelService {
 		hotelRepository.save(hotel);
 
 		return service;
+	}
+
+	public Room addRoom(Integer hotelId, RoomDTO roomDTO) throws ResourceNotFoundException {
+		Optional<Hotel> hotel = hotelRepository.findById(hotelId);
+		
+		if (!hotel.isPresent()) {
+			throw new ResourceNotFoundException(hotelId.toString(), "Hotel not found");
+		}
+		
+		//  Double price, String type) {
+
+		Room room = new Room(hotel.get(), roomDTO.getFloor(), roomDTO.getRoomNumber(), roomDTO.getNumberOfBeds(), roomDTO.getPrice(), roomDTO.getType());
+		return roomRepository.save(room);
 	}
 }

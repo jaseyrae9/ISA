@@ -60,6 +60,7 @@ export class HotelPageComponent implements OnInit {
   }
 
   roomCreated(room: Room) {
+    console.log(room);
     this.hotel.rooms.push(room);
   }
 

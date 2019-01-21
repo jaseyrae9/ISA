@@ -1,20 +1,33 @@
 package isa.project.model.rentacar;
 
+import java.io.Serializable;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 
 @Entity
 @Table(name = "car")
-public class Car {
-	
+public class Car implements Serializable {
+	private static final long serialVersionUID = -9158075503665417754L;
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue
 	private Integer id;
+	
+	@JsonBackReference
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)	
+	@JoinColumn(name="rentacar_company_id", referencedColumnName="id")
+	private RentACarCompany rentACarCompany;
 	
 	@Column(name = "type")
 	private String type;
@@ -41,12 +54,13 @@ public class Car {
 	private Boolean active;
 	
 	public Car() {
-		super();
+		//super();
 	}
 	
-	public Car(String brand, String model, Integer yearOfProduction, Integer seatsNumber, Integer doorsNumber,
+	public Car(RentACarCompany rentACarCompany, String brand, String model, Integer yearOfProduction, Integer seatsNumber, Integer doorsNumber,
 			Integer price, String type) {
 		super();
+		this.rentACarCompany = rentACarCompany;
 		this.brand = brand;
 		this.model = model;
 		this.yearOfProduction = yearOfProduction;
@@ -129,13 +143,23 @@ public class Car {
 		this.active = active;
 	}
 
+	public RentACarCompany getRentACarCompany() {
+		return rentACarCompany;
+	}
+
+	public void setRentACarCompany(RentACarCompany rentACarCompany) {
+		this.rentACarCompany = rentACarCompany;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((rentACarCompany == null) ? 0 : rentACarCompany.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
+
 	
 	@Override
 	public boolean equals(Object obj) {
@@ -146,6 +170,11 @@ public class Car {
 		if (getClass() != obj.getClass())
 			return false;
 		Car other = (Car) obj;
+		if (rentACarCompany == null) {
+			if (other.rentACarCompany != null)
+				return false;
+		} else if (!rentACarCompany.equals(other.rentACarCompany))
+			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -156,8 +185,9 @@ public class Car {
 
 	@Override
 	public String toString() {
-		return "Car [id=" + id + ", brand=" + brand + ", model=" + model + ", yearOfProduction=" + yearOfProduction
-				+ ", seatsNumber=" + seatsNumber + ", doorsNumber=" + doorsNumber + ", price=" + price + "]";
-	}	
+		return "Car [id=" + id + ", rentACarCompany=" + rentACarCompany + ", type=" + type + ", brand=" + brand
+				+ ", model=" + model + ", yearOfProduction=" + yearOfProduction + ", seatsNumber=" + seatsNumber
+				+ ", doorsNumber=" + doorsNumber + ", price=" + price + ", active=" + active + "]";
+	}
 
 }

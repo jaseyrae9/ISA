@@ -11,6 +11,11 @@
         </a>
       </li>
       <li class = "nav-item">
+        <a href = "#destinations" role="tab" data-toggle="tab" class = "nav-link">
+          <i class="fa fa-map-marked-alt" aria-hidden="true"></i>Destinations
+        </a>
+      </li>
+      <li class = "nav-item">
           <a href = "#flights" role="tab" data-toggle="tab" class = "nav-link">
             <i class="fa fa-plane" aria-hidden="true"></i>Flights
           </a>
@@ -28,7 +33,7 @@
                 <hr>
                 <p>{{airCompany.description}}</p>
                 <div align = "right">
-                  <button *ngIf="isAirAdmin()" class="btn btn-primary float-right"  data-toggle="modal" data-target="#editAirCompany"><i class="fa fa-edit" aria-hidden="true"></i>Edit</button>
+                  <button *ngIf="tokenService.isAirAdmin" class="btn btn-primary float-right"  data-toggle="modal" data-target="#editAirCompany"><i class="fa fa-edit" aria-hidden="true"></i>Edit</button>
                 </div>
         </div>
       </div>
@@ -38,7 +43,18 @@
           <app-additional-services-table></app-additional-services-table>
       </div>
 
-      <div class="tab-pane fade" id="flights" aria-labelledby="services-tab">
+      <div class="tab-pane fade" id="destinations" aria-labelledby="destinations-tab">
+          <div *ngIf="airCompany.destinations.length == 0 else destinationsDiv">
+              <p>There are no destinations.</p>
+          </div>
+          <ng-template #destinationsDiv>
+          <div class="container" *ngFor="let item of airCompany.destinations">
+            <app-destination></app-destination>
+          </div>
+          </ng-template>
+      </div>
+
+      <div class="tab-pane fade" id="flights" aria-labelledby="flights-tab">
           <div class="container">
             <app-fight-basic-info></app-fight-basic-info>
             <app-fight-basic-info></app-fight-basic-info>
