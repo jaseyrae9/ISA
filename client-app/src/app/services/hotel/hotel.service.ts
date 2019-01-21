@@ -60,5 +60,12 @@ export class HotelService {
      additionalService, httpOptions);
   }
 
+  editAdditionalService(additionalService: AdditionalService, hotelId: number): Observable<AdditionalService> {
+    return this.http.put<AdditionalService>('http://localhost:8080/hotels/editAdditionalService/' + hotelId,
+     additionalService, httpOptions);
+  }
 
+  deleteAdditionalService(serviceId: number, hotelId: number): Observable<number> {
+    return this.http.delete<number>('http://localhost:8080/hotels/deleteAdditionalService/' + hotelId + '/' + serviceId, httpOptions);
+  }
 }

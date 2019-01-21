@@ -6,12 +6,12 @@
           <p class="text-muted" align="left">Adresa</p>
           <hr>
           <!--dugmici-->
-          <!--(click)="openEditModal()"-->
-          <button *ngIf="isCarAdmin()" class="btn btn-primary px-4 m-2"
-            >Edit</button>
-        <button *ngIf="isCarAdmin()" class="btn btn-primary px-4 m-2" (click)="deleteBranchOffice()">Delete</button>
-        
-          
+          <button *ngIf="isCarAdmin()" class="btn btn-primary px-4 m-2 float-right"
+          (click)="openEditModal()"><i
+          class="fa fa-edit" aria-hidden="true"></i>Edit</button>
+        <button *ngIf="isCarAdmin()" class="btn btn-primary px-4 m-2 float-right" (click)="deleteBranchOffice()">
+                <i class="fa fa-trash-alt" aria-hidden="true"></i>Delete</button>        
     </div>
     </div>
   </div>
+

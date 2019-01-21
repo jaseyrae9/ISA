@@ -2,6 +2,7 @@ package isa.project.model.hotel;
 
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -73,7 +74,7 @@ public class Hotel {
 	}
 	
 	public Set<Room> getRooms() {
-		return rooms;
+		return rooms.stream().filter(p -> p.getActive() == true).collect(Collectors.toSet()); // Da vraca samo aktivne
 	}
 
 	public void setRooms(Set<Room> rooms) {
@@ -81,7 +82,7 @@ public class Hotel {
 	}
 
 	public Set<AdditionalService> getAdditionalServices() {
-		return additionalServices;
+		return additionalServices.stream().filter(p -> p.getActive() == true).collect(Collectors.toSet()); // Da vraca samo aktivne
 	}
 
 	public void setAdditionalServices(Set<AdditionalService> additionalServices) {

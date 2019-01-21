@@ -27,15 +27,15 @@ export class HotelPageComponent implements OnInit {
   bsRangeValue: Date[];
 
   constructor(private route: ActivatedRoute,
-     private hotelService: HotelService,
-      public tokenService: TokenStorageService,
-      public ngxNotificationService: NgxNotificationService) {
+    private hotelService: HotelService,
+    public tokenService: TokenStorageService,
+    public ngxNotificationService: NgxNotificationService) {
 
-      this.datePickerConfig = Object.assign({},
-        {
-           containerClass: 'theme-default',
-           dateInputFormat: 'DD/MM/YYYY'
-        });
+    this.datePickerConfig = Object.assign({},
+      {
+        containerClass: 'theme-default',
+        dateInputFormat: 'DD/MM/YYYY'
+      });
 
   }
 
@@ -65,10 +65,9 @@ export class HotelPageComponent implements OnInit {
   }
 
   roomDeleted(roomId: number) {
-    for (const room of this.hotel.rooms) {
-      if (room.id === roomId) {
-        room.active = false;
-      }
+    const i = this.hotel.rooms.findIndex(e => e.id === roomId);
+    if (i !== -1) {
+      this.hotel.rooms.splice(i, 1);
     }
   }
 
@@ -90,5 +89,33 @@ export class HotelPageComponent implements OnInit {
     this.ngxNotificationService.sendMessage('Service ' + additionalService.name + ' created!', 'dark', 'bottom-right');
   }
 
+  editClicked(as: AdditionalService) {
+    console.log('editing as', as);
+
+    this.hotelService.editAdditionalService(as, this.hotel.id).subscribe(
+      data => {
+      },
+      error => {
+        console.log(error.error.message);
+      }
+    );
+   }
+
+  deleteClicked(as: AdditionalService) {
+    console.log('delete as', as);
+
+    this.hotelService.deleteAdditionalService(as.id, this.hotel.id).subscribe(
+      data => {
+        const i = this.hotel.additionalServices.findIndex(e => e.id === data);
+        if (i !== -1) {
+          this.hotel.additionalServices.splice(i, 1);
+        }
+        this.ngxNotificationService.sendMessage('Service ' + as.name + ' deleted!', 'dark', 'bottom-right');
+      },
+      error => {
+        console.log(error.error.message);
+      }
+    );
+  }
 
 }
