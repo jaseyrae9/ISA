@@ -32,6 +32,9 @@ public class AirCompany {
 	@OneToMany(mappedBy = "airCompany", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Destination> destinations;
 	
+	@OneToMany(mappedBy = "airCompany", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<Airplane> airplanes;
+	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<AdditionalService> baggageInformation;
 	
@@ -83,7 +86,15 @@ public class AirCompany {
 
 	public void setBaggageInformation(Set<AdditionalService> baggageInformation) {
 		this.baggageInformation = baggageInformation;
+	}	
+
+	public Set<Airplane> getAirplanes() {
+		return airplanes;
 	}
+
+	public void setAirplanes(Set<Airplane> airplanes) {
+		this.airplanes = airplanes;
+	}	
 
 	@Override
 	public int hashCode() {

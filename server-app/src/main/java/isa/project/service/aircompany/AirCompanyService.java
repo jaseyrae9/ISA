@@ -17,22 +17,22 @@ import isa.project.repository.shared.AdditionalServiceRepository;
 @Service
 public class AirCompanyService {
 	@Autowired
-	private AirCompanyRepository airCompanyRespository;
+	private AirCompanyRepository airCompanyRepository;
 	@Autowired
 	private DestinationRepository destinationRepository;	
 	@Autowired
 	private AdditionalServiceRepository additionalServiceRepository;
 
 	public Iterable<AirCompany> findAll() {
-		return airCompanyRespository.findAll();
+		return airCompanyRepository.findAll();
 	}
 
 	public Optional<AirCompany> findAircompany(Integer id) {
-		return airCompanyRespository.findById(id);
+		return airCompanyRepository.findById(id);
 	}
 
 	public AirCompany saveAirCompany(AirCompany company) {
-		return airCompanyRespository.save(company);
+		return airCompanyRepository.save(company);
 	}
 
 	/**
@@ -45,7 +45,7 @@ public class AirCompanyService {
 	 */
 	public Destination addDestination(DestinationDTO destinationDTO, Integer id) throws ResourceNotFoundException {
 		// pronadji avio kompaniju u koju se dodaje destinacija
-		Optional<AirCompany> airCompanyOpt = airCompanyRespository.findById(id);
+		Optional<AirCompany> airCompanyOpt = airCompanyRepository.findById(id);
 		if (!airCompanyOpt.isPresent()) {
 			throw new ResourceNotFoundException(id.toString(), "Air company not found.");
 		}
@@ -70,7 +70,7 @@ public class AirCompanyService {
 	public AdditionalService addBaggageInformation(AdditionalService baggageInformation, Integer id)
 			throws ResourceNotFoundException {
 		// pronadji avio kompaniju u koju se dodaje destinacija
-		Optional<AirCompany> airCompanyOpt = airCompanyRespository.findById(id);
+		Optional<AirCompany> airCompanyOpt = airCompanyRepository.findById(id);
 		if (!airCompanyOpt.isPresent()) {
 			throw new ResourceNotFoundException(id.toString(), "Air company not found.");
 		}
@@ -81,7 +81,7 @@ public class AirCompanyService {
 
 		// sacuvaj informaciju o prtljagu u aviokompaniji
 		airCompany.getBaggageInformation().add(baggageInformation);
-		airCompanyRespository.save(airCompany);
+		airCompanyRepository.save(airCompany);
 
 		return service;
 	}

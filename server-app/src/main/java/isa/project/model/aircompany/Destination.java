@@ -33,6 +33,9 @@ public class Destination implements Serializable {
 
 	@Column(nullable = false)
 	private String airportName;
+	
+	@Column(nullable = false)
+	private Boolean active;
 
 	public Destination() {
 	}
@@ -43,6 +46,7 @@ public class Destination implements Serializable {
 		this.label = label;
 		this.country = country;
 		this.airportName = airportName;
+		this.active = true;
 	}
 
 	public Long getId() {
@@ -83,6 +87,14 @@ public class Destination implements Serializable {
 
 	public void setAirportName(String airportName) {
 		this.airportName = airportName;
+	}	
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
 	}
 
 	@Override
