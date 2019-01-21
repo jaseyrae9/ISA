@@ -1,11 +1,11 @@
 insert into hotel (id, hotel_name, hotel_description) values (100, 'Hotel proba 1', 'Opis 1');
 insert into hotel (id, hotel_name, hotel_description) values (101, 'Hotel proba 2', 'Opis 2');
 
-INSERT INTO services (id, description, name, price) VALUES (100, 'Opis usluge', 'WiFi', 5);
-INSERT INTO services (id, description, name, price) VALUES (101, 'Opis usluge', 'Parking lot',  10);
-INSERT INTO services (id, description, name, price) VALUES (102, 'Opis usluge', 'Air conditioning', 5);
-INSERT INTO services (id, description, name, price) VALUES (104, 'Opis usluge', 'Welness', 15);
-INSERT INTO services (id, description, name, price) VALUES (105, 'Opis usluge', 'Room service', 10);
+INSERT INTO services (id, active, description, name, price) VALUES (100, 1, 'Opis usluge', 'WiFi', 5);
+INSERT INTO services (id, active, description, name, price) VALUES (101, 1, 'Opis usluge', 'Parking lot',  10);
+INSERT INTO services (id, active, description, name, price) VALUES (102, 1, 'Opis usluge', 'Air conditioning', 5);
+INSERT INTO services (id, active, description, name, price) VALUES (104, 1, 'Opis usluge', 'Welness', 15);
+INSERT INTO services (id, active, description, name, price) VALUES (105, 0, 'Opis usluge', 'Room service', 10);
 
 insert into hotel_additional_services (hotel_id, additional_services_id) value (100, 100);
 insert into hotel_additional_services (hotel_id, additional_services_id) value (100, 101);
@@ -29,8 +29,9 @@ INSERT INTO authority (id, name) VALUES (4, 'AIRADMIN');
 INSERT INTO authority (id, name) VALUES (5, 'CARADMIN');
 
 insert into car (id, active, brand,doors_number,model, price, seats_number, type, year_of_production, rentacar_company_id) values (500, 1, 'Fiat', 5, 'Punto 1.2', 39, 5, 'Sedan', 2010, 100);
-INSERT INTO room (id, active, floor, number_of_beds, price, room_number, type, hotel_id) VALUES (600, 1, 4, 2, 20, 20, 'Regular', 100);
 
+INSERT INTO room (id, active, floor, number_of_beds, price, room_number, type, hotel_id) VALUES (600, 1, 4, 2, 20, 20, 'Regular', 100);
+INSERT INTO room (id, active, floor, number_of_beds, price, room_number, type, hotel_id) VALUES (601, 0, 4, 2, 20, 20, 'Regular', 100);
 
 INSERT branch_office (id, active, branch_office_name, rentacar_company_id) VALUES (100, 1, 'Branch office name 1', 100);
 

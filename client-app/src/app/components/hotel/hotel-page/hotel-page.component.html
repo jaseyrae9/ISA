@@ -53,7 +53,7 @@
           </button>
         </div>
       </div>
-      <app-additional-services-table [additionalServices]="hotel.additionalServices"></app-additional-services-table>
+      <app-additional-services-table [additionalServices]="hotel.additionalServices" (editEmitter)='editClicked($event)' (deleteEmitter)='deleteClicked($event)'></app-additional-services-table>
     </div>
 
 
@@ -78,7 +78,7 @@
       </div>
       <div class="container">
         <div *ngFor="let room of hotel.rooms">
-          <app-room-basic-info *ngIf="room.active" [room]='room' (roomDeleted)="roomDeleted($event)"></app-room-basic-info>
+          <app-room-basic-info [room]='room' (roomDeleted)="roomDeleted($event)"></app-room-basic-info>
         </div>
       </div>
     </div>

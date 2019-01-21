@@ -24,6 +24,9 @@ public class AdditionalService {
 	@Column
 	private String description;
 	
+	@Column
+	private Boolean active;
+	
 	@NotNull(message = "Price must be entered.")
 	@Min(value = 0, message = "Price can not be less than zero.")
 	@Column(nullable = false)
@@ -36,6 +39,7 @@ public class AdditionalService {
 		this.name = name;
 		this.description = description;
 		this.price = price;
+		this.active = true;
 	}
 
 	public Long getId() {
@@ -69,5 +73,12 @@ public class AdditionalService {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
-		
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
+	}	
 }
