@@ -1,3 +1,6 @@
+import { EditProfileFormComponent } from './../edit-profile-form/edit-profile-form.component';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { BsModalService } from 'ngx-bootstrap/modal';
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user/user.service';
 import { User } from 'src/app/model/users/user';
@@ -9,24 +12,25 @@ import { User } from 'src/app/model/users/user';
 })
 export class ProfileComponent implements OnInit {
   user: User = new User();
-  forEditing: User = new User();
-  constructor(private userService: UserService) { }
+  modalRef: BsModalRef;
+
+  constructor(private modalService: BsModalService, private userService: UserService) { }
 
   ngOnInit() {
     this.userService.getCurrentUserProfile().subscribe(
       user => {
         this.user = user;
-        // tslint:disable-next-line:max-line-length
-        this.forEditing = new User(null, this.user.firstName, this.user.lastName, this.user.email, this.user.phoneNumber, this.user.address);
       }
     );
   }
 
-  profileChanged(data: User) {
-    this.user.address = data.address;
-    this.user.lastName = data.lastName;
-    this.user.firstName = data.firstName;
-    this.user.phoneNumber = data.phoneNumber;
-    this.forEditing = new User(null, this.user.firstName, this.user.lastName, this.user.email, this.user.phoneNumber, this.user.address);
+  openEditModal() {
+    const initialState = {
+      user: this.user
+    };
+    this.modalRef = this.modalService.show(EditProfileFormComponent, { initialState });
+    this.modalRef.content.onClose.subscribe(user => {
+      this.user = user;
+    });
   }
 }

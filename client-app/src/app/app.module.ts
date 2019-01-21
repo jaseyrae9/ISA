@@ -159,6 +159,8 @@ import { BsDatepickerModule } from 'ngx-bootstrap';
     EditRoomFormComponent,
     DestinationFormComponent,
     EditBranchOfficeFormComponent,
-    EditAirCompanyFormComponent]
+    EditAirCompanyFormComponent,
+    EditProfileFormComponent
+]
 })
 export class AppModule { }

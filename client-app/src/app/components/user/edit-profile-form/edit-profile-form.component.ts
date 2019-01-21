@@ -1,8 +1,10 @@
+import { Subject } from 'rxjs';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import { User } from 'src/app/model/users/user';
 import { UserService } from 'src/app/services/user/user.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ViewChild, ElementRef} from '@angular/core';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-edit-profile-form',
@@ -13,23 +15,33 @@ export class EditProfileFormComponent implements OnInit {
   @Output() profileChanged: EventEmitter<User> = new EventEmitter();
   @Input() user: User;
   errorMessage: String = '';
-  @ViewChild('closeBtn') closeBtn: ElementRef;
+  editForm: FormGroup;
+  public onClose: Subject<User>;
 
-  constructor(private userService: UserService) { }
+  constructor(public modalRef: BsModalRef, private formBuilder: FormBuilder, private userService: UserService) { }
 
   ngOnInit() {
+    this.onClose = new Subject();
+    this.editForm = this.formBuilder.group({
+      firstName: [this.user.firstName, [Validators.required]],
+      lastName: [this.user.lastName, [Validators.required]],
+      address: [this.user.address, [Validators.required]],
+      phoneNumber: [this.user.phoneNumber, [Validators.required]]
+    });
   }
 
   onUpdateProfile() {
-    this.userService.updateProfile(this.user).subscribe(
+    const value = this.editForm.value;
+    value.email = this.user.email;
+    this.userService.updateProfile(value).subscribe(
       data => {
-        this.profileChanged.emit(data);
-        this.closeBtn.nativeElement.click();
+        this.onClose.next(data);
+        this.modalRef.hide();
       },
       (err: HttpErrorResponse) => {
         // interceptor je hendlovao ove zahteve
         if (err.status === 401 || err.status === 403 || err.status === 404) {
-          this.closeBtn.nativeElement.click();
+          this.modalRef.hide();
         }
         this.errorMessage = err.error.details;
       }

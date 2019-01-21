@@ -1,3 +1,4 @@
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit, Input, TemplateRef } from '@angular/core';
 import { ChangePasswordData } from 'src/app/model/users/changePassword';
 import { UserService } from 'src/app/services/user/user.service';
@@ -14,6 +15,7 @@ import { config } from 'rxjs';
   styleUrls: ['../../../shared/css/inputField.css']
 })
 export class ChangePasswordFormComponent implements OnInit {
+  editForm: FormGroup;
   data: ChangePasswordData = new ChangePasswordData();
   errorMessage: String = '';
   jwtToken: String = '';
@@ -25,10 +27,23 @@ export class ChangePasswordFormComponent implements OnInit {
 
   @ViewChild('changePasswordModal') changePasswordModal;
 
-  constructor(private userService: UserService, private tokenService: TokenStorageService, private modalService: BsModalService) { }
+  constructor(private formBuilder: FormBuilder, private userService: UserService,
+    private tokenService: TokenStorageService, private modalService: BsModalService) { }
 
   ngOnInit() {
+    this.editForm = this.formBuilder.group({
+      newPassword: ['', [Validators.required]],
+      confirmNewPassword: ['', [Validators.required]],
+      oldPassword: ['', [Validators.required]]
+    });
   }
+
+  checkPasswords(group: FormGroup) { // here we have the 'passwords' group
+  const pass = group.controls.newPassword.value;
+  const confirmPass = group.controls.confirmNewPassword.value;
+
+  return pass === confirmPass ? null : { notSame: true };
+}
 
   openModal() {
     this.modalRef = this.modalService.show(this.changePasswordModal, this.config);
@@ -44,7 +59,7 @@ export class ChangePasswordFormComponent implements OnInit {
   }
 
   onChangePassword() {
-    this.userService.changePassword(this.data, this.jwtToken).subscribe(
+    this.userService.changePassword(this.editForm.value, this.jwtToken).subscribe(
       data => {
         this.tokenService.saveToken(data.token);
         this.modalRef.hide();

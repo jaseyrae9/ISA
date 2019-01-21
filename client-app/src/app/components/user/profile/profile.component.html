@@ -14,9 +14,7 @@
                 <app-change-password-form></app-change-password-form>
             </div>
             <div class="btn-group" role="group">
-                <button type="button" class="btn  btn-primary btn-block mr-2" data-toggle="modal" data-target="#editProfile">Change information</button>
-                 <!-- Modal za promenu user info -->
-                 <app-edit-profile-form [user] = "forEditing" (profileChanged)="profileChanged($event)" class="modal fade" id="editProfile" tabindex="-1" role="dialog" aria-hidden="true"></app-edit-profile-form>
+                <button type="button" class="btn  btn-primary btn-block mr-2" (click)="openEditModal()">Change information</button>
             </div>
           </div>
 

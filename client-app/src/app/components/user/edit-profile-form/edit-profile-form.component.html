@@ -1,60 +1,56 @@
-<div class="modal-dialog" role="document">
-  <div class="modal-content">
-
-    <div class="modal-header">
-      <h5 class="modal-title">Edit <b style="color: #33cabb;">profile</b></h5>
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-
-    <div class="modal-body">       
-      <form> 
-            <div class="input-group form-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text">
-                    <i class="fa fa-address-book" aria-hidden="true"></i>
-                  </span>
-                </div>
-                <input type="text" class="form-control" name="firstName" placeholder="First Name" required="required" [(ngModel)]="user.firstName">
-              </div>
-
-            <div class="input-group form-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text">
-                  <i class="fa fa-address-book" aria-hidden="true"></i>
-                </span>
-              </div>
-              <input type="text" class="form-control" name="lastName" placeholder="Last Name" required="required" [(ngModel)]="user.lastName">
-            </div>
-
-            <div class="input-group form-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text">
-                    <i class="fa fa-map-marker" aria-hidden="true"></i>
-                  </span>
-                </div>
-                <input type="text" class="form-control" name="city" placeholder="City" required="required" [(ngModel)]="user.address">
-            </div>
-
-            <div class="input-group form-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text">
-                  <i class="fa fa-phone" aria-hidden="true"></i>
-                </span>
-              </div>
-              <input type="tel" class="form-control" name="phoneNumber" placeholder="Phone Number" required="required" [(ngModel)]="user.phoneNumber"> 
-            </div>
-            <div class="alert alert-danger" role="alert" *ngIf="errorMessage.length != 0">
-              {{errorMessage}}
-            </div> 
-      </form>
-    </div>
-
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-dismiss="modal" #closeBtn>Close</button>
-      <button type="button" class="btn btn-primary" (click)="onUpdateProfile()">Save changes</button>
-    </div>
-
-  </div>
+<div class="modal-header">
+  <h5 class="modal-title">Edit <b style="color: #33cabb;">profile</b></h5>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
 </div>
+
+<form (validSubmit) = "onUpdateProfile()" [formGroup]="editForm">
+<div class="modal-body" >
+        <div class="input-group form-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="fa fa-address-book" aria-hidden="true"></i>
+              </span>
+            </div>
+            <input type="text" formControlName="firstName" class="form-control" name="firstName" placeholder="First Name" required="required" >
+          </div>
+
+        <div class="input-group form-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fa fa-address-book" aria-hidden="true"></i>
+            </span>
+          </div>
+          <input type="text" formControlName="lastName" class="form-control" name="lastName" placeholder="Last Name" required="required" >
+        </div>
+
+        <div class="input-group form-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="fa fa-map-marker" aria-hidden="true"></i>
+              </span>
+            </div>
+            <input type="text" formControlName="address" class="form-control" name="city" placeholder="City" required="required">
+        </div>
+
+        <div class="input-group form-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fa fa-phone" aria-hidden="true"></i>
+            </span>
+          </div>
+          <input formControlName="phoneNumber" type="tel" class="form-control" name="phoneNumber" placeholder="Phone Number">
+        </div>
+        <div class="alert alert-danger" role="alert" *ngIf="errorMessage.length != 0">
+          {{errorMessage}}
+        </div>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Close</button>
+  <input type="submit" class="btn btn-primary" value="Save changes">
+</div>
+
+</form>
+
