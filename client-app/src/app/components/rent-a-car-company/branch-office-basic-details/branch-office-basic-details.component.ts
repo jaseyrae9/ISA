@@ -8,6 +8,7 @@ import { RentACarCompany } from 'src/app/model/rent-a-car-company/rent-a-car-com
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { EditBranchOfficeFormComponent } from '../edit-branch-office-form/edit-branch-office-form.component';
+import { NgxNotificationService } from 'ngx-notification';
 
 @Component({
   selector: 'app-branch-office-basic-details',
@@ -27,7 +28,8 @@ export class BranchOfficeBasicDetailsComponent implements OnInit {
   companyId: string;
 
   constructor(private route: ActivatedRoute, private carCompanyService: RentACarCompanyService,
-     public tokenService: TokenStorageService, private modalService: BsModalService) { }
+     public tokenService: TokenStorageService, private modalService: BsModalService,
+     public ngxNotificationService: NgxNotificationService) { }
 
   ngOnInit() {
     const companyId = this.route.snapshot.paramMap.get('id');
@@ -69,6 +71,7 @@ export class BranchOfficeBasicDetailsComponent implements OnInit {
     this.branchOffice.active = data.active;
     this.forEditing = new BranchOffice(this.branchOffice.id, this.branchOffice.name,
       this.branchOffice.active);
+    this.ngxNotificationService.sendMessage('Branch office is changed!', 'dark', 'bottom-right' );
   }
 
   isCarAdmin() {

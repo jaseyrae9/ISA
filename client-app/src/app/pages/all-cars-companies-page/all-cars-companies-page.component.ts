@@ -4,6 +4,7 @@ import { RentACarCompany } from 'src/app/model/rent-a-car-company/rent-a-car-com
 import { RentACarCompanyService } from 'src/app/services/rent-a-car-company/rent-a-car-company.service';
 import { Role } from 'src/app/model/role';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
+import { NgxNotificationService } from 'ngx-notification';
 
 @Component({
   selector: 'app-all-cars-companies-page',
@@ -15,8 +16,8 @@ export class AllCarsCompaniesPageComponent implements OnInit {
   companies: RentACarCompany[];
   roles: Role[];
 
-  constructor(private rentACarCompanyService: RentACarCompanyService, private dataService: DataService,public tokenService: TokenStorageService) {
-    
+  constructor(private rentACarCompanyService: RentACarCompanyService, private dataService: DataService,
+    public tokenService: TokenStorageService, public ngxNotificationService: NgxNotificationService) {
   }
 
   ngOnInit() {
@@ -30,12 +31,13 @@ export class AllCarsCompaniesPageComponent implements OnInit {
   carCompanyCreated(carCompany: RentACarCompany) {
     this.companies.push(carCompany);
     this.dataService.changeCarCompany(carCompany);
+    this.ngxNotificationService.sendMessage(carCompany.name + ' is created!', 'dark', 'bottom-right' );
   }
 
   isSysAdmin() {
-    if (this.roles != undefined) {
-      for (let role of this.roles) {
-        if (role.authority == 'ROLE_SYS') {
+    if (this.roles !== null) {
+      for (const role of this.roles) {
+        if (role.authority === 'ROLE_SYS') {
           return true;
         }
       }

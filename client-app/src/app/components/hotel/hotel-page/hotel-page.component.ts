@@ -57,17 +57,20 @@ export class HotelPageComponent implements OnInit {
     this.hotel.name = data.name;
     this.hotel.description = data.description;
     this.forEditing = new Hotel(data.id, data.name, data.description);
+    this.ngxNotificationService.sendMessage('Hotel is changed!', 'dark', 'bottom-right' );
   }
 
   roomCreated(room: Room) {
     console.log(room);
     this.hotel.rooms.push(room);
+    this.ngxNotificationService.sendMessage('Room ' + room.roomNumber + ' is created!', 'dark', 'bottom-right');
   }
 
   roomDeleted(roomId: number) {
     const i = this.hotel.rooms.findIndex(e => e.id === roomId);
     if (i !== -1) {
       this.hotel.rooms.splice(i, 1);
+      this.ngxNotificationService.sendMessage('Room is deleted!', 'dark', 'bottom-right');
     }
   }
 

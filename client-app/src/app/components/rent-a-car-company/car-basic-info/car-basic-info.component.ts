@@ -7,6 +7,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { EditCarFormComponent } from '../edit-car-form/edit-car-form.component';
 import { ActivatedRoute } from '@angular/router';
 import { RentACarCompanyService } from 'src/app/services/rent-a-car-company/rent-a-car-company.service';
+import { NgxNotificationService } from 'ngx-notification';
 
 @Component({
   selector: 'app-car-basic-info',
@@ -23,7 +24,8 @@ export class CarBasicInfoComponent implements OnInit {
   companyId: string;
 
   constructor(private route: ActivatedRoute, public tokenService: TokenStorageService,
-  private modalService: BsModalService, public carCompanyService: RentACarCompanyService) { }
+  private modalService: BsModalService, public carCompanyService: RentACarCompanyService,
+  public ngxNotificationService: NgxNotificationService) { }
 
   ngOnInit() {
     this.forEditing = new Car(this.car.id, this.car.type, this.car.brand,
@@ -61,6 +63,7 @@ export class CarBasicInfoComponent implements OnInit {
     this.forEditing = new Car(this.car.id, this.car.type, this.car.brand, this.car.model,
                               this.car.seatsNumber, this.car.doorsNumber,
                               this.car.yearOfProduction, this.car.price, this.car.active);
+    this.ngxNotificationService.sendMessage('Car is changed!', 'dark', 'bottom-right' );
   }
 
   deleteCar() {

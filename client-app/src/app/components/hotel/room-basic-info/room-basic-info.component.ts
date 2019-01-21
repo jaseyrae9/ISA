@@ -7,6 +7,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { EditRoomFormComponent } from '../edit-room-form/edit-room-form.component';
 import { ActivatedRoute } from '@angular/router';
 import { HotelService } from 'src/app/services/hotel/hotel.service';
+import { NgxNotificationService } from 'ngx-notification';
 
 @Component({
   selector: 'app-room-basic-info',
@@ -22,7 +23,8 @@ export class RoomBasicInfoComponent implements OnInit {
   hotelId: string;
 
   constructor(private route: ActivatedRoute, public tokenService: TokenStorageService,
-     private modalService: BsModalService, private hotelService: HotelService) { }
+     private modalService: BsModalService, private hotelService: HotelService,
+     public ngxNotificationService: NgxNotificationService) { }
 
   ngOnInit() {
     this.forEditing = new Room(this.room.id, this.room.floor, this.room.roomNumber, this.room.numberOfBeds, this.room.price,
@@ -65,6 +67,7 @@ export class RoomBasicInfoComponent implements OnInit {
     this.room.type = data.type;
     this.forEditing = new Room(this.room.id, this.room.floor, this.room.roomNumber, this.room.numberOfBeds, this.room.price,
        this.room.type);
+    this.ngxNotificationService.sendMessage('Room is changed!', 'dark', 'bottom-right' );
   }
 
   isHotelAdmin() {
