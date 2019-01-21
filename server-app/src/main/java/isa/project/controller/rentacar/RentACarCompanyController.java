@@ -200,10 +200,8 @@ public class RentACarCompanyController {
 			throw new ResourceNotFoundException(carCompanyId.toString(), "Rent a car company not found");
 		}
 		
-		for(BranchOffice bo : rentACarCompany.get().getBranchOffices()){
-			System.out.println("ime filijale " + bo.getName() + ", id filijale: " + bo.getId());
+		for(BranchOffice bo : rentACarCompany.get().getBranchOffices()) {
 			if(bo.getId().equals(branchOfficeId)){
-				System.out.println("pronasao");
 				bo.setActive(false);
 				break;
 			}
@@ -213,5 +211,31 @@ public class RentACarCompanyController {
 		return new ResponseEntity<>(branchOfficeId, HttpStatus.OK);	
 	}
 	
-	
+	/** Edit branch office of rent a car company.
+	 * 
+	 * @param companyId 
+	 * @param branchOfficeDTO
+	 * @return
+	 * @throws ResourceNotFoundException
+	 */
+	@PreAuthorize("hasAnyRole('CARADMIN')")
+	@AdminAccountActiveCheck
+	@RentACarCompanyAdminCheck
+	@RequestMapping(value="/editBranchOffice/{companyId}",method=RequestMethod.PUT, consumes="application/json")
+	public ResponseEntity<BranchOfficeDTO> editBranchOffice(@PathVariable Integer companyId, @RequestBody BranchOfficeDTO branchOfficeDTO) throws ResourceNotFoundException{
+		Optional<RentACarCompany> carCompany = rentACarCompanyService.findRentACarCompany(companyId);
+		
+		if (!carCompany.isPresent()) {
+			throw new ResourceNotFoundException(companyId.toString(), "Rent a car company not found");
+		}
+		
+		for(BranchOffice bo: carCompany.get().getBranchOffices()) {
+			if(bo.getId().equals(branchOfficeDTO.getId())){
+				bo.setName(branchOfficeDTO.getName());			
+			}
+		}
+				
+		rentACarCompanyService.saveRentACarCompany(carCompany.get());
+		return new ResponseEntity<>(branchOfficeDTO, HttpStatus.OK);	
+	}
 }

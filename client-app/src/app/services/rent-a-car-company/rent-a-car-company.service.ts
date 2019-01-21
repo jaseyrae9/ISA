@@ -42,6 +42,11 @@ export class RentACarCompanyService {
     + carCompanyId, branchOffice, httpOptions);
   }
 
+  editBranchOffice(branchOffice: BranchOffice, carCompanyId: String): Observable<BranchOffice> {
+    return this.http.put<BranchOffice>('http://localhost:8080/rent_a_car_companies/editBranchOffice/'
+     + carCompanyId, branchOffice, httpOptions);
+  }
+
   edit(carCompany: RentACarCompany): Observable<RentACarCompany> {
     return this.http.put<RentACarCompany>('http://localhost:8080/rent_a_car_companies/edit/' + carCompany.id, carCompany, httpOptions);
   }
