@@ -67,6 +67,7 @@ import { NewServiceFormComponent } from './components/hotel/new-service-form/new
 import { BranchOfficeBasicDetailsComponent } from './components/rent-a-car-company/branch-office-basic-details/branch-office-basic-details.component';
 import { NewBranchOfficeFormComponent } from './components/rent-a-car-company/new-branch-office-form/new-branch-office-form.component';
 import { DestinationComponent } from './components/air-company/destination/destination.component';
+import { EditBranchOfficeFormComponent } from './components/rent-a-car-company/edit-branch-office-form/edit-branch-office-form.component';
 
 // rating
 import { RatingModule } from 'ngx-rating';
@@ -130,7 +131,8 @@ import { BsDatepickerModule } from 'ngx-bootstrap';
     NewServiceFormComponent,
     BranchOfficeBasicDetailsComponent,
     NewBranchOfficeFormComponent,
-    DestinationComponent
+    DestinationComponent,
+    EditBranchOfficeFormComponent
   ],
   imports: [
     BrowserModule,
@@ -146,6 +148,6 @@ import { BsDatepickerModule } from 'ngx-bootstrap';
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [EditCarFormComponent, EditRoomFormComponent]
+  entryComponents: [EditCarFormComponent, EditRoomFormComponent, EditBranchOfficeFormComponent]
 })
 export class AppModule { }
