@@ -28,6 +28,7 @@
     "jwt-decode": "^2.2.0",
     "ngx-bootstrap": "^3.1.4",
     "ngx-notification": "^1.0.5",
+    "ngx-rating": "0.0.9",
     "rxjs": "~6.3.3",
     "rxjs-compat": "^6.3.3",
     "zone.js": "~0.8.26"
