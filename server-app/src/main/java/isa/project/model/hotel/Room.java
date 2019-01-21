@@ -1,6 +1,7 @@
 package isa.project.model.hotel;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -29,6 +31,9 @@ public class Room implements Serializable{
 	@JoinColumn(name="hotel_id", referencedColumnName="id")
 	private Hotel hotel;
 
+	@OneToMany(mappedBy = "room", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<SingleRoomReservation> singleRoomReservations;
+	
 	@Column(name = "floor", nullable = false)
 	private Integer floor;
 

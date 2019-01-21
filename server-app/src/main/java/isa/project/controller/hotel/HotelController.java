@@ -212,4 +212,30 @@ public class HotelController {
 		return new ResponseEntity<>(serviceId, HttpStatus.OK);	
 	}
 	
+	@PreAuthorize("hasAnyRole('HOTELADMIN')")
+	@AdminAccountActiveCheck
+	@HotelAdminCheck
+	@RequestMapping(value="/editAdditionalService/{hotelId}",method=RequestMethod.PUT, consumes="application/json")
+	public ResponseEntity<?> editService(@PathVariable Integer hotelId, @Valid @RequestBody AdditionalService additionalService) throws ResourceNotFoundException{
+		Optional<Hotel> hotel = hotelService.findHotel(hotelId);
+		
+		if (!hotel.isPresent()) {
+			throw new ResourceNotFoundException(hotelId.toString(), "Hotel not found");
+		}
+		
+		for(AdditionalService as : hotel.get().getAdditionalServices())
+		{
+			if(as.getId().equals(additionalService.getId()))
+			{
+				as.setName(additionalService.getName());
+				as.setDescription(additionalService.getDescription());
+				as.setPrice(additionalService.getPrice());
+				break;
+			}
+		}
+				
+		hotelService.saveHotel(hotel.get());
+		return new ResponseEntity<>(additionalService, HttpStatus.OK);	
+	}
+	
 }

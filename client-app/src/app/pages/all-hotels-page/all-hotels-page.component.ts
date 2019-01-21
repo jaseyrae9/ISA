@@ -36,7 +36,7 @@ export class AllHotelsPageComponent implements OnInit {
   }
 
   isSysAdmin() {
-    if (this.roles !== undefined) {
+    if (this.roles !== null) {
       for (const role of this.roles) {
         if (role.authority === 'ROLE_SYS') {
           return true;
