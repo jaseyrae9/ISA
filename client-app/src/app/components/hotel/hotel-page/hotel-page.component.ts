@@ -103,7 +103,6 @@ export class HotelPageComponent implements OnInit {
 
   deleteClicked(as: AdditionalService) {
     console.log('delete as', as);
-
     this.hotelService.deleteAdditionalService(as.id, this.hotel.id).subscribe(
       data => {
         const i = this.hotel.additionalServices.findIndex(e => e.id === data);
