@@ -1,5 +1,7 @@
 package isa.project.dto.aircompany;
 
+import java.util.HashMap;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -7,6 +9,17 @@ import isa.project.model.aircompany.Seat;
 import isa.project.model.aircompany.Seat.SeatClass;
 
 public class SeatDTO {
+	private static HashMap<String, SeatClass> possibleClasses = new HashMap<String, SeatClass>()
+	{
+		private static final long serialVersionUID = -2767222280619990913L;
+
+	{
+	     put("ECONOMY", SeatClass.ECONOMY);
+	     put("PREMIUM_ECONOMY", SeatClass.PREMIUM_ECONOMY);
+	     put("BUSSINESS", SeatClass.BUSSINESS);
+	     put("FIRST", SeatClass.FIRST);
+	}};
+	
 	private Integer id;
 	
 	@NotNull(message = "Seat class can not be empty.")
@@ -45,6 +58,15 @@ public class SeatDTO {
 
 	public void setSeatClass(SeatClass seatClass) {
 		this.seatClass = seatClass;
+	}
+	
+	public void setSeatClass(String seatClass) {
+		if(possibleClasses.containsKey(seatClass)) {
+			this.seatClass = possibleClasses.get(seatClass);
+		}
+		else {
+			this.seatClass = SeatClass.ECONOMY; 
+		}
 	}
 
 	public Integer getRowNum() {

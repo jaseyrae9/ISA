@@ -32,10 +32,11 @@ public class AirplaneController {
 	 * @param airplaneDTO - podaci o avionu.
 	 * @return - DTO objekat novokreiranog aviona.
 	 * @throws ResourceNotFoundException - ukoliko aviokomapnija nije pronađena.
+	 * @throws RequestDataException - ako broj sedista nije odgovarajuci
 	 */
 	@RequestMapping(value = "/addAirplane/{id}", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<?> createAirplane(@PathVariable Integer id, @Valid @RequestBody AirplaneDTO airplaneDTO)
-			throws ResourceNotFoundException {
+			throws ResourceNotFoundException, RequestDataException {
 		return new ResponseEntity<>(airplaneService.addNewAirplane(id, airplaneDTO), HttpStatus.CREATED);
 	}
 

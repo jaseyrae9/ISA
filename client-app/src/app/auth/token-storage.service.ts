@@ -58,8 +58,8 @@ export class TokenStorageService {
 
   public saveRoles(roles: Role[]) {
     window.sessionStorage.setItem(ROLES_KEY, JSON.stringify(roles));
-    this.rolesEmitChange(roles);
     this.checkRoles();
+    this.rolesEmitChange(roles);
   }
 
   public checkRoles() {

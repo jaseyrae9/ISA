@@ -1,0 +1,30 @@
+.seat {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  margin: 5px;
+}
+
+.last-in-row{
+  clear: right;
+}
+
+.FIRST{
+  background-color: #093145;
+  border: 1px solid #093145;
+}
+
+.BUSSINESS{
+  background-color: #107896;
+  border: 1px solid #107896;
+}
+
+.PREMIUM_ECONOMY{
+  background-color:#DA621E;
+  border: 1px solid #DA621E;
+}
+
+.ECONOMY{
+  background-color:#AD2A1A;
+  border: 1px solid #AD2A1A;
+}

@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { AirCompany } from 'src/app/model/air-company/air-company';
 import { User } from 'src/app/model/users/user';
+import { Airplane } from 'src/app/model/air-company/airplane';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -46,5 +47,25 @@ export class AirCompanyService {
 
   editDestination(destination, id): Observable<Destination> {
     return this.http.put<Destination>('http://localhost:8080/aircompanies/editDestination/' + id, destination, httpOptions);
+  }
+
+  getAllAirplanes(id): Observable<Airplane[]> {
+    return this.http.get<Airplane[]>('http://localhost:8080/aircompanies/getAirplanes/' + id);
+  }
+
+  deleteAirplane(company, airplane): Observable<any> {
+    return this.http.delete<any>('http://localhost:8080/aircompanies/deleteAirplane/' + company + '/' + airplane);
+  }
+
+  activateAirplane(company, airplane): Observable<any> {
+    return this.http.put<any>('http://localhost:8080/aircompanies/activateAirplane/' + company + '/' + airplane, null, httpOptions);
+  }
+
+  addAirplane(company, airplane): Observable<Airplane> {
+    return this.http.post<Airplane>('http://localhost:8080/aircompanies/addAirplane/' + company, airplane, httpOptions);
+  }
+
+  editAirplane(company, airplane): Observable<Airplane> {
+    return this.http.put<Airplane>('http://localhost:8080/aircompanies/editAirplane/' + company, airplane, httpOptions);
   }
 }

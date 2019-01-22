@@ -105,9 +105,6 @@ public class AirplaneDTO {
 	}
 
 	public void setSeats(ArrayList<SeatDTO> seats) throws RequestDataException {
-		if(seats.size() != this.colNum * this.rowNum * this.seatsPerCol) {
-			throw new RequestDataException("Seats number does not match other parameters.");
-		}
 		this.seats = seats;
 	}	
 }

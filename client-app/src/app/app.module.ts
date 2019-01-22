@@ -74,8 +74,11 @@ import { EditBranchOfficeFormComponent } from './components/rent-a-car-company/e
 // rating
 import { RatingModule } from 'ngx-rating';
 // datepicker
-import { BsDatepickerModule } from 'ngx-bootstrap';
-
+import { BsDatepickerModule} from 'ngx-bootstrap';
+import { AirplaneDisplayComponent } from './components/air-company/airplane/airplane-display/airplane-display.component';
+// tooltips
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { AirplaneFormComponent } from './components/air-company/airplane/airplane-form/airplane-form.component';
 
 @NgModule({
   declarations: [
@@ -135,7 +138,9 @@ import { BsDatepickerModule } from 'ngx-bootstrap';
     NewBranchOfficeFormComponent,
     DestinationComponent,
     DestinationFormComponent,
-    EditBranchOfficeFormComponent
+    EditBranchOfficeFormComponent,
+    AirplaneDisplayComponent,
+    AirplaneFormComponent
   ],
   imports: [
     BrowserModule,
@@ -147,7 +152,8 @@ import { BsDatepickerModule } from 'ngx-bootstrap';
     BsDatepickerModule.forRoot(),
     ReactiveFormsModule,
     NgBootstrapFormValidationModule.forRoot(),
-    NgBootstrapFormValidationModule
+    NgBootstrapFormValidationModule,
+    TooltipModule.forRoot()
   ],
   providers: [HotelService, AirCompanyService, UserService, DataService, RoleGuardService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
@@ -160,7 +166,8 @@ import { BsDatepickerModule } from 'ngx-bootstrap';
     DestinationFormComponent,
     EditBranchOfficeFormComponent,
     EditAirCompanyFormComponent,
-    EditProfileFormComponent
+    EditProfileFormComponent,
+    AirplaneFormComponent
 ]
 })
 export class AppModule { }

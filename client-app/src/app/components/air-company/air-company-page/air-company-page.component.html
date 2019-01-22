@@ -10,6 +10,11 @@
           <i class="fa fa-tag" aria-hidden="true"></i>Services
         </a>
       </li>
+      <li class = "nav-item" *ngIf="tokenService.isAirAdmin">
+          <a href = "#airplanes" role="tab" data-toggle="tab" class = "nav-link">
+            <i class="fa fa-plane" aria-hidden="true"></i>Airplanes
+          </a>
+        </li>
       <li class = "nav-item">
         <a href = "#destinations" role="tab" data-toggle="tab" class = "nav-link">
           <i class="fa fa-map-marked-alt" aria-hidden="true"></i>Destinations
@@ -17,7 +22,7 @@
       </li>
       <li class = "nav-item">
           <a href = "#flights" role="tab" data-toggle="tab" class = "nav-link">
-            <i class="fa fa-plane" aria-hidden="true"></i>Flights
+            <i class="fa fa-plane-departure" aria-hidden="true"></i>Flights
           </a>
       </li>
   </ul>
@@ -44,23 +49,43 @@
       </div>
 
       <div class="tab-pane fade" id="destinations" aria-labelledby="destinations-tab">
-          <div *ngIf="tokenService.isAirAdmin" style="align-content: center" div class="row">
+          <div *ngIf="tokenService.isAirAdmin" style="align-content: center" div class="row mb-3">
               <div class="col-12 text-center">
                 <button type="button" class="btn btn-primary" (click)="openAddDestinationModal()">
                   Add new destination
                 </button>
               </div>
           </div>
-          <div *ngIf="airCompany.destinations.length == 0 else destinationsDiv">
-              <p>There are no destinations.</p>
-          </div>
-          <ng-template #destinationsDiv>
           <div class="container">
-            <div class="row pt-4 justify-content-md-center" >
-              <app-destination *ngFor="let item of airCompany.destinations" class="col-md-5 col-lg-4" [destination]="item" [airportId]="airCompany.id" (destinationEvent) = "onDeleteDestination($event)"></app-destination>
+            <div *ngIf="airCompany.destinations.length == 0 else destinationsDiv" class="text-center">
+                <p>There are no destinations.</p>
             </div>
+            <ng-template #destinationsDiv>
+              <div class="row pt-4 justify-content-md-center" >
+                <app-destination *ngFor="let item of airCompany.destinations" class="col-md-5 col-lg-4" [destination]="item" [airportId]="airCompany.id" (destinationEvent) = "onDeleteDestination($event)"></app-destination>
+              </div>
+            </ng-template>
+          </div>
+      </div>
+
+      <div class="tab-pane fade" id="airplanes" aria-labelledby="airplanes-tab">
+        <div class="container mb-3">
+          <div class="col-12 text-center">
+              <button type="button" class="btn btn-primary" (click)="openAddAirplaneModal()">
+                Add new airplane
+              </button>
+          </div>
+        </div>
+        <div class = "container">
+          <div *ngIf="airplanes.length == 0 else airplanesDiv" class="text-center">
+              <p>There are no airplanes.</p>
+          </div>
+          <ng-template #airplanesDiv>
+          <div class ="row" *ngFor="let item of airplanes">
+            <app-airplane-display [airplane]=item [companyId]=airCompany.id (airplaneEvent)="onDeleteAirplane($event)"  class="col-12 mb-3"></app-airplane-display>
           </div>
           </ng-template>
+        </div>
       </div>
 
       <div class="tab-pane fade" id="flights" aria-labelledby="flights-tab">
