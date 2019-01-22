@@ -40,7 +40,7 @@
       <!-- Button trigger modal -->
       <div *ngIf="isCarAdmin()" style="align-content: center" div class="row">
         <div class="col-12 text-center">
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewCar">
+          <button type="button" class="btn btn-primary" (click)="openNewCarModal()">
             Add new car
           </button>
         </div>
@@ -74,8 +74,6 @@
   </div>
 </div>
 
-<!-- Modal (hotelCreated)='hotelCreated($event)'-->
-<app-new-car-form class="modal fade" id="addNewCar" tabindex="-1" role="dialog" aria-hidden="true" (carCreated)='carCreated($event)'></app-new-car-form>
 <!-- Modal -->
 <app-edit-car-company-form [carCompany]="forEditing" class="modal fade" id="editCarCompany" tabindex="-1" role="dialog"
   aria-hidden="true" (carCompanyEdited)='carCompanyEdited($event)'></app-edit-car-company-form>

@@ -33,7 +33,7 @@ export class RentACarCompanyService {
     return this.http.post<User>('http://localhost:8080/sys/rentACarCompanyAdmin/' + carCompanyId, user, httpOptions);
   }
 
-  addCar(car: Car, carCompanyId: String): Observable<Car> {
+  addCar(car: Car, carCompanyId: Number): Observable<Car> {
     return this.http.post<Car>('http://localhost:8080/rent_a_car_companies/addCar/' + carCompanyId, car, httpOptions);
   }
 

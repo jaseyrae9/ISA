@@ -1,14 +1,29 @@
 package isa.project.dto.hotel;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 import isa.project.model.hotel.Room;
 
 public class RoomDTO {
 	
 	private Integer id;
+	
+	@NotNull(message = "Floor number can not be blank.")
 	private Integer floor;
+	
+	@NotNull(message = "Room number can not be blank.")
+	@Min(value = 0, message = "Room number can not be less than zero.")
 	private Integer roomNumber;
+	
+	@NotNull(message = "Number of beds can not be blank.")
+	@Min(value = 1, message = "There must be at least one bed.")
 	private Integer numberOfBeds;
+	
+	@NotNull(message = "Price must be entered.")
+	@Min(value = 0, message = "Price can not be less than zero.")
 	private Double price;
+	
 	private String type;
 	private Boolean active;
 	

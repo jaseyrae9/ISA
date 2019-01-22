@@ -1,11 +1,16 @@
 package isa.project.dto.rentacar;
 
+import javax.validation.constraints.NotBlank;
+
 import isa.project.model.rentacar.BranchOffice;
 
 public class BranchOfficeDTO {
 
 	private Integer id;
+	
+	@NotBlank (message = "Name can not be blank.")
 	private String name;
+	
 	private Boolean active;
 	
 	public BranchOfficeDTO() {

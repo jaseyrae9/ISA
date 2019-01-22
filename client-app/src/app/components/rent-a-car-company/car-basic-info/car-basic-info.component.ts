@@ -16,10 +16,11 @@ import { NgxNotificationService } from 'ngx-notification';
 })
 export class CarBasicInfoComponent implements OnInit {
   @Input() car: Car;
+
   @Output() carDeleted: EventEmitter<number> = new EventEmitter();
 
   roles: Role[];
-  private forEditing: Car;
+
   modalRef: BsModalRef;
   companyId: string;
 
@@ -28,11 +29,6 @@ export class CarBasicInfoComponent implements OnInit {
   public ngxNotificationService: NgxNotificationService) { }
 
   ngOnInit() {
-    this.forEditing = new Car(this.car.id, this.car.type, this.car.brand,
-    this.car.model, this.car.seatsNumber, this.car.doorsNumber,
-    this.car.yearOfProduction, this.car.price, this.car.active);
-
-    this.roles = this.tokenService.getRoles();
     this.roles = this.tokenService.getRoles();
 
     const companyId = this.route.snapshot.paramMap.get('id');
@@ -40,30 +36,16 @@ export class CarBasicInfoComponent implements OnInit {
   }
 
   openEditModal() {
+    console.log('Tip auta: ' + this.car.type);
     const initialState = {
-      car: this.forEditing,
+      car: this.car,
       companyId: this.companyId
     };
     this.modalRef = this.modalService.show(EditCarFormComponent, { initialState });
-    this.modalRef.content.onClose.subscribe(result => {
-      this.carEdited(result);
+    this.modalRef.content.onClose.subscribe(car => {
+      this.car = car;
+      this.ngxNotificationService.sendMessage('Car is changed!', 'dark', 'bottom-right' );
     });
-  }
-
-  carEdited(data) {
-    this.car.id = data.id;
-    this.car.brand = data.brand;
-    this.car.model = data.model;
-    this.car.doorsNumber = data.doorsNumber;
-    this.car.seatsNumber = data.seatsNumber;
-    this.car.yearOfProduction = data.yearOfProduction;
-    this.car.price = data.price;
-    this.car.type = data.type;
-    this.car.active = data.active;
-    this.forEditing = new Car(this.car.id, this.car.type, this.car.brand, this.car.model,
-                              this.car.seatsNumber, this.car.doorsNumber,
-                              this.car.yearOfProduction, this.car.price, this.car.active);
-    this.ngxNotificationService.sendMessage('Car is changed!', 'dark', 'bottom-right' );
   }
 
   deleteCar() {

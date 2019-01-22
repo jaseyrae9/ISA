@@ -170,7 +170,8 @@ import { AirplaneFormComponent } from './components/air-company/airplane/airplan
     EditAirCompanyFormComponent,
     EditProfileFormComponent,
     AirplaneFormComponent,
-    EditServiceFormComponent
+    EditServiceFormComponent,
+    NewCarFormComponent
 ]
 })
 export class AppModule { }
