@@ -6,13 +6,14 @@
 </div>
 
 <form name="form" [formGroup]="newCarForm" (validSubmit)="onCarAdd()">
+  <div class="modal-body">
     <div class="input-group form-group">
       <div class="input-group-prepend">
         <span class="input-group-text">
           <i class="fa fa-car" aria-hidden="true"></i>
         </span>
       </div>
-      <input type="text" class="form-control" placeholder="Car brand" required="required" formControlName="brand" >
+      <input type="text" class="form-control" placeholder="Car brand" required="required" formControlName="brand">
     </div>
 
     <div class="input-group form-group">
@@ -44,8 +45,7 @@
           <i class="fa fa-calendar-alt" aria-hidden="true"></i>
         </span>
       </div>
-      <input type="text" class="form-control" placeholder="Year of car production" required="required"
-      formControlName="yearOfProduction">
+      <input type="text" class="form-control" placeholder="Year of car production" required="required" formControlName="yearOfProduction">
     </div>
 
     <div class="input-group form-group">
@@ -54,8 +54,7 @@
           <i class="fa fa-male" aria-hidden="true"></i>
         </span>
       </div>
-      <input type="text" class="form-control" placeholder="Number of seats" required="required"
-      formControlName="seatsNumber">
+      <input type="text" class="form-control" placeholder="Number of seats" required="required" formControlName="seatsNumber">
     </div>
 
     <div class="input-group form-group">
@@ -64,8 +63,7 @@
           <i class="fa fa-car-side" aria-hidden="true"></i>
         </span>
       </div>
-      <input type="text" class="form-control" placeholder="Number of doors" required="required"
-      formControlName="doorsNumber">
+      <input type="text" class="form-control" placeholder="Number of doors" required="required" formControlName="doorsNumber">
     </div>
 
     <div class="input-group form-group">
@@ -77,9 +75,13 @@
       <input type="text" class="form-control" placeholder="Price per day" required="required" formControlName="price">
     </div>
 
+    <div class="alert alert-danger" role="alert" *ngIf="errorMessage.length != 0">
+      {{errorMessage}}
+    </div>
+  </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modalRef.hide()">Close</button>
-    <input type="submit" class="btn btn-primary" value="Add"/>
+    <input type="submit" class="btn btn-primary" value="Add" />
   </div>
 
 </form>

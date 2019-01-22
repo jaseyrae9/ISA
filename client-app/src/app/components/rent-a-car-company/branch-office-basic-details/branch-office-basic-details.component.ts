@@ -21,7 +21,6 @@ export class BranchOfficeBasicDetailsComponent implements OnInit {
 
   carCompany: RentACarCompany = new RentACarCompany();
 
-  private forEditing: BranchOffice;
   modalRef: BsModalRef;
   companyId: string;
 
@@ -32,11 +31,6 @@ export class BranchOfficeBasicDetailsComponent implements OnInit {
   ngOnInit() {
     const companyId = this.route.snapshot.paramMap.get('id');
     this.companyId = companyId;
-    // const id = this.route.snapshot.paramMap.get('id');
-
-    // for edit
-    this.forEditing = new BranchOffice(this.branchOffice.id, this.branchOffice.name
-      , this.branchOffice.active);
   }
 
   deleteBranchOffice() {
@@ -52,22 +46,13 @@ export class BranchOfficeBasicDetailsComponent implements OnInit {
 
   openEditModal() {
     const initialState = {
-      branchOffice: this.forEditing,
+      branchOffice: this.branchOffice,
       companyId: this.companyId
     };
     this.modalRef = this.modalService.show(EditBranchOfficeFormComponent, { initialState });
-    this.modalRef.content.onClose.subscribe(result => {
-      this.branchOfficeEdited(result);
+    this.modalRef.content.onClose.subscribe(branchOffice => {
+      this.branchOffice = branchOffice;
+      this.ngxNotificationService.sendMessage('Branch office is changed!', 'dark', 'bottom-right' );
     });
   }
-
-  branchOfficeEdited(data) {
-    this.branchOffice.id = data.id;
-    this.branchOffice.name = data.name;
-    this.branchOffice.active = data.active;
-    this.forEditing = new BranchOffice(this.branchOffice.id, this.branchOffice.name,
-      this.branchOffice.active);
-    this.ngxNotificationService.sendMessage('Branch office is changed!', 'dark', 'bottom-right' );
-  }
-
 }

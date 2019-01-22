@@ -10,6 +10,7 @@ import { NgxNotificationService } from 'ngx-notification';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { NewCarFormComponent } from '../new-car-form/new-car-form.component';
+import { NewBranchOfficeFormComponent } from '../new-branch-office-form/new-branch-office-form.component';
 
 @Component({
   selector: 'app-car-company-page',
@@ -39,13 +40,6 @@ export class CarCompanyPageComponent implements OnInit {
     );
   }
 
-  branchOfficeCreated(branchOffice: BranchOffice) {
- //   console.log('Kreirana je filijala', branchOffice);
-    this.carCompany.branchOffices.push(branchOffice);
-    this.ngxNotificationService.sendMessage(branchOffice.name + ' created!', 'dark', 'bottom-right');
-
-  }
-
   carCompanyEdited(data) {
     this.carCompany.id = data.id;
     this.carCompany.name = data.name;
@@ -54,13 +48,12 @@ export class CarCompanyPageComponent implements OnInit {
     this.ngxNotificationService.sendMessage('Rent a car company is changed!', 'dark', 'bottom-right' );
   }
 
-  carDeleted(carId: number) {
-    for (const car of this.carCompany.cars) {
-      if (car.id === carId) {
-        car.active = false;
-        this.ngxNotificationService.sendMessage(car.model + ' ' + car.brand + ' is deleted!', 'dark', 'bottom-right' );
-        break;
-      }
+  carDeleted(car: Car) {
+    console.log('Parent: Car deleted', car);
+    const index: number = this.carCompany.cars.indexOf(car);
+    if (index !== -1) {
+      this.carCompany.cars.splice(index, 1);
+      this.ngxNotificationService.sendMessage(car.model + ' ' + car.brand + ' is deleted!', 'dark', 'bottom-right' );
     }
   }
 
@@ -82,6 +75,17 @@ export class CarCompanyPageComponent implements OnInit {
     this.modalRef.content.onClose.subscribe(car => {
       this.ngxNotificationService.sendMessage(car.brand + ' ' + car.model + ' created!', 'dark', 'bottom-right');
       this.carCompany.cars.push(car);
+    });
+  }
+
+  openNewBranchOfficeModal() {
+    const initialState = {
+      carCompanyId: this.carCompany.id
+    };
+    this.modalRef = this.modalService.show(NewBranchOfficeFormComponent, { initialState });
+    this.modalRef.content.onClose.subscribe(branchOffice => {
+      this.carCompany.branchOffices.push(branchOffice);
+      this.ngxNotificationService.sendMessage(branchOffice.name + ' created!', 'dark', 'bottom-right');
     });
   }
 }

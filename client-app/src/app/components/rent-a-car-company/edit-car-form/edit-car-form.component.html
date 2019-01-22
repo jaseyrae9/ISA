@@ -46,7 +46,8 @@
           <i class="fa fa-calendar-alt" aria-hidden="true"></i>
         </span>
       </div>
-      <input type="text" class="form-control" formControlName="yearOfProduction" placeholder="Year of car production" required="required">
+      <input type="text" class="form-control" formControlName="yearOfProduction" placeholder="Year of car production"
+        required="required">
     </div>
 
     <div class="input-group form-group">
@@ -75,9 +76,15 @@
       </div>
       <input type="text" class="form-control" formControlName="price" placeholder="Price per day" required="required">
     </div>
+
+    <div class="alert alert-danger" role="alert" *ngIf="errorMessage.length != 0">
+      {{errorMessage}}
+    </div>
+    
   </div>
+
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Close</button>
-    <input type="submit" class="btn btn-primary" value="Edit"/>
+    <input type="submit" class="btn btn-primary" value="Edit" />
   </div>
 </form>

@@ -54,7 +54,6 @@ export class NewCarFormComponent implements OnInit {
         }
         this.errorMessage = err.error.details;
       }
-
     );
   }
 

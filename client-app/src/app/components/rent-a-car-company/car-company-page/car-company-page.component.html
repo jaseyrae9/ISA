@@ -47,7 +47,7 @@
       </div>
       <div class="container">
         <div *ngFor="let car of carCompany.cars">
-          <app-car-basic-info *ngIf="car.active" (carDeleted)="carDeleted($event)" [car]='car'></app-car-basic-info>
+          <app-car-basic-info (carDeleted)="carDeleted($event)" [car]='car'></app-car-basic-info>
         </div>
       </div>
     </div>
@@ -56,9 +56,12 @@
       <!-- Button trigger modal -->
       <div *ngIf="tokenService.isCarAdmin" style="align-content: center" div class="row">
         <div class="col-12 text-center">
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewBranchOffice">
+          <button type="button" class="btn btn-primary"  (click)="openNewBranchOfficeModal()">
             Add new branch office
           </button>
+          <br>
+          <br>
+
         </div>
       </div>
       <div class="container">
@@ -78,5 +81,4 @@
 <app-edit-car-company-form [carCompany]="forEditing" class="modal fade" id="editCarCompany" tabindex="-1" role="dialog"
   aria-hidden="true" (carCompanyEdited)='carCompanyEdited($event)'></app-edit-car-company-form>
 
-  <!--Modal - add branch office -->
-<app-new-branch-office-form class="modal fade" id="addNewBranchOffice" tabindex="-1" role="dialog" aria-hidden="true" (branchOfficeCreated)='branchOfficeCreated($event)'></app-new-branch-office-form>
+ 
