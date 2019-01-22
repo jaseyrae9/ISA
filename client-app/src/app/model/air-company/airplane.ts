@@ -7,5 +7,5 @@ export class Airplane {
   colNum: number;
   rowNum: number;
   seatsPerCol: number;
-  seats: Seat[];
+  seats: Seat[][];
 }

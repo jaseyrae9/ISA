@@ -62,7 +62,7 @@ public class Airplane implements Serializable {
 		this.rowNum = airplaneDTO.getRowNum();
 		this.seatsPerCol = airplaneDTO.getSeatsPerCol();
 		this.seats = new ArrayList<>();
-		for(SeatDTO seatDTO:airplaneDTO.getSeats()) {
+		for(SeatDTO seatDTO:airplaneDTO.getSeatsAsArray()) {
 			Seat seat = new Seat(seatDTO);
 			seat.setAirplane(this);
 			this.seats.add(seat);

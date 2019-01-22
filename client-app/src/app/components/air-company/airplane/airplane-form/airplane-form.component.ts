@@ -20,7 +20,7 @@ export class AirplaneFormComponent implements OnInit {
   @Input() aircompanyId: Number;
   public onClose: Subject<Airplane>;
   form: FormGroup;
-  seats: Seat[] = [];
+  seats: Seat[][] = [];
   public firstPage: Boolean = true;
 
   constructor(public modalRef: BsModalRef, private formBuilder: FormBuilder, private airCompanyService: AirCompanyService) { }
@@ -34,7 +34,7 @@ export class AirplaneFormComponent implements OnInit {
       seatsPerCol: [this.airplane.seatsPerCol, [Validators.required, Validators.min(1)]]
     });
     if (this.airplane.seats) {
-        this.airplane.seats.map(val => this.seats.push(Object.assign({}, val)));
+        this.seats = JSON.parse(JSON.stringify(this.airplane.seats));
     }
   }
 
@@ -48,18 +48,24 @@ export class AirplaneFormComponent implements OnInit {
 
   nextPage() {
     const value = this.form.value;
-    if (this.seats.length !== value.colNum * value.rowNum * value.seatsPerCol ) {
+    const seats = [].concat.apply([], this.seats);
+    if (seats.length !== value.seatsPerCol * value.rowNum * value.colNum) {
       this.seats = [];
-      let i = 0;
+      let row = 0;
       do {
-        const s = new Seat();
-        s.seatClass = 'ECONOMY';
-        s.rowNum = 1;
-        s.colNum = 1;
-        this.seats.push(s);
-        i += 1;
-      }
-      while (i  < value.colNum * value.rowNum * value.seatsPerCol);
+        row += 1;
+        const seatsInRow = [];
+        let seatCounter = 0;
+        do {
+          const s = new Seat();
+          s.seatClass = 'ECONOMY';
+          s.rowNum = row;
+          s.colNum = (seatCounter  / value.seatsPerCol) - (( seatCounter  % value.seatsPerCol ) / value.seatsPerCol) + 1;
+          seatsInRow.push(s);
+          seatCounter += 1;
+        } while ( seatCounter < value.colNum * value.seatsPerCol);
+        this.seats.push(seatsInRow);
+      } while (row < value.rowNum );
     }
     this.firstPage = false;
   }
@@ -98,15 +104,16 @@ export class AirplaneFormComponent implements OnInit {
 
   createAirplane() {
     const value = this.form.value;
-    value.seats = this.seats;
+    value.seats = [].concat.apply([], this.seats);
+    console.log(value.seats);
     return value;
   }
 
-  onSeatChecked(event: any, i: number) {
+  onSeatChecked(event: any, i: number, j: number) {
     if (event.target.checked) {
-      this.seats[i].seatClass = this.selectedClass;
+      this.seats[i][j].seatClass = this.selectedClass;
     } else {
-      this.seats[i].seatClass = 'ECONOMY';
+      this.seats[i][j].seatClass = 'ECONOMY';
     }
   }
 
