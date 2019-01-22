@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Room } from 'src/app/model/hotel/room';
 import { HotelService } from 'src/app/services/hotel/hotel.service';
 import { BsModalRef } from 'ngx-bootstrap/modal';

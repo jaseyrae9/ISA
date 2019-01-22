@@ -8,6 +8,9 @@ import { Role } from 'src/app/model/role';
 import { AdditionalService } from 'src/app/model/additional-service';
 import { NgxNotificationService } from 'ngx-notification';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { EditServiceFormComponent } from 'src/app/components/hotel/edit-service-form/edit-service-form.component';
 
 @Component({
   selector: 'app-hotel-page',
@@ -26,10 +29,13 @@ export class HotelPageComponent implements OnInit {
   roles: Role[];
   bsRangeValue: Date[];
 
+  modalRef: BsModalRef;
+
   constructor(private route: ActivatedRoute,
     private hotelService: HotelService,
     public tokenService: TokenStorageService,
-    public ngxNotificationService: NgxNotificationService) {
+    public ngxNotificationService: NgxNotificationService,
+    private modalService: BsModalService) {
 
     this.datePickerConfig = Object.assign({},
       {
@@ -57,7 +63,7 @@ export class HotelPageComponent implements OnInit {
     this.hotel.name = data.name;
     this.hotel.description = data.description;
     this.forEditing = new Hotel(data.id, data.name, data.description);
-    this.ngxNotificationService.sendMessage('Hotel is changed!', 'dark', 'bottom-right' );
+    this.ngxNotificationService.sendMessage('Hotel is changed!', 'dark', 'bottom-right');
   }
 
   roomCreated(room: Room) {
@@ -95,17 +101,21 @@ export class HotelPageComponent implements OnInit {
   editClicked(as: AdditionalService) {
     console.log('editing as', as);
 
-    this.hotelService.editAdditionalService(as, this.hotel.id).subscribe(
-      data => {
-      },
-      error => {
-        console.log(error.error.message);
+    const initialState = {
+      additionalService: as,
+      hotelId: this.hotel.id
+    };
+    this.modalRef = this.modalService.show(EditServiceFormComponent, { initialState });
+    this.modalRef.content.onClose.subscribe(result => {
+      console.log('result', result);
+      const i = this.hotel.additionalServices.findIndex(e => e.id === result.id);
+      if (i !== -1) {
+        this.hotel.additionalServices.splice(i, 1, result);
       }
-    );
-   }
+    });
+  }
 
   deleteClicked(as: AdditionalService) {
-    console.log('delete as', as);
     this.hotelService.deleteAdditionalService(as.id, this.hotel.id).subscribe(
       data => {
         const i = this.hotel.additionalServices.findIndex(e => e.id === data);

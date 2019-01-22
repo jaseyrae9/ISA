@@ -71,3 +71,13 @@ INSERT INTO friendships (from_id, to_id, active) VALUE (2001, 2000, 0);
 INSERT INTO friendships (from_id, to_id, active) VALUE (2002, 2000, 0);
 INSERT INTO friendships (from_id, to_id, active) VALUE (2003, 2000, 0);
 INSERT INTO friendships (from_id, to_id, active) VALUE (2004, 2000, 0);
+
+-- Deo koji se tice rezervacije hotelskog smestaja
+INSERT INTO room_reservation (id, check_in_date, check_out_date) VALUES (100, '2019-01-01', '2019-01-19');
+
+INSERT INTO room_reservation_additional_services (room_reservation_id, additional_services_id) VALUES (100, 100);
+
+INSERT INTO single_room_reservation (id, room_id, room_reservation_id) VALUES (100, 600, 100);
+
+
+

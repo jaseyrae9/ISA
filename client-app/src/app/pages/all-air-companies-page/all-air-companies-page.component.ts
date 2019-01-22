@@ -23,7 +23,6 @@ export class AllAirCompaniesPageComponent implements OnInit {
     });
     this.roles = this.tokenService.getRoles();
     this.tokenService.rolesEmitter.subscribe(roles => this.roles = roles);
-  
   }
 
   airCompanyCreated(airCompany: AirCompany) {
@@ -32,9 +31,9 @@ export class AllAirCompaniesPageComponent implements OnInit {
   }
 
   isSysAdmin() {
-    if (this.roles != undefined) {
-      for (let role of this.roles) {
-        if (role.authority == 'ROLE_SYS') {
+    if (this.roles !== null) {
+      for (const role of this.roles) {
+        if (role.authority === 'ROLE_SYS') {
           return true;
         }
       }
