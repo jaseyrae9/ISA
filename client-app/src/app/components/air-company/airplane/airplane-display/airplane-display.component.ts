@@ -53,5 +53,4 @@ export class AirplaneDisplayComponent implements OnInit {
       this.airplane = airplane;
     });
   }
-
 }

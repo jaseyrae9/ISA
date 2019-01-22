@@ -1,5 +1,5 @@
 <div class="item">
-  <div class="heading">
+  <div class="heading mb-2">
       <section style="text-align:right">
           <a class="edit" *ngIf="airplane.status == 'IN_PROGRESS'" (click)="activateAirplane()"><i class="fa fa-check"></i></a>
           <a class="edit" *ngIf="airplane.status == 'IN_PROGRESS'" (click)="editAirplane()"><i class="fa fa-edit"></i></a>
@@ -7,9 +7,10 @@
       </section>
       <h3>{{airplane.name}}</h3>
   </div>
-  <div align="center">
-    <span [tooltip]="tt" placement="left" *ngFor="let item of airplane.seats; let i = index"
-      [class.mr-5]="(i+1)%airplane.seatsPerCol === 0 && (i+1)%(airplane.colNum*airplane.seatsPerCol)!==0"
+
+  <div *ngFor="let row of airplane.seats" align="center">
+    <span [tooltip]="tt" placement="left" *ngFor="let item of row; let i = index"
+      [class.mr-5]="(i+1)%airplane.seatsPerCol === 0 && (i+1)!= row.length"
       [ngClass]="item.seatClass" class="seat px-2 py-1 rounded">
       <ng-template #tt>
         Seat class: <b>{{item.seatClass}}</b> <br/>
@@ -18,5 +19,6 @@
       </ng-template>
     </span>
   </div>
+
 </div>
 

@@ -78,20 +78,21 @@
             </select>
       </div>
 
-      <div align="center">
-          <span [tooltip]="tt" placement="left" *ngFor="let item of seats; let i = index"
-            [class.mr-5]="(i+1)%form.value.seatsPerCol === 0 && (i+1)%(form.value.colNum*airplane.seatsPerCol)!==0"
-            [ngClass]="item.seatClass" class="seat px-2 py-1 rounded">
-            <ng-template #tt>
-              Seat class: <b>{{item.seatClass}}</b> <br/>
-              Column: <b>{{item.colNum}}</b> <br/>
-              Row: <b>{{item.rowNum}}</b>
-            </ng-template>
-            <input *ngIf="selectedClass.length > 0" type="checkbox" [ngClass]="item.seatClass" [checked]="item.seatClass === selectedClass" (change)="onSeatChecked($event, i)"/>
-          </span>
+      <div *ngFor="let row of seats; let j = index" align="center">
+        <span [tooltip]="tt" placement="left" *ngFor="let item of row; let i = index"
+          [class.mr-5]="(i+1)%form.value.seatsPerCol === 0 && (i+1)!= row.length"
+          [ngClass]="item.seatClass" class="seat px-2 py-1 rounded">
+          <ng-template #tt>
+            Seat class: <b>{{item.seatClass}}</b> <br/>
+            Column: <b>{{item.colNum}}</b> <br/>
+            Row: <b>{{item.rowNum}}</b>
+          </ng-template>
+          <input *ngIf="selectedClass.length > 0" type="checkbox" [ngClass]="item.seatClass" [checked]="item.seatClass === selectedClass" (change)="onSeatChecked($event,j, i)"/>
+        </span>
       </div>
 
     </div>
+
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modalRef.hide()">Close</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="firstPage = !firstPage">Previous</button>

@@ -122,8 +122,8 @@ public class AirplaneService {
 		airplane.setColNum(airplaneDTO.getColNum());
 		airplane.setRowNum(airplane.getRowNum());
 		airplane.setSeatsPerCol(airplane.getSeatsPerCol());
-		for (int i = 0; i < airplaneDTO.getSeats().size(); ++i) {
-			SeatDTO seatDTO = airplaneDTO.getSeats().get(i);
+		for (int i = 0; i < airplaneDTO.getSeatsAsArray().size(); ++i) {
+			SeatDTO seatDTO = airplaneDTO.getSeatsAsArray().get(i);
 			if (i < airplane.getSeats().size()) {
 				Seat seat = airplane.getSeats().get(i);
 				seat.setSeatClass(seatDTO.getSeatClass());
@@ -211,7 +211,7 @@ public class AirplaneService {
 	 * @throws RequestDataException
 	 */
 	private void checkSeatsNumber(AirplaneDTO airplane) throws RequestDataException {
-		if (airplane.getSeats().size() != airplane.getColNum() * airplane.getRowNum() * airplane.getSeatsPerCol()) {
+		if (airplane.getSeatsAsArray().size() != airplane.getColNum() * airplane.getRowNum() * airplane.getSeatsPerCol()) {
 			throw new RequestDataException("Number of seats is incorrect.");
 		}
 	}

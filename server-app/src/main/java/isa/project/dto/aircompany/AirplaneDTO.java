@@ -1,13 +1,15 @@
 package isa.project.dto.aircompany;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import isa.project.exception_handlers.RequestDataException;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import isa.project.model.aircompany.Airplane;
 import isa.project.model.aircompany.Airplane.AirplaneStatus;
 import isa.project.model.aircompany.Seat;
@@ -33,7 +35,7 @@ public class AirplaneDTO {
 	private Integer seatsPerCol;
 	
 	@NotEmpty(message = "There must be at least one seat.")
-	private ArrayList<SeatDTO> seats;
+	private List<SeatDTO> seats;
 	
 	public AirplaneDTO() {
 		
@@ -100,11 +102,24 @@ public class AirplaneDTO {
 		this.seatsPerCol = seatsPerCol;
 	}
 
-	public ArrayList<SeatDTO> getSeats() {
+	public ArrayList<List<SeatDTO>> getSeats() {
+		ArrayList<List<SeatDTO>> ret = new ArrayList<>();
+		int itemsInRow = this.colNum * this.seatsPerCol;
+		int lower = 0;
+		for(int i = 0; i < this.rowNum; ++i) {
+			List<SeatDTO> row = seats.subList(lower, lower + itemsInRow);
+			lower += itemsInRow;
+			ret.add(row);
+		}
+		return ret;
+	}
+	
+	@JsonIgnore
+	public List<SeatDTO> getSeatsAsArray() {
 		return seats;
 	}
 
-	public void setSeats(ArrayList<SeatDTO> seats) throws RequestDataException {
+	public void setSeats(ArrayList<SeatDTO> seats){
 		this.seats = seats;
 	}	
 }
