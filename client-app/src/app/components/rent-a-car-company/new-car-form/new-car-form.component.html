@@ -1,92 +1,85 @@
-<div class="modal-dialog" role="document">
-    <div class="modal-content">
-  
-      <div class="modal-header">
-        <h5 class="modal-title">Add new <b style="color: #33cabb;">car</b></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+<div class="modal-header">
+  <h5 class="modal-title">Add new <b style="color: #33cabb;">car</b></h5>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<form name="form" [formGroup]="newCarForm" (validSubmit)="onCarAdd()">
+    <div class="input-group form-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">
+          <i class="fa fa-car" aria-hidden="true"></i>
+        </span>
       </div>
-  
-      <div class="modal-body">
-        <form name="form">
-  
-            <div class="input-group form-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text">
-                    <i class="fa fa-car" aria-hidden="true"></i>
-                  </span>
-                </div>
-                <input type="text" class="form-control" placeholder="Car brand" required="required" [(ngModel)]="form.brand" name="brand">
-            </div>
-  
-            <div class="input-group form-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text">
-                    <i class="fa fa-car" aria-hidden="true"></i>
-                  </span>
-                </div>
-                <input type="text" class="form-control" name="model" placeholder="Car model" required="required" [(ngModel)]="form.model">
-            </div>
-            
-            <div class="input-group form-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text">
-                    <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
-                  </span>
-                </div>
-                <select [(ngModel)]="form.type" class="form-control" name="type" required="required">
-                    <option value="Sedan">Sedan</option>
-                    <option value="SUV">SUV</option>
-                    <option value="People Carrier/MPV">People Carrier/MPV</option>
-                    <option value="Convertible">Convertible</option>
-                </select>
-            </div>
-
-            <div class="input-group form-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text">
-                    <i class="fa fa-calendar-alt" aria-hidden="true"></i>
-                  </span>
-                </div>
-                <input type="text" class="form-control" name="yearOfProduction" placeholder="Year of car production" required="required" [(ngModel)]="form.yearOfProduction">
-            </div>
-            
-            <div class="input-group form-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text">
-                    <i class="fa fa-male" aria-hidden="true"></i>
-                  </span>
-                </div>
-                <input type="text" class="form-control" name="seatsNumber" placeholder="Number of seats" required="required" [(ngModel)]="form.seatsNumber">
-            </div>
-
-            <div class="input-group form-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text">
-                    <i class="fa fa-car-side" aria-hidden="true"></i>
-                  </span>
-                </div>
-                <input type="text" class="form-control" name="doorsNumber" placeholder="Number of doors" required="required" [(ngModel)]="form.doorsNumber">
-            </div>
-
-            <div class="input-group form-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text">
-                    <i class="fa fa-euro-sign" aria-hidden="true"></i>
-                  </span>
-                </div>
-                <input type="text" class="form-control" name="price" placeholder="Price per day" required="required" [(ngModel)]="form.price">
-            </div>
-            
-
-        </form>
-      </div>
-  
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" #closeBtn>Close</button>
-        <button type="button" class="btn btn-primary" (click)="onCarAdd()">Add</button>
-      </div>
-  
+      <input type="text" class="form-control" placeholder="Car brand" required="required" formControlName="brand" >
     </div>
+
+    <div class="input-group form-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">
+          <i class="fa fa-car" aria-hidden="true"></i>
+        </span>
+      </div>
+      <input type="text" class="form-control" placeholder="Car model" required="required" formControlName="model">
+    </div>
+
+    <div class="input-group form-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">
+          <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
+        </span>
+      </div>
+      <select formControlName="type" class="form-control" required="required">
+        <option value="Sedan">Sedan</option>
+        <option value="SUV">SUV</option>
+        <option value="People Carrier/MPV">People Carrier/MPV</option>
+        <option value="Convertible">Convertible</option>
+      </select>
+    </div>
+
+    <div class="input-group form-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">
+          <i class="fa fa-calendar-alt" aria-hidden="true"></i>
+        </span>
+      </div>
+      <input type="text" class="form-control" placeholder="Year of car production" required="required"
+      formControlName="yearOfProduction">
+    </div>
+
+    <div class="input-group form-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">
+          <i class="fa fa-male" aria-hidden="true"></i>
+        </span>
+      </div>
+      <input type="text" class="form-control" placeholder="Number of seats" required="required"
+      formControlName="seatsNumber">
+    </div>
+
+    <div class="input-group form-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">
+          <i class="fa fa-car-side" aria-hidden="true"></i>
+        </span>
+      </div>
+      <input type="text" class="form-control" placeholder="Number of doors" required="required"
+      formControlName="doorsNumber">
+    </div>
+
+    <div class="input-group form-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">
+          <i class="fa fa-euro-sign" aria-hidden="true"></i>
+        </span>
+      </div>
+      <input type="text" class="form-control" placeholder="Price per day" required="required" formControlName="price">
+    </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modalRef.hide()">Close</button>
+    <input type="submit" class="btn btn-primary" value="Add"/>
   </div>
+
+</form>

@@ -7,6 +7,9 @@ import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { Role } from 'src/app/model/role';
 import { BranchOffice } from 'src/app/model/rent-a-car-company/branch-offfice';
 import { NgxNotificationService } from 'ngx-notification';
+import { BsModalRef } from 'ngx-bootstrap/modal';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { NewCarFormComponent } from '../new-car-form/new-car-form.component';
 
 @Component({
   selector: 'app-car-company-page',
@@ -14,11 +17,12 @@ import { NgxNotificationService } from 'ngx-notification';
   styleUrls: ['./car-company-page.component.css', '../../../shared/css/inputField.css']
 })
 export class CarCompanyPageComponent implements OnInit {
+  modalRef: BsModalRef;
   carCompany: RentACarCompany = new RentACarCompany();
   forEditing: RentACarCompany = new RentACarCompany();
   roles: Role[];
 
-  constructor(private route: ActivatedRoute, private carService: RentACarCompanyService,
+  constructor(private modalService: BsModalService, private route: ActivatedRoute, private carService: RentACarCompanyService,
     public tokenService: TokenStorageService, public ngxNotificationService: NgxNotificationService) { }
 
   ngOnInit() {
@@ -33,12 +37,6 @@ export class CarCompanyPageComponent implements OnInit {
     );
     this.roles = this.tokenService.getRoles();
     this.tokenService.rolesEmitter.subscribe(roles => this.roles = roles);
-  }
-
-  carCreated(car: Car) {
-   // console.log('Kreiran je automobil', car);
-    this.carCompany.cars.push(car);
-    this.ngxNotificationService.sendMessage(car.brand + ' ' + car.model + ' created!', 'dark', 'bottom-right');
   }
 
   branchOfficeCreated(branchOffice: BranchOffice) {
@@ -74,6 +72,17 @@ export class CarCompanyPageComponent implements OnInit {
         break;
       }
     }
+  }
+
+  openNewCarModal() {
+    const initialState = {
+      carCompanyId: this.carCompany.id
+    };
+    this.modalRef = this.modalService.show(NewCarFormComponent, { initialState });
+    this.modalRef.content.onClose.subscribe(car => {
+      this.ngxNotificationService.sendMessage(car.brand + ' ' + car.model + ' created!', 'dark', 'bottom-right');
+      this.carCompany.cars.push(car);
+    });
   }
 
   isCarAdmin() {

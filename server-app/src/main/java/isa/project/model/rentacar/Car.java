@@ -48,7 +48,7 @@ public class Car implements Serializable {
 	private Integer doorsNumber;
 	
 	@Column(name = "price", nullable = false)
-	private Integer price;
+	private Double price;
 	
 	@Column(name = "active")
 	private Boolean active;
@@ -58,7 +58,7 @@ public class Car implements Serializable {
 	}
 	
 	public Car(RentACarCompany rentACarCompany, String brand, String model, Integer yearOfProduction, Integer seatsNumber, Integer doorsNumber,
-			Integer price, String type) {
+			Double price, String type) {
 		super();
 		this.rentACarCompany = rentACarCompany;
 		this.brand = brand;
@@ -119,11 +119,11 @@ public class Car implements Serializable {
 		this.doorsNumber = doorsNumber;
 	}
 
-	public Integer getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
-	public void setPrice(Integer price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 	
