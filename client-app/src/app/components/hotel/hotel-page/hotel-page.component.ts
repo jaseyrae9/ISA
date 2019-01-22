@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Hotel } from 'src/app/model/hotel/hotel';
 import { Room } from 'src/app/model/hotel/room';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
-import { Role } from 'src/app/model/role';
 import { AdditionalService } from 'src/app/model/additional-service';
 import { NgxNotificationService } from 'ngx-notification';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
@@ -26,7 +25,6 @@ export class HotelPageComponent implements OnInit {
 
   hotel: Hotel = new Hotel();
   forEditing: Hotel = new Hotel();
-  roles: Role[];
   bsRangeValue: Date[];
 
   modalRef: BsModalRef;
@@ -54,8 +52,6 @@ export class HotelPageComponent implements OnInit {
         this.forEditing = new Hotel(data.id, data.name, data.description);
       }
     );
-    this.roles = this.tokenService.getRoles();
-    this.tokenService.rolesEmitter.subscribe(roles => this.roles = roles);
   }
 
   hotelEdited(data) {
@@ -78,18 +74,6 @@ export class HotelPageComponent implements OnInit {
       this.hotel.rooms.splice(i, 1);
       this.ngxNotificationService.sendMessage('Room is deleted!', 'dark', 'bottom-right');
     }
-  }
-
-  isHotelAdmin() {
-    if (this.roles !== null) {
-      for (const role of this.roles) {
-        if (role.authority === 'ROLE_HOTELADMIN') {
-          return true;
-        }
-      }
-      return false;
-    }
-    return false;
   }
 
   additionalServiceCreated(additionalService: AdditionalService) {

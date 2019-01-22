@@ -20,10 +20,12 @@ export class CarCompanyPageComponent implements OnInit {
   modalRef: BsModalRef;
   carCompany: RentACarCompany = new RentACarCompany();
   forEditing: RentACarCompany = new RentACarCompany();
-  roles: Role[];
 
-  constructor(private modalService: BsModalService, private route: ActivatedRoute, private carService: RentACarCompanyService,
-    public tokenService: TokenStorageService, public ngxNotificationService: NgxNotificationService) { }
+  constructor(private modalService: BsModalService,
+     private route: ActivatedRoute,
+     private carService: RentACarCompanyService,
+     public tokenService: TokenStorageService,
+     public ngxNotificationService: NgxNotificationService) { }
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
@@ -35,8 +37,6 @@ export class CarCompanyPageComponent implements OnInit {
 
       }
     );
-    this.roles = this.tokenService.getRoles();
-    this.tokenService.rolesEmitter.subscribe(roles => this.roles = roles);
   }
 
   branchOfficeCreated(branchOffice: BranchOffice) {
@@ -84,17 +84,4 @@ export class CarCompanyPageComponent implements OnInit {
       this.carCompany.cars.push(car);
     });
   }
-
-  isCarAdmin() {
-    if (this.roles !== null) {
-      for (const role of this.roles) {
-        if (role.authority === 'ROLE_CARADMIN') {
-          return true;
-        }
-      }
-      return false;
-    }
-    return false;
-  }
-
 }

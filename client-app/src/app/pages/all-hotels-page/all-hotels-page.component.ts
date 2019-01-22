@@ -13,38 +13,23 @@ import { Role } from 'src/app/model/role';
 })
 export class AllHotelsPageComponent implements OnInit {
   hotels: Hotel[];
-  roles: Role[];
 
-  constructor(private hotelService: HotelService, private dataService: DataService, public tokenService: TokenStorageService,
+  constructor(private hotelService: HotelService,
+    private dataService: DataService,
+    public tokenService: TokenStorageService,
     public ngxNotificationService: NgxNotificationService) {
-
   }
 
   ngOnInit() {
     this.hotelService.getAll().subscribe(data => {
       this.hotels = data;
     });
-    this.roles = this.tokenService.getRoles();
-    this.tokenService.rolesEmitter.subscribe(roles => this.roles = roles);
   }
 
   hotelCreated(hotel: Hotel) {
     this.hotels.push(hotel);
     this.dataService.changeHotel(hotel);
     this.ngxNotificationService.sendMessage(hotel.name + ' is created!', 'dark', 'bottom-right' );
-
-  }
-
-  isSysAdmin() {
-    if (this.roles !== null) {
-      for (const role of this.roles) {
-        if (role.authority === 'ROLE_SYS') {
-          return true;
-        }
-      }
-      return false;
-    }
-    return false;
   }
 
 }

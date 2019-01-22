@@ -4,7 +4,6 @@ import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { RentACarCompany } from 'src/app/model/rent-a-car-company/rent-a-car-company';
 import { Hotel } from 'src/app/model/hotel/hotel';
 import { AirCompany } from 'src/app/model/air-company/air-company';
-import { Role } from 'src/app/model/role';
 
 @Component({
   selector: 'app-navigation',
@@ -17,7 +16,6 @@ export class NavigationComponent implements OnInit {
   public carcompanies: RentACarCompany[];
   public hotels: Hotel[];
   public aircompanies: AirCompany[];
-  roles: Role[];
 
   constructor(public tokenService: TokenStorageService, private router: Router) {
     this.loggedIn = tokenService.checkIsLoggedIn();
@@ -29,25 +27,10 @@ export class NavigationComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.roles = this.tokenService.getRoles();
-    this.tokenService.rolesEmitter.subscribe(roles => this.roles = roles);
   }
 
   logout() {
     this.router.navigateByUrl('http://localhost:4200');
     this.tokenService.signOut();
-  }
-
-
-  isSysAdmin() {
-    if (this.roles !== null) {
-      for (const role of this.roles) {
-        if (role.authority === 'ROLE_SYS') {
-          return true;
-        }
-      }
-      return false;
-    }
-    return false;
   }
 }

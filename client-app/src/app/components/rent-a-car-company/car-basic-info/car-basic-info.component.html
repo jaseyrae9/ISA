@@ -22,9 +22,9 @@
     <div class="col border-left p-3" align="center">
         <p style="font-size: 45px; color:  #33cabb;">€{{car.price}}</p>
         <hr>
-        <button *ngIf="isCarAdmin()" class="btn btn-primary px-4 m-2"
+        <button *ngIf="tokenService.isCarAdmin" class="btn btn-primary px-4 m-2"
             (click)="openEditModal()">Edit</button>
-        <button *ngIf="isCarAdmin()" class="btn btn-primary px-4 m-2" (click)="deleteCar()">Delete</button>
+        <button *ngIf="tokenService.isCarAdmin" class="btn btn-primary px-4 m-2" (click)="deleteCar()">Delete</button>
         <button class="btn btn-primary px-4 m-2">Rent</button>
         
     </div>

@@ -58,17 +58,4 @@ export class CarBasicInfoComponent implements OnInit {
       }
     );
   }
-
-  isCarAdmin() {
-    if (this.roles !== null) {
-      for (const role of this.roles) {
-        if (role.authority === 'ROLE_CARADMIN') {
-          return true;
-        }
-      }
-      return false;
-    }
-    return false;
-  }
-
 }

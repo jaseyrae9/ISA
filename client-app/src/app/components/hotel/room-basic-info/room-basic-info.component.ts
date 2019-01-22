@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Room } from 'src/app/model/hotel/room';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
-import { Role } from 'src/app/model/role';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { EditRoomFormComponent } from '../edit-room-form/edit-room-form.component';
@@ -17,7 +16,6 @@ import { NgxNotificationService } from 'ngx-notification';
 export class RoomBasicInfoComponent implements OnInit {
   @Input() room: Room;
   @Output() roomDeleted: EventEmitter<number> = new EventEmitter();
-  roles: Role[];
   forEditing: Room;
   modalRef: BsModalRef;
   hotelId: string;
@@ -29,8 +27,6 @@ export class RoomBasicInfoComponent implements OnInit {
   ngOnInit() {
     this.forEditing = new Room(this.room.id, this.room.floor, this.room.roomNumber, this.room.numberOfBeds, this.room.price,
       this.room.type);
-    this.roles = this.tokenService.getRoles();
-    this.tokenService.rolesEmitter.subscribe(roles => this.roles = roles);
 
     this.hotelId = this.route.snapshot.paramMap.get('id');
   }
@@ -68,18 +64,6 @@ export class RoomBasicInfoComponent implements OnInit {
     this.forEditing = new Room(this.room.id, this.room.floor, this.room.roomNumber, this.room.numberOfBeds, this.room.price,
        this.room.type);
     this.ngxNotificationService.sendMessage('Room is changed!', 'dark', 'bottom-right' );
-  }
-
-  isHotelAdmin() {
-    if (this.roles !== null) {
-      for (const role of this.roles) {
-        if (role.authority === 'ROLE_HOTELADMIN') {
-          return true;
-        }
-      }
-      return false;
-    }
-    return false;
   }
 
 }

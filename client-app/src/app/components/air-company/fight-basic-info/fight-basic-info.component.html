@@ -26,7 +26,7 @@
     <div class="col border-left p-3" align="center">
         <p style="font-size: 45px; color:  #33cabb;">€150+</p>
         <hr>
-        <button *ngIf="isAirAdmin()" class="btn btn-primary px-4 m-2">Edit</button>
+        <button *ngIf="tokenService.isAirAdmin" class="btn btn-primary px-4 m-2">Edit</button>
         <button class="btn btn-primary px-4 m-2">Buy</button>
     </div>  
 </div>

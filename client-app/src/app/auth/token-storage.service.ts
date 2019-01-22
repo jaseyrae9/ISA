@@ -14,7 +14,11 @@ export class TokenStorageService {
   private username = new Subject<String>();
   private roles = new Subject<Role[]>();
 
+  public isSysAdmin = false;
   public isAirAdmin = false;
+  public isCarAdmin = false;
+  public isHotelAdmin = false;
+  public isCustomer = false;
 
   public logggedInEmitter = this.isLoggedIn.asObservable();
   public usernameEmitter = this.username.asObservable();
@@ -63,12 +67,28 @@ export class TokenStorageService {
   }
 
   public checkRoles() {
+    this.isSysAdmin = false;
     this.isAirAdmin = false;
+    this.isCarAdmin = false;
+    this.isHotelAdmin = false;
+    this.isCustomer = false;
     const roles = this.getRoles();
     if (roles) {
       for (const role of roles) {
+        if ( role.authority === 'ROLE_SYS') {
+          this.isSysAdmin = true;
+        }
         if ( role.authority === 'ROLE_AIRADMIN') {
           this.isAirAdmin = true;
+        }
+        if ( role.authority === 'ROLE_CARADMIN') {
+          this.isCarAdmin = true;
+        }
+        if ( role.authority === 'ROLE_HOTELADMIN') {
+          this.isHotelAdmin = true;
+        }
+        if ( role.authority === 'ROLE_CUSTOMER') {
+          this.isCustomer = true;
         }
       }
     }

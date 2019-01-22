@@ -2,6 +2,7 @@ package isa.project.model.rentacar;
 
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -73,7 +74,7 @@ public class RentACarCompany {
 	}
 
 	public Set<Car> getCars() {
-		return cars;
+		return cars.stream().filter(p -> p.getActive() == true).collect(Collectors.toSet()); // Da vraca samo aktivne automobile
 	}
 
 	public void setCars(Set<Car> cars) {
@@ -81,7 +82,7 @@ public class RentACarCompany {
 	}
 
 	public Set<BranchOffice> getBranchOffices() {
-		return branchOffices;
+		return branchOffices.stream().filter(p -> p.getActive() == true).collect(Collectors.toSet()); // Da vraca samo aktivne
 	}
 
 	public void setBranchOffices(Set<BranchOffice> branchOffices) {
