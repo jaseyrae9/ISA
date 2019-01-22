@@ -17,9 +17,7 @@ import { NgxNotificationService } from 'ngx-notification';
 export class CarBasicInfoComponent implements OnInit {
   @Input() car: Car;
 
-  @Output() carDeleted: EventEmitter<number> = new EventEmitter();
-
-  roles: Role[];
+  @Output() carDeleted: EventEmitter<Car> = new EventEmitter();
 
   modalRef: BsModalRef;
   companyId: string;
@@ -29,15 +27,12 @@ export class CarBasicInfoComponent implements OnInit {
   public ngxNotificationService: NgxNotificationService) { }
 
   ngOnInit() {
-    this.roles = this.tokenService.getRoles();
-
     const companyId = this.route.snapshot.paramMap.get('id');
     this.companyId = companyId;
   }
 
   openEditModal() {
-    console.log('Tip auta: ' + this.car.type);
-    const initialState = {
+   const initialState = {
       car: this.car,
       companyId: this.companyId
     };
@@ -51,7 +46,8 @@ export class CarBasicInfoComponent implements OnInit {
   deleteCar() {
     this.carCompanyService.delete(this.car.id, this.companyId).subscribe(
       data => {
-        this.carDeleted.emit(data);
+        console.log('Brisanje automobila');
+        this.carDeleted.emit(this.car);
       },
       error => {
         console.log(error);

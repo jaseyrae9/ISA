@@ -37,7 +37,7 @@ export class RentACarCompanyService {
     return this.http.post<Car>('http://localhost:8080/rent_a_car_companies/addCar/' + carCompanyId, car, httpOptions);
   }
 
-  addBranchOffice(branchOffice: BranchOffice, carCompanyId: String): Observable<BranchOffice> {
+  addBranchOffice(branchOffice: BranchOffice, carCompanyId: Number): Observable<BranchOffice> {
     return this.http.post<BranchOffice>('http://localhost:8080/rent_a_car_companies/addBranchOffice/'
     + carCompanyId, branchOffice, httpOptions);
   }

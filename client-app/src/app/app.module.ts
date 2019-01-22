@@ -171,7 +171,8 @@ import { AirplaneFormComponent } from './components/air-company/airplane/airplan
     EditProfileFormComponent,
     AirplaneFormComponent,
     EditServiceFormComponent,
-    NewCarFormComponent
+    NewCarFormComponent,
+    NewBranchOfficeFormComponent
 ]
 })
 export class AppModule { }
