@@ -7,7 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./company-basic-details.component.css']
 })
 export class CompanyBasicDetailsComponent implements OnInit {
-  @Input() company: AirCompany;
+  @Input() company: AirCompany = new AirCompany();
 
   constructor() { }
 

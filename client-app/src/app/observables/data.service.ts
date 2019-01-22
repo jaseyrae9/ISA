@@ -12,7 +12,7 @@ export class DataService {
   private hotel = new BehaviorSubject<Hotel>(new Hotel(null, null, null));
   currentHotel = this.hotel.asObservable();
 
-  private aircompany = new BehaviorSubject<AirCompany>(new AirCompany(null, null, null));
+  private aircompany = new BehaviorSubject<AirCompany>(new AirCompany());
   currentAirCompany = this.aircompany.asObservable();
 
   private carCompany = new BehaviorSubject<RentACarCompany>(new RentACarCompany(null, null, null));

@@ -1,3 +1,4 @@
+import { LocationService } from './services/location-service';
 import { ErrorInterceptor } from './auth/response-interceptor';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -80,6 +81,9 @@ import { AirplaneDisplayComponent } from './components/air-company/airplane/airp
 // tooltips
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { AirplaneFormComponent } from './components/air-company/airplane/airplane-form/airplane-form.component';
+import { MapComponent } from './components/shared/components/map/map.component';
+import { AgmCoreModule } from '@agm/core';
+import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 
 @NgModule({
   declarations: [
@@ -142,7 +146,8 @@ import { AirplaneFormComponent } from './components/air-company/airplane/airplan
     EditBranchOfficeFormComponent,
     AirplaneDisplayComponent,
     AirplaneFormComponent,
-    EditServiceFormComponent
+    EditServiceFormComponent,
+    MapComponent
   ],
   imports: [
     BrowserModule,
@@ -155,9 +160,12 @@ import { AirplaneFormComponent } from './components/air-company/airplane/airplan
     ReactiveFormsModule,
     NgBootstrapFormValidationModule.forRoot(),
     NgBootstrapFormValidationModule,
-    TooltipModule.forRoot()
+    TooltipModule.forRoot(),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyDxMEmiWGtvuSRvzBShDgvPbWYQgo3GEHQ'
+    })
   ],
-  providers: [HotelService, AirCompanyService, UserService, DataService, RoleGuardService,
+  providers: [HotelService, AirCompanyService, UserService, DataService, RoleGuardService, LocationService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],

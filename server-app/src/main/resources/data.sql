@@ -1,3 +1,8 @@
+insert into locations(id, address, lon, lat) value (100, 'Marka Miljanova 7b, Novi Sad',19.849669, 45.261406);
+insert into locations(id, address, lon, lat) value (101, 'London, UK',-0.127758, 51.507351);
+insert into locations(id, address, lon, lat) value (102, 'Kraljice Jelene 28, Indjija',20.068591, 45.043876);
+
+
 insert into hotel (id, hotel_name, hotel_description) values (100, 'Hotel proba 1', 'Opis 1');
 insert into hotel (id, hotel_name, hotel_description) values (101, 'Hotel proba 2', 'Opis 2');
 
@@ -14,9 +19,9 @@ insert into hotel_additional_services (hotel_id, additional_services_id) value (
 insert into hotel_additional_services (hotel_id, additional_services_id) value (100, 104);
 insert into hotel_additional_services (hotel_id, additional_services_id) value (100, 105);
 
-insert into air_company (id, name, description) values (100, 'Aviokompanija 1', 'Opis 1');
-insert into air_company (id, name, description) values (101, 'Aviokompanija 2', 'Opis 2');
-insert into air_company (id, name, description) values (102, 'Aviokompanija 3', 'Opis 3');
+insert into air_company (id, name, description, location_id) values (100, 'Aviokompanija 1', 'Opis 1', 100);
+insert into air_company (id, name, description, location_id) values (101, 'Aviokompanija 2', 'Opis 2', 101);
+insert into air_company (id, name, description, location_id) values (102, 'Aviokompanija 3', 'Opis 3', 102);
 
 insert into rent_a_car_company (id, rentacar_company_name, rentacar_description) values (100, 'Rent a Punto', 'Grande');
 insert into rent_a_car_company (id, rentacar_company_name, rentacar_description) values (101, 'Rent a Panda', 'Fiat');

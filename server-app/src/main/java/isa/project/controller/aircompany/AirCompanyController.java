@@ -79,6 +79,7 @@ public class AirCompanyController {
 	@RequestMapping(value = "/add", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<AirCompanyDTO> addAvioCompany(@Valid @RequestBody AirCompanyDTO company) {
 		AirCompany airCompany = new AirCompany(company.getName(), company.getDescription());
+		airCompany.setLocation(company.getLocation());
 		return new ResponseEntity<>(new AirCompanyDTO(airCompanyService.saveAirCompany(airCompany)),
 				HttpStatus.CREATED);
 	}
@@ -108,6 +109,9 @@ public class AirCompanyController {
 		opt.ifPresent(airCompany -> {
 			airCompany.setName(company.getName());
 			airCompany.setDescription(company.getDescription());
+			airCompany.getLocation().setAddress(company.getLocation().getAddress());
+			airCompany.getLocation().setLat(company.getLocation().getLat());
+			airCompany.getLocation().setLon(company.getLocation().getLon());
 		});
 
 		return new ResponseEntity<>(new AirCompanyDTO(airCompanyService.saveAirCompany(opt.get())), HttpStatus.OK);

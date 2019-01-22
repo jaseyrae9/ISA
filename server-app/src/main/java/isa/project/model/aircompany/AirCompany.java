@@ -11,10 +11,13 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import isa.project.model.shared.AdditionalService;
+import isa.project.model.shared.Location;
 
 
 @Entity
@@ -29,6 +32,10 @@ public class AirCompany {
 	
 	@Column(nullable = true)
 	private String description;
+	
+	@OneToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name="location_id", nullable = false)
+	private Location location;
 	
 	@OneToMany(mappedBy = "airCompany", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Destination> destinations;
@@ -65,6 +72,14 @@ public class AirCompany {
 		this.name = name;
 	}
 
+	public Location getLocation() {
+		return location;
+	}
+
+	public void setLocation(Location location) {
+		this.location = location;
+	}
+
 	public String getDescription() {
 		return description;
 	}
@@ -74,7 +89,10 @@ public class AirCompany {
 	}
 
 	public Set<Destination> getDestinations() {
-		return destinations.stream().filter(d -> d.getActive()).collect(Collectors.toSet());
+		if(destinations != null)
+			return destinations.stream().filter(d -> d.getActive()).collect(Collectors.toSet());
+		else
+			return null;
 	}
 
 	public void setDestinations(Set<Destination> destinations) {
