@@ -28,7 +28,7 @@
           <hr>
           <p>{{carCompany.description}}</p>
           <div align="right">
-            <button *ngIf="tokenService.isCarAdmin" class="btn btn-primary float-right" data-toggle="modal" data-target="#editCarCompany"><i
+            <button *ngIf="tokenService.isCarAdmin" class="btn btn-primary float-right" (click)="openEditModal()"><i
                 class="fa fa-edit" aria-hidden="true"></i>Edit</button>
           </div>
         </div>
@@ -70,15 +70,6 @@
         </div>
         </div>
     </div>
-
-
-
-
   </div>
 </div>
 
-<!-- Modal -->
-<app-edit-car-company-form [carCompany]="forEditing" class="modal fade" id="editCarCompany" tabindex="-1" role="dialog"
-  aria-hidden="true" (carCompanyEdited)='carCompanyEdited($event)'></app-edit-car-company-form>
-
- 

@@ -1,8 +1,11 @@
 package isa.project.dto.hotel;
 
+import java.util.ArrayList;
+
 import javax.validation.constraints.NotBlank;
 
 import isa.project.model.hotel.Hotel;
+import isa.project.model.hotel.Room;
 
 public class HotelDTO {
 	
@@ -13,6 +16,8 @@ public class HotelDTO {
 	
 	private String description;
 	
+	private ArrayList<RoomDTO> rooms = new ArrayList<>();
+	
 	public HotelDTO() {
 		
 	}
@@ -21,6 +26,12 @@ public class HotelDTO {
 		this.id = hotel.getId();
 		this.name = hotel.getName();
 		this.description = hotel.getDescription();
+		this.rooms = new ArrayList<>();
+		if(hotel.getRooms() != null) {
+			for(Room room: hotel.getRooms()) {
+				this.rooms.add(new RoomDTO(room));
+			}
+		}
 	}
 
 	public Integer getId() {
@@ -45,6 +56,14 @@ public class HotelDTO {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public ArrayList<RoomDTO> getRooms() {
+		return rooms;
+	}
+
+	public void setRooms(ArrayList<RoomDTO> rooms) {
+		this.rooms = rooms;
 	}	
 	
 }

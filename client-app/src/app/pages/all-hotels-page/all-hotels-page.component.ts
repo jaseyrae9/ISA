@@ -4,7 +4,10 @@ import { HotelService } from '../../services/hotel/hotel.service';
 import { Hotel } from 'src/app/model/hotel/hotel';
 import { NgxNotificationService } from 'ngx-notification';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
-import { Role } from 'src/app/model/role';
+import { BsModalRef } from 'ngx-bootstrap/modal';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { NewHotelFormComponent } from 'src/app/components/hotel/new-hotel-form/new-hotel-form.component';
+
 
 @Component({
   selector: 'app-all-hotels-page',
@@ -13,11 +16,13 @@ import { Role } from 'src/app/model/role';
 })
 export class AllHotelsPageComponent implements OnInit {
   hotels: Hotel[];
+  modalRef: BsModalRef;
 
   constructor(private hotelService: HotelService,
     private dataService: DataService,
     public tokenService: TokenStorageService,
-    public ngxNotificationService: NgxNotificationService) {
+    public ngxNotificationService: NgxNotificationService,
+    private modalService: BsModalService) {
   }
 
   ngOnInit() {
@@ -26,10 +31,12 @@ export class AllHotelsPageComponent implements OnInit {
     });
   }
 
-  hotelCreated(hotel: Hotel) {
-    this.hotels.push(hotel);
-    this.dataService.changeHotel(hotel);
-    this.ngxNotificationService.sendMessage(hotel.name + ' is created!', 'dark', 'bottom-right' );
+  openNewHotelModal() {
+    this.modalRef = this.modalService.show(NewHotelFormComponent);
+      this.modalRef.content.onClose.subscribe(hotel => {
+        this.ngxNotificationService.sendMessage(hotel.name + ' is created!', 'dark', 'bottom-right' );
+        this.hotels.push(hotel);
+        this.dataService.changeHotel(hotel);
+      });
   }
-
 }

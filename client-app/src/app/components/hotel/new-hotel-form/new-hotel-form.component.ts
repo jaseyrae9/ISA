@@ -2,6 +2,10 @@ import { HotelService } from 'src/app/services/hotel/hotel.service';
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { Hotel } from 'src/app/model/hotel/hotel';
 import { ViewChild, ElementRef} from '@angular/core';
+import { BsModalRef } from 'ngx-bootstrap/modal';
+import { Subject } from 'rxjs/Subject';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-new-hotel-form',
@@ -11,29 +15,33 @@ import { ViewChild, ElementRef} from '@angular/core';
 
 
 export class NewHotelFormComponent implements OnInit {
-  @Output() hotelCreated: EventEmitter<Hotel> = new EventEmitter();
-  form: any = {};
-  hotel: Hotel;
-  @ViewChild('closeBtn') closeBtn: ElementRef;
+  errorMessage: String = '';
+  hotel: Hotel = new Hotel();
+  public onClose: Subject<Hotel>;
+  newHotelForm: FormGroup;
 
-  constructor(private hotelService: HotelService) { }
+  constructor(public modalRef: BsModalRef, private formBuilder: FormBuilder, private hotelService: HotelService) { }
 
   ngOnInit() {
+    this.onClose = new Subject();
+    this.newHotelForm = this.formBuilder.group({
+      name: [this.hotel.name, [Validators.required]],
+      description: [this.hotel.description],
+      });
   }
 
   onHotelAdd() {
-    this.hotel = new Hotel(null,
-      this.form.name,
-      this.form.description
-    );
-
-    this.hotelService.add(this.hotel).subscribe(
+    this.hotelService.add(this.newHotelForm.value).subscribe(
       data => {
-        this.hotelCreated.emit(data);
-        this.closeBtn.nativeElement.click();
+        this.onClose.next(data);
+        this.modalRef.hide();
       },
-      error => {
-        console.log(error.error.message);
+      (err: HttpErrorResponse) => {
+        // interceptor je hendlovao ove zahteve
+        if (err.status === 401 || err.status === 403 || err.status === 404) {
+          this.modalRef.hide();
+        }
+        this.errorMessage = err.error.details;
       }
     );
 

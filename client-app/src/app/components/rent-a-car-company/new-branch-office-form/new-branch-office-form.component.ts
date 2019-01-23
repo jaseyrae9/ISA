@@ -13,7 +13,6 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['../../../shared/css/inputField.css', './new-branch-office-form.component.css']
 })
 export class NewBranchOfficeFormComponent implements OnInit {
-  // @Output() branchOfficeCreated: EventEmitter<BranchOffice> = new EventEmitter();
   errorMessage: String = '';
 
   public onClose: Subject<BranchOffice>;

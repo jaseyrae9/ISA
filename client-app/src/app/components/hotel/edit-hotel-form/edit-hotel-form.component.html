@@ -1,23 +1,20 @@
-<div class="modal-dialog" role="document">
-    <div class="modal-content">
 
       <div class="modal-header">
         <h5 class="modal-title">Edit <b style="color: #33cabb;">hotel</b></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" (click)="modalRef.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-
+      
+      <form name="form" [formGroup]="editHotelForm" (validSubmit)="onEditHotel()">
       <div class="modal-body">
-        <form name="form">
-
             <div class="input-group form-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
                     <i class="fa fa-hotel" aria-hidden="true"></i>
                   </span>
                 </div>
-                <input type="text" class="form-control" name="name" [(ngModel)]="hotel.name"  placeholder="Hotel name" required="required">
+                <input type="text" class="form-control" formControlName="name" placeholder="Hotel name" required="required">
             </div>
 
             <div class="input-group form-group">
@@ -35,15 +32,12 @@
                     <i class="fa fa-sticky-note" aria-hidden="true"></i>
                   </span>
                 </div>
-                <textarea class="form-control" name="description" [(ngModel)]="hotel.description"  placeholder="Insert your description here..."></textarea>
+                <textarea class="form-control" formControlName="description" placeholder="Insert your description here..."></textarea>
             </div>
-           </form>
-
+      
+          </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal" #closeBtn>Close</button>
-              <button type="button" class="btn btn-primary" (click)="onHotelEdit()">Edit</button>
+              <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Close</button>
+              <input type="submit" class="btn btn-primary" value="Edit" />
             </div>
-
-      </div>
-    </div>
-  </div>
+          </form>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { RentACarCompany } from 'src/app/model/rent-a-car-company/rent-a-car-company';
 import { ActivatedRoute } from '@angular/router';
 import { RentACarCompanyService } from 'src/app/services/rent-a-car-company/rent-a-car-company.service';
@@ -11,6 +11,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { NewCarFormComponent } from '../new-car-form/new-car-form.component';
 import { NewBranchOfficeFormComponent } from '../new-branch-office-form/new-branch-office-form.component';
+import { EditCarCompanyFormComponent } from '../edit-car-company-form/edit-car-company-form.component';
 
 @Component({
   selector: 'app-car-company-page',
@@ -20,7 +21,7 @@ import { NewBranchOfficeFormComponent } from '../new-branch-office-form/new-bran
 export class CarCompanyPageComponent implements OnInit {
   modalRef: BsModalRef;
   carCompany: RentACarCompany = new RentACarCompany();
-  forEditing: RentACarCompany = new RentACarCompany();
+  companyId: string;
 
   constructor(private modalService: BsModalService,
      private route: ActivatedRoute,
@@ -29,27 +30,16 @@ export class CarCompanyPageComponent implements OnInit {
      public ngxNotificationService: NgxNotificationService) { }
 
   ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
-    this.carService.get(id).subscribe(
+    const companyId = this.route.snapshot.paramMap.get('id');
+    this.companyId = companyId;
+    this.carService.get(companyId).subscribe(
       (data) => {
         this.carCompany = data;
-        console.log('Aaa', data);
-        this.forEditing = new RentACarCompany(data.id, data.name, data.description, data.cars);
-
       }
     );
   }
 
-  carCompanyEdited(data) {
-    this.carCompany.id = data.id;
-    this.carCompany.name = data.name;
-    this.carCompany.description = data.description;
-    this.forEditing = new RentACarCompany(data.id, data.name, data.description, data.cars);
-    this.ngxNotificationService.sendMessage('Rent a car company is changed!', 'dark', 'bottom-right' );
-  }
-
   carDeleted(car: Car) {
-    console.log('Parent: Car deleted', car);
     const index: number = this.carCompany.cars.indexOf(car);
     if (index !== -1) {
       this.carCompany.cars.splice(index, 1);
@@ -88,4 +78,17 @@ export class CarCompanyPageComponent implements OnInit {
       this.ngxNotificationService.sendMessage(branchOffice.name + ' created!', 'dark', 'bottom-right');
     });
   }
+
+  // editing car company
+  openEditModal() {
+    const initialState = {
+       carCompany: this.carCompany,
+       companyId: this.companyId
+     };
+     this.modalRef = this.modalService.show(EditCarCompanyFormComponent, { initialState });
+     this.modalRef.content.onClose.subscribe(carCompany => {
+       this.carCompany = carCompany;
+       this.ngxNotificationService.sendMessage('Rent a car company is changed!', 'dark', 'bottom-right' );
+      });
+   }
 }

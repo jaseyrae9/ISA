@@ -1,7 +1,11 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { Room } from 'src/app/model/hotel/room';
 import { HotelService } from 'src/app/services/hotel/hotel.service';
 import { ActivatedRoute } from '@angular/router';
+import { BsModalRef } from 'ngx-bootstrap/modal';
+import { Subject } from 'rxjs/Subject';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-new-room-form',
@@ -9,41 +13,41 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./new-room-form.component.css', '../../../shared/css/inputField.css']
 })
 export class NewRoomFormComponent implements OnInit {
-  @Output() roomCreated: EventEmitter<Room> = new EventEmitter();
-  form: any = {};
-  @ViewChild('closeBtn') closeBtn: ElementRef;
-  room: Room;
-  id: string;
+  errorMessage: String = '';
+  room: Room = new Room();
+  @Input() hotelId: Number;
 
+  public onClose: Subject<Room>;
+  newRoomForm: FormGroup;
 
-  constructor(private route: ActivatedRoute, private hotelService: HotelService) { }
+  constructor(public modalRef: BsModalRef, private formBuilder: FormBuilder,
+    private route: ActivatedRoute, private hotelService: HotelService) { }
 
   ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
-    this.id = id;
-    this.form.type = 'Regular';
+    this.room.type = 'Regular';
+    this.onClose = new Subject();
+    this.newRoomForm = this.formBuilder.group({
+      floor: [this.room.floor, [Validators.required]],
+      roomNumber: [this.room.roomNumber, [Validators.required, Validators.min(0)]],
+      type: [this.room.type],
+      numberOfBeds: [this.room.numberOfBeds, [Validators.required], Validators.min[1]],
+      price: [this.room.price, [Validators.required, Validators.min(0)]],
+    });
   }
 
   onRoomAdd() {
-    this.room = new Room(null,
-      this.form.floor,
-      this.form.roomNumber,
-      this.form.numberOfBeds,
-      this.form.price,
-      this.form.type,
-      true // <- for acitve
-      );
-
-
-    this.hotelService.addRoom(this.room, this.id).subscribe(
+        this.hotelService.addRoom(this.newRoomForm.value, this.hotelId).subscribe(
       data => {
-        this.roomCreated.emit(data);
-        this.closeBtn.nativeElement.click();
+        this.onClose.next(data);
+        this.modalRef.hide();
       },
-      error => {
-        console.log(error.error.message);
+      (err: HttpErrorResponse) => {
+        // interceptor je hendlovao ove zahteve
+        if (err.status === 401 || err.status === 403 || err.status === 404) {
+          this.modalRef.hide();
+        }
+        this.errorMessage = err.error.details;
       }
-
     );
   }
 

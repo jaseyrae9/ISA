@@ -1,75 +1,69 @@
-<div class="modal-dialog" role="document">
-  <div class="modal-content">
+<div class="modal-header">
+  <h5 class="modal-title">Add new <b style="color: #33cabb;">room</b></h5>
+  <button type="button" class="close" (click)="modalRef.hide()" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
 
-    <div class="modal-header">
-      <h5 class="modal-title">Add new <b style="color: #33cabb;">room</b></h5>
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
+<form name="form"  [formGroup]="newRoomForm" (validSubmit)="onRoomAdd()">
+  <div class="modal-body">
+    <div class="input-group form-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">
+          <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
+        </span>
+      </div>
+      <select class="form-control" formControlName="type" required="required">
+        <option value='Regular'>Regular</option>
+        <option value='Studio'>Studio</option>
+        <option value='Apartman'>Apartman</option>
+      </select>
     </div>
 
-    <div class="modal-body">
-      <form name="form">
-
-          <div class="input-group form-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text">
-                  <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
-                </span>
-              </div>
-              <select [(ngModel)]="form.type" class="form-control" name="type" required="required">
-                <option value='Regular'>Regular</option>
-                <option value='Studio'>Studio</option>
-                <option value='Apartman'>Apartman</option>
-              </select>
-          </div>
-
-        <div class="input-group form-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">
-              <i class="fa fa-hashtag" aria-hidden="true"></i>
-            </span>
-          </div>
-          <input type="text" class="form-control" placeholder="Room floor" required="required" [(ngModel)]="form.floor"
-            name="floor">
-        </div>
-
-        <div class="input-group form-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">
-              <i class="fa fa-hashtag" aria-hidden="true"></i>
-            </span>
-          </div>
-          <input type="text" class="form-control" name="roomNumber" placeholder="Room number" required="required"
-            [(ngModel)]="form.roomNumber">
-        </div>
-
-        <div class="input-group form-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">
-              <i class="fa fa-bed" aria-hidden="true"></i>
-            </span>
-          </div>
-          <input type="text" class="form-control" name="numberOfBeds" placeholder="Number of beds" required="required"
-            [(ngModel)]="form.numberOfBeds">
-        </div>
-
-        <div class="input-group form-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">
-              <i class="fa fa-euro-sign" aria-hidden="true"></i>
-            </span>
-          </div>
-          <input type="text" class="form-control" name="price" placeholder="Price per night" required="required"
-            [(ngModel)]="form.price">
-        </div>
-      </form>
+    <div class="input-group form-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">
+          <i class="fa fa-hashtag" aria-hidden="true"></i>
+        </span>
+      </div>
+      <input type="text" class="form-control" placeholder="Room floor" required="required" formControlName="floor">
     </div>
 
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-dismiss="modal" #closeBtn>Close</button>
-      <button type="button" class="btn btn-primary" (click)="onRoomAdd()">Add</button>
+    <div class="input-group form-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">
+          <i class="fa fa-hashtag" aria-hidden="true"></i>
+        </span>
+      </div>
+      <input type="text" class="form-control" formControlName="roomNumber" placeholder="Room number" required="required">
+    </div>
+
+    <div class="input-group form-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">
+          <i class="fa fa-bed" aria-hidden="true"></i>
+        </span>
+      </div>
+      <input type="text" class="form-control" formControlName="numberOfBeds" placeholder="Number of beds" required="required">
+    </div>
+
+    <div class="input-group form-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">
+          <i class="fa fa-euro-sign" aria-hidden="true"></i>
+        </span>
+      </div>
+      <input type="text" class="form-control" formControlName="price" placeholder="Price per night" required="required">
+    </div>
+
+    <div class="alert alert-danger" role="alert" *ngIf="errorMessage.length != 0">
+      {{errorMessage}}
     </div>
 
   </div>
-</div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Close</button>
+    <input type="submit" class="btn btn-primary" value="Add" />
+  </div>
+</form>

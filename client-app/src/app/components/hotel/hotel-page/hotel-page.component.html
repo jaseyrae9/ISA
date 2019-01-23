@@ -38,8 +38,7 @@
           <hr>
           <p>{{hotel.description}}</p>
           <div align="right">
-            <button *ngIf="tokenService.isHotelAdmin" class="btn btn-primary float-right" data-toggle="modal"
-              data-target="#editHotel"><i class="fa fa-edit" aria-hidden="true"></i>Edit</button>
+            <button *ngIf="tokenService.isHotelAdmin" class="btn btn-primary float-right" (click)="openEditModal()"><i class="fa fa-edit" aria-hidden="true"></i>Edit</button>
           </div>
         </div>
       </div>
@@ -69,7 +68,7 @@
     <div class="tab-pane fade" id="rooms" aria-labelledby="rooms-tab">
       <div *ngIf="tokenService.isHotelAdmin" style="align-content: center" div class="row">
         <div class="col-12 text-center">
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewRoom">
+          <button type="button" class="btn btn-primary" (click)="openNewRoomModal()">
             Add new room
           </button>
         </div>
@@ -117,13 +116,6 @@
 <!------------------------------------------------------------------------------->
 <!---------------------------MODALS---------------------------------------------->
 <!------------------------------------------------------------------------------->
-
-<!-- Modal -->
-<app-new-room-form class="modal fade" id="addNewRoom" tabindex="-1" role="dialog" aria-hidden="true" (roomCreated)='roomCreated($event)'></app-new-room-form>
-
-<!-- Modal -->
-<app-edit-hotel-form [hotel]="forEditing" class="modal fade" id="editHotel" tabindex="-1" role="dialog" aria-hidden="true"
-  (hotelEdited)='hotelEdited($event)'></app-edit-hotel-form>
 
 <!-- Modal ' -->
 <app-new-service-form class="modal fade" id="addNewService" tabindex="-1" role="dialog" aria-hidden="true"

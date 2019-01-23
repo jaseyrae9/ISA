@@ -4,6 +4,9 @@ import { RentACarCompany } from 'src/app/model/rent-a-car-company/rent-a-car-com
 import { RentACarCompanyService } from 'src/app/services/rent-a-car-company/rent-a-car-company.service';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { NgxNotificationService } from 'ngx-notification';
+import { BsModalRef } from 'ngx-bootstrap/modal';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { NewCarCompanyFormComponent } from 'src/app/components/rent-a-car-company/new-car-company-form/new-car-company-form.component';
 
 @Component({
   selector: 'app-all-cars-companies-page',
@@ -12,10 +15,11 @@ import { NgxNotificationService } from 'ngx-notification';
 })
 
 export class AllCarsCompaniesPageComponent implements OnInit {
+  modalRef: BsModalRef;
   companies: RentACarCompany[];
 
-  constructor(private rentACarCompanyService: RentACarCompanyService, private dataService: DataService,
-    public tokenService: TokenStorageService, public ngxNotificationService: NgxNotificationService) {
+  constructor(private modalService: BsModalService, private rentACarCompanyService: RentACarCompanyService,
+     private dataService: DataService, public tokenService: TokenStorageService, public ngxNotificationService: NgxNotificationService) {
   }
 
   ngOnInit() {
@@ -24,9 +28,12 @@ export class AllCarsCompaniesPageComponent implements OnInit {
     });
   }
 
-  carCompanyCreated(carCompany: RentACarCompany) {
-    this.companies.push(carCompany);
-    this.dataService.changeCarCompany(carCompany);
-    this.ngxNotificationService.sendMessage(carCompany.name + ' is created!', 'dark', 'bottom-right' );
+  openNewCarCompanyModal() {
+    this.modalRef = this.modalService.show(NewCarCompanyFormComponent);
+      this.modalRef.content.onClose.subscribe(carCompany => {
+        this.ngxNotificationService.sendMessage(carCompany.name + ' is created!', 'dark', 'bottom-right' );
+        this.companies.push(carCompany);
+        this.dataService.changeCarCompany(carCompany);
+    });
   }
 }

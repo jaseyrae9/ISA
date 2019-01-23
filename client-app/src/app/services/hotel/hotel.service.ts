@@ -43,7 +43,7 @@ export class HotelService {
     return this.http.put<Hotel>('http://localhost:8080/hotels/edit/' + hotel.id, hotel, httpOptions);
   }
 
-  addRoom(room: Room, hotelId: String): Observable<Room> {
+  addRoom(room: Room, hotelId: Number): Observable<Room> {
     return this.http.post<Room>('http://localhost:8080/hotels/addRoom/' + hotelId, room, httpOptions);
   }
 

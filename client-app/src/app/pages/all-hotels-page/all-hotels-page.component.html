@@ -2,14 +2,12 @@
   <!-- Button trigger modal -->
   <div *ngIf="tokenService.isSysAdmin" style="align-content: center" div class="row">
     <div class="col-12 text-center">
-      <button  type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewHotel">
+      <button  type="button" class="btn btn-primary"(click)="openNewHotelModal()">
         Add new hotel
       </button>
     </div>
   </div>
 
-  <!-- Modal -->
-  <app-new-hotel-form class="modal fade" id="addNewHotel" tabindex="-1" role="dialog" aria-hidden="true" (hotelCreated)='hotelCreated($event)'></app-new-hotel-form>
   <hr>
 
   <app-hotel-basic-details *ngFor="let hotel of hotels" [hotel] = 'hotel' class="row border rounded align-items-center p-1 mt-3"></app-hotel-basic-details>

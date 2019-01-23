@@ -1,7 +1,10 @@
 package isa.project.dto.rentacar;
 
+import java.util.ArrayList;
+
 import javax.validation.constraints.NotBlank;
 
+import isa.project.model.rentacar.Car;
 import isa.project.model.rentacar.RentACarCompany;
 
 public class RentACarCompanyDTO {
@@ -12,6 +15,8 @@ public class RentACarCompanyDTO {
 	private String name;
 	private String description;
 	
+	private ArrayList<CarDTO> cars = new ArrayList<>();
+	
 	public RentACarCompanyDTO() {
 		
 	}
@@ -20,6 +25,12 @@ public class RentACarCompanyDTO {
 		this.id = company.getId();
 		this.name = company.getName();
 		this.description = company.getDescription();
+		this.cars = new ArrayList<>();
+		if(company.getCars() != null) {
+			for(Car car: company.getCars()){
+				this.cars.add(new CarDTO(car));
+			}
+		}
 	}
 
 	public Integer getId() {
@@ -45,5 +56,14 @@ public class RentACarCompanyDTO {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+	public ArrayList<CarDTO> getCars() {
+		return cars;
+	}
+
+	public void setCars(ArrayList<CarDTO> cars) {
+		this.cars = cars;
+	}
+	
 	
 }

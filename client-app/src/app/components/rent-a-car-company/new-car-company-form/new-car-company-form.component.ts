@@ -1,6 +1,10 @@
 import { Component, OnInit, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { RentACarCompany } from 'src/app/model/rent-a-car-company/rent-a-car-company';
 import { RentACarCompanyService} from 'src/app/services/rent-a-car-company/rent-a-car-company.service';
+import { BsModalRef } from 'ngx-bootstrap/modal';
+import { Subject } from 'rxjs/Subject';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-new-car-company-form',
@@ -8,29 +12,34 @@ import { RentACarCompanyService} from 'src/app/services/rent-a-car-company/rent-
   styleUrls: ['../../../shared/css/inputField.css']
 })
 export class NewCarCompanyFormComponent implements OnInit {
-  carCompany: RentACarCompany;
-  @Output() carCompanyCreated: EventEmitter<RentACarCompany> = new EventEmitter();
-  form: any = {};
-  @ViewChild('closeBtn') closeBtn: ElementRef;
+  errorMessage: String = '';
 
-  constructor(private rentACarCompanyService: RentACarCompanyService) { }
+  carCompany: RentACarCompany = new RentACarCompany();
+  public onClose: Subject<RentACarCompany>;
+  newCarCompanyForm: FormGroup;
+
+  constructor(public modalRef: BsModalRef, private formBuilder: FormBuilder, private rentACarCompanyService: RentACarCompanyService) { }
 
   ngOnInit() {
+    this.onClose = new Subject();
+    this.newCarCompanyForm = this.formBuilder.group({
+      name: [this.carCompany.name, [Validators.required]],
+      description: [this.carCompany.description],
+      });
   }
 
   onCarCompanyAdd() {
-    this.carCompany = new RentACarCompany(null,
-      this.form.name,
-      this.form.description
-  );
-
-  this.rentACarCompanyService.add(this.carCompany).subscribe(
+  this.rentACarCompanyService.add(this.newCarCompanyForm.value).subscribe(
     data => {
-      this.carCompanyCreated.emit(data);
-      this.closeBtn.nativeElement.click();
+      this.onClose.next(data);
+      this.modalRef.hide();
     },
-    error => {
-      console.log(error.error.message);
+    (err: HttpErrorResponse) => {
+      // interceptor je hendlovao ove zahteve
+      if (err.status === 401 || err.status === 403 || err.status === 404) {
+        this.modalRef.hide();
+      }
+      this.errorMessage = err.error.details;
     }
 
   );

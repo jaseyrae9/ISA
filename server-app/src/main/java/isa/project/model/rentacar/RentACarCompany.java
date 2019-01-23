@@ -74,7 +74,9 @@ public class RentACarCompany {
 	}
 
 	public Set<Car> getCars() {
-		return cars.stream().filter(p -> p.getActive() == true).collect(Collectors.toSet()); // Da vraca samo aktivne automobile
+		if(cars != null)
+			return cars.stream().filter(p -> p.getActive() == true).collect(Collectors.toSet()); // Da vraca samo aktivne automobile
+		return null;
 	}
 
 	public void setCars(Set<Car> cars) {
@@ -82,7 +84,9 @@ public class RentACarCompany {
 	}
 
 	public Set<BranchOffice> getBranchOffices() {
-		return branchOffices.stream().filter(p -> p.getActive() == true).collect(Collectors.toSet()); // Da vraca samo aktivne
+		if(branchOffices != null)
+			return branchOffices.stream().filter(p -> p.getActive() == true).collect(Collectors.toSet()); // Da vraca samo aktivne
+		return null;
 	}
 
 	public void setBranchOffices(Set<BranchOffice> branchOffices) {
@@ -92,8 +96,7 @@ public class RentACarCompany {
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(id);
-	}
-	
+	}	
 
 	@Override
 	public boolean equals(Object obj) {

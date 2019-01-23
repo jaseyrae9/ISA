@@ -10,6 +10,8 @@ import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { EditServiceFormComponent } from 'src/app/components/hotel/edit-service-form/edit-service-form.component';
+import { EditHotelFormComponent } from '../edit-hotel-form/edit-hotel-form.component';
+import { NewRoomFormComponent } from '../new-room-form/new-room-form.component';
 
 @Component({
   selector: 'app-hotel-page',
@@ -18,6 +20,8 @@ import { EditServiceFormComponent } from 'src/app/components/hotel/edit-service-
 })
 export class HotelPageComponent implements OnInit {
   datePickerConfig: Partial<BsDatepickerConfig>;
+
+  hotelId: string;
 
   max = 5;
   rate = 3;
@@ -44,28 +48,24 @@ export class HotelPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
-    this.hotelService.get(id).subscribe(
+    const hotelId = this.route.snapshot.paramMap.get('id');
+    this.hotelId = hotelId;
+    this.hotelService.get(hotelId).subscribe(
       (data) => {
         this.hotel = data;
-        console.log(this.hotel);
-        this.forEditing = new Hotel(data.id, data.name, data.description);
-      }
+       }
     );
   }
 
-  hotelEdited(data) {
-    this.hotel.id = data.id;
-    this.hotel.name = data.name;
-    this.hotel.description = data.description;
-    this.forEditing = new Hotel(data.id, data.name, data.description);
-    this.ngxNotificationService.sendMessage('Hotel is changed!', 'dark', 'bottom-right');
-  }
-
-  roomCreated(room: Room) {
-    console.log(room);
-    this.hotel.rooms.push(room);
-    this.ngxNotificationService.sendMessage('Room ' + room.roomNumber + ' is created!', 'dark', 'bottom-right');
+  openNewRoomModal() {
+    const initialState = {
+      hotelId: this.hotel.id
+    };
+    this.modalRef = this.modalService.show(NewRoomFormComponent, { initialState });
+    this.modalRef.content.onClose.subscribe(room => {
+      this.ngxNotificationService.sendMessage('Room ' + room.roomNumber + ' is created!', 'dark', 'bottom-right');
+      this.hotel.rooms.push(room);
+    });
   }
 
   roomDeleted(roomId: number) {
@@ -82,6 +82,7 @@ export class HotelPageComponent implements OnInit {
     this.ngxNotificationService.sendMessage('Service ' + additionalService.name + ' created!', 'dark', 'bottom-right');
   }
 
+  // editvanje dodatnih usluga
   editClicked(as: AdditionalService) {
     console.log('editing as', as);
 
@@ -113,5 +114,18 @@ export class HotelPageComponent implements OnInit {
       }
     );
   }
+
+  // editing hotel
+  openEditModal() {
+    const initialState = {
+       hotel: this.hotel,
+       hotelId: this.hotelId
+     };
+     this.modalRef = this.modalService.show(EditHotelFormComponent, { initialState });
+     this.modalRef.content.onClose.subscribe(hotel => {
+       this.hotel = hotel;
+       this.ngxNotificationService.sendMessage('Hotel is changed!', 'dark', 'bottom-right' );
+      });
+   }
 
 }

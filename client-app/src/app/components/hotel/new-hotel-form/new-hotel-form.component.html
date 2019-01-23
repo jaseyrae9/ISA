@@ -1,49 +1,48 @@
-<div class="modal-dialog" role="document">
-  <div class="modal-content">
+<div class="modal-header">
+  <h5 class="modal-title">Add new <b style="color: #33cabb;">hotel</b></h5>
+  <button type="button" class="close" (click)="modalRef.hide()" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
 
-    <div class="modal-header">
-      <h5 class="modal-title">Add new <b style="color: #33cabb;">hotel</b></h5>
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
+<form name="form" [formGroup]="newHotelForm" (validSubmit)="onHotelAdd()">
+  <div class="modal-body">
+    <div class="input-group form-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">
+          <i class="fa fa-hotel" aria-hidden="true"></i>
+        </span>
+      </div>
+      <input type="text" class="form-control" formControlName="name"  placeholder="Hotel name" required="required">
     </div>
 
-    <div class="modal-body">
-      <form name="form">
+    <div class="input-group form-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">
+          <i class="fa fa-map-marker" aria-hidden="true"></i>
+        </span>
+      </div>
+      <input type="text" class="form-control" name="address" placeholder="Address" required="required">
+    </div>
 
-          <div class="input-group form-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text">
-                  <i class="fa fa-hotel" aria-hidden="true"></i>
-                </span>
-              </div>
-              <input type="text" class="form-control" name="name" [(ngModel)]="form.name" placeholder="Hotel name" required="required">
-          </div>
+    <div class="input-group form-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">
+          <i class="fa fa-sticky-note" aria-hidden="true"></i>
+        </span>
+      </div>
+      <textarea class="form-control" formControlName="description" placeholder="Insert your description here..."></textarea>
+    </div>
 
-          <div class="input-group form-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text">
-                  <i class="fa fa-map-marker" aria-hidden="true"></i>
-                </span>
-              </div>
-              <input type="text" class="form-control" name="address" [(ngModel)]="form.address" placeholder="Address" required="required">
-          </div>
+    <div class="alert alert-danger" role="alert" *ngIf="errorMessage.length != 0">
+      {{errorMessage}}
+    </div>
 
-          <div class="input-group form-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text">
-                  <i class="fa fa-sticky-note" aria-hidden="true"></i>
-                </span>
-              </div>
-              <textarea class="form-control" name="description" [(ngModel)]="form.description" placeholder="Insert your description here..."></textarea>
-          </div>           
-         </form>
-
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" #closeBtn>Close</button>
-            <button type="button" class="btn btn-primary" (click)="onHotelAdd()">Add</button>
-          </div>
-                 
-    </div>  
   </div>
-</div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Close</button>
+    <input type="submit" class="btn btn-primary" value="Add"/>
+  </div>
+
+</form>
