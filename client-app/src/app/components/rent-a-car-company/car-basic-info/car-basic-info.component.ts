@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import { Car } from 'src/app/model/rent-a-car-company/car';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
-import { Role } from 'src/app/model/role';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { EditCarFormComponent } from '../edit-car-form/edit-car-form.component';
@@ -31,6 +30,7 @@ export class CarBasicInfoComponent implements OnInit {
     this.companyId = companyId;
   }
 
+  // izmena auta
   openEditModal() {
    const initialState = {
       car: this.car,

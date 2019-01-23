@@ -55,7 +55,7 @@ export class HotelService {
     return this.http.delete<number>('http://localhost:8080/hotels/deleteRoom/' + hotelId + '/' + roomId, httpOptions);
   }
 
-  addAdditionService(additionalService: AdditionalService, hotelId: String): Observable<AdditionalService> {
+  addAdditionService(additionalService: AdditionalService, hotelId: Number): Observable<AdditionalService> {
     return this.http.post<AdditionalService>('http://localhost:8080/hotels/addAdditionalService/' + hotelId,
      additionalService, httpOptions);
   }

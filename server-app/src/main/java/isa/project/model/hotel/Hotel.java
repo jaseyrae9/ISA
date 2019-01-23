@@ -90,6 +90,10 @@ public class Hotel {
 		else
 			return null;
 	}
+	
+	public void addAdditionalService(AdditionalService as) {
+		additionalServices.add(as);
+	}
 
 	public void setAdditionalServices(Set<AdditionalService> additionalServices) {
 		this.additionalServices = additionalServices;

@@ -12,6 +12,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { EditServiceFormComponent } from 'src/app/components/hotel/edit-service-form/edit-service-form.component';
 import { EditHotelFormComponent } from '../edit-hotel-form/edit-hotel-form.component';
 import { NewRoomFormComponent } from '../new-room-form/new-room-form.component';
+import { NewServiceFormComponent } from '../new-service-form/new-service-form.component';
 
 @Component({
   selector: 'app-hotel-page',
@@ -53,6 +54,7 @@ export class HotelPageComponent implements OnInit {
     this.hotelService.get(hotelId).subscribe(
       (data) => {
         this.hotel = data;
+        console.log('aaaa', this.hotel);
        }
     );
   }
@@ -76,10 +78,16 @@ export class HotelPageComponent implements OnInit {
     }
   }
 
-  additionalServiceCreated(additionalService: AdditionalService) {
-    console.log('Service created', additionalService);
-    this.hotel.additionalServices.push(additionalService);
-    this.ngxNotificationService.sendMessage('Service ' + additionalService.name + ' created!', 'dark', 'bottom-right');
+  // dodavanje novih dodatnih usluga
+  openNewServiceModal() {
+    const initialState = {
+      hotelId: this.hotel.id
+    };
+    this.modalRef = this.modalService.show(NewServiceFormComponent, { initialState });
+    this.modalRef.content.onClose.subscribe(additionalService => {
+      this.hotel.additionalServices.push(additionalService);
+      this.ngxNotificationService.sendMessage('Service ' + additionalService.name + ' created!', 'dark', 'bottom-right');
+    });
   }
 
   // editvanje dodatnih usluga

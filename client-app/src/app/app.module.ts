@@ -180,6 +180,7 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
     EditProfileFormComponent,
     AirplaneFormComponent,
     EditServiceFormComponent,
+    NewServiceFormComponent,
     NewCarFormComponent,
     NewBranchOfficeFormComponent,
     NewCarCompanyFormComponent,

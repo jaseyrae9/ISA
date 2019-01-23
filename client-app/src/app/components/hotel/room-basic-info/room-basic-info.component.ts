@@ -16,7 +16,7 @@ import { NgxNotificationService } from 'ngx-notification';
 export class RoomBasicInfoComponent implements OnInit {
   @Input() room: Room;
   @Output() roomDeleted: EventEmitter<number> = new EventEmitter();
-  forEditing: Room;
+
   modalRef: BsModalRef;
   hotelId: string;
 
@@ -25,20 +25,19 @@ export class RoomBasicInfoComponent implements OnInit {
      public ngxNotificationService: NgxNotificationService) { }
 
   ngOnInit() {
-    this.forEditing = new Room(this.room.id, this.room.floor, this.room.roomNumber, this.room.numberOfBeds, this.room.price,
-      this.room.type);
-
     this.hotelId = this.route.snapshot.paramMap.get('id');
   }
 
+  // izmena sobe
   openEditModal() {
     const initialState = {
-      room: this.forEditing,
+      room: this.room,
       hotelId: this.hotelId
     };
     this.modalRef = this.modalService.show(EditRoomFormComponent, { initialState });
-    this.modalRef.content.onClose.subscribe(result => {
-      this.roomEdited(result);
+    this.modalRef.content.onClose.subscribe(room => {
+      this.room = room;
+      this.ngxNotificationService.sendMessage('Room is changed!', 'dark', 'bottom-right' );
     });
   }
 
@@ -52,18 +51,4 @@ export class RoomBasicInfoComponent implements OnInit {
       }
     );
   }
-
-  roomEdited(data) {
-    console.log('Room edited');
-    this.room.id = data.id;
-    this.room.floor = data.floor;
-    this.room.roomNumber = data.roomNumber;
-    this.room.numberOfBeds = data.numberOfBeds;
-    this.room.price = data.price;
-    this.room.type = data.type;
-    this.forEditing = new Room(this.room.id, this.room.floor, this.room.roomNumber, this.room.numberOfBeds, this.room.price,
-       this.room.type);
-    this.ngxNotificationService.sendMessage('Room is changed!', 'dark', 'bottom-right' );
-  }
-
 }

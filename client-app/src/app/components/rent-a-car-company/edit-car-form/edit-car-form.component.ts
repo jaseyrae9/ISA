@@ -18,7 +18,9 @@ export class EditCarFormComponent implements OnInit {
   public onClose: Subject<Car>;
   editCarForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private carCompanyService: RentACarCompanyService, public modalRef: BsModalRef) { }
+  constructor(private formBuilder: FormBuilder,
+    private carCompanyService: RentACarCompanyService,
+    public modalRef: BsModalRef) { }
 
   ngOnInit() {
     this.onClose = new Subject();

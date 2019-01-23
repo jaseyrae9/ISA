@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.validation.constraints.NotBlank;
 
+import isa.project.model.rentacar.BranchOffice;
 import isa.project.model.rentacar.Car;
 import isa.project.model.rentacar.RentACarCompany;
 
@@ -16,6 +17,7 @@ public class RentACarCompanyDTO {
 	private String description;
 	
 	private ArrayList<CarDTO> cars = new ArrayList<>();
+	private ArrayList<BranchOfficeDTO> branchOffices = new ArrayList<>();
 	
 	public RentACarCompanyDTO() {
 		
@@ -29,6 +31,12 @@ public class RentACarCompanyDTO {
 		if(company.getCars() != null) {
 			for(Car car: company.getCars()){
 				this.cars.add(new CarDTO(car));
+			}
+		}
+		this.branchOffices = new ArrayList<>();
+		if(company.getBranchOffices() != null) {
+			for(BranchOffice bo: company.getBranchOffices()) {
+				this.branchOffices.add(new BranchOfficeDTO(bo));
 			}
 		}
 	}
@@ -64,6 +72,13 @@ public class RentACarCompanyDTO {
 	public void setCars(ArrayList<CarDTO> cars) {
 		this.cars = cars;
 	}
-	
-	
+
+	public ArrayList<BranchOfficeDTO> getBranchOffices() {
+		return branchOffices;
+	}
+
+	public void setBranchOffices(ArrayList<BranchOfficeDTO> branchOffices) {
+		this.branchOffices = branchOffices;
+	}
+		
 }

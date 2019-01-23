@@ -1,7 +1,11 @@
-import { Component, OnInit, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { AdditionalService } from 'src/app/model/additional-service';
 import { ActivatedRoute } from '@angular/router';
 import { HotelService } from 'src/app/services/hotel/hotel.service';
+import { BsModalRef } from 'ngx-bootstrap/modal';
+import { Subject } from 'rxjs/Subject';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-new-service-form',
@@ -9,35 +13,36 @@ import { HotelService } from 'src/app/services/hotel/hotel.service';
   styleUrls: ['./new-service-form.component.css', '../../../shared/css/inputField.css']
 })
 export class NewServiceFormComponent implements OnInit {
-  @Output() additionalServiceCreated: EventEmitter<AdditionalService> = new EventEmitter();
+  errorMessage: String = '';
+  public onClose: Subject<AdditionalService>;
+  newAdditionalServiceForm: FormGroup;
+  @Input() hotelId: Number;
+  additionalService: AdditionalService = new AdditionalService();
 
-  form: any = {};
-  additionalService: AdditionalService;
-  id: string;
-
-  @ViewChild('closeBtn') closeBtn: ElementRef;
-
-  constructor(private route: ActivatedRoute, private hotelService: HotelService) { }
+  constructor(public modalRef: BsModalRef, private formBuilder: FormBuilder,
+    private route: ActivatedRoute, private hotelService: HotelService) { }
 
   ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
-    this.id = id;
+    this.onClose = new Subject();
+    this.newAdditionalServiceForm = this.formBuilder.group({
+      name: [this.additionalService.name, [Validators.required]],
+      description: [this.additionalService.description],
+      price: [this.additionalService.price, [Validators.required, Validators.min(0)]],
+      });
   }
 
   onServiceAdd() {
-    this.additionalService = new AdditionalService(null,
-      this.form.name,
-      this.form.description,
-      this.form.price
-    );
-
-    this.hotelService.addAdditionService(this.additionalService, this.id).subscribe(
+    this.hotelService.addAdditionService(this.newAdditionalServiceForm.value, this.hotelId).subscribe(
       data => {
-        this.additionalServiceCreated.emit(data);
-        this.closeBtn.nativeElement.click();
+        this.onClose.next(data);
+        this.modalRef.hide();
       },
-      error => {
-        console.log(error.error.message);
+      (err: HttpErrorResponse) => {
+        // interceptor je hendlovao ove zahteve
+        if (err.status === 401 || err.status === 403 || err.status === 404) {
+          this.modalRef.hide();
+        }
+        this.errorMessage = err.error.details;
       }
     );
 

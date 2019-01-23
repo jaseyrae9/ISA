@@ -57,10 +57,11 @@ public class HotelService {
 		Hotel hotel = hotelOpt.get();
 		
 		//sacuvaj dodatnu uslugu
+		additionalService.setActive(true);
 		AdditionalService service = additionalServiceRepository.save(additionalService);
 
 		// sacuvaj informaciju o dodatnoj usluzi u hotelu
-		hotel.getAdditionalServices().add(additionalService);
+		hotel.addAdditionalService(additionalService);
 		hotelRepository.save(hotel);
 
 		return service;
@@ -73,8 +74,6 @@ public class HotelService {
 			throw new ResourceNotFoundException(hotelId.toString(), "Hotel not found");
 		}
 		
-		//  Double price, String type) {
-
 		Room room = new Room(hotel.get(), roomDTO.getFloor(), roomDTO.getRoomNumber(), roomDTO.getNumberOfBeds(), roomDTO.getPrice(), roomDTO.getType());
 		return roomRepository.save(room);
 	}

@@ -6,6 +6,7 @@ import javax.validation.constraints.NotBlank;
 
 import isa.project.model.hotel.Hotel;
 import isa.project.model.hotel.Room;
+import isa.project.model.shared.AdditionalService;
 
 public class HotelDTO {
 	
@@ -17,6 +18,8 @@ public class HotelDTO {
 	private String description;
 	
 	private ArrayList<RoomDTO> rooms = new ArrayList<>();
+	
+	private ArrayList<AdditionalService> additionalServices = new ArrayList<>();
 	
 	public HotelDTO() {
 		
@@ -30,6 +33,13 @@ public class HotelDTO {
 		if(hotel.getRooms() != null) {
 			for(Room room: hotel.getRooms()) {
 				this.rooms.add(new RoomDTO(room));
+			}
+		}
+		
+		this.additionalServices = new ArrayList<>();
+		if(hotel.getAdditionalServices() != null) {
+			for(AdditionalService ad: hotel.getAdditionalServices()) {
+				this.additionalServices.add(ad);
 			}
 		}
 	}
@@ -64,6 +74,14 @@ public class HotelDTO {
 
 	public void setRooms(ArrayList<RoomDTO> rooms) {
 		this.rooms = rooms;
+	}
+
+	public ArrayList<AdditionalService> getAdditionalServices() {
+		return additionalServices;
+	}
+
+	public void setAdditionalServices(ArrayList<AdditionalService> additionalServices) {
+		this.additionalServices = additionalServices;
 	}	
 	
 }
