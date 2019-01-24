@@ -2,6 +2,7 @@ package isa.project.dto.rentacar;
 
 import java.util.ArrayList;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -33,6 +34,7 @@ public class CarDTO {
 	
 	@NotNull(message = "Price must be entered.")
 	@Min(value = 0, message = "Price can not be less than zero.")
+	@Max(value = 200, message = "Price can not be greater than 500.")
 	private Double price;
 	
 	private Boolean active;

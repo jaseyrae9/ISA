@@ -22,6 +22,7 @@ export class CarCompanyPageComponent implements OnInit {
   modalRef: BsModalRef;
   carCompany: RentACarCompany = new RentACarCompany();
   companyId: string;
+  maxValue = 0;
 
   constructor(private modalService: BsModalService,
      private route: ActivatedRoute,

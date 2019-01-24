@@ -17,6 +17,9 @@ export class CarBasicInfoComponent implements OnInit {
   @Input() car: Car;
 
   @Output() carDeleted: EventEmitter<Car> = new EventEmitter();
+  @Output() carRented: EventEmitter<Car> = new EventEmitter();
+
+  @Input() isCarsTab = true;
 
   modalRef: BsModalRef;
   companyId: string;
@@ -53,5 +56,9 @@ export class CarBasicInfoComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  onRent() {
+    this.carRented.emit(this.car); // salje auto na koji se klikne
   }
 }

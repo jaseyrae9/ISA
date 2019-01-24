@@ -86,6 +86,7 @@ import { MapComponent } from './components/shared/components/map/map.component';
 import { AgmCoreModule } from '@agm/core';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { RentFormComponent } from './components/rent-a-car-company/rent-form/rent-form.component';
+import { Ng5SliderModule } from 'ng5-slider';
 
 @NgModule({
   declarations: [
@@ -166,7 +167,8 @@ import { RentFormComponent } from './components/rent-a-car-company/rent-form/ren
     TooltipModule.forRoot(),
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDxMEmiWGtvuSRvzBShDgvPbWYQgo3GEHQ'
-    })
+    }),
+    Ng5SliderModule
   ],
   providers: [HotelService, AirCompanyService, UserService, DataService, RoleGuardService, LocationService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

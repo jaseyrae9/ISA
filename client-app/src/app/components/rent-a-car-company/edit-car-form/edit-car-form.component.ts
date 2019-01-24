@@ -32,8 +32,8 @@ export class EditCarFormComponent implements OnInit {
     yearOfProduction: [this.car.yearOfProduction, [Validators.required, Validators.min(0)]],
     seatsNumber: [this.car.seatsNumber, [Validators.required, Validators.min(1)]],
     doorsNumber: [this.car.doorsNumber, [Validators.required, Validators.min(1)]],
-    price: [this.car.price, [Validators.required, Validators.min(0)]],
-  });
+    price: [this.car.price, [Validators.required, Validators.min(0), Validators.max(200)]],
+    });
   }
 
   onEditCar() {

@@ -5,9 +5,11 @@ import { RentACarCompany } from 'src/app/model/rent-a-car-company/rent-a-car-com
 import { User } from 'src/app/model/users/user';
 import { Car } from 'src/app/model/rent-a-car-company/car';
 import { BranchOffice } from 'src/app/model/rent-a-car-company/branch-offfice';
+import { CarReservation } from 'src/app/model/rent-a-car-company/car-reservation';
+import { formatDate } from '@angular/common';
 
 const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  headers: new HttpHeaders({ 'Content-Type': 'application/json',  'Accept': 'application/json' })
 };
 
 @Injectable({
@@ -64,4 +66,11 @@ export class RentACarCompanyService {
     + '/' + branchOfficeId, httpOptions);
   }
 
+  rentCar(carReservation: CarReservation, carId: number, customer: string): Observable<CarReservation> {
+    console.log(carReservation);
+
+    return this.http.post<CarReservation>('http://localhost:8080/rent_a_car_companies/rentCar/' + carReservation.pickUpBranchOffice.id
+    + '/' + carReservation.dropOffBranchOffice.id + '/' + formatDate(carReservation.pickUpDate, 'yyyy-MM-dd', 'en')
+    + '/' + formatDate(carReservation.dropOffDate, 'yyyy-MM-dd', 'en') + '/' + carId + '/' + customer, httpOptions);
+  }
 }

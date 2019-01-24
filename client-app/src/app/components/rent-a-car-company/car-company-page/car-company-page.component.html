@@ -57,7 +57,7 @@
       </div>
       <div class="container">
         <div *ngFor="let car of carCompany.cars">
-          <app-car-basic-info (carDeleted)="carDeleted($event)" [car]='car'></app-car-basic-info>
+          <app-car-basic-info [isCarsTab]="true" (carDeleted)="carDeleted($event)" [car]='car'></app-car-basic-info>
         </div>
       </div>
     </div>

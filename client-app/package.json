@@ -28,6 +28,7 @@
     "jquery": "^3.3.1",
     "jwt-decode": "^2.2.0",
     "ng-bootstrap-form-validation": "^3.0.3",
+    "ng5-slider": "^1.1.12",
     "ngx-bootstrap": "^3.1.4",
     "ngx-google-places-autocomplete": "^2.0.3",
     "ngx-notification": "^1.0.5",

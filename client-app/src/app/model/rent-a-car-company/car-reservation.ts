@@ -4,7 +4,7 @@ export class CarReservation {
     id: number;
     pickUpDate: Date;
     dropOffDate: Date;
-    pickUpBranchOffice: BranchOffice;
-    dropOffBranchOffice: BranchOffice;
+    pickUpBranchOffice: BranchOffice = new BranchOffice();
+    dropOffBranchOffice: BranchOffice = new BranchOffice();
     // active?
 }
