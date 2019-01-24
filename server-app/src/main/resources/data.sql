@@ -2,9 +2,8 @@ insert into locations(id, address, lon, lat) value (100, 'Marka Miljanova 7b, No
 insert into locations(id, address, lon, lat) value (101, 'London, UK',-0.127758, 51.507351);
 insert into locations(id, address, lon, lat) value (102, 'Kraljice Jelene 28, Indjija',20.068591, 45.043876);
 
-
-insert into hotel (id, hotel_name, hotel_description) values (100, 'Hotel proba 1', 'Opis 1');
-insert into hotel (id, hotel_name, hotel_description) values (101, 'Hotel proba 2', 'Opis 2');
+insert into hotel (id, hotel_name, hotel_description, location_id) values (100, 'Hotel proba 1', 'Opis 1', 100);
+insert into hotel (id, hotel_name, hotel_description, location_id) values (101, 'Hotel proba 2', 'Opis 2', 101);
 
 INSERT INTO services (id, active, description, name, price) VALUES (100, 1, 'Opis usluge', 'WiFi', 5);
 INSERT INTO services (id, active, description, name, price) VALUES (101, 1, 'Opis usluge', 'Parking lot',  10);
@@ -23,9 +22,14 @@ insert into air_company (id, name, description, location_id) values (100, 'Aviok
 insert into air_company (id, name, description, location_id) values (101, 'Aviokompanija 2', 'Opis 2', 101);
 insert into air_company (id, name, description, location_id) values (102, 'Aviokompanija 3', 'Opis 3', 102);
 
-insert into rent_a_car_company (id, rentacar_company_name, rentacar_description) values (100, 'Rent a Punto', 'Grande');
-insert into rent_a_car_company (id, rentacar_company_name, rentacar_description) values (101, 'Rent a Panda', 'Fiat');
-insert into rent_a_car_company (id, rentacar_company_name, rentacar_description) values (102, 'Rent a AUDI', 'Q7 4.2');
+insert into rent_a_car_company (id, rentacar_company_name, rentacar_description, location_id) values (100, 'Rent a Punto', 'Grande', 100);
+insert into rent_a_car_company (id, rentacar_company_name, rentacar_description, location_id) values (101, 'Rent a Panda', 'Fiat', 101);
+insert into rent_a_car_company (id, rentacar_company_name, rentacar_description, location_id) values (102, 'Rent a AUDI', 'Q7 4.2', 102);
+
+INSERT branch_office (id, active, branch_office_name, location_id, rentacar_company_id) VALUES (100, 1, 'Branch office name 1', 100, 100);
+INSERT branch_office (id, active, branch_office_name, location_id, rentacar_company_id) VALUES (101, 1, 'Branch office name 2', 101, 100);
+INSERT branch_office (id, active, branch_office_name, location_id, rentacar_company_id) VALUES (102, 1, 'Branch office name 3', 102, 100);
+
 
 INSERT INTO authority (id, name) VALUES (1, 'CUSTOMER');
 INSERT INTO authority (id, name) VALUES (2, 'SYS');
@@ -33,12 +37,19 @@ INSERT INTO authority (id, name) VALUES (3, 'HOTELADMIN');
 INSERT INTO authority (id, name) VALUES (4, 'AIRADMIN');
 INSERT INTO authority (id, name) VALUES (5, 'CARADMIN');
 
-insert into car (id, active, brand,doors_number,model, price, seats_number, type, year_of_production, rentacar_company_id) values (500, 1, 'Fiat', 5, 'Punto 1.2', 39, 5, 'Sedan', 2010, 100);
+insert into car (id, active, brand,doors_number,model, price, seats_number, type, year_of_production, rentacar_company_id) values (500, 1, 'Fiat', 5, 'Punto 1.2', 20, 5, 'Sedan', 2010, 100);
+insert into car (id, active, brand,doors_number,model, price, seats_number, type, year_of_production, rentacar_company_id) values (501, 1, 'BMW', 2, 'Z4', 39, 5, 'Convertible', 2017, 100);
+insert into car (id, active, brand,doors_number,model, price, seats_number, type, year_of_production, rentacar_company_id) values (502, 1, 'Fiat', 7, '500L', 30, 5, 'Sedan', 2016, 100);
+
+INSERT INTO car_reservation (id, active, drop_off_date, pick_up_date, car_id, customer_id, drop_off_branch_office_id,
+pick_up_branch_office_id) VALUES (300, 1, '2019-02-25', '2019-01-30', 500, 2002, 100, 101);
+
+INSERT INTO car_reservation (id, active, drop_off_date, pick_up_date, car_id, customer_id, drop_off_branch_office_id,
+pick_up_branch_office_id) VALUES (301, 1, '2019-02-18', '2019-01-30', 501, 2002, 100, 101);
 
 INSERT INTO room (id, active, floor, number_of_beds, price, room_number, type, hotel_id) VALUES (600, 1, 4, 2, 20, 20, 'Regular', 100);
 INSERT INTO room (id, active, floor, number_of_beds, price, room_number, type, hotel_id) VALUES (601, 0, 4, 2, 20, 20, 'Regular', 100);
 
-INSERT branch_office (id, active, branch_office_name, rentacar_company_id) VALUES (100, 1, 'Branch office name 1', 100);
 
 INSERT INTO users (type, id, address, confirmed_mail, email, first_name, last_name, last_password_reset_date, password, needs_password_change, phone_number, air_company_id, hotel_id, rent_a_car_company_id)
 values ('SYS', 1000, 'FTN, Novi Sad', 1, 'admin@admin.com', 'Admin', 'Admin', '2018-12-26 23:09:42','$2a$10$QQxHVraAtUHQqf266vLzfuNLsF5XVS7W4AnJatRZR2gtQpk1LMD0K', 0, 'admin phone', NULL, NULL, NULL);

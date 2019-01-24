@@ -1,3 +1,5 @@
+import { CarReservation } from './car-reservation';
+
 export class Car {
     id: number;
     brand: string;
@@ -7,19 +9,18 @@ export class Car {
     doorsNumber: number;
     yearOfProduction: number;
     price: number;
-    active: boolean;
+    carReservations: CarReservation[] = [];
 
-    constructor(id?: number, type?: string, brand?: string, model?: string,
-        seatsNumber?: number, doorsNumber?: number, yearOfProduction?: number,
-        price?: number, active?: boolean) {
-        this.id = id;
-        this.brand = brand;
-        this.model = model;
-        this.seatsNumber = seatsNumber;
-        this.doorsNumber = doorsNumber;
-        this.yearOfProduction = yearOfProduction;
-        this.price = price;
-        this.type = type;
-        this.active = active;
-    }
+    // constructor(id?: number, type?: string, brand?: string, model?: string,
+    //     seatsNumber?: number, doorsNumber?: number, yearOfProduction?: number,
+    //     price?: number) {
+    //     this.id = id;
+    //     this.brand = brand;
+    //     this.model = model;
+    //     this.seatsNumber = seatsNumber;
+    //     this.doorsNumber = doorsNumber;
+    //     this.yearOfProduction = yearOfProduction;
+    //     this.price = price;
+    //     this.type = type;
+    // }
 }

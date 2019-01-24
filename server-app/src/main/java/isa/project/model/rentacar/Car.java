@@ -1,6 +1,7 @@
 package isa.project.model.rentacar;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,9 +11,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
 @Entity
@@ -52,6 +55,10 @@ public class Car implements Serializable {
 	
 	@Column(name = "active")
 	private Boolean active;
+	
+	@JsonManagedReference
+	@OneToMany(mappedBy = "car", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<CarReservation> carReservations;
 	
 	public Car() {
 		//super();
@@ -149,6 +156,14 @@ public class Car implements Serializable {
 
 	public void setRentACarCompany(RentACarCompany rentACarCompany) {
 		this.rentACarCompany = rentACarCompany;
+	}
+	
+	public Set<CarReservation> getCarReservations() {
+		return carReservations;
+	}
+
+	public void setCarReservations(Set<CarReservation> carReservations) {
+		this.carReservations = carReservations;
 	}
 
 	@Override

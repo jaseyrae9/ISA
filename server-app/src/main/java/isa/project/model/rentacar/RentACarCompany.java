@@ -11,10 +11,14 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import isa.project.model.shared.Location;
 
 
 @Entity
@@ -38,6 +42,10 @@ public class RentACarCompany {
 	@JsonManagedReference
 	@OneToMany(mappedBy = "rentACarCompany", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<BranchOffice> branchOffices;	
+	
+	@OneToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name="location_id", nullable = false)
+	private Location location;
 	
 	public RentACarCompany() {
 		super();
@@ -91,6 +99,14 @@ public class RentACarCompany {
 
 	public void setBranchOffices(Set<BranchOffice> branchOffices) {
 		this.branchOffices = branchOffices;
+	}
+	
+	public Location getLocation() {
+		return location;
+	}
+
+	public void setLocation(Location location) {
+		this.location = location;
 	}
 
 	@Override

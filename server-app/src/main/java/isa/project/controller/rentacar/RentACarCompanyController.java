@@ -75,6 +75,7 @@ public class RentACarCompanyController {
 	@RequestMapping(value="/add",method=RequestMethod.POST, consumes="application/json")
 	public ResponseEntity<RentACarCompanyDTO> addRentACarCompany(@RequestBody RentACarCompanyDTO rentACarCompanyDTO){
 		RentACarCompany company = new RentACarCompany(rentACarCompanyDTO.getName(), rentACarCompanyDTO.getDescription());
+		company.setLocation(rentACarCompanyDTO.getLocation());
 		return new ResponseEntity<>(new RentACarCompanyDTO(rentACarCompanyService.saveRentACarCompany(company)), HttpStatus.CREATED);	
 	}
 		
@@ -100,6 +101,9 @@ public class RentACarCompanyController {
 		opt.ifPresent( rentACarCompany -> {
 			rentACarCompany.setName(company.getName());
 			rentACarCompany.setDescription(company.getDescription());
+			rentACarCompany.getLocation().setAddress(company.getLocation().getAddress());
+			rentACarCompany.getLocation().setLat(company.getLocation().getLat());
+			rentACarCompany.getLocation().setLon(company.getLocation().getLon());
 		});
 		return new ResponseEntity<>(new RentACarCompanyDTO(rentACarCompanyService.saveRentACarCompany(opt.get())), HttpStatus.OK);	
 	}
@@ -186,6 +190,7 @@ public class RentACarCompanyController {
 	@RequestMapping(value="/addBranchOffice/{companyId}",method=RequestMethod.POST, consumes="application/json")
 	public ResponseEntity<BranchOfficeDTO> addBranchOffice(@PathVariable Integer companyId, @RequestBody BranchOfficeDTO branchOfficeDTO) throws ResourceNotFoundException{
 		BranchOffice branchOffice = rentACarCompanyService.addBranchOffice(companyId, branchOfficeDTO);
+		branchOffice.setLocation(branchOfficeDTO.getLocation());
 		return new ResponseEntity<>(new BranchOfficeDTO(branchOffice), HttpStatus.CREATED);	
 	}	
 	
@@ -231,7 +236,10 @@ public class RentACarCompanyController {
 		
 		for(BranchOffice bo: carCompany.get().getBranchOffices()) {
 			if(bo.getId().equals(branchOfficeDTO.getId())){
-				bo.setName(branchOfficeDTO.getName());			
+				bo.setName(branchOfficeDTO.getName());
+				bo.getLocation().setAddress(branchOfficeDTO.getLocation().getAddress());
+				bo.getLocation().setLat(branchOfficeDTO.getLocation().getLat());
+				bo.getLocation().setLon(branchOfficeDTO.getLocation().getLon());
 			}
 		}
 				

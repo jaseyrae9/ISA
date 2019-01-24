@@ -1,10 +1,13 @@
 package isa.project.dto.rentacar;
 
+import java.util.ArrayList;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import isa.project.model.rentacar.Car;
+import isa.project.model.rentacar.CarReservation;
 
 public class CarDTO {
 
@@ -33,6 +36,8 @@ public class CarDTO {
 	private Double price;
 	
 	private Boolean active;
+	
+	private ArrayList<CarReservationDTO> reservations = new ArrayList<>();
 
 	public CarDTO() {
 
@@ -48,6 +53,13 @@ public class CarDTO {
 		this.price = car.getPrice();
 		this.type = car.getType();
 		this.active = car.getActive();
+		this.reservations = new ArrayList<>();
+		if(car.getCarReservations() != null) {
+			for(CarReservation cr: car.getCarReservations()) {
+				this.reservations.add(new CarReservationDTO(cr));
+			}
+		}
+		
 	}
 
 	public Integer getId() {
@@ -121,6 +133,13 @@ public class CarDTO {
 	public void setActive(Boolean active) {
 		this.active = active;
 	}
-	
+
+	public ArrayList<CarReservationDTO> getReservations() {
+		return reservations;
+	}
+
+	public void setReservations(ArrayList<CarReservationDTO> reservations) {
+		this.reservations = reservations;
+	}	
 	
 }

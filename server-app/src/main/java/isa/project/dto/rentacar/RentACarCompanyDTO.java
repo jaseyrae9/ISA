@@ -3,10 +3,12 @@ package isa.project.dto.rentacar;
 import java.util.ArrayList;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import isa.project.model.rentacar.BranchOffice;
 import isa.project.model.rentacar.Car;
 import isa.project.model.rentacar.RentACarCompany;
+import isa.project.model.shared.Location;
 
 public class RentACarCompanyDTO {
 	
@@ -19,6 +21,9 @@ public class RentACarCompanyDTO {
 	private ArrayList<CarDTO> cars = new ArrayList<>();
 	private ArrayList<BranchOfficeDTO> branchOffices = new ArrayList<>();
 	
+	@NotNull (message = "Location must be enetered.")
+	private Location location;
+	
 	public RentACarCompanyDTO() {
 		
 	}
@@ -27,6 +32,7 @@ public class RentACarCompanyDTO {
 		this.id = company.getId();
 		this.name = company.getName();
 		this.description = company.getDescription();
+		this.location = company.getLocation();
 		this.cars = new ArrayList<>();
 		if(company.getCars() != null) {
 			for(Car car: company.getCars()){
@@ -81,4 +87,11 @@ public class RentACarCompanyDTO {
 		this.branchOffices = branchOffices;
 	}
 		
+	public Location getLocation() {
+		return location;
+	}
+
+	public void setLocation(Location location) {
+		this.location = location;
+	}
 }

@@ -22,7 +22,7 @@ export class NewCarFormComponent implements OnInit {
   public onClose: Subject<Car>;
   newCarForm: FormGroup;
 
-  constructor(public modalRef: BsModalRef, private formBuilder: FormBuilder, private route: ActivatedRoute,
+  constructor(public modalRef: BsModalRef, private formBuilder: FormBuilder,
      private rentACarCompanyService: RentACarCompanyService) { }
 
   ngOnInit() {

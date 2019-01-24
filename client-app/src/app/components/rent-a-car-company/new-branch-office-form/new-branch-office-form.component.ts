@@ -27,6 +27,7 @@ export class NewBranchOfficeFormComponent implements OnInit {
     this.onClose = new Subject();
     this.newBranchOfficeForm = this.formBuilder.group({
       name: [this.branchOffice.name, [Validators.required]],
+      address: [this.branchOffice.location.address, [Validators.required]]
       });
   }
 

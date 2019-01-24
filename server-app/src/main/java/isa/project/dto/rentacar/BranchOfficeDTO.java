@@ -1,8 +1,10 @@
 package isa.project.dto.rentacar;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import isa.project.model.rentacar.BranchOffice;
+import isa.project.model.shared.Location;
 
 public class BranchOfficeDTO {
 
@@ -13,6 +15,9 @@ public class BranchOfficeDTO {
 	
 	private Boolean active;
 	
+	@NotNull (message = "Location must be enetered.")
+	private Location location;
+	
 	public BranchOfficeDTO() {
 		
 	}
@@ -21,6 +26,8 @@ public class BranchOfficeDTO {
 		this.id = branchOffice.getId();
 		this.name = branchOffice.getName();
 		this.active = branchOffice.getActive();
+		this.location = branchOffice.getLocation();
+
 	}
 
 	public Integer getId() {
@@ -45,6 +52,14 @@ public class BranchOfficeDTO {
 
 	public void setActive(Boolean active) {
 		this.active = active;
+	}
+
+	public Location getLocation() {
+		return location;
+	}
+
+	public void setLocation(Location location) {
+		this.location = location;
 	}
 	
 }

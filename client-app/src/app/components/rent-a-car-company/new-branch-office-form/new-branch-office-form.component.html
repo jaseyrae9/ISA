@@ -22,8 +22,8 @@
           <i class="fa fa-map-marker" aria-hidden="true"></i>
         </span>
       </div>
-      <input type="text" class="form-control" name="address" placeholder="Address" required="required"
-        name="address" #search>
+      <input type="text" class="form-control" placeholder="Address" required="required"
+      formControlName="address">
     </div>
 
     <div class="alert alert-danger" role="alert" *ngIf="errorMessage.length != 0">

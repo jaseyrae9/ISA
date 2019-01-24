@@ -76,6 +76,7 @@ public class HotelController {
 	public ResponseEntity<HotelDTO> addHotel(@Valid @RequestBody HotelDTO hotelDTO){
 		System.out.println("Kreira se novi hotel"  + hotelDTO.getName()) ;
 		Hotel hotel = new Hotel(hotelDTO.getName(), hotelDTO.getDescription());
+		hotel.setLocation(hotelDTO.getLocation());
 		return new ResponseEntity<>(new HotelDTO(hotelService.saveHotel(hotel)), HttpStatus.CREATED);	
 	}
 	
@@ -103,6 +104,9 @@ public class HotelController {
 			System.out.println("New name is: " + hotelDTO.getName());
 			hotel.setName(hotelDTO.getName());
 			hotel.setDescription(hotelDTO.getDescription());
+			hotel.getLocation().setAddress(hotelDTO.getLocation().getAddress());
+			hotel.getLocation().setLat(hotelDTO.getLocation().getLat());
+			hotel.getLocation().setLon(hotelDTO.getLocation().getLon());
 		});
 		
 		return new ResponseEntity<>(new HotelDTO(hotelService.saveHotel(opt.get())), HttpStatus.OK);	

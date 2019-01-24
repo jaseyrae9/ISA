@@ -1,0 +1,71 @@
+<form name="form" [formGroup]="rentForm" (validSubmit)="onSearch()">
+
+  <div class="input-group form-group">
+    <div class="input-group-prepend">
+      <span class="input-group-text">
+        <i class="fa fa-calendar-alt" aria-hidden="true"></i>
+      </span>
+    </div>
+    <input class="form-control" #drp="bsDaterangepicker" [bsConfig]='datePickerConfig' bsDaterangepicker formControlName="bsRangeValue">
+  </div>
+
+  <div class="input-group form-group">
+    <div class="input-group-prepend">
+      <span class="input-group-text">
+        <i class="fa fa-map-marker" aria-hidden="true"></i>
+      </span>
+    </div>
+    <select class="form-control" placeholder="Pick up location" required="required">
+      <option *ngFor="let branchOffice of branchOffices" value="{{branchOffice.id}}">{{branchOffice.location.address}}</option>
+    </select>
+  </div>
+
+  <div class="input-group form-group">
+    <div class="input-group-prepend">
+      <span class="input-group-text">
+        <i class="fa fa-map-marker" aria-hidden="true"></i>
+      </span>
+    </div>
+    <select class="form-control" placeholder="Drop off location" required="required">
+      <option *ngFor="let branchOffice of branchOffices" value="{{branchOffice.id}}">{{branchOffice.location.address}}</option>
+    </select>
+  </div>
+
+  <div class="input-group form-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">
+          <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
+        </span>
+      </div>
+      <select formControlName="type" class="form-control" required="required">
+        <option value="Sedan">Sedan</option>
+        <option value="SUV">SUV</option>
+        <option value="People Carrier/MPV">People Carrier/MPV</option>
+        <option value="Convertible">Convertible</option>
+      </select>
+    </div>
+
+  <div class="input-group form-group">
+    <div class="input-group-prepend">
+      <span class="input-group-text">
+        <i class="fa fa-male" aria-hidden="true"></i>
+      </span>
+    </div>
+    <input type="text" class="form-control" placeholder="Number of passengers" formControlName="numberOfPassengers">
+  </div>
+
+  <div class="alert alert-danger" role="alert" *ngIf="errorMessage.length != 0">
+    {{errorMessage}}
+  </div>
+
+
+  <input type="submit" class="btn btn-primary" value="Search" />
+
+
+</form>
+
+<div class="container">
+  <div *ngFor="let car of visibleCars">
+    <app-car-basic-info [car]='car'></app-car-basic-info>
+  </div>
+</div>

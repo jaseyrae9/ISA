@@ -3,10 +3,12 @@ package isa.project.dto.hotel;
 import java.util.ArrayList;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import isa.project.model.hotel.Hotel;
 import isa.project.model.hotel.Room;
 import isa.project.model.shared.AdditionalService;
+import isa.project.model.shared.Location;
 
 public class HotelDTO {
 	
@@ -21,6 +23,9 @@ public class HotelDTO {
 	
 	private ArrayList<AdditionalService> additionalServices = new ArrayList<>();
 	
+	@NotNull (message = "Location must be enetered.")
+	private Location location;
+	
 	public HotelDTO() {
 		
 	}
@@ -30,6 +35,8 @@ public class HotelDTO {
 		this.name = hotel.getName();
 		this.description = hotel.getDescription();
 		this.rooms = new ArrayList<>();
+		this.location = hotel.getLocation();
+		
 		if(hotel.getRooms() != null) {
 			for(Room room: hotel.getRooms()) {
 				this.rooms.add(new RoomDTO(room));
@@ -82,6 +89,13 @@ public class HotelDTO {
 
 	public void setAdditionalServices(ArrayList<AdditionalService> additionalServices) {
 		this.additionalServices = additionalServices;
-	}	
-	
+	}
+
+	public Location getLocation() {
+		return location;
+	}
+
+	public void setLocation(Location location) {
+		this.location = location;
+	}		
 }

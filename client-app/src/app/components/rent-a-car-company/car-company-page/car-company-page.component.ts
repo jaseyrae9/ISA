@@ -35,6 +35,7 @@ export class CarCompanyPageComponent implements OnInit {
     this.carService.get(companyId).subscribe(
       (data) => {
         this.carCompany = data;
+        console.log('Otvorena je kompanija: ', this.carCompany);
       }
     );
   }

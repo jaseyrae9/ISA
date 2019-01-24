@@ -11,12 +11,15 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import isa.project.model.shared.AdditionalService;
+import isa.project.model.shared.Location;
 
 @Entity
 @Table(name = "hotel")
@@ -37,7 +40,11 @@ public class Hotel {
 	private Set<Room> rooms;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-	private Set<AdditionalService> additionalServices;	
+	private Set<AdditionalService> additionalServices;
+	
+	@OneToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name="location_id", nullable = false)
+	private Location location;
 
 	public Hotel() {
 		super();
@@ -97,6 +104,14 @@ public class Hotel {
 
 	public void setAdditionalServices(Set<AdditionalService> additionalServices) {
 		this.additionalServices = additionalServices;
+	}
+	
+	public Location getLocation() {
+		return location;
+	}
+
+	public void setLocation(Location location) {
+		this.location = location;
 	}
 
 	@Override

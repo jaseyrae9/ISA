@@ -8,9 +8,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import isa.project.model.shared.Location;
 
 @Entity
 @Table(name = "branch_office")
@@ -30,6 +33,11 @@ public class BranchOffice {
 	
 	@Column(name = "active")
 	private Boolean active;
+	
+	@OneToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name="location_id", nullable = false)
+	private Location location;
+	
 	
 	public BranchOffice() {
 		
@@ -74,6 +82,14 @@ public class BranchOffice {
 		this.active = active;
 	}
 	
+	public Location getLocation() {
+		return location;
+	}
+
+	public void setLocation(Location location) {
+		this.location = location;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
