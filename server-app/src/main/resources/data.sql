@@ -31,6 +31,8 @@ INSERT branch_office (id, active, branch_office_name, location_id, rentacar_comp
 INSERT branch_office (id, active, branch_office_name, location_id, rentacar_company_id) VALUES (102, 1, 'Branch office name 3', 102, 100);
 
 
+
+
 INSERT INTO authority (id, name) VALUES (1, 'CUSTOMER');
 INSERT INTO authority (id, name) VALUES (2, 'SYS');
 INSERT INTO authority (id, name) VALUES (3, 'HOTELADMIN');
@@ -49,6 +51,8 @@ pick_up_branch_office_id) VALUES (301, 1, '2019-02-18', '2019-01-30', 501, 2002,
 
 INSERT INTO room (id, active, floor, number_of_beds, price, room_number, type, hotel_id) VALUES (600, 1, 4, 2, 20, 20, 'Regular', 100);
 INSERT INTO room (id, active, floor, number_of_beds, price, room_number, type, hotel_id) VALUES (601, 0, 4, 2, 20, 20, 'Regular', 100);
+INSERT INTO room (id, active, floor, number_of_beds, price, room_number, type, hotel_id) VALUES (602, 1, 4, 4, 25, 20, 'Studio', 100);
+INSERT INTO room (id, active, floor, number_of_beds, price, room_number, type, hotel_id) VALUES (603, 1, 4, 7, 35, 20, 'Apartman', 100);
 
 
 INSERT INTO users (type, id, address, confirmed_mail, email, first_name, last_name, last_password_reset_date, password, needs_password_change, phone_number, air_company_id, hotel_id, rent_a_car_company_id)

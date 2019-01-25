@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -82,7 +84,7 @@ public class RentACarCompanyController {
 	 */
 	@PreAuthorize("hasAnyRole('SYS')")
 	@RequestMapping(value = "/add", method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<RentACarCompanyDTO> addRentACarCompany(@RequestBody RentACarCompanyDTO rentACarCompanyDTO) {
+	public ResponseEntity<RentACarCompanyDTO> addRentACarCompany(@Valid @RequestBody RentACarCompanyDTO rentACarCompanyDTO) {
 		RentACarCompany company = new RentACarCompany(rentACarCompanyDTO.getName(),
 				rentACarCompanyDTO.getDescription());
 		company.setLocation(rentACarCompanyDTO.getLocation());
@@ -101,7 +103,7 @@ public class RentACarCompanyController {
 	@RentACarCompanyAdminCheck
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.PUT, consumes = "application/json")
 	public ResponseEntity<RentACarCompanyDTO> editRentACarCompany(@PathVariable Integer id,
-			@RequestBody RentACarCompanyDTO company) {
+			@Valid @RequestBody RentACarCompanyDTO company) {
 		// rent a car company must exist
 		Optional<RentACarCompany> opt = rentACarCompanyService.findRentACarCompany(company.getId());
 
@@ -132,7 +134,7 @@ public class RentACarCompanyController {
 	@AdminAccountActiveCheck
 	@RentACarCompanyAdminCheck
 	@RequestMapping(value = "/addCar/{companyId}", method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<CarDTO> addCar(@PathVariable Integer companyId, @RequestBody CarDTO carDTO)
+	public ResponseEntity<CarDTO> addCar(@PathVariable Integer companyId, @Valid @RequestBody CarDTO carDTO)
 			throws ResourceNotFoundException {
 		Car car = rentACarCompanyService.addCar(companyId, carDTO);
 		return new ResponseEntity<>(new CarDTO(car), HttpStatus.CREATED);
@@ -148,7 +150,7 @@ public class RentACarCompanyController {
 	@AdminAccountActiveCheck
 	@RentACarCompanyAdminCheck
 	@RequestMapping(value = "/editCar/{companyId}", method = RequestMethod.PUT, consumes = "application/json")
-	public ResponseEntity<CarDTO> editCar(@PathVariable Integer companyId, @RequestBody CarDTO carDTO)
+	public ResponseEntity<CarDTO> editCar(@PathVariable Integer companyId, @Valid @RequestBody CarDTO carDTO)
 			throws ResourceNotFoundException {
 		Optional<RentACarCompany> carCompany = rentACarCompanyService.findRentACarCompany(companyId);
 
@@ -206,7 +208,7 @@ public class RentACarCompanyController {
 	@RentACarCompanyAdminCheck
 	@RequestMapping(value = "/addBranchOffice/{companyId}", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<BranchOfficeDTO> addBranchOffice(@PathVariable Integer companyId,
-			@RequestBody BranchOfficeDTO branchOfficeDTO) throws ResourceNotFoundException {
+			@Valid @RequestBody BranchOfficeDTO branchOfficeDTO) throws ResourceNotFoundException {
 		BranchOffice branchOffice = rentACarCompanyService.addBranchOffice(companyId, branchOfficeDTO);
 		branchOffice.setLocation(branchOfficeDTO.getLocation());
 		return new ResponseEntity<>(new BranchOfficeDTO(branchOffice), HttpStatus.CREATED);
@@ -258,7 +260,7 @@ public class RentACarCompanyController {
 	@RentACarCompanyAdminCheck
 	@RequestMapping(value = "/editBranchOffice/{companyId}", method = RequestMethod.PUT, consumes = "application/json")
 	public ResponseEntity<BranchOfficeDTO> editBranchOffice(@PathVariable Integer companyId,
-			@RequestBody BranchOfficeDTO branchOfficeDTO) throws ResourceNotFoundException {
+			@Valid @RequestBody BranchOfficeDTO branchOfficeDTO) throws ResourceNotFoundException {
 		Optional<RentACarCompany> carCompany = rentACarCompanyService.findRentACarCompany(companyId);
 
 		if (!carCompany.isPresent()) {

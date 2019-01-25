@@ -49,14 +49,19 @@ export class CarCompanyPageComponent implements OnInit {
     }
   }
 
-  branchOfficeDeleted(branchOfficeId: number) {
-    for (const branchOffice of this.carCompany.branchOffices) {
-      if (branchOffice.id === branchOfficeId) {
-        branchOffice.active = false;
-        this.ngxNotificationService.sendMessage(branchOffice.name + ' is deleted!', 'dark', 'bottom-right' );
-        break;
-      }
+  branchOfficeDeleted(branchOffice: BranchOffice) {
+    const index: number = this.carCompany.branchOffices.indexOf(branchOffice);
+    if (index !== -1) {
+      this.carCompany.branchOffices.splice(index, 1);
+      this.ngxNotificationService.sendMessage(branchOffice.name + ' is deleted!', 'dark', 'bottom-right' );
     }
+    // for (const branchOffice of this.carCompany.branchOffices) {
+    //   if (branchOffice.id === branchOfficeId) {
+    //     branchOffice.active = false;
+    //     this.ngxNotificationService.sendMessage(branchOffice.name + ' is deleted!', 'dark', 'bottom-right' );
+    //     break;
+    //   }
+    // }
   }
 
   openNewCarModal() {

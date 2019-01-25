@@ -90,7 +90,7 @@ public class HotelController {
 	@AdminAccountActiveCheck
 	@HotelAdminCheck
 	@RequestMapping(value="/edit/{id}",method=RequestMethod.PUT, consumes="application/json")
-	public ResponseEntity<HotelDTO> editHotel(@PathVariable Integer id, @RequestBody HotelDTO hotelDTO) throws ResourceNotFoundException{
+	public ResponseEntity<HotelDTO> editHotel(@PathVariable Integer id,@Valid @RequestBody HotelDTO hotelDTO) throws ResourceNotFoundException{
 		//hotel must exist
 		Optional<Hotel> opt = hotelService.findHotel(hotelDTO.getId());
 		
@@ -121,7 +121,7 @@ public class HotelController {
 	@AdminAccountActiveCheck
 	@HotelAdminCheck
 	@RequestMapping(value="/addRoom/{hotelId}",method=RequestMethod.POST, consumes="application/json")
-	public ResponseEntity<RoomDTO> addRoom(@PathVariable Integer hotelId, @RequestBody RoomDTO roomDTO) throws ResourceNotFoundException{
+	public ResponseEntity<RoomDTO> addRoom(@PathVariable Integer hotelId,@Valid @RequestBody RoomDTO roomDTO) throws ResourceNotFoundException{
 		Room room = hotelService.addRoom(hotelId, roomDTO);
 		return new ResponseEntity<>(new RoomDTO(room), HttpStatus.CREATED);	
 	}
@@ -135,7 +135,7 @@ public class HotelController {
 	@AdminAccountActiveCheck
 	@HotelAdminCheck
 	@RequestMapping(value="/editRoom/{hotelId}",method=RequestMethod.PUT, consumes="application/json")
-	public ResponseEntity<RoomDTO> editRoom(@PathVariable Integer hotelId, @RequestBody RoomDTO roomDTO) throws ResourceNotFoundException{
+	public ResponseEntity<RoomDTO> editRoom(@PathVariable Integer hotelId,@Valid @RequestBody RoomDTO roomDTO) throws ResourceNotFoundException{
 		Optional<Hotel> hotel = hotelService.findHotel(hotelId);
 		
 		if (!hotel.isPresent()) {

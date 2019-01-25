@@ -19,8 +19,8 @@
   <div class="col border-left p-3" align="center">
       <p style="font-size: 45px; color:  #33cabb;">€{{room.price}}</p>
       <hr>
-      <button *ngIf="tokenService.isHotelAdmin" class="btn btn-primary px-4 m-2" (click)="openEditModal()">Edit</button>
-      <button *ngIf="tokenService.isHotelAdmin" class="btn btn-primary px-4 m-2" (click)="deleteRoom()">Delete</button>
-      <button class="btn btn-primary px-4 m-2">Book</button>
+      <button *ngIf="tokenService.isHotelAdmin && isRoomsTab" class="btn btn-primary px-4 m-2" (click)="openEditModal()">Edit</button>
+      <button *ngIf="tokenService.isHotelAdmin && isRoomsTab" class="btn btn-primary px-4 m-2" (click)="deleteRoom()">Delete</button>
+      <button *ngIf="!isRoomsTab" class="btn btn-primary px-4 m-2">Book</button>
   </div>  
 </div>

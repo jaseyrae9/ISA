@@ -20,6 +20,8 @@ export class RoomBasicInfoComponent implements OnInit {
   modalRef: BsModalRef;
   hotelId: string;
 
+  @Input() isRoomsTab = true;
+
   constructor(private route: ActivatedRoute, public tokenService: TokenStorageService,
      private modalService: BsModalService, private hotelService: HotelService,
      public ngxNotificationService: NgxNotificationService) { }

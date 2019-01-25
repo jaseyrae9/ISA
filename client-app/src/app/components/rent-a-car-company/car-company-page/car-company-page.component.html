@@ -75,7 +75,7 @@
       </div>
       <div class="container">
         <div *ngFor="let branchOffice of carCompany.branchOffices">
-          <app-branch-office-basic-details *ngIf="branchOffice.active" (branchOfficeDeleted)="branchOfficeDeleted($event)"
+          <app-branch-office-basic-details (branchOfficeDeleted)="branchOfficeDeleted($event)"
             [branchOffice]='branchOffice'></app-branch-office-basic-details>
         </div>
       </div>

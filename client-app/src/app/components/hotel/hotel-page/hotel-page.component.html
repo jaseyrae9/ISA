@@ -76,7 +76,7 @@
 
       <div class="container">
         <div *ngFor="let room of hotel.rooms">
-          <app-room-basic-info [room]='room' (roomDeleted)="roomDeleted($event)"></app-room-basic-info>
+          <app-room-basic-info [isRoomsTab]="true" [room]='room' (roomDeleted)="roomDeleted($event)"></app-room-basic-info>
         </div>
       </div>
     </div>
@@ -96,7 +96,7 @@
     <!-------------------------------BOOK-------------------------------------------->
     <!------------------------------------------------------------------------------->
     <!-- TODO: Ostaviti da samo customer moze da radi book -->
-    <div *ngIf="tokenService.isHotelAdmin || tokenService.isCustomer" class="tab-pane fade" id="book" aria-labelledby="book-tab">
+    <!--div *ngIf="tokenService.isHotelAdmin || tokenService.isCustomer" class="tab-pane fade" id="book" aria-labelledby="book-tab">
       <div style="align-content: center" div class="row">
         <div class="col-6 text-center">
           <input type="text" placeholder="Check in" bsDatepicker [bsConfig]='datePickerConfig' />
@@ -105,7 +105,14 @@
           <input type="text" placeholder="Check out" bsDatepicker [bsConfig]='datePickerConfig' />
         </div>
       </div>
-    </div>
+    </div-->
+
+      <!--Book TAB-->
+      
+      <div class="tab-pane fade" id="book" aria-labelledby="book-tab">
+        <app-book-form [rooms]='hotel.rooms'></app-book-form>
+      </div>
+
   </div>
 </div>
 

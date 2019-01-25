@@ -87,6 +87,7 @@ import { AgmCoreModule } from '@agm/core';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { RentFormComponent } from './components/rent-a-car-company/rent-form/rent-form.component';
 import { Ng5SliderModule } from 'ng5-slider';
+import { BookFormComponent } from './components/hotel/book-form/book-form.component';
 
 @NgModule({
   declarations: [
@@ -151,7 +152,8 @@ import { Ng5SliderModule } from 'ng5-slider';
     AirplaneFormComponent,
     EditServiceFormComponent,
     MapComponent,
-    RentFormComponent
+    RentFormComponent,
+    BookFormComponent
   ],
   imports: [
     BrowserModule,

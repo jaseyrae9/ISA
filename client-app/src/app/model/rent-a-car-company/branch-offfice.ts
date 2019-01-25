@@ -3,5 +3,5 @@ export class BranchOffice {
     id: number;
     name: string;
     location: Location = new Location();
-    active: boolean;
+
 }

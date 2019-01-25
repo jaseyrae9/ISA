@@ -23,7 +23,7 @@ export class RentFormComponent implements OnInit {
   @Input() branchOffices: BranchOffice[];
   @Input() cars: Car[] = [];
 
-  visibleCars: Car[] = []; // koja ce se prikazati posle search-a
+  visibleCars: Car[] = []; // kola koja ce se prikazati posle search-a
 
   priceRange = [0, 200];
 
