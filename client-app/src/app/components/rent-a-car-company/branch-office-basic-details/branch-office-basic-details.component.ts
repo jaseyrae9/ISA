@@ -17,7 +17,7 @@ import { NgxNotificationService } from 'ngx-notification';
 
 export class BranchOfficeBasicDetailsComponent implements OnInit {
   @Input() branchOffice: BranchOffice;
-  @Output() branchOfficeDeleted: EventEmitter<number> = new EventEmitter();
+  @Output() branchOfficeDeleted: EventEmitter<BranchOffice> = new EventEmitter();
 
   carCompany: RentACarCompany = new RentACarCompany();
 
@@ -36,7 +36,8 @@ export class BranchOfficeBasicDetailsComponent implements OnInit {
   deleteBranchOffice() {
     this.carCompanyService.deleteBranchOffice(this.branchOffice.id, this.companyId).subscribe(
       data => {
-        this.branchOfficeDeleted.emit(data);
+        console.log('deleteBranchOffice', this.branchOffice);
+        this.branchOfficeDeleted.emit(this.branchOffice);
       },
       error => {
         console.log(error);

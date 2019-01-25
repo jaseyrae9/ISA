@@ -38,7 +38,8 @@
           <hr>
           <p>{{hotel.description}}</p>
           <div align="right">
-            <button *ngIf="tokenService.isHotelAdmin" class="btn btn-primary float-right" (click)="openEditModal()"><i class="fa fa-edit" aria-hidden="true"></i>Edit</button>
+            <button *ngIf="tokenService.isHotelAdmin" class="btn btn-primary float-right" (click)="openEditModal()"><i
+                class="fa fa-edit" aria-hidden="true"></i>Edit</button>
           </div>
         </div>
       </div>
@@ -57,7 +58,7 @@
           </button>
         </div>
       </div>
-      <app-additional-services-table [additionalServices]="hotel.additionalServices" (editEmitter)='editClicked($event)'
+      <app-additional-services-table [isAdditionalServicesTab]='true' [additionalServices]="hotel.additionalServices" (editEmitter)='editClicked($event)'
         (deleteEmitter)='deleteClicked($event)'></app-additional-services-table>
     </div>
 
@@ -95,27 +96,10 @@
     <!------------------------------------------------------------------------------->
     <!-------------------------------BOOK-------------------------------------------->
     <!------------------------------------------------------------------------------->
-    <!-- TODO: Ostaviti da samo customer moze da radi book -->
-    <!--div *ngIf="tokenService.isHotelAdmin || tokenService.isCustomer" class="tab-pane fade" id="book" aria-labelledby="book-tab">
-      <div style="align-content: center" div class="row">
-        <div class="col-6 text-center">
-          <input type="text" placeholder="Check in" bsDatepicker [bsConfig]='datePickerConfig' />
-        </div>
-        <div class="col-6 text-center">
-          <input type="text" placeholder="Check out" bsDatepicker [bsConfig]='datePickerConfig' />
-        </div>
-      </div>
-    </div-->
-
-      <!--Book TAB-->
-      
-      <div class="tab-pane fade" id="book" aria-labelledby="book-tab">
-        <app-book-form [rooms]='hotel.rooms'></app-book-form>
-      </div>
+    
+    <div class="tab-pane fade" id="book" aria-labelledby="book-tab">
+      <app-book-form [rooms]='hotel.rooms' [additionalServices]='hotel.additionalServices'></app-book-form>
+    </div>
 
   </div>
 </div>
-
-<!------------------------------------------------------------------------------->
-<!---------------------------MODALS---------------------------------------------->
-<!------------------------------------------------------------------------------->

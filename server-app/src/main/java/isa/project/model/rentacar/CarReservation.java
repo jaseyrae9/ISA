@@ -41,12 +41,12 @@ public class CarReservation {
 	@Column(name = "active")
 	private Boolean active;
 	
-	@JsonBackReference
+	@JsonBackReference(value="car-reservations")
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)	
 	@JoinColumn(name="car_id", referencedColumnName="id")
 	private Car car;
 	
-	@JsonBackReference
+	@JsonBackReference(value = "car-reservations")
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)	
 	@JoinColumn(name="customer_id", referencedColumnName="id")
 	private Customer customer;

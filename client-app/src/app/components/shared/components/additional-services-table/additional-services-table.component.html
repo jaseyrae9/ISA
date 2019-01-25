@@ -1,8 +1,8 @@
 <section class="pricing-table">
     <div class="container">
         <div class="row pt-4 justify-content-md-center" >
-            <app-additional-service *ngFor="let additionalService of additionalServices" class="col-md-5 col-lg-4" 
-            [additionalService]="additionalService" (editEmitter)="clickEdit($event)" (deleteEmitter)="clickDelete($event)"></app-additional-service>
+            <app-additional-service [isAdditionalServicesTab]='isAdditionalServicesTab' *ngFor="let additionalService of additionalServices" class="col-md-5 col-lg-4" 
+            [additionalService]="additionalService" (xEmitter)="clickX($event)" (checkEmitter)="clickCheck($event)" (editEmitter)="clickEdit($event)" (deleteEmitter)="clickDelete($event)"></app-additional-service>
         </div>
     </div>
 </section>

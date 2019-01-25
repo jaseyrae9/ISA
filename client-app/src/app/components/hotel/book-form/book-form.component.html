@@ -50,8 +50,22 @@
 </form>
 
 <div class="container">
-    <div *ngFor="let room of visibleRooms">
-      <!--[isCarsTab]='false'-->
-      <app-room-basic-info [isRoomsTab]='false' [room]='room'></app-room-basic-info>
-    </div>
+  <div *ngFor="let room of visibleRooms">
+    <app-room-basic-info (roomBooked)='clickBook($event)' (roomUnbooked)='clickUnbook($event)' [isRoomsTab]='false' [room]='room' [bookedRooms]="bookedRooms"></app-room-basic-info>
   </div>
+</div>
+
+<br>
+<br>
+
+<p style="font-size: 35px; color:  #33cabb;">Please select some of our's best services</p>
+<app-additional-services-table (xEmitter)="clickX($event)" (checkEmitter)="clickCheck($event)" [isAdditionalServicesTab]='false'  [additionalServices]="additionalServices"></app-additional-services-table>
+
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="float-right">
+            <button class="btn btn-primary" (click)="completeBooking()">Complete booking</button>
+        </div>
+    </div>
+ </div>

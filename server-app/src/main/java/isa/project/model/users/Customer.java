@@ -11,15 +11,20 @@ import javax.persistence.OneToMany;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import isa.project.dto.users.UserDTO;
+import isa.project.model.hotel.RoomReservation;
 import isa.project.model.rentacar.CarReservation;
 
 @Entity
 @DiscriminatorValue("CUST")
 public class Customer extends User {
 
-	@JsonManagedReference
+	@JsonManagedReference(value = "car-reservations")
 	@OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<CarReservation> carReservations;
+	
+	@JsonManagedReference(value = "room-reservations")
+	@OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<RoomReservation> roomReservations;
 	
 	public Customer() {
 		super();

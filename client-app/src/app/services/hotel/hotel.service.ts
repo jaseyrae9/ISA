@@ -5,6 +5,7 @@ import { Hotel } from '../../model/hotel/hotel';
 import { User } from 'src/app/model/users/user';
 import { Room } from 'src/app/model/hotel/room';
 import { AdditionalService } from 'src/app/model/additional-service';
+import { RoomReservation } from 'src/app/model/hotel/room-reservation';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -68,5 +69,10 @@ export class HotelService {
 
   deleteAdditionalService(serviceId: number, hotelId: number): Observable<number> {
     return this.http.delete<number>('http://localhost:8080/hotels/deleteAdditionalService/' + hotelId + '/' + serviceId, httpOptions);
+  }
+
+  rentRoom(roomReservation: RoomReservation, customer: string) {
+    console.log('Rent room service');
+    return this.http.post<RoomReservation>('http://localhost:8080/hotels/rentRoom/' + customer, roomReservation, httpOptions);
   }
 }

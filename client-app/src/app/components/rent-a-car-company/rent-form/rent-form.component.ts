@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpErrorResponse } from '@angular/common/http';
 import { BranchOffice } from 'src/app/model/rent-a-car-company/branch-offfice';
 import { Car } from 'src/app/model/rent-a-car-company/car';
 import { BsDatepickerConfig } from 'ngx-bootstrap';
@@ -107,6 +106,9 @@ export class RentFormComponent implements OnInit {
     const datum1 = formatDate(date1, 'yyyy-MM-dd', 'en');
 
     for (const r of car.carReservations) {
+
+      console.log('rrrrr');
+      console.log(r);
 
       if (datum0 >= r.pickUpDate.toString() &&
         datum0 <= r.dropOffDate.toString()) {

@@ -9,13 +9,13 @@ import { RentACarCompany } from 'src/app/model/rent-a-car-company/rent-a-car-com
 })
 export class DataService {
 
-  private hotel = new BehaviorSubject<Hotel>(new Hotel(null, null, null));
+  private hotel = new BehaviorSubject<Hotel>(new Hotel());
   currentHotel = this.hotel.asObservable();
 
   private aircompany = new BehaviorSubject<AirCompany>(new AirCompany());
   currentAirCompany = this.aircompany.asObservable();
 
-  private carCompany = new BehaviorSubject<RentACarCompany>(new RentACarCompany(null, null, null));
+  private carCompany = new BehaviorSubject<RentACarCompany>(new RentACarCompany());
   currentCarCompany = this.carCompany.asObservable();
 
   constructor() { }

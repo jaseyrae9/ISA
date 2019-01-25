@@ -35,7 +35,7 @@ public class Hotel {
 	@Column(name = "HotelDescription", nullable = true)
 	private String description;
 	
-	@JsonManagedReference
+	@JsonManagedReference(value="hotel")
 	@OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private Set<Room> rooms;
 	

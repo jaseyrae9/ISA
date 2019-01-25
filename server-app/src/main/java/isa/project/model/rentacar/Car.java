@@ -27,7 +27,7 @@ public class Car implements Serializable {
 	@GeneratedValue
 	private Integer id;
 	
-	@JsonBackReference
+	@JsonBackReference(value="rent-a-car")
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)	
 	@JoinColumn(name="rentacar_company_id", referencedColumnName="id")
 	private RentACarCompany rentACarCompany;
@@ -56,7 +56,7 @@ public class Car implements Serializable {
 	@Column(name = "active")
 	private Boolean active;
 	
-	@JsonManagedReference
+	@JsonManagedReference(value="car-reservations")
 	@OneToMany(mappedBy = "car", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<CarReservation> carReservations;
 	

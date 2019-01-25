@@ -3,6 +3,7 @@ package isa.project.dto.rentacar;
 import java.sql.Date;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import isa.project.model.rentacar.BranchOffice;
 import isa.project.model.rentacar.CarReservation;
@@ -11,10 +12,10 @@ public class CarReservationDTO {
 
 	private Integer id;
 	
-	@NotBlank (message = "Pick up date can not be blank.")
+	@NotNull (message = "Pick up date can not be blank.")
 	private Date pickUpDate;
 	
-	@NotBlank (message = "Drop off date can not be blank.")
+	@NotNull (message = "Drop off date can not be blank.")
 	private Date dropOffDate;
 	
 	@NotBlank (message = "Pick up location can not be blank.")

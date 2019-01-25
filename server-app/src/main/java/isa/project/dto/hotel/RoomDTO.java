@@ -1,9 +1,12 @@
 package isa.project.dto.hotel;
 
+import java.util.ArrayList;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import isa.project.model.hotel.Room;
+import isa.project.model.hotel.SingleRoomReservation;
 
 public class RoomDTO {
 	
@@ -27,6 +30,8 @@ public class RoomDTO {
 	private String type;
 	private Boolean active;
 	
+	private ArrayList<SingleRoomReservationDTO> reservations = new ArrayList<>();
+	
 	public RoomDTO()
 	{
 		
@@ -41,6 +46,13 @@ public class RoomDTO {
 		this.price = room.getPrice();
 		this.type = room.getType();
 		this.active = room.getActive();
+		if(room.getSingleRoomReservations() != null) {
+			for(SingleRoomReservation srr: room.getSingleRoomReservations()) {
+				System.out.println("ovdee");
+				this.reservations.add(new SingleRoomReservationDTO(srr));
+				System.out.println();
+			}
+		}
 	}
 
 	public Integer getId() {
@@ -97,5 +109,13 @@ public class RoomDTO {
 
 	public void setActive(Boolean active) {
 		this.active = active;
+	}
+
+	public ArrayList<SingleRoomReservationDTO> getReservations() {
+		return reservations;
+	}
+
+	public void setReservations(ArrayList<SingleRoomReservationDTO> reservations) {
+		this.reservations = reservations;
 	}
 }

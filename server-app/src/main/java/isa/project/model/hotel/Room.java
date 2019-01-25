@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
 @Entity
@@ -26,11 +27,12 @@ public class Room implements Serializable{
 	@GeneratedValue
 	private Integer id;
 	
-	@JsonBackReference
+	@JsonBackReference(value="hotel")
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)	
 	@JoinColumn(name="hotel_id", referencedColumnName="id")
 	private Hotel hotel;
 
+	@JsonManagedReference(value="single-room-reservation")
 	@OneToMany(mappedBy = "room", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<SingleRoomReservation> singleRoomReservations;
 	
@@ -129,6 +131,14 @@ public class Room implements Serializable{
 
 	public void setActive(Boolean active) {
 		this.active = active;
+	}
+	
+	public Set<SingleRoomReservation> getSingleRoomReservations() {
+		return singleRoomReservations;
+	}
+
+	public void setSingleRoomReservations(Set<SingleRoomReservation> singleRoomReservations) {
+		this.singleRoomReservations = singleRoomReservations;
 	}
 
 	@Override

@@ -55,13 +55,6 @@ export class CarCompanyPageComponent implements OnInit {
       this.carCompany.branchOffices.splice(index, 1);
       this.ngxNotificationService.sendMessage(branchOffice.name + ' is deleted!', 'dark', 'bottom-right' );
     }
-    // for (const branchOffice of this.carCompany.branchOffices) {
-    //   if (branchOffice.id === branchOfficeId) {
-    //     branchOffice.active = false;
-    //     this.ngxNotificationService.sendMessage(branchOffice.name + ' is deleted!', 'dark', 'bottom-right' );
-    //     break;
-    //   }
-    // }
   }
 
   openNewCarModal() {

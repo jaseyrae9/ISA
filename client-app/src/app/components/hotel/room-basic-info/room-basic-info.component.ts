@@ -15,6 +15,7 @@ import { NgxNotificationService } from 'ngx-notification';
 })
 export class RoomBasicInfoComponent implements OnInit {
   @Input() room: Room;
+  @Input() bookedRooms: Room[] = [];
   @Output() roomDeleted: EventEmitter<number> = new EventEmitter();
 
   modalRef: BsModalRef;
@@ -22,12 +23,22 @@ export class RoomBasicInfoComponent implements OnInit {
 
   @Input() isRoomsTab = true;
 
+  isBooked = false;
+  @Output() roomBooked: EventEmitter<Room> = new EventEmitter();
+  @Output() roomUnbooked: EventEmitter<Room> = new EventEmitter();
+
+
   constructor(private route: ActivatedRoute, public tokenService: TokenStorageService,
      private modalService: BsModalService, private hotelService: HotelService,
      public ngxNotificationService: NgxNotificationService) { }
 
   ngOnInit() {
     this.hotelId = this.route.snapshot.paramMap.get('id');
+    console.log('Init component for room' + this.room.id);
+    const index: number = this.bookedRooms.indexOf(this.room);
+    if (index !== -1) {
+      this.isBooked = true;
+    }
   }
 
   // izmena sobe
@@ -53,4 +64,15 @@ export class RoomBasicInfoComponent implements OnInit {
       }
     );
   }
+
+  bookRoom() {
+    this.isBooked = true;
+    this.roomBooked.emit(this.room);
+  }
+
+  unbookRoom() {
+    this.isBooked = false;
+    this.roomUnbooked.emit(this.room);
+  }
+
 }

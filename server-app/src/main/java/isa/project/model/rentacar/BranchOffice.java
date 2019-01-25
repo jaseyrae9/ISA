@@ -23,7 +23,7 @@ public class BranchOffice {
 	@GeneratedValue
 	private Integer id;
 	
-	@JsonBackReference
+	@JsonBackReference(value="branch-offices")
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)	
 	@JoinColumn(name="rentacar_company_id", referencedColumnName="id")
 	private RentACarCompany rentACarCompany;

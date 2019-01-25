@@ -11,10 +11,17 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import isa.project.dto.hotel.RoomReservationDTO;
 import isa.project.model.shared.AdditionalService;
+import isa.project.model.users.Customer;
 
 @Entity
 @Table(name = "room_reservation")
@@ -33,18 +40,31 @@ public class RoomReservation {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<AdditionalService> additionalServices;
 	
-	@OneToMany(mappedBy = "room_reservation", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonManagedReference(value = "single-room-reservations")
+	@OneToMany(mappedBy = "roomReservation", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<SingleRoomReservation> singleRoomReservations;
+	
+	private Boolean active;
+	
+	@JsonBackReference(value = "room-reservations")
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)	
+	@JoinColumn(name="customer_id", referencedColumnName="id")
+	private Customer customer;
 	
 	
 	public RoomReservation() {	
 	}
 
-	public RoomReservation(Date checkInDate, Date checkOutDate) {
+	public RoomReservation(Customer customer, RoomReservationDTO roomReservationDTO) {
 		super();
-		this.checkInDate = checkInDate;
-		this.checkOutDate = checkOutDate;
+		this.customer = customer;
+		this.checkInDate = roomReservationDTO.getCheckInDate();
+		this.checkOutDate = roomReservationDTO.getCheckOutDate();
+		this.additionalServices = roomReservationDTO.getAdditionalServices();
+		//this.singleRoomReservations = roomReservationDTO.getSingleRoomReservations();
+		this.active = true;
 	}
+	
 
 	public Integer getId() {
 		return id;
@@ -77,7 +97,23 @@ public class RoomReservation {
 	public void setAdditionalServices(Set<AdditionalService> additionalServices) {
 		this.additionalServices = additionalServices;
 	}
-	
+		
+	public Set<SingleRoomReservation> getSingleRoomReservations() {
+		return singleRoomReservations;
+	}
+
+	public void setSingleRoomReservations(Set<SingleRoomReservation> singleRoomReservations) {
+		this.singleRoomReservations = singleRoomReservations;
+	}
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(id);

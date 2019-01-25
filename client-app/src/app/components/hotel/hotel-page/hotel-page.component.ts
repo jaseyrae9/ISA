@@ -54,7 +54,7 @@ export class HotelPageComponent implements OnInit {
     this.hotelService.get(hotelId).subscribe(
       (data) => {
         this.hotel = data;
-        console.log('aaaa', this.hotel);
+        console.log('Otvoren je hotel: ', this.hotel);
        }
     );
   }

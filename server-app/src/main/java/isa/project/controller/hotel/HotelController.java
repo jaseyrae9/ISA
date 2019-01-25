@@ -20,11 +20,15 @@ import isa.project.aspects.AdminAccountActiveCheck;
 import isa.project.aspects.HotelAdminCheck;
 import isa.project.dto.hotel.HotelDTO;
 import isa.project.dto.hotel.RoomDTO;
+import isa.project.dto.hotel.RoomReservationDTO;
+import isa.project.dto.rentacar.CarReservationDTO;
 import isa.project.exception_handlers.ResourceNotFoundException;
 import isa.project.model.hotel.Hotel;
 import isa.project.model.hotel.Room;
+import isa.project.model.hotel.RoomReservation;
 import isa.project.model.shared.AdditionalService;
 import isa.project.service.hotel.HotelService;
+import isa.project.service.hotel.RoomService;
 
 @RestController
 @RequestMapping(value="hotels")
@@ -32,6 +36,9 @@ public class HotelController {
 
 	@Autowired
 	private HotelService hotelService;
+	
+	@Autowired
+	private RoomService roomService;
 	
 	/**
 	 * Returns DTO objects for hotels. Objects contain id, name, address and description.
@@ -90,7 +97,7 @@ public class HotelController {
 	@AdminAccountActiveCheck
 	@HotelAdminCheck
 	@RequestMapping(value="/edit/{id}",method=RequestMethod.PUT, consumes="application/json")
-	public ResponseEntity<HotelDTO> editHotel(@PathVariable Integer id,@Valid @RequestBody HotelDTO hotelDTO) throws ResourceNotFoundException{
+	public ResponseEntity<HotelDTO> editHotel(@PathVariable Integer id, @Valid @RequestBody HotelDTO hotelDTO) throws ResourceNotFoundException{
 		//hotel must exist
 		Optional<Hotel> opt = hotelService.findHotel(hotelDTO.getId());
 		
@@ -121,7 +128,7 @@ public class HotelController {
 	@AdminAccountActiveCheck
 	@HotelAdminCheck
 	@RequestMapping(value="/addRoom/{hotelId}",method=RequestMethod.POST, consumes="application/json")
-	public ResponseEntity<RoomDTO> addRoom(@PathVariable Integer hotelId,@Valid @RequestBody RoomDTO roomDTO) throws ResourceNotFoundException{
+	public ResponseEntity<RoomDTO> addRoom(@PathVariable Integer hotelId, @Valid @RequestBody RoomDTO roomDTO) throws ResourceNotFoundException{
 		Room room = hotelService.addRoom(hotelId, roomDTO);
 		return new ResponseEntity<>(new RoomDTO(room), HttpStatus.CREATED);	
 	}
@@ -135,7 +142,7 @@ public class HotelController {
 	@AdminAccountActiveCheck
 	@HotelAdminCheck
 	@RequestMapping(value="/editRoom/{hotelId}",method=RequestMethod.PUT, consumes="application/json")
-	public ResponseEntity<RoomDTO> editRoom(@PathVariable Integer hotelId,@Valid @RequestBody RoomDTO roomDTO) throws ResourceNotFoundException{
+	public ResponseEntity<RoomDTO> editRoom(@PathVariable Integer hotelId, @Valid @RequestBody RoomDTO roomDTO) throws ResourceNotFoundException{
 		Optional<Hotel> hotel = hotelService.findHotel(hotelId);
 		
 		if (!hotel.isPresent()) {
@@ -242,4 +249,16 @@ public class HotelController {
 		return new ResponseEntity<>(additionalService, HttpStatus.OK);	
 	}
 	
+	@PreAuthorize("hasAnyRole('CUSTOMER')")
+	@RequestMapping(value="/rentRoom/{customer}", method = RequestMethod.POST, consumes = "application/json")
+	public ResponseEntity<RoomReservationDTO> rentRoom(@PathVariable String customer, @Valid @RequestBody RoomReservationDTO roomReservationDTO ) throws ResourceNotFoundException{
+		
+		System.out.println("AA" + roomReservationDTO.getCheckInDate());
+		System.out.println("BB" + roomReservationDTO.getCheckOutDate());
+		System.out.println(roomReservationDTO.getAdditionalServices().size());
+		RoomReservation roomReservation = roomService.addReservation(customer, roomReservationDTO);
+		
+		return new ResponseEntity<>(new RoomReservationDTO(roomReservation), HttpStatus.CREATED);
+	}
+
 }

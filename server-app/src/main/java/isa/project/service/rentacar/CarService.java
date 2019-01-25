@@ -1,6 +1,5 @@
 package isa.project.service.rentacar;
 
-import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Optional;
@@ -8,7 +7,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import isa.project.dto.rentacar.CarReservationDTO;
 import isa.project.exception_handlers.ResourceNotFoundException;
 import isa.project.model.rentacar.BranchOffice;
 import isa.project.model.rentacar.Car;
@@ -22,7 +20,6 @@ import isa.project.repository.users.UserRepository;
 
 @Service
 public class CarService {
-
 
 	@Autowired
 	private CarRepository carRepository;
@@ -50,15 +47,15 @@ public class CarService {
 		}
 		
 		if (!user.isPresent()) {
-			throw new ResourceNotFoundException(carId.toString(), "Customer is not found");
+			throw new ResourceNotFoundException(customer, "Customer is not found");
 		}
 		
 		if (!bopu.isPresent()) {
-			throw new ResourceNotFoundException(carId.toString(), "Pick up location not found");
+			throw new ResourceNotFoundException(pickUpBranchOfficeId.toString(), "Pick up location not found");
 		}
 		
 		if (!bodo.isPresent()) {
-			throw new ResourceNotFoundException(carId.toString(), "Drop off location is not found");
+			throw new ResourceNotFoundException(dropOffBranchOfficeId.toString(), "Drop off location is not found");
 		}
 		
 		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");

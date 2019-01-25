@@ -3,7 +3,7 @@
 }
 
 .delete > .fa:hover{
-  color: red;
+  color: darkslategrey;
 }
 
 .edit{
@@ -11,5 +11,21 @@
 }
 
 .edit > .fa:hover{
-  color:red;
+  color:darkslategrey;
+}
+
+.check{
+  margin-right: 3px;
+}
+
+.check > .fa:hover{
+  color:darkslategrey;
+}
+
+.x{
+  margin-left: 3px;
+}
+
+.x > .fa:hover{
+  color:darkslategrey;
 }

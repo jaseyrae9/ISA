@@ -1,12 +1,16 @@
 <div class="item">
     <div class="heading">
+        <section style="text-align:right">
+            <a (click)="clickEdit()" *ngIf="isAdditionalServicesTab"  class="edit"><i class="fa fa-edit"></i></a>
+            <a class="delete" *ngIf="isAdditionalServicesTab"  (click)="clickDelete()"><i class="fa fa-trash"></i></a>
+            <a class="check" (click)="clickCheck()" *ngIf="!isAdditionalServicesTab && !isChecked"  ><i class="fa fa-check"></i></a>
+            <a class="x" (click)="clickX()" *ngIf="!isAdditionalServicesTab && isChecked"  ><i class="fa fa-times"></i></a>
+
+        </section>
         <h3>{{additionalService.name}}</h3>
     </div>
     <p>{{additionalService.description}}</p>
     <div class="price">
         <h4>€{{additionalService.price}}</h4>
     </div>
-    <button class="btn btn-primary" (click)="clickEdit()">Edit</button>
-    <button class="btn btn-primary" (click)="clickDelete()">Delete</button>
 </div>
-

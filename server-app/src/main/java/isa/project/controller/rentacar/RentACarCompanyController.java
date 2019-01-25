@@ -218,9 +218,9 @@ public class RentACarCompanyController {
 	@RequestMapping(value="/rentCar/{pickUpBranchOfficeId}/{dropOffBranchOfficeId}/{pickUpDate}/{dropOffDate}/{carId}/{customer}", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<CarReservationDTO> rentCar(@PathVariable Integer pickUpBranchOfficeId, @PathVariable Integer dropOffBranchOfficeId,
 			@PathVariable String pickUpDate, @PathVariable String dropOffDate, @PathVariable Integer carId, @PathVariable String customer) throws ResourceNotFoundException, ParseException{ 
-		System.err.println("heeeej");
+	
 		CarReservation carReservation = carService.addReservation(carId, customer, pickUpBranchOfficeId, dropOffBranchOfficeId, pickUpDate, dropOffDate);
-		System.err.println("heeeej again");
+		
 		return new ResponseEntity<>(new CarReservationDTO(carReservation), HttpStatus.CREATED);
 	}
 

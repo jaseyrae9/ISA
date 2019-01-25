@@ -12,6 +12,11 @@ export class AdditionalServicesTableComponent implements OnInit {
   @Output() editEmitter: EventEmitter<AdditionalService> = new EventEmitter();
   @Output() deleteEmitter: EventEmitter<AdditionalService> = new EventEmitter();
 
+  @Output() checkEmitter: EventEmitter<AdditionalService> = new EventEmitter();
+  @Output() xEmitter: EventEmitter<AdditionalService> = new EventEmitter();
+
+  @Input() isAdditionalServicesTab = true;
+
   constructor() { }
 
   ngOnInit() {
@@ -25,4 +30,14 @@ export class AdditionalServicesTableComponent implements OnInit {
     this.deleteEmitter.emit(data);
   }
 
+  clickCheck(data) {
+    this.checkEmitter.emit(data);
+    console.log('check ', data);
+  }
+
+  clickX(data) {
+    this.xEmitter.emit(data);
+    console.log('x ', data);
+
+  }
 }

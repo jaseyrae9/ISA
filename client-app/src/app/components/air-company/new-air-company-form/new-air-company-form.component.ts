@@ -4,7 +4,6 @@ import { AirCompany } from 'src/app/model/air-company/air-company';
 import { AirCompanyService } from 'src/app/services/air-company/air-company.service';
 import { ViewChild, ElementRef} from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { add } from 'ngx-bootstrap/chronos/public_api';
 
 @Component({
   selector: 'app-new-air-company-form',

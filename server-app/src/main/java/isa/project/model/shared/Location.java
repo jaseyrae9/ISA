@@ -3,6 +3,7 @@ package isa.project.model.shared;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
@@ -11,7 +12,7 @@ import javax.validation.constraints.NotBlank;
 @Table(name = "locations")
 public class Location {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@NotBlank(message = "Address can not be blank.")
@@ -22,7 +23,7 @@ public class Location {
 	private double lon;
 	
 	@Column(nullable = false)
-	private double lat;
+	private double lat; 
 	
 	public Location() {
 		lat = 0;

@@ -9,7 +9,7 @@ import { CarReservation } from 'src/app/model/rent-a-car-company/car-reservation
 import { formatDate } from '@angular/common';
 
 const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json',  'Accept': 'application/json' })
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
 @Injectable({
@@ -28,6 +28,7 @@ export class RentACarCompanyService {
   }
 
   add(carCompany: RentACarCompany): Observable<RentACarCompany> {
+    console.log('Add car company:', carCompany);
     return this.http.post<RentACarCompany>('http://localhost:8080/rent_a_car_companies/add', carCompany, httpOptions);
   }
 

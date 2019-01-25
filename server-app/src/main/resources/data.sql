@@ -30,9 +30,6 @@ INSERT branch_office (id, active, branch_office_name, location_id, rentacar_comp
 INSERT branch_office (id, active, branch_office_name, location_id, rentacar_company_id) VALUES (101, 1, 'Branch office name 2', 101, 100);
 INSERT branch_office (id, active, branch_office_name, location_id, rentacar_company_id) VALUES (102, 1, 'Branch office name 3', 102, 100);
 
-
-
-
 INSERT INTO authority (id, name) VALUES (1, 'CUSTOMER');
 INSERT INTO authority (id, name) VALUES (2, 'SYS');
 INSERT INTO authority (id, name) VALUES (3, 'HOTELADMIN');
@@ -91,5 +88,11 @@ INSERT INTO friendships (from_id, to_id, active) VALUE (2001, 2000, 0);
 INSERT INTO friendships (from_id, to_id, active) VALUE (2002, 2000, 0);
 INSERT INTO friendships (from_id, to_id, active) VALUE (2003, 2000, 0);
 INSERT INTO friendships (from_id, to_id, active) VALUE (2004, 2000, 0);
+
+INSERT INTO room_reservation (id, active, check_in_date, check_out_date, customer_id) VALUES (100, 1, '2019-01-30', '2019-02-05', 2001);
+INSERT INTO room_reservation (id, active, check_in_date, check_out_date, customer_id) VALUES (101, 1, '2019-01-15', '2019-01-28', 2001);
+
+INSERT INTO single_room_reservation (id, room_id, room_reservation_id) VALUES (100, 600, 100);
+INSERT INTO single_room_reservation (id, room_id, room_reservation_id) VALUES (101, 600, 101);
 
 
