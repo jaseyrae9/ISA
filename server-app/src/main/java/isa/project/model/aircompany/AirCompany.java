@@ -100,7 +100,14 @@ public class AirCompany {
 	}	
 
 	public Set<AdditionalService> getBaggageInformation() {
-		return baggageInformation;
+		if(baggageInformation != null)
+			return baggageInformation.stream().filter(p -> p.getActive() == true).collect(Collectors.toSet()); // Da vraca samo aktivne
+		else
+			return null;
+	}
+	
+	public void addBaggageInformation(AdditionalService baggageInformation) {
+		this.baggageInformation.add(baggageInformation);
 	}
 
 	public void setBaggageInformation(Set<AdditionalService> baggageInformation) {

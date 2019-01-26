@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { AirCompanyService } from 'src/app/services/air-company/air-company.service';
+import { Component, OnInit, Input } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Subject } from 'rxjs/Subject';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -12,11 +13,13 @@ import { AdditionalService } from 'src/app/model/additional-service';
 })
 export class BaggageFormComponent implements OnInit {
   errorMessage: String = '';
-  public onClose: Subject<AdditionalService>;
+  onClose: Subject<AdditionalService>;
   baggageForm: FormGroup;
-  additionalService: AdditionalService = new AdditionalService();
+  @Input() additionalService: AdditionalService = new AdditionalService();
+  @Input() isAddForm = false;
+  @Input() airCompanyId;
 
-  constructor(public modalRef: BsModalRef, private formBuilder: FormBuilder) { }
+  constructor(public modalRef: BsModalRef, private formBuilder: FormBuilder, private airCompanyService: AirCompanyService) { }
 
   ngOnInit() {
     this.onClose = new Subject();
@@ -27,4 +30,45 @@ export class BaggageFormComponent implements OnInit {
       });
   }
 
+  submit() {
+    if (this.isAddForm) {
+      this.addBaggageInfo();
+    } else {
+      this.editBaggageInfo();
+    }
+  }
+
+  addBaggageInfo() {
+    this.airCompanyService.addBaggageInformation(this.baggageForm.value, this.airCompanyId).subscribe(
+      data => {
+        this.onClose.next(data);
+        this.modalRef.hide();
+      },
+      (err: HttpErrorResponse) => {
+        // interceptor je hendlovao ove zahteve
+        if (err.status === 401 || err.status === 403 || err.status === 404) {
+          this.modalRef.hide();
+        }
+        this.errorMessage = err.error.details;
+      }
+    );
+  }
+
+  editBaggageInfo() {
+    const value = this.baggageForm.value;
+    value.id = this.additionalService.id;
+    this.airCompanyService.editBaggageInformation(value, this.airCompanyId).subscribe(
+      data => {
+        this.onClose.next(data);
+        this.modalRef.hide();
+      },
+      (err: HttpErrorResponse) => {
+        // interceptor je hendlovao ove zahteve
+        if (err.status === 401 || err.status === 403 || err.status === 404) {
+          this.modalRef.hide();
+        }
+        this.errorMessage = err.error.details;
+      }
+    );
+  }
 }

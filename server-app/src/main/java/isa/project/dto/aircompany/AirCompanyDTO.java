@@ -1,12 +1,9 @@
 package isa.project.dto.aircompany;
 
-import java.util.ArrayList;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import isa.project.model.aircompany.AirCompany;
-import isa.project.model.aircompany.Destination;
 import isa.project.model.shared.Location;
 
 public class AirCompanyDTO {
@@ -19,9 +16,7 @@ public class AirCompanyDTO {
 	
 	@NotNull (message = "Location must be enetered.")
 	private Location location;
-	
-	private ArrayList<DestinationDTO> destinations = new ArrayList<>();
-	
+		
 	public AirCompanyDTO() {
 		
 	}
@@ -30,13 +25,7 @@ public class AirCompanyDTO {
 		this.id = company.getId();
 		this.name = company.getName();
 		this.location = company.getLocation();
-		this.description = company.getDescription();
-		this.destinations = new ArrayList<>();
-		if(company.getDestinations() != null) {
-			for(Destination destination:company.getDestinations()) {
-				this.destinations.add(new DestinationDTO(destination));
-			}
-		}
+		this.description = company.getDescription();		
 	}
 
 	public Integer getId() {
@@ -61,14 +50,6 @@ public class AirCompanyDTO {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public ArrayList<DestinationDTO> getDestinations() {
-		return destinations;
-	}
-
-	public void setDestinations(ArrayList<DestinationDTO> destinations) {
-		this.destinations = destinations;
 	}
 
 	public Location getLocation() {

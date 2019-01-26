@@ -1,8 +1,13 @@
 <section class="pricing-table">
     <div class="container">
+        <div *ngIf="additionalServices.length == 0 else services" class="text-center">
+            <p>There are no items to show.</p>
+        </div>
+        <ng-template #services>
         <div class="row pt-4 justify-content-md-center" >
-            <app-additional-service [isAdditionalServicesTab]='isAdditionalServicesTab' *ngFor="let additionalService of additionalServices" class="col-md-5 col-lg-4" 
+            <app-additional-service [isAdditionalServicesTab]='isAdditionalServicesTab' *ngFor="let additionalService of additionalServices" class="col-md-5 col-lg-4"
             [additionalService]="additionalService" (xEmitter)="clickX($event)" (checkEmitter)="clickCheck($event)" (editEmitter)="clickEdit($event)" (deleteEmitter)="clickDelete($event)"></app-additional-service>
         </div>
+        </ng-template>
     </div>
 </section>

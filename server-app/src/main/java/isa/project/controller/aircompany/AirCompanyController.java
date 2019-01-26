@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 import isa.project.aspects.AdminAccountActiveCheck;
 import isa.project.aspects.AirCompanyAdminCheck;
 import isa.project.dto.aircompany.AirCompanyDTO;
+import isa.project.dto.aircompany.AirCompanyFullDetails;
 import isa.project.dto.aircompany.DestinationDTO;
+import isa.project.exception_handlers.RequestDataException;
 import isa.project.exception_handlers.ResourceNotFoundException;
 import isa.project.model.aircompany.AirCompany;
 import isa.project.model.aircompany.Destination;
@@ -66,7 +68,7 @@ public class AirCompanyController {
 		if (!airCompany.isPresent()) {
 			throw new ResourceNotFoundException(id.toString(), "Air company not found");
 		}
-		return new ResponseEntity<>(new AirCompanyDTO(airCompany.get()), HttpStatus.OK);
+		return new ResponseEntity<>(new AirCompanyFullDetails(airCompany.get()), HttpStatus.OK);
 	}
 
 	/**
@@ -141,13 +143,14 @@ public class AirCompanyController {
 	 * 
 	 * @param id - oznaka aviokomapnije
 	 * @param destination - oznaka destinacije
-	 * @throws ResourceNotFoundException - ako nisu pronađeni aerodrum ili destinacija
+	 * @throws ResourceNotFoundException - ako nisu pronađeni aviokompanija ili destinacija
+	 * @throws RequestDataException - ako je destinaija izbrisana
 	 */
 	@PreAuthorize("hasAnyRole('AIRADMIN')")
 	@AdminAccountActiveCheck
 	@AirCompanyAdminCheck
 	@RequestMapping(value = "/deleteDestination/{id}/{destination}", method = RequestMethod.DELETE)
-	public ResponseEntity<?> editDestination(@PathVariable Integer id, @PathVariable Long destination) throws ResourceNotFoundException{
+	public ResponseEntity<?> editDestination(@PathVariable Integer id, @PathVariable Long destination) throws ResourceNotFoundException, RequestDataException{
 		airCompanyService.deleteDestination(destination, id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
@@ -159,12 +162,13 @@ public class AirCompanyController {
 	 * @param destinationDTO - informacije o destinaciji
 	 * @return - destinacija
 	 * @throws ResourceNotFoundException - ako nisu pronađeni aerodrum ili destinacija
+	 * @throws RequestDataException - ako je destinaija izbrisana
 	 */
 	@PreAuthorize("hasAnyRole('AIRADMIN')")
 	@AdminAccountActiveCheck
 	@AirCompanyAdminCheck
 	@RequestMapping(value = "/editDestination/{id}", method = RequestMethod.PUT, consumes = "application/json")
-	public ResponseEntity<?> editDestination(@PathVariable Integer id, @Valid @RequestBody DestinationDTO destinationDTO) throws ResourceNotFoundException{
+	public ResponseEntity<?> editDestination(@PathVariable Integer id, @Valid @RequestBody DestinationDTO destinationDTO) throws ResourceNotFoundException, RequestDataException{
 		Destination destination = airCompanyService.editDestination(destinationDTO.getId(),id, destinationDTO);
 		return new ResponseEntity<>(new DestinationDTO(destination), HttpStatus.OK);
 	}
@@ -187,5 +191,39 @@ public class AirCompanyController {
 		AdditionalService service = airCompanyService.addBaggageInformation(baggageInformation, id);
 		return new ResponseEntity<>(service, HttpStatus.OK);
 	}
+	
+	/**
+	 * Briše informaciju o prtljagu.
+	 * @param id - oznaka aviokompanije
+	 * @param baggageId - oznaka informacije o prtljagu
+	 * @return
+	 * @throws ResourceNotFoundException - ako nisu pronađeni informacija o prtljagu, ili aviokompanija
+	 * @throws RequestDataException - ako je informacija već izbrisana
+	 */
+	@PreAuthorize("hasAnyRole('AIRADMIN')")
+	@AdminAccountActiveCheck
+	@AirCompanyAdminCheck
+	@RequestMapping(value = "/deleteBaggageInformation/{id}/{baggageId}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> deleteBaggageInformation(@PathVariable Integer id, @PathVariable Long baggageId) throws ResourceNotFoundException, RequestDataException{
+		airCompanyService.deleteBaggageInformation(baggageId, id);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 
+	/**
+	 * Menja postojeću informaciju o prtljagu.
+	 * 
+	 * @param id - oznaka aviokomapnije
+	 * @param baggaeInfo - informacije o prtljagu
+	 * @return - izmenjena destinacija o prtljagu
+	 * @throws ResourceNotFoundException - ako nisu pronađeni aerodrum ili informacija o prtljagu
+	 * @throws RequestDataException - ako je informacija o prtljagu izbrisana
+	 */
+	@PreAuthorize("hasAnyRole('AIRADMIN')")
+	@AdminAccountActiveCheck
+	@AirCompanyAdminCheck
+	@RequestMapping(value = "/editBaggageInformation/{id}", method = RequestMethod.PUT, consumes = "application/json")
+	public ResponseEntity<?> editBaggageInformation(@PathVariable Integer id, @Valid @RequestBody AdditionalService baggageInfo) throws ResourceNotFoundException, RequestDataException{
+		AdditionalService baggageInfomation = airCompanyService.editBaggageInformation(baggageInfo,  id);
+		return new ResponseEntity<>(baggageInfomation, HttpStatus.OK);
+	}
 }

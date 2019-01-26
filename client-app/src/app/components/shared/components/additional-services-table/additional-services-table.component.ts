@@ -38,6 +38,5 @@ export class AdditionalServicesTableComponent implements OnInit {
   clickX(data) {
     this.xEmitter.emit(data);
     console.log('x ', data);
-
   }
 }

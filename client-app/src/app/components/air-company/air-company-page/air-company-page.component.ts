@@ -1,3 +1,4 @@
+import { AdditionalService } from 'src/app/model/additional-service';
 import { AirplaneFormComponent } from './../airplane/airplane-form/airplane-form.component';
 import { NgxNotificationService } from 'ngx-notification';
 import { Airplane } from './../../../model/air-company/airplane';
@@ -41,7 +42,6 @@ export class AirCompanyPageComponent implements OnInit {
    }
 
    loadAirplanes(id) {
-    console.log(this.tokenService.isAirAdmin);
     if (this.tokenService.isAirAdmin) {
       this.airCompanyService.getAllAirplanes(id).subscribe(
         (data) => {
@@ -100,15 +100,43 @@ export class AirCompanyPageComponent implements OnInit {
     });
   }
 
-  // TODO:
   openBaggageModal() {
     const initialState = {
-      aircompanyId: this.airCompany.id,
+      airCompanyId: this.airCompany.id,
+      isAddForm: true
     };
     this.modalRef = this.modalService.show(BaggageFormComponent, { initialState });
-    // this.modalRef.content.onClose.subscribe(baggage => {
-    //   this.airCompany.additionalServices.push(baggage);
-    //   this.ngxNotificationService.sendMessage('baggage ' + baggage.name + ' created!', 'dark', 'bottom-right');
-    // });
+    this.modalRef.content.onClose.subscribe(baggage => {
+       this.airCompany.baggageInformation.push(baggage);
+       this.ngxNotificationService.sendMessage('Baggage ' + baggage.name + ' created!', 'dark', 'bottom-right');
+    });
+  }
+
+  editBaggage(as: AdditionalService) {
+    const i = this.airCompany.baggageInformation.findIndex(e => e.id === as.id);
+    const initialState = {
+      airCompanyId: this.airCompany.id,
+      additionalService: this.airCompany.baggageInformation[i]
+    };
+    this.modalRef = this.modalService.show(BaggageFormComponent, { initialState });
+    this.modalRef.content.onClose.subscribe(baggage => {
+       this.airCompany.baggageInformation[i] = baggage;
+       this.ngxNotificationService.sendMessage('Baggage ' + baggage.name + ' edited!', 'dark', 'bottom-right');
+    });
+  }
+
+  deleteBaggage(as: AdditionalService) {
+    this.airCompanyService.deleteBaggageInformation(as.id, this.airCompany.id).subscribe(
+      () => {
+        const i = this.airCompany.baggageInformation.findIndex(e => e.id === as.id);
+        if (i !== -1) {
+          this.airCompany.baggageInformation.splice(i, 1);
+        }
+        this.ngxNotificationService.sendMessage('Baggage information ' + as.name + ' deleted!', 'dark', 'bottom-right');
+      },
+      error => {
+        console.log(error.error.message);
+      }
+    );
   }
 }

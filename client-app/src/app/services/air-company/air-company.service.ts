@@ -1,3 +1,4 @@
+import { AdditionalService } from './../../model/additional-service';
 import { Destination } from './../../model/air-company/destination';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -47,6 +48,18 @@ export class AirCompanyService {
 
   editDestination(destination, id): Observable<Destination> {
     return this.http.put<Destination>('http://localhost:8080/aircompanies/editDestination/' + id, destination, httpOptions);
+  }
+
+  addBaggageInformation(info, id): Observable<AdditionalService> {
+    return this.http.post<AdditionalService>('http://localhost:8080/aircompanies/addBaggageInformation/' + id, info, httpOptions);
+  }
+
+  deleteBaggageInformation(baggageId, id): Observable<any> {
+    return this.http.delete<Object>('http://localhost:8080/aircompanies/deleteBaggageInformation/' + id + '/' + baggageId);
+  }
+
+  editBaggageInformation(info, id): Observable<AdditionalService> {
+    return this.http.put<AdditionalService>('http://localhost:8080/aircompanies/editBaggageInformation/' + id, info, httpOptions);
   }
 
   getAllAirplanes(id): Observable<Airplane[]> {

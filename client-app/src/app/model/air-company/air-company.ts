@@ -6,7 +6,7 @@ export class AirCompany {
     id: number;
     name: string;
     description: string;
-    destinations: Destination[];
+    destinations: Destination[] = [];
     location: Location = new Location();
-    additionalServices: AdditionalService[] = [];
+    baggageInformation: AdditionalService[] = [];
 }

@@ -84,7 +84,6 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { AirplaneFormComponent } from './components/air-company/airplane/airplane-form/airplane-form.component';
 import { MapComponent } from './components/shared/components/map/map.component';
 import { AgmCoreModule } from '@agm/core';
-import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { RentFormComponent } from './components/rent-a-car-company/rent-form/rent-form.component';
 import { Ng5SliderModule } from 'ng5-slider';
 import { BookFormComponent } from './components/hotel/book-form/book-form.component';
