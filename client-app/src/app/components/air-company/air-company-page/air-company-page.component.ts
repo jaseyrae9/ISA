@@ -11,6 +11,7 @@ import { AirCompany } from 'src/app/model/air-company/air-company';
 import { ActivatedRoute } from '@angular/router';
 import { AirCompanyService } from 'src/app/services/air-company/air-company.service';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
+import { BaggageFormComponent } from '../baggage-form/baggage-form.component';
 
 @Component({
   selector: 'app-air-company-page',
@@ -97,5 +98,17 @@ export class AirCompanyPageComponent implements OnInit {
       this.ngxNotificationService.sendMessage('Company information edited.', 'dark', 'bottom-right');
       this.airCompany = data;
     });
+  }
+
+  // TODO:
+  openBaggageModal() {
+    const initialState = {
+      aircompanyId: this.airCompany.id,
+    };
+    this.modalRef = this.modalService.show(BaggageFormComponent, { initialState });
+    // this.modalRef.content.onClose.subscribe(baggage => {
+    //   this.airCompany.additionalServices.push(baggage);
+    //   this.ngxNotificationService.sendMessage('baggage ' + baggage.name + ' created!', 'dark', 'bottom-right');
+    // });
   }
 }

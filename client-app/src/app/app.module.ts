@@ -88,6 +88,7 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { RentFormComponent } from './components/rent-a-car-company/rent-form/rent-form.component';
 import { Ng5SliderModule } from 'ng5-slider';
 import { BookFormComponent } from './components/hotel/book-form/book-form.component';
+import { BaggageFormComponent } from './components/air-company/baggage-form/baggage-form.component';
 
 @NgModule({
   declarations: [
@@ -153,7 +154,8 @@ import { BookFormComponent } from './components/hotel/book-form/book-form.compon
     EditServiceFormComponent,
     MapComponent,
     RentFormComponent,
-    BookFormComponent
+    BookFormComponent,
+    BaggageFormComponent
   ],
   imports: [
     BrowserModule,
@@ -193,7 +195,8 @@ import { BookFormComponent } from './components/hotel/book-form/book-form.compon
     EditCarCompanyFormComponent,
     NewHotelFormComponent,
     EditHotelFormComponent,
-    NewRoomFormComponent
+    NewRoomFormComponent,
+    BaggageFormComponent
 ]
 })
 export class AppModule { }

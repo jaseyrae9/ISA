@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { AdditionalService } from 'src/app/model/additional-service';
-import { ActivatedRoute } from '@angular/router';
 import { HotelService } from 'src/app/services/hotel/hotel.service';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Subject } from 'rxjs/Subject';
@@ -20,7 +19,7 @@ export class NewServiceFormComponent implements OnInit {
   additionalService: AdditionalService = new AdditionalService();
 
   constructor(public modalRef: BsModalRef, private formBuilder: FormBuilder,
-    private route: ActivatedRoute, private hotelService: HotelService) { }
+     private hotelService: HotelService) { }
 
   ngOnInit() {
     this.onClose = new Subject();
@@ -45,7 +44,6 @@ export class NewServiceFormComponent implements OnInit {
         this.errorMessage = err.error.details;
       }
     );
-
   }
 
 }

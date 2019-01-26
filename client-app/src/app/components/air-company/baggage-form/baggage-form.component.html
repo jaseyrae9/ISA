@@ -1,21 +1,19 @@
 <div class="modal-header">
-  <h5 class="modal-title">Add new <b style="color: #33cabb;">hotel</b></h5>
-  <button type="button" class="close" (click)="modalRef.hide()" aria-label="Close">
+  <h5 class="modal-title">Add new <b style="color: #33cabb;">baggage</b></h5>
+  <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 
-<form name="form" [formGroup]="newAdditionalServiceForm" (validSubmit)="onServiceAdd()">
+<form name="form" [formGroup]="baggageForm"  >
   <div class="modal-body">
-
-
     <div class="input-group form-group">
       <div class="input-group-prepend">
         <span class="input-group-text">
-          <i class="fa fa-hotel" aria-hidden="true"></i>
+          <i class="fa fa-suitcase" aria-hidden="true"></i>
         </span>
       </div>
-      <input type="text" class="form-control" formControlName="name" placeholder="Service name" required="required">
+      <input type="text" class="form-control" formControlName="name" placeholder="Name" required="required">
     </div>
 
     <div class="input-group form-group">
@@ -36,9 +34,7 @@
       </div>
       <input type="text" class="form-control" formControlName="price" placeholder="Price" required="required">
     </div>
-    <div class="alert alert-danger" role="alert" *ngIf="errorMessage.length != 0">
-      {{errorMessage}}
-    </div>
+  
 
   </div>
 
