@@ -5,4 +5,8 @@ export class SingleRoomReservation {
     id: number;
     roomReservation: RoomReservation;
     room: Room;
+    startDateAndTime: Date;
+    endDateAndTime: Date;
+    duration: string;
+    length = 0;
 }

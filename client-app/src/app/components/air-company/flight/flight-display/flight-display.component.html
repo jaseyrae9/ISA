@@ -1,0 +1,36 @@
+<div class="container mb-3" *ngIf="tokenService.isAirAdmin">
+  <div class="col-12 text-center">
+      <button type="button" class="btn btn-primary" (click)="openAddForm()">
+        Add new flight
+      </button>
+  </div>
+</div>
+<div>
+  <div *ngIf="flights.length == 0 else flightsDiv" class="text-center">
+          <p>There are no flights.</p>
+  </div>
+  <ng-template #flightsDiv>
+    <div class="container" >
+      <app-fight-basic-info *ngFor="let item of flights" [flight]="item"></app-fight-basic-info>
+    </div>
+    <nav style="padding-top: 20px">
+        <ul class="pagination" style="justify-content: center">
+                <li class="page-item">
+                        <a class="page-link" aria-label="Previous" (click)="arrowAction(-1)">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                        </a>
+                </li>
+                <li class="page-item" *ngFor="let item of pages; let i = index" [ngClass]="{'active': i == pageNumber}">
+                        <a class="page-link" (click)="changePage(i)"> {{i + 1}} </a>
+                </li>
+                <li class="page-item">
+                        <a class="page-link" aria-label="Next" (click)="arrowAction(1)">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                        </a>
+                </li>
+        </ul>
+     </nav>
+  </ng-template>
+</div>

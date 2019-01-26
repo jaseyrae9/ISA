@@ -21,6 +21,7 @@ import { BaggageFormComponent } from '../baggage-form/baggage-form.component';
 })
 export class AirCompanyPageComponent implements OnInit {
   modalRef: BsModalRef;
+  id;
   airCompany: AirCompany = new AirCompany();
   airplanes: Airplane[] = [];
 
@@ -29,13 +30,13 @@ export class AirCompanyPageComponent implements OnInit {
     public tokenService: TokenStorageService) { }
 
   ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
-    this.airCompanyService.get(id).subscribe(
+    this.id = this.route.snapshot.paramMap.get('id');
+    this.airCompanyService.get(this.id).subscribe(
       (data) => {
         this.airCompany = data;
       }
     );
-    this.loadAirplanes(id);
+    this.loadAirplanes(this.id);
     this.tokenService.rolesEmitter.subscribe(
       (data) => { if (data !== null) { this.loadAirplanes(this.airCompany.id); } }
     );

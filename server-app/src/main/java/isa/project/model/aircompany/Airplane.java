@@ -16,6 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import isa.project.dto.aircompany.AirplaneDTO;
 import isa.project.dto.aircompany.SeatDTO;
 
@@ -27,11 +29,11 @@ public class Airplane implements Serializable {
 	public enum AirplaneStatus {IN_PROGRESS, ACTIVE, DELETED};
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)	
-	@JoinColumn(name="air_company_id", referencedColumnName="id")
+	@JoinColumn(name="air_company_id", referencedColumnName="id", nullable = false)
 	private AirCompany airCompany;
 	
 	@Column(nullable = false)
@@ -85,6 +87,7 @@ public class Airplane implements Serializable {
 		this.name = name;
 	}
 	
+	@JsonIgnore
 	public AirCompany getAirCompany() {
 		return airCompany;
 	}

@@ -1,0 +1,32 @@
+<div class="row border rounded align-items-center p-2 mt-2">
+    <div class="col-sm-3 pt-2" align="center">
+        <p>{{flight.destinations[0].destination.label}}
+        <br><small class="text-muted">{{flight.destinations[0].destination.airportName}}, {{flight.destinations[0].destination.country}}</small>
+        </p>
+        <hr>
+        <p>{{flight.startDateAndTime}}</p>
+    </div>
+    <div class="col-auto  pl-0 pr-4">
+        <i class="fa fa-plane-departure fa-2x"></i>
+    </div>
+    <div class="col-auto pt-3">
+        <span class="badge badge-primary p-2">Duration: <br/> {{flight.duration}}</span>
+        <p align="center"><small class="text-muted">{{flight.destinations.length - 2}} stops</small></p>
+    </div>
+    <div class="col-auto pl-0 pr-4">
+        <i class="fa fa-plane-arrival fa-2x"></i>
+    </div>
+    <div class="col-sm-3 pt-2" align="center">
+        <p>{{flight.destinations[flight.destinations.length-1].destination.label}}
+        <br><small class="text-muted">{{flight.destinations[flight.destinations.length-1].destination.airportName}}, {{flight.destinations[flight.destinations.length-1].destination.country}}</small>
+        </p>
+        <hr>
+        <p>{{flight.endDateAndTime}}</p>
+    </div>
+    <div class="col border-left p-3" align="center">
+        <p style="font-size: 45px; color:  #33cabb;">€150+</p>
+        <hr>
+        <button *ngIf="tokenService.isAirAdmin" class="btn btn-primary px-4 m-2">Edit</button>
+        <button class="btn btn-primary px-4 m-2">Buy</button>
+    </div>
+</div>

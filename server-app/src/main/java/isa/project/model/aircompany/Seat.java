@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import isa.project.dto.aircompany.SeatDTO;
 
 @Entity
@@ -27,7 +29,7 @@ public class Seat implements Serializable{
 	private Integer id;
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)	
-	@JoinColumn(name="airplane_id", referencedColumnName="id")
+	@JoinColumn(name="airplane_id", referencedColumnName="id", nullable = false)
 	private Airplane airplane;
 	
 	@Column(nullable = false)
@@ -57,6 +59,7 @@ public class Seat implements Serializable{
 		this.id = id;
 	}
 
+	@JsonIgnore
 	public Airplane getAirplane() {
 		return airplane;
 	}

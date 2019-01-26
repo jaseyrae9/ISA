@@ -49,7 +49,7 @@ import { AdditionalServiceComponent } from './components/shared/components/addit
 // tslint:disable-next-line:max-line-length
 import { AdditionalServicesTableComponent } from './components/shared/components/additional-services-table/additional-services-table.component';
 import { AirCompanyPageComponent } from './components/air-company/air-company-page/air-company-page.component';
-import { FightBasicInfoComponent } from './components/air-company/fight-basic-info/fight-basic-info.component';
+import { FightBasicInfoComponent } from './components/air-company/flight/fight-basic-info/fight-basic-info.component';
 import { AddCarAdminComponent } from './components/rent-a-car-company/add-car-admin/add-car-admin.component';
 import { DataService } from './observables/data.service';
 import { HotelPageComponent } from './components/hotel/hotel-page/hotel-page.component';
@@ -81,6 +81,7 @@ import { BsDatepickerModule} from 'ngx-bootstrap';
 import { AirplaneDisplayComponent } from './components/air-company/airplane/airplane-display/airplane-display.component';
 // tooltips
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { SortableModule } from 'ngx-bootstrap/sortable';
 import { AirplaneFormComponent } from './components/air-company/airplane/airplane-form/airplane-form.component';
 import { MapComponent } from './components/shared/components/map/map.component';
 import { AgmCoreModule } from '@agm/core';
@@ -88,6 +89,8 @@ import { RentFormComponent } from './components/rent-a-car-company/rent-form/ren
 import { Ng5SliderModule } from 'ng5-slider';
 import { BookFormComponent } from './components/hotel/book-form/book-form.component';
 import { BaggageFormComponent } from './components/air-company/baggage-form/baggage-form.component';
+import { FlightDisplayComponent } from './components/air-company/flight/flight-display/flight-display.component';
+import { FlightFormComponent } from './components/air-company/flight/flight-form/flight-form.component';
 
 @NgModule({
   declarations: [
@@ -154,7 +157,9 @@ import { BaggageFormComponent } from './components/air-company/baggage-form/bagg
     MapComponent,
     RentFormComponent,
     BookFormComponent,
-    BaggageFormComponent
+    BaggageFormComponent,
+    FlightDisplayComponent,
+    FlightFormComponent
   ],
   imports: [
     BrowserModule,
@@ -171,7 +176,8 @@ import { BaggageFormComponent } from './components/air-company/baggage-form/bagg
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDxMEmiWGtvuSRvzBShDgvPbWYQgo3GEHQ'
     }),
-    Ng5SliderModule
+    Ng5SliderModule,
+    SortableModule.forRoot()
   ],
   providers: [HotelService, AirCompanyService, UserService, DataService, RoleGuardService, LocationService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
@@ -195,7 +201,8 @@ import { BaggageFormComponent } from './components/air-company/baggage-form/bagg
     NewHotelFormComponent,
     EditHotelFormComponent,
     NewRoomFormComponent,
-    BaggageFormComponent
+    BaggageFormComponent,
+    FlightFormComponent
 ]
 })
 export class AppModule { }

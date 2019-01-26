@@ -1,3 +1,4 @@
+import { Flight } from './../../model/air-company/flight';
 import { AdditionalService } from './../../model/additional-service';
 import { Destination } from './../../model/air-company/destination';
 import { Injectable } from '@angular/core';
@@ -80,5 +81,13 @@ export class AirCompanyService {
 
   editAirplane(company, airplane): Observable<Airplane> {
     return this.http.put<Airplane>('http://localhost:8080/aircompanies/editAirplane/' + company, airplane, httpOptions);
+  }
+
+  getFlights(company, page): Observable<Flight[]> {
+    return this.http.get<Flight[]>('http://localhost:8080/aircompanies/getFlights/' + company + '?page=' + page + '&size=' + 2);
+  }
+
+  addFlight(company, flight): Observable<Flight> {
+    return this.http.post<Flight>('http://localhost:8080/aircompanies/addFlight/' + company, flight, httpOptions);
   }
 }

@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "destinations")
 public class Destination implements Serializable {
@@ -22,7 +24,7 @@ public class Destination implements Serializable {
 	private Long id;
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)	
-	@JoinColumn(name="air_company_id", referencedColumnName="id")
+	@JoinColumn(name="air_company_id", referencedColumnName="id", nullable = false)
 	private AirCompany airCompany;
 
 	@Column(length = 3, nullable = false)
@@ -57,6 +59,8 @@ public class Destination implements Serializable {
 		this.id = id;
 	}
 
+
+	@JsonIgnore
 	public AirCompany getAirCompany() {
 		return airCompany;
 	}
