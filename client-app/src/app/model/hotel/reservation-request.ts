@@ -1,10 +1,10 @@
 import { AdditionalService } from '../additional-service';
-import { SingleRoomReservation } from './single-room-reservation';
+import { Room } from './room';
 
-export class RoomReservation {
+export class ReservationRequest {
     id: number;
     checkInDate: Date;
     checkOutDate: Date;
     additionalServices: AdditionalService[];
-    reservations: SingleRoomReservation[];
+    reservations: Room[];
 }

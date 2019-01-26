@@ -34,9 +34,9 @@ public class HotelDTO {
 		this.id = hotel.getId();
 		this.name = hotel.getName();
 		this.description = hotel.getDescription();
-		this.rooms = new ArrayList<>();
 		this.location = hotel.getLocation();
 		
+		this.rooms = new ArrayList<>();
 		if(hotel.getRooms() != null) {
 			for(Room room: hotel.getRooms()) {
 				this.rooms.add(new RoomDTO(room));

@@ -46,7 +46,7 @@ public class CarReservation {
 	@JoinColumn(name="car_id", referencedColumnName="id")
 	private Car car;
 	
-	@JsonBackReference(value = "car-reservations")
+	@JsonBackReference(value = "customer-car-reservations")
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)	
 	@JoinColumn(name="customer_id", referencedColumnName="id")
 	private Customer customer;

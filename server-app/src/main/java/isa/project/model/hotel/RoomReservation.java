@@ -1,6 +1,7 @@
 package isa.project.model.hotel;
 
 import java.sql.Date;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -12,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -19,7 +21,6 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import isa.project.dto.hotel.RoomReservationDTO;
 import isa.project.model.shared.AdditionalService;
 import isa.project.model.users.Customer;
 
@@ -37,7 +38,7 @@ public class RoomReservation {
 	@Column(name = "check_out_date", nullable = false)
 	private Date checkOutDate;
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	@ManyToMany
 	private Set<AdditionalService> additionalServices;
 	
 	@JsonManagedReference(value = "single-room-reservations")
@@ -55,13 +56,13 @@ public class RoomReservation {
 	public RoomReservation() {	
 	}
 
-	public RoomReservation(Customer customer, RoomReservationDTO roomReservationDTO) {
+	public RoomReservation(Customer customer, Date checkInDate, Date checkOutDate) {
 		super();
 		this.customer = customer;
-		this.checkInDate = roomReservationDTO.getCheckInDate();
-		this.checkOutDate = roomReservationDTO.getCheckOutDate();
-		this.additionalServices = roomReservationDTO.getAdditionalServices();
-		//this.singleRoomReservations = roomReservationDTO.getSingleRoomReservations();
+		this.checkInDate = checkInDate;
+		this.checkOutDate = checkOutDate;
+		this.additionalServices = new HashSet<>();
+		this.singleRoomReservations = new HashSet<>();
 		this.active = true;
 	}
 	
@@ -97,6 +98,10 @@ public class RoomReservation {
 	public void setAdditionalServices(Set<AdditionalService> additionalServices) {
 		this.additionalServices = additionalServices;
 	}
+	
+	public void addAdditionalService(AdditionalService additionalService) {
+		this.additionalServices.add(additionalService);
+	}
 		
 	public Set<SingleRoomReservation> getSingleRoomReservations() {
 		return singleRoomReservations;
@@ -104,6 +109,10 @@ public class RoomReservation {
 
 	public void setSingleRoomReservations(Set<SingleRoomReservation> singleRoomReservations) {
 		this.singleRoomReservations = singleRoomReservations;
+	}
+	
+	public void addSingleRoomReservation(SingleRoomReservation singleRoomReservation) {
+		this.singleRoomReservations.add(singleRoomReservation);
 	}
 
 	public Boolean getActive() {

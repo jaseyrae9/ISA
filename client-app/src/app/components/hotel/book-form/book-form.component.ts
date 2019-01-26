@@ -9,6 +9,7 @@ import { RoomReservation } from 'src/app/model/hotel/room-reservation';
 import { HotelService } from 'src/app/services/hotel/hotel.service';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { SingleRoomReservation } from 'src/app/model/hotel/single-room-reservation';
+import { ReservationRequest } from 'src/app/model/hotel/reservation-request';
 
 @Component({
   selector: 'app-book-form',
@@ -105,7 +106,7 @@ export class BookFormComponent implements OnInit {
     const date1 = new Date(this.bookForm.value.bsRangeValue[1]);
     const datum1 = formatDate(date1, 'yyyy-MM-dd', 'en');
 
-    for (const r of room.singleRoomReservations) {
+    for (const r of room.reservations) {
       console.log('aaaa,bbbb');
       console.log(r);
 
@@ -151,17 +152,11 @@ export class BookFormComponent implements OnInit {
 
   completeBooking() {
     console.log('completeBooking');
-    const roomReservation = new RoomReservation();
+    const roomReservation = new ReservationRequest();
     roomReservation.checkInDate = this.bookForm.value.bsRangeValue[0];
     roomReservation.checkOutDate = this.bookForm.value.bsRangeValue[1];
     roomReservation.additionalServices = this.checkedAdditionalServices;
-    roomReservation.singleRoomReservations = [];
-    for (const r of this.bookedRooms) {
-      const singleRoomReservation = new SingleRoomReservation();
-      singleRoomReservation.room = r;
-      // singleRoomReservation.roomReservation = roomReservation;
-      roomReservation.singleRoomReservations.push(singleRoomReservation);
-    }
+    roomReservation.reservations = this.bookedRooms;
     console.log('salje se ', roomReservation);
 
     this.hotelService.rentRoom(roomReservation, this.tokenService.getUsername()).subscribe(

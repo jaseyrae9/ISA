@@ -21,7 +21,6 @@ import isa.project.aspects.HotelAdminCheck;
 import isa.project.dto.hotel.HotelDTO;
 import isa.project.dto.hotel.RoomDTO;
 import isa.project.dto.hotel.RoomReservationDTO;
-import isa.project.dto.rentacar.CarReservationDTO;
 import isa.project.exception_handlers.ResourceNotFoundException;
 import isa.project.model.hotel.Hotel;
 import isa.project.model.hotel.Room;
@@ -70,7 +69,7 @@ public class HotelController {
 		if (!hotel.isPresent()) {
 			throw new ResourceNotFoundException(id.toString(), "Hotel not found");
 		}
-		return new ResponseEntity<>(hotel.get(), HttpStatus.OK);
+		return new ResponseEntity<>(new HotelDTO(hotel.get()), HttpStatus.OK);
 	}
 	
 	/**
@@ -255,7 +254,8 @@ public class HotelController {
 		
 		System.out.println("AA" + roomReservationDTO.getCheckInDate());
 		System.out.println("BB" + roomReservationDTO.getCheckOutDate());
-		System.out.println(roomReservationDTO.getAdditionalServices().size());
+		System.out.println("servisa: " + roomReservationDTO.getAdditionalServices().size());
+		System.out.println("soba: " + roomReservationDTO.getReservations().size());
 		RoomReservation roomReservation = roomService.addReservation(customer, roomReservationDTO);
 		
 		return new ResponseEntity<>(new RoomReservationDTO(roomReservation), HttpStatus.CREATED);

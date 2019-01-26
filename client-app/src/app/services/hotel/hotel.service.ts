@@ -6,6 +6,7 @@ import { User } from 'src/app/model/users/user';
 import { Room } from 'src/app/model/hotel/room';
 import { AdditionalService } from 'src/app/model/additional-service';
 import { RoomReservation } from 'src/app/model/hotel/room-reservation';
+import { ReservationRequest } from 'src/app/model/hotel/reservation-request';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -71,8 +72,8 @@ export class HotelService {
     return this.http.delete<number>('http://localhost:8080/hotels/deleteAdditionalService/' + hotelId + '/' + serviceId, httpOptions);
   }
 
-  rentRoom(roomReservation: RoomReservation, customer: string) {
+  rentRoom(roomReservation: ReservationRequest, customer: string) {
     console.log('Rent room service');
-    return this.http.post<RoomReservation>('http://localhost:8080/hotels/rentRoom/' + customer, roomReservation, httpOptions);
+    return this.http.post<ReservationRequest>('http://localhost:8080/hotels/rentRoom/' + customer, roomReservation, httpOptions);
   }
 }
