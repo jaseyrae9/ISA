@@ -67,11 +67,12 @@ export class RentACarCompanyService {
     + '/' + branchOfficeId, httpOptions);
   }
 
-  rentCar(carReservation: CarReservation, carId: number, customer: string): Observable<CarReservation> {
+  rentCar(carReservation: CarReservation, carCompanyId: number, carId: number, customer: string): Observable<CarReservation> {
     console.log(carReservation);
 
-    return this.http.post<CarReservation>('http://localhost:8080/rent_a_car_companies/rentCar/' + carReservation.pickUpBranchOffice.id
-    + '/' + carReservation.dropOffBranchOffice.id + '/' + formatDate(carReservation.pickUpDate, 'yyyy-MM-dd', 'en')
+    return this.http.post<CarReservation>('http://localhost:8080/rent_a_car_companies/rentCar/' + carCompanyId + '/'
+    + carReservation.pickUpBranchOffice.id + '/' + carReservation.dropOffBranchOffice.id + '/'
+    + formatDate(carReservation.pickUpDate, 'yyyy-MM-dd', 'en')
     + '/' + formatDate(carReservation.dropOffDate, 'yyyy-MM-dd', 'en') + '/' + carId + '/' + customer, httpOptions);
   }
 }

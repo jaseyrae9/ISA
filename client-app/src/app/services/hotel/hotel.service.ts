@@ -72,8 +72,8 @@ export class HotelService {
     return this.http.delete<number>('http://localhost:8080/hotels/deleteAdditionalService/' + hotelId + '/' + serviceId, httpOptions);
   }
 
-  rentRoom(roomReservation: ReservationRequest, customer: string) {
-    console.log('Rent room service');
-    return this.http.post<ReservationRequest>('http://localhost:8080/hotels/rentRoom/' + customer, roomReservation, httpOptions);
+  rentRoom(roomReservation: ReservationRequest, hotelId: number, customer: string) {
+    return this.http.post<ReservationRequest>('http://localhost:8080/hotels/rentRoom/' + hotelId + '/' + customer,
+     roomReservation, httpOptions);
   }
 }

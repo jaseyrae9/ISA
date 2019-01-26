@@ -7,7 +7,7 @@ export class Hotel {
     name: string;
     description: string;
     rooms: Room[];
-    additionalServices: AdditionalService[];
+    additionalServices: AdditionalService[] = [];
     rating: number;
     location: Location = new Location();
 

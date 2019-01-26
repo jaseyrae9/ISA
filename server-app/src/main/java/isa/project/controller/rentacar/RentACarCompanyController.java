@@ -23,6 +23,7 @@ import isa.project.dto.rentacar.BranchOfficeDTO;
 import isa.project.dto.rentacar.CarDTO;
 import isa.project.dto.rentacar.CarReservationDTO;
 import isa.project.dto.rentacar.RentACarCompanyDTO;
+import isa.project.exception_handlers.RequestDataException;
 import isa.project.exception_handlers.ResourceNotFoundException;
 import isa.project.model.rentacar.BranchOffice;
 import isa.project.model.rentacar.Car;
@@ -215,11 +216,11 @@ public class RentACarCompanyController {
 	}
 
 	@PreAuthorize("hasAnyRole('CUSTOMER')")
-	@RequestMapping(value="/rentCar/{pickUpBranchOfficeId}/{dropOffBranchOfficeId}/{pickUpDate}/{dropOffDate}/{carId}/{customer}", method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<CarReservationDTO> rentCar(@PathVariable Integer pickUpBranchOfficeId, @PathVariable Integer dropOffBranchOfficeId,
-			@PathVariable String pickUpDate, @PathVariable String dropOffDate, @PathVariable Integer carId, @PathVariable String customer) throws ResourceNotFoundException, ParseException{ 
+	@RequestMapping(value="/rentCar/{carCompanyId}/{pickUpBranchOfficeId}/{dropOffBranchOfficeId}/{pickUpDate}/{dropOffDate}/{carId}/{customer}", method = RequestMethod.POST, consumes = "application/json")
+	public ResponseEntity<CarReservationDTO> rentCar(@PathVariable Integer carCompanyId, @PathVariable Integer pickUpBranchOfficeId, @PathVariable Integer dropOffBranchOfficeId,
+			@PathVariable String pickUpDate, @PathVariable String dropOffDate, @PathVariable Integer carId, @PathVariable String customer) throws ResourceNotFoundException, ParseException, RequestDataException{ 
 	
-		CarReservation carReservation = carService.addReservation(carId, customer, pickUpBranchOfficeId, dropOffBranchOfficeId, pickUpDate, dropOffDate);
+		CarReservation carReservation = carService.addReservation(carCompanyId, carId, customer, pickUpBranchOfficeId, dropOffBranchOfficeId, pickUpDate, dropOffDate);
 		
 		return new ResponseEntity<>(new CarReservationDTO(carReservation), HttpStatus.CREATED);
 	}
