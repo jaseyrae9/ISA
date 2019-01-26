@@ -33,7 +33,7 @@ public class Room implements Serializable{
 	private Hotel hotel;
 
 	@JsonManagedReference(value="single-room-reservation")
-	@OneToMany(mappedBy = "room", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "room", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, orphanRemoval = true)
 	private Set<SingleRoomReservation> singleRoomReservations;
 	
 	@Column(name = "floor", nullable = false)
@@ -55,7 +55,6 @@ public class Room implements Serializable{
 	private Boolean active;	
 
 	public Room() {
-		//super();
 	}
 	
 	public Room(Hotel hotel, Integer floor, Integer roomNumber, Integer numberOfBeds, Double price, String type) {

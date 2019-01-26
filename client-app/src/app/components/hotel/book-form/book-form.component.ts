@@ -5,10 +5,11 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Room } from 'src/app/model/hotel/room';
 import { formatDate } from '@angular/common';
 import { AdditionalService } from 'src/app/model/additional-service';
-import { RoomReservation } from 'src/app/model/hotel/room-reservation';
 import { HotelService } from 'src/app/services/hotel/hotel.service';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
-import { SingleRoomReservation } from 'src/app/model/hotel/single-room-reservation';
+import { ReservationRequest } from 'src/app/model/hotel/reservation-request';
+import { HttpErrorResponse } from '@angular/common/http';
+import { NgxNotificationService } from 'ngx-notification';
 
 @Component({
   selector: 'app-book-form',
@@ -19,6 +20,7 @@ export class BookFormComponent implements OnInit {
   @Input() rooms: Room[] = [];
   @Input() additionalServices: AdditionalService[] = [];
   visibleRooms: Room[] = []; // sobe koje ce se prikazati posle search-a
+  @Input() hotelId: number;
 
   checkedAdditionalServices: AdditionalService[] = [];
   bookedRooms: Room[] = [];
@@ -60,7 +62,8 @@ export class BookFormComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private hotelService: HotelService,
-    private tokenService: TokenStorageService) {
+    private tokenService: TokenStorageService,
+    public ngxNotificationService: NgxNotificationService) {
 
     this.datePickerConfig = Object.assign({},
       {
@@ -81,17 +84,11 @@ export class BookFormComponent implements OnInit {
 
   onSearch() {
     this.visibleRooms = [];
-    console.log('izabrani tip ' + this.bookForm.value.type);
-
     for (const room of this.rooms) {
-      console.log('naisli na tip ' + room.type);
       if (room.type === this.bookForm.value.type) {
-        console.log('room number ' + room.roomNumber + ' tip ' + room.type);
         if (room.price >= this.bookForm.value.priceRange[0] && room.price <= this.bookForm.value.priceRange[1]) {
-          console.log('okej');
           if (this.isAvailable(room)) {
             this.visibleRooms.push(room);
-            console.log(this.visibleRooms);
           }
         }
       }
@@ -99,16 +96,12 @@ export class BookFormComponent implements OnInit {
   }
 
   isAvailable(room: Room) {
-    console.log('isAvabile in Room');
     const date0 = new Date(this.bookForm.value.bsRangeValue[0]);
     const datum0 = formatDate(date0, 'yyyy-MM-dd', 'en');
     const date1 = new Date(this.bookForm.value.bsRangeValue[1]);
     const datum1 = formatDate(date1, 'yyyy-MM-dd', 'en');
 
-    for (const r of room.singleRoomReservations) {
-      console.log('aaaa,bbbb');
-      console.log(r);
-
+    for (const r of room.reservations) {
       if (datum0 >= r.roomReservation.checkInDate.toString() &&
         datum0 <= r.roomReservation.checkOutDate.toString()) {
         return false;
@@ -123,53 +116,48 @@ export class BookFormComponent implements OnInit {
 
   clickCheck(data) {
     this.checkedAdditionalServices.push(data);
-    console.log('dodavanje', this.checkedAdditionalServices);
   }
 
   clickX(data) {
-    // this.checkedAdditionalServices
     const index: number = this.checkedAdditionalServices.indexOf(data);
     if (index !== -1) {
       this.checkedAdditionalServices.splice(index, 1);
     }
-    console.log('uklanjanje', this.checkedAdditionalServices);
   }
 
   clickBook(data) {
     this.bookedRooms.push(data);
-    console.log('dodavanje', this.bookedRooms);
-
+    this.ngxNotificationService.sendMessage('Room is booked.', 'dark', 'bottom-right' );
   }
 
   clickUnbook(data) {
     const index: number = this.bookedRooms.indexOf(data);
     if (index !== -1) {
       this.bookedRooms.splice(index, 1);
+      this.ngxNotificationService.sendMessage('Room is unbooked.', 'dark', 'bottom-right' );
     }
-    console.log('uklanjanje', this.bookedRooms);
   }
 
   completeBooking() {
-    console.log('completeBooking');
-    const roomReservation = new RoomReservation();
+    const roomReservation = new ReservationRequest();
     roomReservation.checkInDate = this.bookForm.value.bsRangeValue[0];
     roomReservation.checkOutDate = this.bookForm.value.bsRangeValue[1];
+    console.log('this.bookForm.value.bsRangeValue[1]', this.bookForm.value.bsRangeValue[1]);
     roomReservation.additionalServices = this.checkedAdditionalServices;
-    roomReservation.singleRoomReservations = [];
-    for (const r of this.bookedRooms) {
-      const singleRoomReservation = new SingleRoomReservation();
-      singleRoomReservation.room = r;
-      // singleRoomReservation.roomReservation = roomReservation;
-      roomReservation.singleRoomReservations.push(singleRoomReservation);
-    }
+    roomReservation.reservations = this.bookedRooms;
     console.log('salje se ', roomReservation);
 
-    this.hotelService.rentRoom(roomReservation, this.tokenService.getUsername()).subscribe(
+    this.hotelService.rentRoom(roomReservation, this.hotelId, this.tokenService.getUsername()).subscribe(
       roomReservationData => {
         console.log('vraceno', roomReservationData);
+        this.ngxNotificationService.sendMessage('Booking is completed!', 'dark', 'bottom-right' );
       },
-      error => {
-        console.log(error);
+      (err: HttpErrorResponse) => {
+        // interceptor je hendlovao ove zahteve
+        if (err.status === 401 || err.status === 403 || err.status === 404) {
+          // refresh
+        }
+        this.errorMessage = err.error.details;
       }
     );
   }

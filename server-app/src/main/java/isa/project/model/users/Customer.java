@@ -18,7 +18,7 @@ import isa.project.model.rentacar.CarReservation;
 @DiscriminatorValue("CUST")
 public class Customer extends User {
 
-	@JsonManagedReference(value = "car-reservations")
+	@JsonManagedReference(value = "customer-car-reservations")
 	@OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<CarReservation> carReservations;
 	

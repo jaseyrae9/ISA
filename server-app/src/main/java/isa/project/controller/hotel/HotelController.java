@@ -21,7 +21,7 @@ import isa.project.aspects.HotelAdminCheck;
 import isa.project.dto.hotel.HotelDTO;
 import isa.project.dto.hotel.RoomDTO;
 import isa.project.dto.hotel.RoomReservationDTO;
-import isa.project.dto.rentacar.CarReservationDTO;
+import isa.project.exception_handlers.RequestDataException;
 import isa.project.exception_handlers.ResourceNotFoundException;
 import isa.project.model.hotel.Hotel;
 import isa.project.model.hotel.Room;
@@ -70,7 +70,7 @@ public class HotelController {
 		if (!hotel.isPresent()) {
 			throw new ResourceNotFoundException(id.toString(), "Hotel not found");
 		}
-		return new ResponseEntity<>(hotel.get(), HttpStatus.OK);
+		return new ResponseEntity<>(new HotelDTO(hotel.get()), HttpStatus.OK);
 	}
 	
 	/**
@@ -250,14 +250,9 @@ public class HotelController {
 	}
 	
 	@PreAuthorize("hasAnyRole('CUSTOMER')")
-	@RequestMapping(value="/rentRoom/{customer}", method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<RoomReservationDTO> rentRoom(@PathVariable String customer, @Valid @RequestBody RoomReservationDTO roomReservationDTO ) throws ResourceNotFoundException{
-		
-		System.out.println("AA" + roomReservationDTO.getCheckInDate());
-		System.out.println("BB" + roomReservationDTO.getCheckOutDate());
-		System.out.println(roomReservationDTO.getAdditionalServices().size());
-		RoomReservation roomReservation = roomService.addReservation(customer, roomReservationDTO);
-		
+	@RequestMapping(value="/rentRoom/{hotelId}/{customer}", method = RequestMethod.POST, consumes = "application/json")
+	public ResponseEntity<RoomReservationDTO> rentRoom(@PathVariable Integer hotelId, @PathVariable String customer, @Valid @RequestBody RoomReservationDTO roomReservationDTO ) throws ResourceNotFoundException, RequestDataException{
+		RoomReservation roomReservation = roomService.addReservation(hotelId, customer, roomReservationDTO);
 		return new ResponseEntity<>(new RoomReservationDTO(roomReservation), HttpStatus.CREATED);
 	}
 

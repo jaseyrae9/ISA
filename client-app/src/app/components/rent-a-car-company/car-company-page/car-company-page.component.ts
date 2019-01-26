@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { RentACarCompanyService } from 'src/app/services/rent-a-car-company/rent-a-car-company.service';
 import { Car } from 'src/app/model/rent-a-car-company/car';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
-import { Role } from 'src/app/model/role';
 import { BranchOffice } from 'src/app/model/rent-a-car-company/branch-offfice';
 import { NgxNotificationService } from 'ngx-notification';
 import { BsModalRef } from 'ngx-bootstrap/modal';

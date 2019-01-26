@@ -8,6 +8,6 @@ export class Room {
     price: number;
     type: string;
     active: boolean;
-    singleRoomReservations: SingleRoomReservation[];
+    reservations: SingleRoomReservation[];
 
 }
