@@ -75,4 +75,9 @@ export class RentACarCompanyService {
     + formatDate(carReservation.pickUpDate, 'yyyy-MM-dd', 'en')
     + '/' + formatDate(carReservation.dropOffDate, 'yyyy-MM-dd', 'en') + '/' + carId + '/' + customer, httpOptions);
   }
+
+  getAllSearched(companyName: String, companyAddress: String, pickUpDate: String, dropOffDate: String): Observable<any> {
+    return this.http.get<CarReservation>('http://localhost:8080/rent_a_car_companies/getAllSearched/companyName=' + companyName
+    + '/companyAddress=' + companyAddress + '/pickUpDate=' + pickUpDate + '/dropOffDate=' + dropOffDate, httpOptions);
+  }
 }

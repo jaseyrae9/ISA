@@ -215,16 +215,6 @@ public class RentACarCompanyController {
 		return new ResponseEntity<>(new BranchOfficeDTO(branchOffice), HttpStatus.CREATED);
 	}
 
-	@PreAuthorize("hasAnyRole('CUSTOMER')")
-	@RequestMapping(value="/rentCar/{carCompanyId}/{pickUpBranchOfficeId}/{dropOffBranchOfficeId}/{pickUpDate}/{dropOffDate}/{carId}/{customer}", method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<CarReservationDTO> rentCar(@PathVariable Integer carCompanyId, @PathVariable Integer pickUpBranchOfficeId, @PathVariable Integer dropOffBranchOfficeId,
-			@PathVariable String pickUpDate, @PathVariable String dropOffDate, @PathVariable Integer carId, @PathVariable String customer) throws ResourceNotFoundException, ParseException, RequestDataException{ 
-	
-		CarReservation carReservation = carService.addReservation(carCompanyId, carId, customer, pickUpBranchOfficeId, dropOffBranchOfficeId, pickUpDate, dropOffDate);
-		
-		return new ResponseEntity<>(new CarReservationDTO(carReservation), HttpStatus.CREATED);
-	}
-
 	@PreAuthorize("hasAnyRole('CARADMIN')")
 	@AdminAccountActiveCheck
 	@RentACarCompanyAdminCheck
@@ -280,4 +270,56 @@ public class RentACarCompanyController {
 		rentACarCompanyService.saveRentACarCompany(carCompany.get());
 		return new ResponseEntity<>(branchOfficeDTO, HttpStatus.OK);
 	}
+
+	@PreAuthorize("hasAnyRole('CUSTOMER')")
+	@RequestMapping(value="/rentCar/{carCompanyId}/{pickUpBranchOfficeId}/{dropOffBranchOfficeId}/{pickUpDate}/{dropOffDate}/{carId}/{customer}", method = RequestMethod.POST, consumes = "application/json")
+	public ResponseEntity<CarReservationDTO> rentCar(@PathVariable Integer carCompanyId, @PathVariable Integer pickUpBranchOfficeId, @PathVariable Integer dropOffBranchOfficeId,
+			@PathVariable String pickUpDate, @PathVariable String dropOffDate, @PathVariable Integer carId, @PathVariable String customer) throws ResourceNotFoundException, ParseException, RequestDataException{ 
+	
+		CarReservation carReservation = carService.addReservation(carCompanyId, carId, customer, pickUpBranchOfficeId, dropOffBranchOfficeId, pickUpDate, dropOffDate);
+		
+		return new ResponseEntity<>(new CarReservationDTO(carReservation), HttpStatus.CREATED);
+	}
+	
+	@RequestMapping(value = "/getAllSearched/{companyName}/{companyAddress}/{pickUpDate}/{dropOffDate}", method = RequestMethod.GET, consumes = "application/json")
+	public ResponseEntity<List<RentACarCompanyDTO>> getAllSearchedCompanies(@PathVariable String companyName, @PathVariable String companyAddress,
+			@PathVariable String pickUpDate, @PathVariable String dropOffDate ) throws ParseException {
+		
+		String carCompanyName = "";
+		if(companyName.split("=").length > 1) {
+			carCompanyName = companyName.split("=")[1];
+		}
+		System.out.println("carCompanyName=" + carCompanyName);
+		
+		String carCompanyAddress = "";
+		if(companyAddress.split("=").length > 1) {
+			carCompanyAddress = companyAddress.split("=")[1];			
+		}
+		System.out.println("carCompanyAddress=" + carCompanyAddress);
+		
+		String pickUp ="";
+		if(pickUpDate.split("=").length > 1) {
+			pickUp = pickUpDate.split("=")[1];
+		}
+		System.out.println("pickUpDate=" + pickUp);
+
+		String dropOff = "";
+		if(dropOffDate.split("=").length > 1) {
+			dropOff = dropOffDate.split("=")[1];
+		}
+		System.out.println("dropOffDate=" + dropOff + "\n");
+		
+		Iterable<RentACarCompany> companies = rentACarCompanyService.searchAll(carCompanyName, carCompanyAddress, pickUp, dropOff);
+
+		// convert companies to DTO
+		List<RentACarCompanyDTO> ret = new ArrayList<>();
+		for (RentACarCompany company : companies) {
+			ret.add(new RentACarCompanyDTO(company));
+		}
+
+		return new ResponseEntity<>(ret, HttpStatus.OK);
+	}
+
+	
+	
 }
