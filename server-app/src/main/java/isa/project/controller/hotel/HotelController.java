@@ -1,5 +1,6 @@
 package isa.project.controller.hotel;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -73,6 +74,46 @@ public class HotelController {
 		return new ResponseEntity<>(new HotelDTO(hotel.get()), HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/get/{name}/{address}/{checkInDate}/{checkOutDate}", method = RequestMethod.GET)
+	public ResponseEntity<List<HotelDTO>> getCompany(@PathVariable String name, @PathVariable String address, @PathVariable String checkInDate, @PathVariable String checkOutDate) throws ParseException {
+		
+		String hotelName = "";
+		if(name.split("=").length > 1) {
+			hotelName = name.split("=")[1];
+		}
+		System.out.println("hotelName " + hotelName);
+		
+		String hotelAddress = "";
+		if(address.split("=").length > 1)
+		{
+			hotelAddress = address.split("=")[1];
+			
+		}
+		System.out.println("hotelAddress " + hotelAddress);
+		
+		String hotelCheckInDate = "";
+		if(checkInDate.split("=").length > 1) {
+			hotelCheckInDate = checkInDate.split("=")[1];
+		}
+		System.out.println("hotelCheckInDate " + hotelCheckInDate);
+		
+		String hotelCheckOutDate = "";
+		if(checkOutDate.split("=").length > 1) {
+			hotelCheckOutDate = checkOutDate.split("=")[1];
+		}
+		System.out.println("hotelCheckOutDate " + hotelCheckOutDate);
+		
+		Iterable<Hotel> hotels = hotelService.findSearchAll(hotelName, hotelAddress, hotelCheckInDate, hotelCheckOutDate);
+		
+		//convert hotels to DTO
+		List<HotelDTO> ret = new ArrayList<>();
+		for(Hotel hotel:hotels) {
+			ret.add(new HotelDTO(hotel));
+		}
+		
+		return new ResponseEntity<>(ret, HttpStatus.OK);
+		
+	}
 	/**
 	 * Adds new hotels.
 	 * @param hotel
