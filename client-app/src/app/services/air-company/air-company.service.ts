@@ -67,6 +67,10 @@ export class AirCompanyService {
     return this.http.get<Airplane[]>('http://localhost:8080/aircompanies/getAirplanes/' + id);
   }
 
+  getActiveAirplanes(id): Observable<Airplane[]> {
+    return this.http.get<Airplane[]>('http://localhost:8080/aircompanies/getActiveAirplanes/' + id);
+  }
+
   deleteAirplane(company, airplane): Observable<any> {
     return this.http.delete<any>('http://localhost:8080/aircompanies/deleteAirplane/' + company + '/' + airplane);
   }

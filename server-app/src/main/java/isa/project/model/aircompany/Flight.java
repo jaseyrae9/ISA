@@ -58,6 +58,17 @@ public class Flight implements Serializable{
 	
 	@Column(nullable = false)
 	private Double length;
+	
+	@Column(nullable = false)
+	private Integer maxCarryOnBags;
+	
+	@Column(nullable = false)
+	private Integer maxCheckedBags;
+	
+	@Column(nullable = false)
+	private Boolean additionalServicesAvailable;
+	
+	
 		
 	public Flight() {
 	}
@@ -116,8 +127,6 @@ public class Flight implements Serializable{
 		Period period = duration.toPeriod();
 		PeriodFormatter formatter = new PeriodFormatterBuilder()
 				 .printZeroAlways()
-			     .appendDays()
-			     .appendLiteral(" d ")
 			     .appendHours()
 			     .appendLiteral(" h ")
 			     .appendMinutes()
@@ -132,6 +141,30 @@ public class Flight implements Serializable{
 
 	public void setLength(Double length) {
 		this.length = length;
+	}
+
+	public Integer getMaxCarryOnBags() {
+		return maxCarryOnBags;
+	}
+
+	public void setMaxCarryOnBags(Integer maxCarryOnBags) {
+		this.maxCarryOnBags = maxCarryOnBags;
+	}
+
+	public Integer getMaxCheckedBags() {
+		return maxCheckedBags;
+	}
+
+	public void setMaxCheckedBags(Integer maxCheckedBags) {
+		this.maxCheckedBags = maxCheckedBags;
+	}
+
+	public Boolean getAdditionalServicesAvailable() {
+		return additionalServicesAvailable;
+	}
+
+	public void setAdditionalServicesAvailable(Boolean additionalServicesAvailable) {
+		this.additionalServicesAvailable = additionalServicesAvailable;
 	}
 
 	@Override

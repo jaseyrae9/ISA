@@ -43,7 +43,8 @@ export class FlightDisplayComponent implements OnInit {
     };
     this.modalRef = this.modalService.show(FlightFormComponent, { initialState });
     this.modalRef.content.onClose.subscribe(flight => {
-      this.ngxNotificationService.sendMessage('Flight edited.', 'dark', 'bottom-right');
+      this.loadFlights();
+      this.ngxNotificationService.sendMessage('Flight added.', 'dark', 'bottom-right');
     });
   }
 

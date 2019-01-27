@@ -15,6 +15,7 @@ import { NgxNotificationService } from 'ngx-notification';
 export class AirplaneDisplayComponent implements OnInit {
   @Input() airplane: Airplane;
   @Input() companyId: Number;
+  @Input() useButtons = true;
   @Output() airplaneEvent: EventEmitter<Object> = new EventEmitter();
   modalRef: BsModalRef;
 

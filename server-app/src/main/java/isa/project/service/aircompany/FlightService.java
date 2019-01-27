@@ -52,12 +52,13 @@ public class FlightService {
 	 */
 	public Flight addNewFlight(Integer airCompanyId, FlightDTO flightInfo)
 			throws ResourceNotFoundException, RequestDataException {
+		checkDates(flightInfo);
 		AirCompany airCompany = findAirCompany(airCompanyId);
 		Flight flight = new Flight();
 		flight.setAirCompany(airCompany);
 		flight.setAirplane(findAirplane(airCompany, flightInfo.getAirplaneId()));
 		ArrayList<FlightDestination> destinations = new ArrayList<>();
-		for(Long id: flightInfo.getDestinations()) {
+		for (Long id : flightInfo.getDestinations()) {
 			FlightDestination fd = new FlightDestination();
 			fd.setDestination(findDestination(airCompany, id));
 			fd.setFlight(flight);
@@ -67,7 +68,22 @@ public class FlightService {
 		flight.setStartDateAndTime(flightInfo.getStartDateAndTime());
 		flight.setEndDateAndTime(flightInfo.getEndDateAndTime());
 		flight.setLength(flightInfo.getLength());
+		flight.setMaxCarryOnBags(flightInfo.getMaxCarryOnBags());
+		flight.setMaxCheckedBags(flightInfo.getMaxCheckedBags());
+		flight.setAdditionalServicesAvailable(flightInfo.getAdditionalServicesAvailable());
 		return flightRepository.save(flight);
+	}
+
+	/**
+	 * Provera da li je vreme dolaska posle vremena polaska.
+	 * 
+	 * @param info - informacije o letu
+	 * @throws RequestDataException - ako je vreme dolaska pre vremena polaska
+	 */
+	private void checkDates(FlightDTO info) throws RequestDataException {
+		if (info.getStartDateAndTime().compareTo(info.getEndDateAndTime()) >= 0) {
+			throw new RequestDataException("Departure date must be before arrival date.");
+		}
 	}
 
 	/**

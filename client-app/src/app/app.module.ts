@@ -73,7 +73,8 @@ import { DestinationComponent } from './components/air-company/destination/desti
 import { DestinationFormComponent } from './components/air-company/destination-form/destination-form.component';
 import { EditBranchOfficeFormComponent } from './components/rent-a-car-company/edit-branch-office-form/edit-branch-office-form.component';
 import { EditServiceFormComponent } from './components/hotel/edit-service-form/edit-service-form.component';
-
+// sortable
+import { NgxSortableModule } from 'ngx-sortable';
 // rating
 import { RatingModule } from 'ngx-rating';
 // datepicker
@@ -81,7 +82,8 @@ import { BsDatepickerModule} from 'ngx-bootstrap';
 import { AirplaneDisplayComponent } from './components/air-company/airplane/airplane-display/airplane-display.component';
 // tooltips
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
-import { SortableModule } from 'ngx-bootstrap/sortable';
+// timepicker
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { AirplaneFormComponent } from './components/air-company/airplane/airplane-form/airplane-form.component';
 import { MapComponent } from './components/shared/components/map/map.component';
 import { AgmCoreModule } from '@agm/core';
@@ -91,6 +93,7 @@ import { BookFormComponent } from './components/hotel/book-form/book-form.compon
 import { BaggageFormComponent } from './components/air-company/baggage-form/baggage-form.component';
 import { FlightDisplayComponent } from './components/air-company/flight/flight-display/flight-display.component';
 import { FlightFormComponent } from './components/air-company/flight/flight-form/flight-form.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -177,11 +180,13 @@ import { FlightFormComponent } from './components/air-company/flight/flight-form
       apiKey: 'AIzaSyDxMEmiWGtvuSRvzBShDgvPbWYQgo3GEHQ'
     }),
     Ng5SliderModule,
-    SortableModule.forRoot()
+    NgxSortableModule,
+    TimepickerModule.forRoot()
   ],
   providers: [HotelService, AirCompanyService, UserService, DataService, RoleGuardService, LocationService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    DatePipe
   ],
   bootstrap: [AppComponent],
   entryComponents: [

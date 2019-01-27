@@ -1,3 +1,4 @@
+import { TokenStorageService } from './../../../../auth/token-storage.service';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AdditionalService } from 'src/app/model/additional-service';
 
@@ -7,6 +8,8 @@ import { AdditionalService } from 'src/app/model/additional-service';
   styleUrls: ['./additional-service.component.css', '../../../../shared/css/item.css', '../../../../shared/css/deleteAndEditLinks.css']
 })
 export class AdditionalServiceComponent implements OnInit {
+  public loggedIn: Boolean;
+
   @Input() additionalService: AdditionalService;
 
   @Output() editEmitter: EventEmitter<AdditionalService> = new EventEmitter();
@@ -17,9 +20,13 @@ export class AdditionalServiceComponent implements OnInit {
   isChecked = false;
   @Output() checkEmitter: EventEmitter<AdditionalService> = new EventEmitter();
   @Output() xEmitter: EventEmitter<AdditionalService> = new EventEmitter();
-  constructor() { }
+  constructor(public tokenService: TokenStorageService) { }
 
   ngOnInit() {
+    this.loggedIn = this.tokenService.checkIsLoggedIn();
+    this.tokenService.logggedInEmitter.subscribe(loggedIn => {
+      this.loggedIn = loggedIn;
+    });
   }
 
   clickEdit() {

@@ -32,6 +32,7 @@
     "ngx-bootstrap": "^3.2.0",
     "ngx-notification": "^1.0.5",
     "ngx-rating": "0.0.9",
+    "ngx-sortable": "^1.0.1",
     "rxjs": "~6.3.3",
     "rxjs-compat": "^6.3.3",
     "zone.js": "^0.8.29"

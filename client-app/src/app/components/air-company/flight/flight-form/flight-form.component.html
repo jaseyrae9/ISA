@@ -1,53 +1,175 @@
 <div class="modal-header">
-  <h5 class="modal-title" *ngIf="!isAddForm" >Edit <b style="color: #33cabb;">destination</b></h5>
-  <h5 class="modal-title" *ngIf="isAddForm" >Add <b style="color: #33cabb;">destination</b></h5>
+  <h5 class="modal-title" *ngIf="!isAddForm" >Edit <b style="color: #33cabb;">flight</b></h5>
+  <h5 class="modal-title" *ngIf="isAddForm" >Add <b style="color: #33cabb;">flight</b></h5>
   <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 
-<form name="form" [formGroup]="flightForm" (validSubmit)="submit()">
-  <div class="modal-body">
 
+<div *ngIf="pageNumber === 0" >
+<div class="modal-body">
+      <p class="text-muted" align="center">Fill in basic destinations infotmation</p>
       <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <label class="input-group-text" for="inputGroupSelect01">
+            <label class="input-group-text">
               <i class="fa fa-map-marked-alt" aria-hidden="true"></i>
             </label>
           </div>
-          <select class="custom-select" id="inputGroupSelect01" formControlName = "destinationSelectBox">
+          <select class="custom-select" [(ngModel)]="selectedDestination">
             <option *ngFor="let item of destinations; let i=index" [ngValue]="i"> {{item.label}} | {{item.airportName}} | {{item.country}}</option>
           </select>
           <div class="input-group-append">
               <button (click)="addDestination()" class="btn btn-primary" type="button" id="button-addon2"><i class="fas fa-plus"></i></button>
           </div>
       </div>
-
       <hr>
-
-
       <div class="row justify-content-md-center">
-          <div class="col">
-            <bs-sortable
-            formControlName = "selectedDestinations"
-            [itemTemplate]="itemTemplate" itemClass="sortable-item"
-            itemActiveClass="sortable-item-active"
-            placeholderItem="Please, add destination." placeholderClass="sortable-item"
-            wrapperClass="sortable-wrapper"
-            >
-            <ng-template #itemTemplate let-item="item" let-index="index"> <span>{{index + 1}}: {{item}} </span></ng-template>
-            </bs-sortable>
-          </div>
-        </div>
-
-      <div class="alert alert-danger" role="alert" *ngIf="errorMessage.length != 0">
+      <ngx-sortable [items]="addedDestinations" [name]="'Flight stops'">
+        <ng-template let-item>
+            <div class="sortable-list-item">
+                {{item.label}} | {{item.airportName}} | {{item.country}}
+                <a class="delete" (click)="removeDestination(item)"><i class="fa fa-trash"></i></a>
+            </div>
+        </ng-template>
+      </ngx-sortable>
+      </div>
+      <div class="alert alert-danger mt-2" role="alert" *ngIf="errorMessage.length != 0">
           {{errorMessage}}
       </div>
-  </div>
+</div>
 
-  <div class="modal-footer">
+<div class="modal-footer">
     <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modalRef.hide()">Close</button>
-    <input type="submit" class="btn btn-primary" value="Save"/>
-  </div>
+    <button type="button" class="btn btn-primary" (click)="nextPage(1)">Next</button>
+</div>
 
-</form>
+</div>
+
+<div *ngIf="pageNumber === 1" >
+  <form [formGroup]="flightForm" (validSubmit)="nextPage(1)">
+    <div class="modal-body">
+        <p class="text-muted" align="center">Departure information</p>
+        <hr>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <label class="input-group-text">
+                <i class="fa fa-plane-departure" aria-hidden="true"></i>
+              </label>
+            </div>
+            <input type="text" formControlName="departureDate" placeholder="Select date of departure" class="form-control" bsDatepicker [bsConfig]='datePickerConfig'>
+            <div class="input-group-append">
+                <input type="time" formControlName="departureTime" class="form-control" placeholder="Time of departue"/>
+            </div>
+        </div>
+
+        <p class="text-muted" align="center">Arrival information</p>
+        <hr>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <label class="input-group-text">
+                <i class="fa fa-plane-arrival" aria-hidden="true"></i>
+              </label>
+            </div>
+            <input type="text" formControlName="arrivalDate" placeholder="Select date of departure" class="form-control" bsDatepicker [bsConfig]='datePickerConfig'>
+            <div class="input-group-append">
+                <input type="time" formControlName="arrivalTime" class="form-control" placeholder="Time of departue"/>
+            </div>
+        </div>
+
+        <p class="text-muted" align="center">Other flight information</p>
+        <hr>
+        <div class="input-group form-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="fa fa-euro-sign" aria-hidden="true"></i>
+              </span>
+            </div>
+            <input formControlName="length" type="text" class="form-control" placeholder="Distance" required="required">
+        </div>
+        <div class="input-group form-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+              </span>
+            </div>
+            <input type="text" class="form-control" placeholder="Country" required="required" formControlName="maxCarryOnBags">
+        </div>
+        <div class="input-group form-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="fa fa-suitcase-rolling" aria-hidden="true"></i>
+              </span>
+            </div>
+            <input type="text" class="form-control" placeholder="Country" required="required" formControlName="maxCheckedBags">
+        </div>
+        <label><input formControlName="additionalServicesAvailable" type="checkbox">Additional services available</label>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modalRef.hide()">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="nextPage(-1)">Previous</button>
+        <input type="submit" class="btn btn-primary" value="Next"/>
+    </div>
+  </form>
+</div>
+
+<div *ngIf="pageNumber === 2" >
+  <form [formGroup]="flightForm" (validSubmit)="submit()">
+    <div class="modal-body">
+        <p class="text-muted" align="center">Tickets information</p>
+        <hr>
+        <div class="input-group form-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="fa fa-euro-sign" aria-hidden="true"></i>
+              </span>
+            </div>
+            <input formControlName="economyPrice" type="text" class="form-control" placeholder="Economy class price" required="required">
+        </div>
+        <div class="input-group form-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="fa fa-euro-sign" aria-hidden="true"></i>
+              </span>
+            </div>
+            <input formControlName="premiumEconomyPrice" type="text" class="form-control" placeholder="Premium economy class price" required="required">
+        </div>
+        <div class="input-group form-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="fa fa-euro-sign" aria-hidden="true"></i>
+              </span>
+            </div>
+            <input formControlName="bussinessPrice" type="text" class="form-control" placeholder="Bussiness class price" required="required">
+        </div>
+        <div class="input-group form-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="fa fa-euro-sign" aria-hidden="true"></i>
+              </span>
+            </div>
+            <input formControlName="firstPrice" type="text" class="form-control" placeholder="First class price" required="required">
+        </div>
+        <p class="text-muted" align="center">Airplane information</p>
+        <hr>
+        <div class="input-group form-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="fa fa-plane" aria-hidden="true"></i>
+              </span>
+            </div>
+            <select class="custom-select" formControlName="airplaneIndex">
+                <option *ngFor="let item of airplanes; let i=index" [ngValue]="i"> {{item.name}}</option>
+            </select>
+        </div>
+        <app-airplane-display [airplane]="airplanes[flightForm.value.airplaneIndex]" [useButtons]="false"></app-airplane-display>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modalRef.hide()">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="nextPage(-1)">Previous</button>
+        <input type="submit" class="btn btn-primary" value="Save"/>
+    </div>
+  </form>
+</div>
+
+
