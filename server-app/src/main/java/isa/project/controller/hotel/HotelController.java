@@ -5,9 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,6 +26,7 @@ import isa.project.aspects.HotelAdminCheck;
 import isa.project.dto.hotel.HotelDTO;
 import isa.project.dto.hotel.RoomDTO;
 import isa.project.dto.hotel.RoomReservationDTO;
+import isa.project.dto.users.FriendshipDTO;
 import isa.project.exception_handlers.RequestDataException;
 import isa.project.exception_handlers.ResourceNotFoundException;
 import isa.project.model.hotel.Hotel;
@@ -41,21 +46,34 @@ public class HotelController {
 	@Autowired
 	private RoomService roomService;
 	
-	/**
-	 * Returns DTO objects for hotels. Objects contain id, name, address and description.
-	 * @return information about all hotels.
-	 */
-	@RequestMapping(value="/all", method = RequestMethod.GET)
+	@RequestMapping(value="/allHotels", method = RequestMethod.GET)
 	public ResponseEntity<List<HotelDTO>> getAllHotels(){
 		Iterable<Hotel> hotels = hotelService.findAll();
 		
-		//convert hotels to DTO
 		List<HotelDTO> ret = new ArrayList<>();
 		for(Hotel hotel:hotels) {
 			ret.add(new HotelDTO(hotel));
 		}
 		
 		return new ResponseEntity<>(ret, HttpStatus.OK);
+	}
+	
+	/**
+	 * Returns DTO objects for hotels. Objects contain id, name, address and description.
+	 * @return information about all hotels.
+	 */
+	@RequestMapping(value="/all", method = RequestMethod.GET)
+	public ResponseEntity<?> getAllHotelsPage(HttpServletRequest request, Pageable page){
+		Page<Hotel> hotels = hotelService.findAll(page);
+		
+		//convert hotels to DTO
+		List<HotelDTO> hotelsDTO = new ArrayList<>();
+		for(Hotel hotel:hotels) {
+			hotelsDTO.add(new HotelDTO(hotel));
+		}
+		
+		Page<HotelDTO> ret = new PageImpl<>(hotelsDTO, hotels.getPageable(), hotels.getTotalElements());
+		return ResponseEntity.ok(ret);
 	}
 	
 	/**

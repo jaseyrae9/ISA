@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import isa.project.dto.hotel.RoomDTO;
@@ -34,7 +36,11 @@ public class HotelService {
 	public Iterable<Hotel> findAll() {
 		return hotelRepository.findAll();
 	}
-
+	
+	public Page<Hotel> findAll(Pageable page) {
+		return hotelRepository.findAll(page);
+	}
+	
 	public Optional<Hotel> findHotel(Integer id) {
 		return hotelRepository.findById(id);
 	}
@@ -92,7 +98,7 @@ public class HotelService {
 
 		for (Hotel hotel : hotels) {
 			Hotel hotel_temp = hotelRepository.findById(hotel.getId()).get();
-			if (hotelCheckInDate.equals("") || !hotelCheckInDate.equals("")) {
+			if (!hotelCheckInDate.equals("") && !hotelCheckOutDate.equals("")) {
 				SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
 
 				java.util.Date inDate = sdf1.parse(hotelCheckInDate);

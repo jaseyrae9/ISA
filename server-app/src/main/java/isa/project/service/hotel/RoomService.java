@@ -2,6 +2,9 @@ package isa.project.service.hotel;
 
 import java.util.Optional;
 
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +19,8 @@ import isa.project.model.shared.AdditionalService;
 import isa.project.model.users.Customer;
 import isa.project.model.users.User;
 import isa.project.repository.hotel.HotelRepository;
-import isa.project.repository.hotel.RoomRepository;
 import isa.project.repository.hotel.RoomReservationRepository;
 import isa.project.repository.hotel.SingleRoomReservationRepository;
-import isa.project.repository.shared.AdditionalServiceRepository;
 import isa.project.repository.users.UserRepository;
 
 @Service
@@ -27,9 +28,6 @@ public class RoomService {
 
 	@Autowired
 	private HotelRepository hotelRepository;
-	
-	@Autowired
-	private RoomRepository roomRepository;
 
 	@Autowired
 	private UserRepository userRepository;
@@ -38,11 +36,10 @@ public class RoomService {
 	private RoomReservationRepository roomReservationRepository;
 
 	@Autowired
-	private AdditionalServiceRepository additionalServiceRepository;
-
-	@Autowired
 	private SingleRoomReservationRepository singleRoomReservationRepository;
 
+	
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	public RoomReservation addReservation(Integer hotelId, String customer, RoomReservationDTO roomReservationDTO)
 			throws ResourceNotFoundException, RequestDataException {
 		if(roomReservationDTO.getCheckInDate().compareTo(roomReservationDTO.getCheckOutDate()) > 0)
@@ -66,14 +63,9 @@ public class RoomService {
 				roomReservationDTO.getCheckInDate(), roomReservationDTO.getCheckOutDate());
 
 		for (AdditionalService a : roomReservationDTO.getAdditionalServices()) {
-			Optional<AdditionalService> temp = additionalServiceRepository.findById(a.getId());
-
-			if (!temp.isPresent()) {
-				throw new ResourceNotFoundException(a.getId().toString(), "Additional service " + a.getName() + " is not found");
-			}
+			Optional<AdditionalService> temp = hotel.get().getAdditionalServices().stream().filter(o -> o.getId().equals(a.getId())).findFirst();
 			
-			if (!hotel.get().getAdditionalServices().stream().filter(o -> o.getId().equals(temp.get().getId())).findFirst()
-					.isPresent()) {
+			if (!temp.isPresent()) {
 				throw new ResourceNotFoundException(temp.get().getId().toString(), "Additional service is not found in that hotel.");
 			}
 			
@@ -81,14 +73,10 @@ public class RoomService {
 		}
 
 		for (Room r : roomReservationDTO.getReservations()) {
-			Optional<Room> room = roomRepository.findById(r.getId());
+			Optional<Room> room = hotel.get().getRooms().stream().filter(o -> o.getId().equals(r.getId())).findFirst();
 
-			if (!room.isPresent()) {
-				throw new ResourceNotFoundException(r.getId().toString(), "Room not found");
-			}
 			
-			if (!hotel.get().getRooms().stream().filter(o -> o.getId().equals(room.get().getId())).findFirst()
-					.isPresent()) {
+			if (!room.isPresent()) {
 				throw new ResourceNotFoundException(room.get().getId().toString(), "Room is not found in that hotel.");
 			}
 

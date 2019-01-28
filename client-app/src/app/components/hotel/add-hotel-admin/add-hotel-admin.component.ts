@@ -19,8 +19,10 @@ export class AddHotelAdminComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.hotelService.getAll().subscribe(data => {
+    this.hotelService.getAllHotels().subscribe(data => {
+
       this.hotels = data;
+      console.log('pravi problem', data);
     });
     this.dataService.currentHotel.subscribe(hotel => {
       if ( hotel.id != null) {

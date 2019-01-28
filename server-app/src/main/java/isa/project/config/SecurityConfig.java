@@ -82,8 +82,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		web.ignoring().antMatchers("/customers/register",
 				"/customers/login",
 				"/aircompanies/all","/aircompanies/get/{id}", "/hotels/all", "/aircompanies/getFlights/{id}",
-				"/rent_a_car_companies/all",
+				"/rent_a_car_companies/all", "/rent_a_car_companies/allCompanies", "/rent_a_car_companies/getAllSearched/{companyName}/{companyAddress}/{pickUpDate}/{dropOffDate}",
 				"/rent_a_car_companies/get/{id}",
-				"/hotels/all", "/hotels/get/{id}"); 
+				"/hotels/all","/hotels/allHotels", "/hotels/get/{id}", "/hotels/get/{name}/{address}/{checkInDate}/{checkOutDate}"); 
 	}
 }

@@ -1,8 +1,8 @@
-<div  style="padding: 1%" class="container">
+<div style="padding: 1%" class="container">
   <!-- Button trigger modal -->
   <div *ngIf="tokenService.isSysAdmin" style="align-content: center" div class="row">
     <div class="col-12 text-center">
-      <button  type="button" class="btn btn-primary"(click)="openNewHotelModal()">
+      <button type="button" class="btn btn-primary" (click)="openNewHotelModal()">
         Add new hotel
       </button>
     </div>
@@ -10,56 +10,29 @@
 
   <hr>
 
-  <!-- PRETRAGA HOTELA -->
-  <form name="form" [formGroup]="searchHotelForm" (validSubmit)="onSearch()">
-    <div class="row">
-      <div class="col-sm-4">  
-        <div class="input-group form-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">
-              <i class="fa fa-hotel" aria-hidden="true"></i>
-            </span>
-          </div>
-          <input type="text" class="form-control" placeholder="Hotel name" formControlName="hotelName">
-        </div>
-      </div>
-  
-      <div class="col-sm-4">    
-        <div class="input-group form-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">
-              <i class="fa fa-map-marker" aria-hidden="true"></i>
-            </span>
-          </div>
-          <input type="text" class="form-control" placeholder="Hotel address" formControlName="hotelAddress">
-        </div>  
-      </div>
-  
-      <div class="col-sm-4">
-        <div class="input-group form-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">
-              <i class="fa fa-calendar-alt" aria-hidden="true"></i>
-            </span>
-          </div>
-          <input class="form-control" #drp="bsDaterangepicker" [bsConfig]='datePickerConfig' bsDaterangepicker
-            formControlName="bsRangeValue">
-        </div>     
-      </div>  
-  
-      <div class="alert alert-danger" role="alert" *ngIf="errorMessage.length != 0">
-        {{errorMessage}}
-      </div>
-  
-      <input type="submit" class="btn btn-primary" style="margin:auto;display:block" value="Search" />
-  
-    </div>
-  </form>
-
   <p *ngIf='hotels.length == 0' align="center" style="font-size: 35px; color:  #33cabb;">Nothing is found.</p>
 
-
-  <!-- -->
-
-  <app-hotel-basic-details *ngFor="let hotel of hotels" [hotel] = 'hotel' class="row border rounded align-items-center p-1 mt-3"></app-hotel-basic-details>
+  
+  <app-hotel-basic-details *ngFor="let hotel of hotels" [hotel]='hotel' class="row border rounded align-items-center p-1 mt-3"></app-hotel-basic-details>
+  
+  <!-- Pagination navigation -->
+  <nav style="padding-top: 20px">
+    <ul class="pagination" style="justify-content: center">
+      <li class="page-item">
+        <a class="page-link" aria-label="Previous" (click)="arrowAction(-1)">
+          <span aria-hidden="true">&laquo;</span>
+          <span class="sr-only">Previous</span>
+        </a>
+      </li>
+      <li class="page-item" *ngFor="let item of pages; let i = index" [ngClass]="{'active': i == pageNumber}">
+        <a class="page-link" (click)="changePage(i)"> {{i + 1}} </a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" aria-label="Next" (click)="arrowAction(1)">
+          <span aria-hidden="true">&raquo;</span>
+          <span class="sr-only">Next</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
 </div>

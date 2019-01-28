@@ -1,3 +1,55 @@
-<p>
-  room-search-page works!
-</p>
+<div style="padding: 1%" class="container">
+  <!-- PRETRAGA HOTELA -->
+  <form name="form" [formGroup]="searchHotelForm" (validSubmit)="onSearch()">
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="input-group form-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fa fa-hotel" aria-hidden="true"></i>
+            </span>
+          </div>
+          <input type="text" class="form-control" placeholder="Hotel name" formControlName="hotelName">
+        </div>
+      </div>
+
+      <div class="col-sm-4">
+        <div class="input-group form-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fa fa-map-marker" aria-hidden="true"></i>
+            </span>
+          </div>
+          <input type="text" class="form-control" placeholder="Hotel address" formControlName="hotelAddress">
+        </div>
+      </div>
+
+      <div class="col-sm-4">
+        <div class="input-group form-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fa fa-calendar-alt" aria-hidden="true"></i>
+            </span>
+          </div>
+          <input class="form-control" #drp="bsDaterangepicker" [bsConfig]='datePickerConfig' bsDaterangepicker
+            formControlName="bsRangeValue">
+        </div>
+      </div>
+
+      <div class="alert alert-danger" role="alert" *ngIf="errorMessage.length != 0">
+        {{errorMessage}}
+      </div>
+
+      <input type="submit" class="btn btn-primary" style="margin:auto;display:block" value="Search" />
+
+    </div>
+  </form>
+
+  <p *ngIf='hotels.length == 0' align="center" style="font-size: 35px; color:  #33cabb;">Nothing is found.</p>
+
+
+  <app-hotel-basic-details *ngFor="let hotel of hotels" [hotel]='hotel' class="row border rounded align-items-center p-1 mt-3"></app-hotel-basic-details>
+
+
+
+</div>
