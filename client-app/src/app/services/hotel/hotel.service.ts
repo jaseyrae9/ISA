@@ -5,7 +5,6 @@ import { Hotel } from '../../model/hotel/hotel';
 import { User } from 'src/app/model/users/user';
 import { Room } from 'src/app/model/hotel/room';
 import { AdditionalService } from 'src/app/model/additional-service';
-import { RoomReservation } from 'src/app/model/hotel/room-reservation';
 import { ReservationRequest } from 'src/app/model/hotel/reservation-request';
 
 const httpOptions = {
@@ -20,8 +19,12 @@ export class HotelService {
 
   constructor(private http: HttpClient) { }
 
-  getAll(): Observable<any> {
-    return this.http.get('http://localhost:8080/hotels/all');
+  getAllHotels(): Observable<any> {
+    return this.http.get('http://localhost:8080/hotels/allHotels');
+  }
+
+  getAll(page): Observable<any> {
+    return this.http.get('http://localhost:8080/hotels/all?page=' + page + '&size=2');
   }
 
   get(id: string): Observable<any> {
@@ -75,5 +78,10 @@ export class HotelService {
   rentRoom(roomReservation: ReservationRequest, hotelId: number, customer: string) {
     return this.http.post<ReservationRequest>('http://localhost:8080/hotels/rentRoom/' + hotelId + '/' + customer,
      roomReservation, httpOptions);
+  }
+
+  getSearchAll(name: String, address: String, checkInDate: String, checkOutDate: String): Observable<any> {
+    return this.http.get<any>('http://localhost:8080/hotels/get/name=' + name + '/address=' + address + '/checkInDate=' + checkInDate
+    + '/checkOutDate=' + checkOutDate);
   }
 }

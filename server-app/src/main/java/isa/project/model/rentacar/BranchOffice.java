@@ -36,8 +36,7 @@ public class BranchOffice {
 	
 	@OneToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name="location_id", nullable = false)
-	private Location location;
-	
+	private Location location;	
 	
 	public BranchOffice() {
 		

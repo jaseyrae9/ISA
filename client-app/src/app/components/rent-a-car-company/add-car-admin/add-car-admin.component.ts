@@ -18,7 +18,7 @@ export class AddCarAdminComponent implements OnInit {
   constructor(private rentACarCompanyService: RentACarCompanyService, private dataService: DataService) { }
 
   ngOnInit() {
-    this.rentACarCompanyService.getAll().subscribe(data => {
+    this.rentACarCompanyService.getAllCompanies().subscribe(data => {
       this.carcompanies = data;
     });
     this.dataService.currentCarCompany.subscribe(car => {

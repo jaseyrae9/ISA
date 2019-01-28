@@ -19,10 +19,13 @@ export class RentACarCompanyService {
 
   constructor(private http: HttpClient) { }
 
-  getAll(): Observable<any> {
-    return this.http.get('//localhost:8080/rent_a_car_companies/all');
+  getAll(pageNumber): Observable<any> {
+    return this.http.get('//localhost:8080/rent_a_car_companies/all?page=' + pageNumber + '&size=2');
   }
 
+  getAllCompanies(): Observable<any> {
+    return this.http.get('//localhost:8080/rent_a_car_companies/allCompanies');
+  }
   get(id: string): Observable<any> {
     return this.http.get('//localhost:8080/rent_a_car_companies/get/' + id);
   }
@@ -74,5 +77,10 @@ export class RentACarCompanyService {
     + carReservation.pickUpBranchOffice.id + '/' + carReservation.dropOffBranchOffice.id + '/'
     + formatDate(carReservation.pickUpDate, 'yyyy-MM-dd', 'en')
     + '/' + formatDate(carReservation.dropOffDate, 'yyyy-MM-dd', 'en') + '/' + carId + '/' + customer, httpOptions);
+  }
+
+  getAllSearched(companyName: String, companyAddress: String, pickUpDate: String, dropOffDate: String): Observable<any> {
+    return this.http.get<CarReservation>('http://localhost:8080/rent_a_car_companies/getAllSearched/companyName=' + companyName
+    + '/companyAddress=' + companyAddress + '/pickUpDate=' + pickUpDate + '/dropOffDate=' + dropOffDate, httpOptions);
   }
 }

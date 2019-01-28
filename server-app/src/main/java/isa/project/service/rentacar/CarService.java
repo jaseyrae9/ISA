@@ -15,8 +15,6 @@ import isa.project.model.rentacar.CarReservation;
 import isa.project.model.rentacar.RentACarCompany;
 import isa.project.model.users.Customer;
 import isa.project.model.users.User;
-import isa.project.repository.rentacar.BranchOfficeRepository;
-import isa.project.repository.rentacar.CarRepository;
 import isa.project.repository.rentacar.CarReservationRepository;
 import isa.project.repository.rentacar.RentACarCompanyRepository;
 import isa.project.repository.users.UserRepository;
@@ -28,61 +26,42 @@ public class CarService {
 	private RentACarCompanyRepository rentACarCompanyRepository;
 
 	@Autowired
-	private CarRepository carRepository;
-
-	@Autowired
 	private UserRepository userRepository;
 
 	@Autowired
 	private CarReservationRepository carReservationRepository;
 
-	@Autowired
-	private BranchOfficeRepository branchOfficeRepository;
-
 	public CarReservation addReservation(Integer carCompanyId, Integer carId, String customer,
 			Integer pickUpBranchOfficeId, Integer dropOffBranchOfficeId, String pickUpDate, String dropOffDate)
 			throws ResourceNotFoundException, ParseException, RequestDataException {
+		
 		Optional<RentACarCompany> rentACarComapny = rentACarCompanyRepository.findById(carCompanyId);
-		Optional<Car> car = carRepository.findById(carId);
-
 		if (!rentACarComapny.isPresent()) {
 			throw new ResourceNotFoundException(carCompanyId.toString(), "Car company is not found");
 		}
 
+		Optional<Car> car = rentACarComapny.get().getCars().stream().filter(o -> o.getId().equals(carId)).findFirst();
 		if (!car.isPresent()) {
-			throw new ResourceNotFoundException(carId.toString(), "Car is not found");
-		}
-
-		if (!rentACarComapny.get().getCars().stream().filter(o -> o.getId().equals(car.get().getId())).findFirst()
-				.isPresent()) {
 			throw new ResourceNotFoundException(carId.toString(), "Car is not found in that company");
 		}
 
 		Optional<User> user = userRepository.findByEmail(customer);
-
+		
 		if (!user.isPresent()) {
 			throw new ResourceNotFoundException(customer, "Customer is not found");
 		}
 
-		Optional<BranchOffice> bopu = branchOfficeRepository.findById(pickUpBranchOfficeId);
-		Optional<BranchOffice> bodo = branchOfficeRepository.findById(dropOffBranchOfficeId);
+		Optional<BranchOffice> bopu = rentACarComapny.get().getBranchOffices().stream().filter(o -> o.getId().equals(pickUpBranchOfficeId))
+				.findFirst();
+		Optional<BranchOffice> bodo = rentACarComapny.get().getBranchOffices().stream().filter(o -> o.getId().equals(dropOffBranchOfficeId))
+				.findFirst();
 
 		if (!bopu.isPresent()) {
-			throw new ResourceNotFoundException(pickUpBranchOfficeId.toString(), "Pick up location not found");
-		}
-
-		if (!rentACarComapny.get().getBranchOffices().stream().filter(o -> o.getId().equals(bopu.get().getId()))
-				.findFirst().isPresent()) {
 			throw new ResourceNotFoundException(pickUpBranchOfficeId.toString(),
 					"Pick up location is not found in that company");
 		}
 
 		if (!bodo.isPresent()) {
-			throw new ResourceNotFoundException(dropOffBranchOfficeId.toString(), "Drop off location is not found");
-		}
-
-		if (!rentACarComapny.get().getBranchOffices().stream().filter(o -> o.getId().equals(bodo.get().getId()))
-				.findFirst().isPresent()) {
 			throw new ResourceNotFoundException(dropOffBranchOfficeId.toString(),
 					"Drop off location is not found in that company");
 		}

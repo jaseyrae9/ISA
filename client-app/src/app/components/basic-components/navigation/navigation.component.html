@@ -21,7 +21,7 @@
                           Hotels
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                          <a class="dropdown-item" routerLink="/find-room">Find room</a>
+                          <a class="dropdown-item" routerLink="/find-room">Find hotel</a>
                           <a class="dropdown-item" routerLink="/hotels">All hotels</a>
                           <a *ngIf="tokenService.isSysAdmin" class="dropdown-item" href="#" data-toggle="modal" data-target="#addHotelAdmin">Add admin</a>
                         </div>
@@ -31,7 +31,7 @@
                           Rent-a-Car
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                          <a class="dropdown-item" routerLink="/find-car">Find car</a>
+                          <a class="dropdown-item" routerLink="/find-car">Find rent-a-car company</a>
                           <a class="dropdown-item" routerLink="/rent-a-car-companies">All rent-a-car companies</a>
                           <a *ngIf="tokenService.isSysAdmin" class="dropdown-item" href="#" data-toggle="modal" data-target="#addCarCompanyAdmin">Add admin</a>
                         </div>

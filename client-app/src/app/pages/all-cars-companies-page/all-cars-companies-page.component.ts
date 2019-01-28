@@ -8,6 +8,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { NewCarCompanyFormComponent } from 'src/app/components/rent-a-car-company/new-car-company-form/new-car-company-form.component';
 
+
 @Component({
   selector: 'app-all-cars-companies-page',
   templateUrl: './all-cars-companies-page.component.html',
@@ -16,24 +17,49 @@ import { NewCarCompanyFormComponent } from 'src/app/components/rent-a-car-compan
 
 export class AllCarsCompaniesPageComponent implements OnInit {
   modalRef: BsModalRef;
-  companies: RentACarCompany[];
+  companies: RentACarCompany[] = [];
 
-  constructor(private modalService: BsModalService, private rentACarCompanyService: RentACarCompanyService,
-     private dataService: DataService, public tokenService: TokenStorageService, public ngxNotificationService: NgxNotificationService) {
+  pages: Array<Number> = new Array();
+  pageNumber = 0;
+
+  constructor(private modalService: BsModalService,
+    private rentACarCompanyService: RentACarCompanyService,
+    private dataService: DataService,
+    public tokenService: TokenStorageService,
+    public ngxNotificationService: NgxNotificationService) {
   }
 
   ngOnInit() {
-    this.rentACarCompanyService.getAll().subscribe(data => {
-      this.companies = data;
+    this.loadCompanies();
+  }
+
+  loadCompanies() {
+    this.rentACarCompanyService.getAll(this.pageNumber).subscribe(data => {
+      this.companies = data['content'];
+      this.pages = new Array(data['totalPages']);
     });
   }
 
   openNewCarCompanyModal() {
     this.modalRef = this.modalService.show(NewCarCompanyFormComponent);
-      this.modalRef.content.onClose.subscribe(carCompany => {
-        this.ngxNotificationService.sendMessage(carCompany.name + ' is created!', 'dark', 'bottom-right' );
-        this.companies.push(carCompany);
-        this.dataService.changeCarCompany(carCompany);
+    this.modalRef.content.onClose.subscribe(carCompany => {
+      this.ngxNotificationService.sendMessage(carCompany.name + ' is created!', 'dark', 'bottom-right');
+      this.companies.push(carCompany);
+      this.dataService.changeCarCompany(carCompany);
+      this.loadCompanies();
     });
+  }
+
+
+  arrowAction(i: number, event: any) {
+    if ( this.pageNumber + i >= 0 && this.pageNumber + i < this.pages.length) {
+      this.pageNumber += i;
+      this.loadCompanies();
+    }
+  }
+
+  changePage(i: number, event: any) {
+    this.pageNumber = i;
+    this.loadCompanies();
   }
 }

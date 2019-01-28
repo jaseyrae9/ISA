@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -53,6 +54,9 @@ public class Room implements Serializable{
 	
 	@Column(name = "active")
 	private Boolean active;	
+	
+	@Version
+	private Long version;
 
 	public Room() {
 	}
@@ -138,6 +142,14 @@ public class Room implements Serializable{
 
 	public void setSingleRoomReservations(Set<SingleRoomReservation> singleRoomReservations) {
 		this.singleRoomReservations = singleRoomReservations;
+	}
+
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
 	}
 
 	@Override
