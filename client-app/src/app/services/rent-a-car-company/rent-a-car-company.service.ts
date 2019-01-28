@@ -19,10 +19,13 @@ export class RentACarCompanyService {
 
   constructor(private http: HttpClient) { }
 
-  getAll(): Observable<any> {
-    return this.http.get('//localhost:8080/rent_a_car_companies/all');
+  getAll(pageNumber): Observable<any> {
+    return this.http.get('//localhost:8080/rent_a_car_companies/all?page=' + pageNumber + '&size=2');
   }
 
+  getAllCompanies(): Observable<any> {
+    return this.http.get('//localhost:8080/rent_a_car_companies/allCompanies');
+  }
   get(id: string): Observable<any> {
     return this.http.get('//localhost:8080/rent_a_car_companies/get/' + id);
   }

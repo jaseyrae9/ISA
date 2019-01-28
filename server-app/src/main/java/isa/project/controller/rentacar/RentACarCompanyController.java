@@ -5,9 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -49,6 +53,28 @@ public class RentACarCompanyController {
 	 * @return information about all rent a car companies.
 	 */
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
+	public ResponseEntity<?> getAllRentACarCompaniesPageable(HttpServletRequest request, Pageable page) {
+		Page<RentACarCompany> companies = rentACarCompanyService.findAll(page);
+
+		// convert companies to DTO
+		List<RentACarCompanyDTO> companiesDTO = new ArrayList<>();
+		for (RentACarCompany company : companies) {
+			companiesDTO.add(new RentACarCompanyDTO(company));
+		}
+
+		Page<RentACarCompanyDTO> ret = new PageImpl<>(companiesDTO, companies.getPageable(), companies.getTotalElements());
+
+		return ResponseEntity.ok(ret);
+	}
+	
+
+	/**
+	 * Returns DTO objects for rent a car companies. Objects contain id, name,
+	 * address and description.
+	 * 
+	 * @return information about all rent a car companies.
+	 */
+	@RequestMapping(value = "/allCompanies", method = RequestMethod.GET)
 	public ResponseEntity<List<RentACarCompanyDTO>> getAllRentACarCompanies() {
 		Iterable<RentACarCompany> companies = rentACarCompanyService.findAll();
 
@@ -60,6 +86,7 @@ public class RentACarCompanyController {
 
 		return new ResponseEntity<>(ret, HttpStatus.OK);
 	}
+
 
 	/**
 	 * Returns data about rent a car company with selected id.
@@ -282,32 +309,28 @@ public class RentACarCompanyController {
 	}
 	
 	@RequestMapping(value = "/getAllSearched/{companyName}/{companyAddress}/{pickUpDate}/{dropOffDate}", method = RequestMethod.GET, consumes = "application/json")
-	public ResponseEntity<List<RentACarCompanyDTO>> getAllSearchedCompanies(@PathVariable String companyName, @PathVariable String companyAddress,
-			@PathVariable String pickUpDate, @PathVariable String dropOffDate ) throws ParseException {
+	public ResponseEntity<?> getAllSearchedCompanies(@PathVariable String companyName, @PathVariable String companyAddress,
+			@PathVariable String pickUpDate, @PathVariable String dropOffDate, HttpServletRequest request, Pageable page ) throws ParseException {
 		
 		String carCompanyName = "";
 		if(companyName.split("=").length > 1) {
 			carCompanyName = companyName.split("=")[1];
 		}
-		System.out.println("carCompanyName=" + carCompanyName);
 		
 		String carCompanyAddress = "";
 		if(companyAddress.split("=").length > 1) {
 			carCompanyAddress = companyAddress.split("=")[1];			
 		}
-		System.out.println("carCompanyAddress=" + carCompanyAddress);
 		
 		String pickUp ="";
 		if(pickUpDate.split("=").length > 1) {
 			pickUp = pickUpDate.split("=")[1];
 		}
-		System.out.println("pickUpDate=" + pickUp);
 
 		String dropOff = "";
 		if(dropOffDate.split("=").length > 1) {
 			dropOff = dropOffDate.split("=")[1];
 		}
-		System.out.println("dropOffDate=" + dropOff + "\n");
 		
 		Iterable<RentACarCompany> companies = rentACarCompanyService.searchAll(carCompanyName, carCompanyAddress, pickUp, dropOff);
 

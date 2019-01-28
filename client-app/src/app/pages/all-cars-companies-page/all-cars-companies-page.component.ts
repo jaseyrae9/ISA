@@ -7,9 +7,7 @@ import { NgxNotificationService } from 'ngx-notification';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { NewCarCompanyFormComponent } from 'src/app/components/rent-a-car-company/new-car-company-form/new-car-company-form.component';
-import { BsDatepickerConfig } from 'ngx-bootstrap';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { formatDate } from '@angular/common';
+
 
 @Component({
   selector: 'app-all-cars-companies-page',
@@ -21,53 +19,24 @@ export class AllCarsCompaniesPageComponent implements OnInit {
   modalRef: BsModalRef;
   companies: RentACarCompany[] = [];
 
-  datePickerConfig: Partial<BsDatepickerConfig>;
-  errorMessage: String = '';
-  searchCompanyForm: FormGroup;
-  bsRangeValue: Date[];
+  pages: Array<Number> = new Array();
+  pageNumber = 0;
 
-  constructor(private formBuilder: FormBuilder,
-    private modalService: BsModalService,
+  constructor(private modalService: BsModalService,
     private rentACarCompanyService: RentACarCompanyService,
     private dataService: DataService,
     public tokenService: TokenStorageService,
     public ngxNotificationService: NgxNotificationService) {
-
-    this.datePickerConfig = Object.assign({},
-      {
-        containerClass: 'theme-default',
-        dateInputFormat: 'YYYY-MM-DD'
-      });
   }
 
   ngOnInit() {
-    this.rentACarCompanyService.getAll().subscribe(data => {
-      this.companies = data;
-    });
-
-    this.searchCompanyForm = this.formBuilder.group({
-      companyName: [''],
-      bsRangeValue: [this.bsRangeValue],
-      companyAddress: [''],
-    });
+    this.loadCompanies();
   }
 
-  onSearch() {
-    let pickUpDate = '';
-    let dropOffDate = '';
-
-    if (this.searchCompanyForm.value.bsRangeValue !== null) {
-      pickUpDate = formatDate(this.searchCompanyForm.value.bsRangeValue[0], 'yyyy-MM-dd', 'en');
-      dropOffDate = formatDate(this.searchCompanyForm.value.bsRangeValue[1], 'yyyy-MM-dd', 'en');
-    }
-
-    this.rentACarCompanyService.getAllSearched(this.searchCompanyForm.value.companyName,
-    this.searchCompanyForm.value.companyAddress,
-    pickUpDate,
-    dropOffDate).subscribe(
-      data => {
-        this.companies = data;
-        console.log('pretragaaa');
+  loadCompanies() {
+    this.rentACarCompanyService.getAll(this.pageNumber).subscribe(data => {
+      this.companies = data['content'];
+      this.pages = new Array(data['totalPages']);
     });
   }
 
@@ -77,6 +46,20 @@ export class AllCarsCompaniesPageComponent implements OnInit {
       this.ngxNotificationService.sendMessage(carCompany.name + ' is created!', 'dark', 'bottom-right');
       this.companies.push(carCompany);
       this.dataService.changeCarCompany(carCompany);
+      this.loadCompanies();
     });
+  }
+
+
+  arrowAction(i: number, event: any) {
+    if ( this.pageNumber + i >= 0 && this.pageNumber + i < this.pages.length) {
+      this.pageNumber += i;
+      this.loadCompanies();
+    }
+  }
+
+  changePage(i: number, event: any) {
+    this.pageNumber = i;
+    this.loadCompanies();
   }
 }

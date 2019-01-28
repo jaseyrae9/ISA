@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import isa.project.dto.rentacar.BranchOfficeDTO;
@@ -31,6 +33,10 @@ public class RentACarCompanyService {
 	
 	@Autowired
 	private BranchOfficeRepository branchOfficeRepository;
+	
+	public Page<RentACarCompany> findAll(Pageable page){
+		return rentACarRepository.findAll(page);
+	}
 	
 	public Iterable<RentACarCompany> findAll(){
 		return rentACarRepository.findAll();
@@ -72,9 +78,7 @@ public class RentACarCompanyService {
 
 	public Iterable<RentACarCompany> searchAll(String carCompanyName, String carCompanyAddress, String pickUp, String dropOff) throws ParseException {
 		List<RentACarCompany> ret = new ArrayList<>();
-		Iterable<RentACarCompany> companies = rentACarRepository.searchNameAndAddress(carCompanyName, carCompanyAddress);
-		
-			
+		Iterable<RentACarCompany> companies = rentACarRepository.searchNameAndAddress(carCompanyName, carCompanyAddress);			
 	
 		for(RentACarCompany company: companies) {			
 			boolean free = true;
@@ -110,8 +114,6 @@ public class RentACarCompanyService {
 		}
 		
 		return ret;
-	}
-
-	
+	}	
 	
 }

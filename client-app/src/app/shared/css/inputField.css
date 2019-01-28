@@ -41,6 +41,6 @@
 /* Paginatioin */
 .page-item.active .page-link {
     color: #fff;
-    background-color: #FFFF00;
-    border-color: #AEFF5E;
+    background-color: #33cabb;
+    border-color: #33cabb;
   }
