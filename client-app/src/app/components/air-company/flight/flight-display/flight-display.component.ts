@@ -25,6 +25,9 @@ export class FlightDisplayComponent implements OnInit {
 
   ngOnInit() {
     this.loadFlights();
+    this.tokenService.rolesEmitter.subscribe(
+      (data) => { if (data !== null) { this.loadFlights(); } }
+    );
   }
 
   loadFlights() {
@@ -36,16 +39,34 @@ export class FlightDisplayComponent implements OnInit {
     );
   }
 
+
   openAddForm() {
-    const initialState = {
-      airCompanyId: this.airCompanyId,
-      isAddForm: true
-    };
-    this.modalRef = this.modalService.show(FlightFormComponent, { initialState });
-    this.modalRef.content.onClose.subscribe(flight => {
-      this.loadFlights();
-      this.ngxNotificationService.sendMessage('Flight added.', 'dark', 'bottom-right');
-    });
+    this.airService.getActiveAirplanes(this.airCompanyId).subscribe(
+      (data) => {
+        if (data.length === 0) {
+          alert('There are no active airplane. Flights can not be created');
+        } else {
+          const initialState = {
+            airCompanyId: this.airCompanyId,
+            isAddForm: true
+          };
+          this.modalRef = this.modalService.show(FlightFormComponent, { initialState });
+          this.modalRef.content.onClose.subscribe(flight => {
+            this.loadFlights();
+            this.ngxNotificationService.sendMessage('Flight added.', 'dark', 'bottom-right');
+          });
+        }
+      }
+    );
+  }
+
+  flightEvent(data) {
+    this.loadFlights();
+    if (data.status = 0) {
+      this.ngxNotificationService.sendMessage('Flight deleted.', 'dark', 'bottom-right');
+    } else {
+      this.ngxNotificationService.sendMessage('Flight edited.', 'dark', 'bottom-right');
+    }
   }
 
   arrowAction(i: number, event: any) {

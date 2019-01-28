@@ -41,7 +41,7 @@ export class LoginFormComponent implements OnInit {
           this.changePasswordModal.openModalWithToken(data.token);
         } else {
           this.tokenStorage.saveToken(data.token);
-          const tokenPayload : TokenPayload = decode(data.token);
+          const tokenPayload: TokenPayload = decode(data.token);
           this.tokenStorage.saveRoles(tokenPayload.roles);
         }
       },

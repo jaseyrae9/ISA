@@ -120,8 +120,8 @@ public class AirplaneService {
 		checkSeatsNumber(airplaneDTO);
 		airplane.setName(airplaneDTO.getName());
 		airplane.setColNum(airplaneDTO.getColNum());
-		airplane.setRowNum(airplane.getRowNum());
-		airplane.setSeatsPerCol(airplane.getSeatsPerCol());
+		airplane.setRowNum(airplaneDTO.getRowNum());
+		airplane.setSeatsPerCol(airplaneDTO.getSeatsPerCol());		
 		for (int i = 0; i < airplaneDTO.getSeatsAsArray().size(); ++i) {
 			SeatDTO seatDTO = airplaneDTO.getSeatsAsArray().get(i);
 			if (i < airplane.getSeats().size()) {
@@ -133,7 +133,11 @@ public class AirplaneService {
 				airplane.getSeats().add(new Seat(seatDTO));
 			}
 		}
-
+		
+		if(airplaneDTO.getSeatsAsArray().size() < airplane.getSeats().size()) {
+			airplane.removeSeatsStartingFromIndex(airplaneDTO.getSeatsAsArray().size());
+		}
+		
 		return new AirplaneDTO(airplaneRepository.save(airplane));
 	}
 

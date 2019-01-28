@@ -94,6 +94,8 @@ import { BaggageFormComponent } from './components/air-company/baggage-form/bagg
 import { FlightDisplayComponent } from './components/air-company/flight/flight-display/flight-display.component';
 import { FlightFormComponent } from './components/air-company/flight/flight-form/flight-form.component';
 import { DatePipe } from '@angular/common';
+import { FlightPageComponent } from './components/air-company/flight/flight-page/flight-page.component';
+import { FlightTicketsDisplayComponent } from './components/air-company/flight/flight-tickets-display/flight-tickets-display.component';
 
 @NgModule({
   declarations: [
@@ -162,7 +164,9 @@ import { DatePipe } from '@angular/common';
     BookFormComponent,
     BaggageFormComponent,
     FlightDisplayComponent,
-    FlightFormComponent
+    FlightFormComponent,
+    FlightPageComponent,
+    FlightTicketsDisplayComponent
   ],
   imports: [
     BrowserModule,

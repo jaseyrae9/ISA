@@ -1,3 +1,4 @@
+import { FlightPageComponent } from './components/air-company/flight/flight-page/flight-page.component';
 import { Routes, RouterModule } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
 
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: '', component: HomePageComponent },
   { path: 'aircompanies', component: AllAirCompaniesPageComponent },
   { path: 'aircompany/:id', component: AirCompanyPageComponent },
+  { path: 'flight/:id', component: FlightPageComponent },
   { path: 'find-flight', component: FlightSearchPageComponent },
   { path: 'hotels', component: AllHotelsPageComponent },
   { path: 'hotel/:id', component: HotelPageComponent },

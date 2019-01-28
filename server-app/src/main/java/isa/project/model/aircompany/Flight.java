@@ -26,10 +26,13 @@ import org.joda.time.format.PeriodFormatterBuilder;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import isa.project.dto.aircompany.AirCompanyDTO;
+
 @Entity
 @Table(name = "flights")
 public class Flight implements Serializable{
 	private static final long serialVersionUID = 8314910123459548244L;
+	public enum FlightStatus {IN_PROGRESS, ACTIVE, DELETED};
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -68,9 +71,11 @@ public class Flight implements Serializable{
 	@Column(nullable = false)
 	private Boolean additionalServicesAvailable;
 	
+	private FlightStatus status;
 	
 		
 	public Flight() {
+		status = FlightStatus.IN_PROGRESS;
 	}
 
 	public Integer getId() {
@@ -86,6 +91,10 @@ public class Flight implements Serializable{
 		return airCompany;
 	}
 
+	public AirCompanyDTO getAirCompanyBasicInfo() {
+		return new AirCompanyDTO(airCompany);
+	}
+	
 	public void setAirCompany(AirCompany airCompany) {
 		this.airCompany = airCompany;
 	}
@@ -165,6 +174,14 @@ public class Flight implements Serializable{
 
 	public void setAdditionalServicesAvailable(Boolean additionalServicesAvailable) {
 		this.additionalServicesAvailable = additionalServicesAvailable;
+	}	
+
+	public FlightStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(FlightStatus status) {
+		this.status = status;
 	}
 
 	@Override

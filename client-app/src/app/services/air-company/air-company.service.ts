@@ -91,7 +91,19 @@ export class AirCompanyService {
     return this.http.get<Flight[]>('http://localhost:8080/aircompanies/getFlights/' + company + '?page=' + page + '&size=' + 2);
   }
 
+  getFlight(id): Observable<Flight> {
+    return this.http.get<Flight>('http://localhost:8080/aircompanies/getFlight/' + id);
+  }
+
   addFlight(company, flight): Observable<Flight> {
     return this.http.post<Flight>('http://localhost:8080/aircompanies/addFlight/' + company, flight, httpOptions);
+  }
+
+  deleteFlight(company, flight): Observable<any> {
+    return this.http.delete<any>('http://localhost:8080/aircompanies/deleteFlight/' + company + '/' + flight);
+  }
+
+  activateFlight(company, flight): Observable<any> {
+    return this.http.put<any>('http://localhost:8080/aircompanies/activateFlight/' + company + '/' + flight, httpOptions);
   }
 }

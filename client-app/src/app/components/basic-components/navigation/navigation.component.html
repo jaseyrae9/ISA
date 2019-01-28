@@ -45,7 +45,7 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" routerLink="/profile">Profile</a>
-                                <a class="dropdown-item" routerLink="/friends">Friends</a>
+                                <a class="dropdown-item" routerLink="/friends" *ngIf="tokenService.isCustomer" >Friends</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" (click)="logout()">Log out</a>
                             </div>

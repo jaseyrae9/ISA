@@ -101,10 +101,10 @@ public class AirCompany {
 	public void setDestinations(Set<Destination> destinations) {
 		this.destinations = destinations;
 	}	
-
+	
 	public Set<AdditionalService> getBaggageInformation() {
 		if(baggageInformation != null)
-			return baggageInformation.stream().filter(p -> p.getActive() == true).collect(Collectors.toSet()); // Da vraca samo aktivne
+			return baggageInformation.stream().filter(p -> p.getActive()).collect(Collectors.toSet()); // Da vraca samo aktivne
 		else
 			return null;
 	}
@@ -124,7 +124,7 @@ public class AirCompany {
 	public void setAirplanes(Set<Airplane> airplanes) {
 		this.airplanes = airplanes;
 	}	
-
+	
 	public Set<Flight> getFlight() {
 		return flight;
 	}

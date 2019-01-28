@@ -51,7 +51,7 @@ public class Airplane implements Serializable {
 	@Column(nullable = false)
 	private Integer seatsPerCol;
 	
-	@OneToMany(mappedBy = "airplane", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "airplane", orphanRemoval = true)
 	private List<Seat> seats;	
 	
 	public Airplane() {
@@ -134,6 +134,17 @@ public class Airplane implements Serializable {
 
 	public void setSeats(List<Seat> seats) {
 		this.seats = seats;
+	}
+	
+	public void removeSeat(Seat seat) {
+		seat.setAirplane(null);
+		this.seats.remove(seat);
+	}
+
+	public void removeSeatsStartingFromIndex(int index) {
+		for(int i = this.seats.size() - 1; i >= index; --i) {
+			   removeSeat(this.seats.get(i));
+		}
 	}
 
 	@Override

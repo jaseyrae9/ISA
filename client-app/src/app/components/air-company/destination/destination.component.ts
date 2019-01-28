@@ -12,6 +12,7 @@ import { NgxNotificationService } from 'ngx-notification';
   styleUrls: ['./destination.component.css', '../../../shared/css/deleteAndEditLinks.css', '../../../shared/css/item.css']
 })
 export class DestinationComponent implements OnInit {
+  @Input() showLinks = true;
   @Input() destination: Destination = new Destination();
   @Input() airportId: Number = 0;
   @Output() destinationEvent: EventEmitter<Object> = new EventEmitter();

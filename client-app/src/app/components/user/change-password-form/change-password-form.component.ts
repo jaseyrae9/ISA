@@ -1,3 +1,4 @@
+import { JwtResponse } from './../../../auth/jwt-response';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit, Input, TemplateRef } from '@angular/core';
 import { ChangePasswordData } from 'src/app/model/users/changePassword';
@@ -8,6 +9,8 @@ import { ViewChild, ElementRef} from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { config } from 'rxjs';
+import { TokenPayload } from 'src/app/model/token-payload';
+import * as decode from 'jwt-decode';
 
 @Component({
   selector: 'app-change-password-form',
@@ -60,8 +63,10 @@ export class ChangePasswordFormComponent implements OnInit {
 
   onChangePassword() {
     this.userService.changePassword(this.editForm.value, this.jwtToken).subscribe(
-      data => {
+      (data: JwtResponse)  => {
         this.tokenService.saveToken(data.token);
+        const tokenPayload: TokenPayload = decode(data.token);
+        this.tokenService.saveRoles(tokenPayload.roles);
         this.modalRef.hide();
       },
       (err: HttpErrorResponse) => {

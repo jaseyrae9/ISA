@@ -59,10 +59,6 @@ public class FlightDTO {
 	@Min(value = 0, message = "Minimal price is 0.")
 	private Double firstPrice;
 	
-	public FlightDTO() {
-		
-	}
-
 	public Integer getAirplaneId() {
 		return airplaneId;
 	}

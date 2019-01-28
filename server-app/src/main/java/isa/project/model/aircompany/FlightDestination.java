@@ -31,10 +31,6 @@ public class FlightDestination implements Serializable{
 	@JoinColumn(name="destination_id", referencedColumnName="id", nullable = false)
 	private Destination destination;
 	
-	public FlightDestination() {
-		
-	}
-
 	public Long getId() {
 		return id;
 	}

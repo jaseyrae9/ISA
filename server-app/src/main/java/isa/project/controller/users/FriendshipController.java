@@ -129,13 +129,10 @@ public class FriendshipController {
 	}
 	
 	@PreAuthorize("hasAnyRole('CUSTOMER')")
-	@RequestMapping(value = "/search", method = RequestMethod.GET)
-	public ResponseEntity<?> searchForFriends(@RequestParam("search") String searchTerm, HttpServletRequest request, Pageable page){
-		if(searchTerm == null) {
-			searchTerm = "";
-		}
+	@RequestMapping(value = "/searchTerm", method = RequestMethod.GET)
+	public ResponseEntity<?> searchForFriends(@RequestParam("searchTerm") String searchTerm, HttpServletRequest request, Pageable page){
 		String email = tokenUtils.getEmailFromToken(tokenUtils.getToken(request));
-		return ResponseEntity.ok(friendshipService.searchCustomers(searchTerm, email, page));
+		return ResponseEntity.ok(friendshipService.searchCustomers(searchTerm == null?"":searchTerm, email, page));
 	}
 
 }

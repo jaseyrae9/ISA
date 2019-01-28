@@ -1,0 +1,98 @@
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-12 mb-2" *ngIf="tokenService.isAirAdmin" >
+        <section style="text-align:right">
+            <a class="edit" *ngIf="flight.status == 'IN_PROGRESS'" (cancel)="activateFlight()"><i class="fa fa-check"></i></a>
+            <a class="edit"><i class="fa fa-edit"></i></a>
+            <a class="delete" *ngIf="flight.status == 'IN_PROGRESS'" (click)="deleteFlight()"><i class="fa fa-trash"></i></a>
+        </section>
+    </div>
+  </div>
+
+	<div class="row rounded align-items-center p-2 mt-3">
+     <div class="col-5 pt-2" align="center" *ngIf="flight.destinations.length > 0" >
+            <p>{{flight.destinations[0].destination.label}}
+            <br><small class="text-muted">{{flight.destinations[0].destination.airportName}}, {{flight.destinations[0].destination.country}}</small>
+            </p>
+            <hr>
+            <p>{{flight.startDateAndTime}}</p>
+		</div>
+    <div class="col-auto pl-0">
+            <i class="fa fa-plane-departure fa-2x"></i>
+    </div>
+    <div class="col-auto pt-3">
+            <span class="badge badge-primary p-2">Duration: <br/> {{flight.duration}}</span>
+            <p align="center"><small class="text-muted">2 stops<br>{{flight.length}} km</small></p>
+		</div>
+    <div class="col-auto pl-0">
+      <i class="fa fa-plane-arrival fa-2x"></i>
+    </div>
+    <div class="col-5 pt-2" align="center" *ngIf="flight.destinations.length > 0" >
+            <p>{{flight.destinations[flight.destinations.length-1].destination.label}}
+            <br><small class="text-muted">{{flight.destinations[flight.destinations.length-1].destination.airportName}}, {{flight.destinations[flight.destinations.length-1].destination.country}}</small>
+            </p>
+            <hr>
+          	<p>{{flight.endDateAndTime}}</p>
+		</div>
+</div>
+
+<div class="accordion" id="accordionExample">
+
+  <div class="card">
+    <div class="card-header" id="stops">
+      <h2 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#stops-content">
+          Stops
+        </button>
+      </h2>
+    </div>
+
+    <div id="stops-content" class="collapse" data-parent="#accordionExample">
+      <div class="card-body p-3">
+        <div class="row pt-4 justify-content-md-center" >
+            <app-destination *ngFor="let item of flight.destinations" class="col-md-5 col-lg-4" [destination]="item.destination" [showLinks]=false></app-destination>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="card">
+    <div class="card-header" id="seats">
+      <h2 class="mb-0">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#seats-content">
+          Seats
+        </button>
+      </h2>
+    </div>
+    <div id="seats-content" class="collapse" data-parent="#accordionExample">
+      <div class="card-body">
+        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <div class="card">
+    <div class="card-header" id="info">
+      <h2 class="mb-0">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#info-content">
+          Info
+        </button>
+      </h2>
+    </div>
+    <div id="info-content" class="collapse" data-parent="#accordionExample">
+      <div class="card-body text-muted">
+          <i class="fa fa-shopping-bag" aria-hidden="true"></i> Max number of carry on bags: {{flight.maxCarryOnBags}}
+          <br>
+          <i class="fa fa-suitcase-rolling" aria-hidden="true"></i> Max number of bags you can check in: {{flight.maxCheckedBags}}
+          <br>
+          <i class="fa fa-concierge-bell" aria-hidden="true"></i> Additional services available:
+          <i class="fa fa-check-circle" aria-hidden="true" *ngIf="flight.additionalServicesAvailable" ></i>
+          <i class="fa fa-times-circle" aria-hidden="true" *ngIf="!flight.additionalServicesAvailable"></i>
+      </div>
+    </div>
+  </div>
+</div>

@@ -11,7 +11,7 @@
   </div>
   <ng-template #flightsDiv>
     <div class="container" >
-      <app-fight-basic-info *ngFor="let item of flights" [flight]="item"></app-fight-basic-info>
+      <app-fight-basic-info *ngFor="let item of flights" [flight]="item" (flightEvent)="flightEvent($event)"></app-fight-basic-info>
     </div>
     <nav style="padding-top: 20px">
         <ul class="pagination" style="justify-content: center">

@@ -7,12 +7,15 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import isa.project.aspects.AdminAccountActiveCheck;
+import isa.project.aspects.AirCompanyAdminCheck;
 import isa.project.dto.aircompany.AirplaneDTO;
 import isa.project.exception_handlers.RequestDataException;
 import isa.project.exception_handlers.ResourceNotFoundException;
@@ -35,6 +38,9 @@ public class AirplaneController {
 	 * @throws RequestDataException - ako broj sedista nije odgovarajuci
 	 */
 	@RequestMapping(value = "/addAirplane/{id}", method = RequestMethod.POST, consumes = "application/json")
+	@PreAuthorize("hasAnyRole('AIRADMIN')")
+	@AdminAccountActiveCheck
+	@AirCompanyAdminCheck
 	public ResponseEntity<?> createAirplane(@PathVariable Integer id, @Valid @RequestBody AirplaneDTO airplaneDTO)
 			throws ResourceNotFoundException, RequestDataException {
 		return new ResponseEntity<>(airplaneService.addNewAirplane(id, airplaneDTO), HttpStatus.CREATED);
@@ -50,6 +56,9 @@ public class AirplaneController {
 	 * @throws RequestDataException - ako status aviona nije IN_PROGRESS, pa uređivanje nije moguće
 	 */
 	@RequestMapping(value = "/editAirplane/{id}", method = RequestMethod.PUT, consumes = "application/json")
+	@PreAuthorize("hasAnyRole('AIRADMIN')")
+	@AdminAccountActiveCheck
+	@AirCompanyAdminCheck
 	public ResponseEntity<?> editAirplane(@PathVariable Integer id, @Valid @RequestBody AirplaneDTO airplaneDTO)
 			throws ResourceNotFoundException, RequestDataException {
 		return new ResponseEntity<>(airplaneService.editAirplane(airplaneDTO, id), HttpStatus.OK);
@@ -64,6 +73,9 @@ public class AirplaneController {
 	 * @throws RequestDataException - ako avion nije u statusu IN_PROGRESS
 	 */
 	@RequestMapping(value = "/activateAirplane/{id}/{airplane}", method = RequestMethod.PUT)
+	@PreAuthorize("hasAnyRole('AIRADMIN')")
+	@AdminAccountActiveCheck
+	@AirCompanyAdminCheck
 	public ResponseEntity<?> activateAirplane(@PathVariable Integer id, @PathVariable Integer airplane) throws ResourceNotFoundException, RequestDataException{
 		return new ResponseEntity<>(airplaneService.activateAirplane(airplane, id), HttpStatus.OK);
 	}
@@ -78,6 +90,9 @@ public class AirplaneController {
 	 * @throws RequestDataException - ako prosleđeni avion ima status obrisan
 	 */
 	@RequestMapping(value = "/deleteAirplane/{id}/{airplane}", method = RequestMethod.DELETE)
+	@PreAuthorize("hasAnyRole('AIRADMIN')")
+	@AdminAccountActiveCheck
+	@AirCompanyAdminCheck
 	public ResponseEntity<?> deleteAirplane(@PathVariable Integer id, @PathVariable Integer airplane) throws ResourceNotFoundException, RequestDataException{
 		airplaneService.deleteAirplane(airplane, id);
 		return ResponseEntity.ok().build();
@@ -90,6 +105,9 @@ public class AirplaneController {
 	 * @throws ResourceNotFoundException - ako aviokompanija nije pronađena.
 	 */
 	@RequestMapping(value = "/getAirplanes/{id}", method = RequestMethod.GET)
+	@PreAuthorize("hasAnyRole('AIRADMIN')")
+	@AdminAccountActiveCheck
+	@AirCompanyAdminCheck
 	public ResponseEntity<ArrayList<AirplaneDTO>> getAllAirplanes(@PathVariable Integer id) throws ResourceNotFoundException{
 		return new ResponseEntity<ArrayList<AirplaneDTO>> (airplaneService.getAllAirplanes(id), HttpStatus.OK);
 	}
@@ -101,6 +119,9 @@ public class AirplaneController {
 	 * @throws ResourceNotFoundException - ako aviokompanija nije pronađena.
 	 */
 	@RequestMapping(value = "/getActiveAirplanes/{id}", method = RequestMethod.GET)
+	@PreAuthorize("hasAnyRole('AIRADMIN')")
+	@AdminAccountActiveCheck
+	@AirCompanyAdminCheck
 	public ResponseEntity<ArrayList<AirplaneDTO>> getActiveAirplanes(@PathVariable Integer id) throws ResourceNotFoundException{
 		return new ResponseEntity<ArrayList<AirplaneDTO>> (airplaneService.getActiveAirplanes(id), HttpStatus.OK);
 	}

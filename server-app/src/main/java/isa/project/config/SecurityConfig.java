@@ -81,7 +81,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers("/customers/register",
 				"/customers/login",
-				"/aircompanies/all","/aircompanies/get/{id}", "/hotels/all", "/aircompanies/getFlights/{id}",
+				"/aircompanies/all","/aircompanies/get/{id}", "/aircompanies/getFlights/{id}","/aircompanies/getFlight/{id}",
 				"/rent_a_car_companies/all",
 				"/rent_a_car_companies/get/{id}",
 				"/hotels/all", "/hotels/get/{id}"); 

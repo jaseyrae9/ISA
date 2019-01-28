@@ -16,9 +16,13 @@ import isa.project.model.aircompany.Airplane;
 import isa.project.model.aircompany.Airplane.AirplaneStatus;
 import isa.project.model.aircompany.Destination;
 import isa.project.model.aircompany.Flight;
+import isa.project.model.aircompany.Flight.FlightStatus;
 import isa.project.model.aircompany.FlightDestination;
+import isa.project.model.users.AirCompanyAdmin;
+import isa.project.model.users.User;
 import isa.project.repository.aircompany.AirCompanyRepository;
 import isa.project.repository.aircompany.FlightRepository;
+import isa.project.repository.users.UserRepository;
 
 @Service
 public class FlightService {
@@ -28,15 +32,77 @@ public class FlightService {
 	@Autowired
 	private FlightRepository flightRepository;
 
+	@Autowired
+	private UserRepository userRepository;
+
 	/**
-	 * Pronalazi letove aviokompanije. Vrća ih sortirane po datumu poletanja.
+	 * Vraća informacije o letu. Admin aviokompanije moze da dobije informacije o
+	 * in_progress letu svoje aviokompanije, svi ostali samo aktivni let.
 	 * 
-	 * @param id   - oznaka aviokompanije
-	 * @param page - stranica
+	 * @param id    - oznaka leta
+	 * @param email - email, ako se radi o ulogovanom korisniku, null za
+	 *              neulogovanog
+	 * @return - let
+	 * @throws ResourceNotFoundException - ako let nije pronađen ili korisnik ne
+	 *                                   može da mu pristupi
+	 */
+	public Flight getFlight(Integer id, String email) throws ResourceNotFoundException {
+		Flight flight = findFlight(id);
+
+		// svi mogu da vide aktivne letove
+		if (flight.getStatus().equals(FlightStatus.ACTIVE)) {
+			return flight;
+		}
+
+		// Ovde se ulazi kada je let in progress
+
+		// neulogani korisnik sigurno ne moze da ga vidi
+		if (email == null) {
+			throw new ResourceNotFoundException(id.toString(), "Flight not found.");
+		}
+
+		User user = userRepository.findByEmail(email).get();
+
+		// ako avio admin trazi za svoju kompaniju vrati mu let
+		if (user instanceof AirCompanyAdmin) {
+			AirCompanyAdmin airadmin = (AirCompanyAdmin) user;
+			if (airadmin.getAirCompany().getId().equals(flight.getAirCompany().getId())) {
+				return flight;
+			}
+		}
+
+		// svi ostali ne smeju da vide
+		throw new ResourceNotFoundException(id.toString(), "Flight not found.");
+	}
+
+	/**
+	 * Vraća letove. Admin aviokompanije za svoju aviokompaniju dobija i aktivne i
+	 * in progress letove. Svi ostali dobijaju samo aktivne. Vrća ih sortirane po
+	 * datumu poletanja.
+	 * 
+	 * @param id    - oznaka aviokompanije
+	 * @param page  - stranica
+	 * @param email - email, ako se radi o ulogovanom korisniku, null za
+	 *              neulogovanog
 	 * @return - letovi
 	 */
-	public Page<Flight> getFlights(Integer id, Pageable page) {
-		return flightRepository.getFlights(id, page);
+	public Page<Flight> getFlights(Integer id, Pageable page, String email) {
+		if (email == null) {
+			// neulogovanom korisniku vratiti samo aktivne
+			return flightRepository.getActiveFlights(id, page);
+		}
+		User user = userRepository.findByEmail(email).get();
+
+		// ako avio admin trazi za svoju kompaniju vrati mu sve
+		if (user instanceof AirCompanyAdmin) {
+			AirCompanyAdmin airadmin = (AirCompanyAdmin) user;
+			if (airadmin.getAirCompany().getId().equals(id)) {
+				return flightRepository.getFlights(id, page);
+			}
+		}
+
+		// inace vrati samo aktivne
+		return flightRepository.getActiveFlights(id, page);
 	}
 
 	/**
@@ -73,6 +139,28 @@ public class FlightService {
 		flight.setAdditionalServicesAvailable(flightInfo.getAdditionalServicesAvailable());
 		return flightRepository.save(flight);
 	}
+
+	/**
+	 * Menja status leta u izabrani.
+	 * @param aircompanyId - oznaka aviokompanije.
+	 * @param flightId - oznaka leta
+	 * @throws ResourceNotFoundException - ako let nije pronađen, ili admin nije zadužen za letove te aviokompanije
+	 * @throws RequestDataException - ako let nije u statusu IN_PROGRESS
+	 */
+	public Flight changeStatus(Integer aircompanyId, Integer flightId, FlightStatus status) throws ResourceNotFoundException, RequestDataException {
+		Flight flight = findFlight(flightId);
+		
+		if(!flight.getAirCompany().getId().equals(aircompanyId)) {
+			throw new ResourceNotFoundException(flightId.toString(), "Your company does not have flight with this id.");
+		}
+		
+		if(!flight.getStatus().equals(FlightStatus.IN_PROGRESS)) {
+			throw new RequestDataException("Flight you are trying to delete is not in status IN_PROGRESS and can not be delete.");
+		}
+		
+		flight.setStatus(status);
+		return flightRepository.save(flight);
+	}	
 
 	/**
 	 * Provera da li je vreme dolaska posle vremena polaska.
@@ -146,5 +234,24 @@ public class FlightService {
 			throw new RequestDataException("Destination is deleted.");
 		}
 		return destination.get();
+	}
+
+	/**
+	 * Pronalazi let (aktivni ili pasivni).
+	 * 
+	 * @param id - oznaka leta
+	 * @return - let
+	 * @throws ResourceNotFoundException - ako let nije pronađen.
+	 */
+	private Flight findFlight(Integer id) throws ResourceNotFoundException {
+		Optional<Flight> flightOpt = flightRepository.findById(id);
+		if (!flightOpt.isPresent()) {
+			throw new ResourceNotFoundException(id.toString(), "Flight not found.");
+		}
+		Flight flight = flightOpt.get();
+		if (flight.getStatus().equals(FlightStatus.DELETED)) {
+			throw new ResourceNotFoundException(id.toString(), "Flight not found.");
+		}
+		return flight;
 	}
 }
