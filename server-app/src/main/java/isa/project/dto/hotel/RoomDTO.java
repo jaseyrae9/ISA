@@ -28,7 +28,9 @@ public class RoomDTO {
 	private Double price;
 	
 	private String type;
-	private Boolean active;
+	private Boolean active;	
+	
+	private Double averageRating;	
 	
 	private ArrayList<SingleRoomReservationDTO> reservations = new ArrayList<>();
 	
@@ -46,6 +48,7 @@ public class RoomDTO {
 		this.price = room.getPrice();
 		this.type = room.getType();
 		this.active = room.getActive();
+		this.averageRating = (room.getTotalRating() / (double) room.getRatingCount());
 		if(room.getSingleRoomReservations() != null) {
 			for(SingleRoomReservation srr: room.getSingleRoomReservations()) {
 				System.out.println("ovdee");
@@ -118,4 +121,13 @@ public class RoomDTO {
 	public void setReservations(ArrayList<SingleRoomReservationDTO> reservations) {
 		this.reservations = reservations;
 	}
+
+	public Double getAverageRating() {
+		return averageRating;
+	}
+
+	public void setAverageRating(Double averageRating) {
+		this.averageRating = averageRating;
+	}
+	
 }

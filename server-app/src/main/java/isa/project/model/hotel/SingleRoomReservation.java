@@ -3,6 +3,7 @@ package isa.project.model.hotel;
 import java.util.Objects;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -32,6 +33,9 @@ public class SingleRoomReservation {
 	@JoinColumn(name = "room_reservation_id", referencedColumnName = "id")
 	private RoomReservation roomReservation;
 
+	@Column(name = "isRated")
+	private Boolean isRated;
+	
 	public SingleRoomReservation() {
 
 	}
@@ -39,6 +43,7 @@ public class SingleRoomReservation {
 	public SingleRoomReservation(Room room, RoomReservation roomReservation) {
 		this.room = room;
 		this.roomReservation = roomReservation;
+		this.isRated = false;
 	}
 
 	public Integer getId() {
@@ -65,6 +70,14 @@ public class SingleRoomReservation {
 		this.roomReservation = roomReservation;
 	}
 	
+	public Boolean getIsRated() {
+		return isRated;
+	}
+
+	public void setIsRated(Boolean isRated) {
+		this.isRated = isRated;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(id);

@@ -72,7 +72,6 @@ public class Flight implements Serializable{
 	private Boolean additionalServicesAvailable;
 	
 	private FlightStatus status;
-	
 		
 	public Flight() {
 		status = FlightStatus.IN_PROGRESS;

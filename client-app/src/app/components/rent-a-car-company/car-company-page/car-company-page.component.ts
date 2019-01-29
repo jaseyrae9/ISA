@@ -40,11 +40,11 @@ export class CarCompanyPageComponent implements OnInit {
     );
   }
 
-  carDeleted(car: Car) {
-    const index: number = this.carCompany.cars.indexOf(car);
+  carDeleted(carId: number) {
+    const index: number = this.carCompany.cars.findIndex(e => e.id === carId);
     if (index !== -1) {
       this.carCompany.cars.splice(index, 1);
-      this.ngxNotificationService.sendMessage(car.model + ' ' + car.brand + ' is deleted!', 'dark', 'bottom-right' );
+      this.ngxNotificationService.sendMessage('Car is deleted!', 'dark', 'bottom-right');
     }
   }
 

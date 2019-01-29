@@ -22,7 +22,9 @@ public class RentACarCompanyDTO {
 	private ArrayList<BranchOfficeDTO> branchOffices = new ArrayList<>();
 	
 	@NotNull (message = "Location must be enetered.")
-	private Location location;
+	private Location location;	
+	
+	private Double averageRating;
 	
 	public RentACarCompanyDTO() {
 		
@@ -33,6 +35,7 @@ public class RentACarCompanyDTO {
 		this.name = company.getName();
 		this.description = company.getDescription();
 		this.location = company.getLocation();
+		this.averageRating = (company.getTotalRating() / (double) company.getRatingCount());
 		this.cars = new ArrayList<>();
 		if(company.getCars() != null) {
 			for(Car car: company.getCars()){
@@ -94,4 +97,12 @@ public class RentACarCompanyDTO {
 	public void setLocation(Location location) {
 		this.location = location;
 	}
+
+	public Double getAverageRating() {
+		return averageRating;
+	}
+
+	public void setAverageRating(Double averageRating) {
+		this.averageRating = averageRating;
+	}	
 }

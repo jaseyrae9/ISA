@@ -60,6 +60,12 @@ public class Car implements Serializable {
 	@OneToMany(mappedBy = "car", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<CarReservation> carReservations;
 	
+	@Column(name = "totalRating")
+	private Integer totalRating;
+	
+	@Column(name = "ratingCount")
+	private Integer ratingCount;
+	
 	public Car() {
 		//super();
 	}
@@ -76,6 +82,8 @@ public class Car implements Serializable {
 		this.price = price;
 		this.type = type;
 		this.active = true;
+		this.totalRating = 5; // na pocetku je ocena 5
+		this.ratingCount = 1; // jedan glas
 	}
 
 	public Integer getId() {
@@ -166,11 +174,26 @@ public class Car implements Serializable {
 		this.carReservations = carReservations;
 	}
 
+	public Integer getTotalRating() {
+		return totalRating;
+	}
+
+	public void setTotalRating(Integer totalRating) {
+		this.totalRating = totalRating;
+	}
+
+	public Integer getRatingCount() {
+		return ratingCount;
+	}
+
+	public void setRatingCount(Integer ratingCount) {
+		this.ratingCount = ratingCount;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((rentACarCompany == null) ? 0 : rentACarCompany.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
@@ -185,11 +208,6 @@ public class Car implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Car other = (Car) obj;
-		if (rentACarCompany == null) {
-			if (other.rentACarCompany != null)
-				return false;
-		} else if (!rentACarCompany.equals(other.rentACarCompany))
-			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;

@@ -39,6 +39,8 @@ public class CarDTO {
 	
 	private Boolean active;
 	
+	private Double averageRating;
+	
 	private ArrayList<CarReservationDTO> reservations = new ArrayList<>();
 
 	public CarDTO() {
@@ -55,6 +57,7 @@ public class CarDTO {
 		this.price = car.getPrice();
 		this.type = car.getType();
 		this.active = car.getActive();
+		this.averageRating = (car.getTotalRating() / (double) car.getRatingCount());
 		this.reservations = new ArrayList<>();
 		if(car.getCarReservations() != null) {
 			for(CarReservation cr: car.getCarReservations()) {
@@ -142,6 +145,14 @@ public class CarDTO {
 
 	public void setReservations(ArrayList<CarReservationDTO> reservations) {
 		this.reservations = reservations;
+	}
+
+	public Double getAverageRating() {
+		return averageRating;
+	}
+
+	public void setAverageRating(Double averageRating) {
+		this.averageRating = averageRating;
 	}	
 	
 }
