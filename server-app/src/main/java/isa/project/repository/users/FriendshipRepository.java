@@ -19,7 +19,7 @@ public interface FriendshipRepository extends JpaRepository<Friendship, Friendsh
 	 * @param to - if of user whose requests are needed
 	 * @return - list pronađenih zahteva
 	 */
-	@Query("SELECT f FROM Friendship f WHERE f.key.to.id = :to AND f.active = 0")
+	@Query("SELECT f FROM Friendship f WHERE f.key.to.id = :to AND f.active is false")
 	Page<Friendship> findFriendshipRequests(@Param("to") Integer to, Pageable pageable);
 
 	/**
@@ -28,7 +28,7 @@ public interface FriendshipRepository extends JpaRepository<Friendship, Friendsh
 	 * @param user - čije prijatelje treba pronaći
 	 * @return - listu prijateljstava
 	 */
-	@Query("SELECT f FROM Friendship f WHERE (f.key.to.id = :user OR f.key.from.id = :user) AND f.active = 1")
+	@Query("SELECT f FROM Friendship f WHERE (f.key.to.id = :user OR f.key.from.id = :user) AND f.active is true")
 	Page<Friendship> findActiveFriendships(@Param("user") Integer user, Pageable pageable);
 
 	/**

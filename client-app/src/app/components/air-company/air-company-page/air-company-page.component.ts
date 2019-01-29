@@ -97,7 +97,9 @@ export class AirCompanyPageComponent implements OnInit {
     this.modalRef = this.modalService.show(EditAirCompanyFormComponent, { initialState });
     this.modalRef.content.onClose.subscribe(data => {
       this.ngxNotificationService.sendMessage('Company information edited.', 'dark', 'bottom-right');
-      this.airCompany = data;
+      this.airCompany.name = data.name;
+      this.airCompany.description = data.description;
+      this.airCompany.location = data.location;
     });
   }
 

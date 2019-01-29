@@ -26,7 +26,6 @@ import isa.project.aspects.HotelAdminCheck;
 import isa.project.dto.hotel.HotelDTO;
 import isa.project.dto.hotel.RoomDTO;
 import isa.project.dto.hotel.RoomReservationDTO;
-import isa.project.dto.users.FriendshipDTO;
 import isa.project.exception_handlers.RequestDataException;
 import isa.project.exception_handlers.ResourceNotFoundException;
 import isa.project.model.hotel.Hotel;

@@ -2,8 +2,8 @@
     <div class="col-12 mb-2" *ngIf="tokenService.isAirAdmin" >
         <section style="text-align:right">
             <a class="edit" *ngIf="flight.status == 'IN_PROGRESS'" (click)="activateFlight()"><i class="fa fa-check"></i></a>
-            <a class="edit" *ngIf="flight.status == 'IN_PROGRESS'"><i class="fa fa-edit"></i></a>
-            <a class="delete" (click)="deleteFlight()"><i class="fa fa-trash"></i></a>
+            <a class="edit" ><i class="fa fa-edit"></i></a>
+            <a class="delete" *ngIf="flight.status == 'IN_PROGRESS'" (click)="deleteFlight()"><i class="fa fa-trash"></i></a>
         </section>
     </div>
     <div class="col-sm-3 pt-2" align="center">

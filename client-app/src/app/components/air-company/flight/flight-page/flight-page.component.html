@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-12 mb-2" *ngIf="tokenService.isAirAdmin" >
         <section style="text-align:right">
-            <a class="edit" *ngIf="flight.status == 'IN_PROGRESS'" (cancel)="activateFlight()"><i class="fa fa-check"></i></a>
+            <a class="edit" *ngIf="flight.status == 'IN_PROGRESS'" (click)="activateFlight()"><i class="fa fa-check"></i></a>
             <a class="edit"><i class="fa fa-edit"></i></a>
             <a class="delete" *ngIf="flight.status == 'IN_PROGRESS'" (click)="deleteFlight()"><i class="fa fa-trash"></i></a>
         </section>
@@ -22,7 +22,7 @@
     </div>
     <div class="col-auto pt-3">
             <span class="badge badge-primary p-2">Duration: <br/> {{flight.duration}}</span>
-            <p align="center"><small class="text-muted">2 stops<br>{{flight.length}} km</small></p>
+            <p align="center"><small class="text-muted">{{flight.destinations.length - 2}} stops<br>{{flight.length}} km</small></p>
 		</div>
     <div class="col-auto pl-0">
       <i class="fa fa-plane-arrival fa-2x"></i>

@@ -60,6 +60,6 @@ export class UserService {
   }
 
   searchCustomers(searchTerm: string, pageNumber: number): Observable<any> {
-    return this.http.get('//localhost:8080/friendship/search?search=' + searchTerm + '&page=' + pageNumber + '&size=2');
+    return this.http.get('//localhost:8080/friendship/search?searchTerm=' + searchTerm + '&page=' + pageNumber + '&size=2');
   }
 }

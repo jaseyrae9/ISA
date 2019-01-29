@@ -37,7 +37,7 @@ export class FlightPageComponent implements OnInit {
     this.airService.activateFlight(this.flight.airCompanyBasicInfo.id, this.flight.id).subscribe(
       (data) => {
         this.ngxNotificationService.sendMessage('Flight activated.', 'dark', 'bottom-right');
-        this.flight = data;
+        this.flight.status = data.status;
       }
       // neuspesnu aktivaciju ce handlovati interceptori
     );

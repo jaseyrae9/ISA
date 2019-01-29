@@ -38,7 +38,7 @@ export class AirplaneDisplayComponent implements OnInit {
     this.airCompanyService.activateAirplane(this.companyId, this.airplane.id).subscribe(
       (data) => {
         this.ngxNotificationService.sendMessage('Airplane ' + this.airplane.name + ' activated.', 'dark', 'bottom-right');
-        this.airplane = data;
+        this.airplane.status = status;
       }
     );
   }
@@ -51,7 +51,11 @@ export class AirplaneDisplayComponent implements OnInit {
     this.modalRef = this.modalService.show(AirplaneFormComponent, { initialState });
     this.modalRef.content.onClose.subscribe(airplane => {
       this.ngxNotificationService.sendMessage('Airpane ' + this.airplane.name + ' edited.', 'dark', 'bottom-right');
-      this.airplane = airplane;
+      this.airplane.name = airplane.name;
+      this.airplane.rowNum = airplane.rowNum;
+      this.airplane.colNum = airplane.colNum;
+      this.airplane.seatsPerCol = airplane.seatsPerCol;
+      this.airplane.seats = airplane.seats;
     });
   }
 }
