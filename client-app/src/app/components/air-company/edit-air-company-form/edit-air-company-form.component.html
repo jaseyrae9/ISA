@@ -1,11 +1,12 @@
 <div class="modal-header">
-  <h5 class="modal-title">Edit <b style="color: #33cabb;">avio-company</b></h5>
+  <h5 class="modal-title" *ngIf="!isAddForm" >Edit <b style="color: #33cabb;">avio-company</b></h5>
+  <h5 class="modal-title" *ngIf="isAddForm" >Add <b style="color: #33cabb;">avio-company</b></h5>
   <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 
-<form (validSubmit) = "onEditAirCompany()" [formGroup]="editForm">
+<form (validSubmit) = "onSubmit()" [formGroup]="editForm">
 <div class="modal-body">
       <div class="input-group form-group">
           <div class="input-group-prepend">
@@ -14,6 +15,24 @@
             </span>
           </div>
           <input formControlName="name" name="name" type="text" class="form-control" placeholder="Company name" required="required">
+      </div>
+
+      <div class="input-group form-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fa fa-flag" aria-hidden="true"></i>
+            </span>
+          </div>
+          <input formControlName="country" name="country" type="text" class="form-control" placeholder="Country" required="required">
+      </div>
+
+      <div class="input-group form-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fa fa-city" aria-hidden="true"></i>
+            </span>
+          </div>
+          <input formControlName="city" name="city" type="text" class="form-control" placeholder="City" required="required">
       </div>
 
       <div class="input-group form-group">
@@ -31,7 +50,7 @@
               <i class="fa fa-sticky-note" aria-hidden="true"></i>
             </span>
           </div>
-          <textarea formControlName="description" name="description" class="form-control" name="description" placeholder="Insert your description here..."></textarea>
+          <textarea formControlName="description" class="form-control" name="description" placeholder="Insert your description here..."></textarea>
       </div>
 
       <div class="alert alert-danger" role="alert" *ngIf="errorMessage.length != 0">
@@ -41,6 +60,6 @@
 
 <div class="modal-footer">
   <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Close</button>
-  <input type="submit" class="btn btn-primary" value="Edit">
+  <input type="submit" class="btn btn-primary" value="Save">
 </div>
 </form>

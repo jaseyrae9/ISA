@@ -15,6 +15,14 @@ public class Location {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@NotBlank(message = "Country can not be blank.")
+	@Column(nullable = false)
+	private String country;
+	
+	@NotBlank(message = "City can not be blank.")
+	@Column(nullable = false)
+	private String city;
+	
 	@NotBlank(message = "Address can not be blank.")
 	@Column(nullable = false)
 	private String address;
@@ -50,6 +58,22 @@ public class Location {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
 	}
 
 	public String getAddress() {

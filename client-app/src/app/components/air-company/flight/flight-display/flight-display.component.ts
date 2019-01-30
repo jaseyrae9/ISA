@@ -6,7 +6,6 @@ import { Flight } from './../../../../model/air-company/flight';
 import { Component, OnInit, Input } from '@angular/core';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { NgxNotificationService } from 'ngx-notification';
-import { TouchSequence } from 'selenium-webdriver';
 
 @Component({
   selector: 'app-flight-display',

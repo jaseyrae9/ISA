@@ -24,6 +24,9 @@ public class DestinationDTO {
 	@NotBlank(message = "Country can not be blank.")
 	private String country;
 	
+	@NotBlank(message = "City can not be blank.")
+	private String city;
+	
 	public DestinationDTO() {
 		
 	}
@@ -33,6 +36,7 @@ public class DestinationDTO {
 		this.label = destination.getLabel();
 		this.airportName = destination.getAirportName();
 		this.country = destination.getCountry();
+		this.city = destination.getCity();
 	}
 
 	public Long getId() {
@@ -66,4 +70,13 @@ public class DestinationDTO {
 	public void setCountry(String country) {
 		this.country = country;
 	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+	
 }

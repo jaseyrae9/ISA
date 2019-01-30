@@ -27,6 +27,7 @@ export class DestinationFormComponent implements OnInit {
     this.destinationForm = this.formBuilder.group({
       label: [this.destination.label, [Validators.required, Validators.minLength(3), Validators.maxLength(3)]],
       country: [this.destination.country, [Validators.required]],
+      city: [this.destination.country, [Validators.required]],
       airportName: [this.destination.airportName, [Validators.required]]
     });
   }

@@ -2,13 +2,14 @@
     <div class="col-12 mb-2" *ngIf="tokenService.isAirAdmin" >
         <section style="text-align:right">
             <a class="edit" *ngIf="flight.status == 'IN_PROGRESS'" (click)="activateFlight()"><i class="fa fa-check"></i></a>
-            <a class="edit" ><i class="fa fa-edit"></i></a>
+            <a class="edit" (click)="openEditForm()"><i class="fa fa-edit"></i></a>
             <a class="delete" *ngIf="flight.status == 'IN_PROGRESS'" (click)="deleteFlight()"><i class="fa fa-trash"></i></a>
         </section>
     </div>
     <div class="col-sm-3 pt-2" align="center">
         <p>{{flight.destinations[0].destination.label}}
-        <br><small class="text-muted">{{flight.destinations[0].destination.airportName}}, {{flight.destinations[0].destination.country}}</small>
+        <br><small class="text-muted">{{flight.destinations[0].destination.airportName}}, <br>
+          {{flight.destinations[0].destination.city}}, {{flight.destinations[0].destination.country}}</small>
         </p>
         <hr>
         <p>{{flight.startDateAndTime}}</p>
@@ -25,7 +26,8 @@
     </div>
     <div class="col-sm-3 pt-2" align="center">
         <p>{{flight.destinations[flight.destinations.length-1].destination.label}}
-        <br><small class="text-muted">{{flight.destinations[flight.destinations.length-1].destination.airportName}}, {{flight.destinations[flight.destinations.length-1].destination.country}}</small>
+        <br><small class="text-muted">{{flight.destinations[flight.destinations.length-1].destination.airportName}},<br>
+          {{flight.destinations[flight.destinations.length-1].destination.city}}  {{flight.destinations[flight.destinations.length-1].destination.country}}</small>
         </p>
         <hr>
         <p>{{flight.endDateAndTime}}</p>

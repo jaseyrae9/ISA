@@ -1,6 +1,7 @@
 package isa.project.model.aircompany;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,6 +28,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import isa.project.dto.aircompany.AirCompanyDTO;
+import isa.project.dto.aircompany.FlightDTO;
 
 @Entity
 @Table(name = "flights")
@@ -71,11 +73,43 @@ public class Flight implements Serializable{
 	@Column(nullable = false)
 	private Boolean additionalServicesAvailable;
 	
+	@Column(nullable = false)
 	private FlightStatus status;
+	
+	@Column(nullable = false)
+	private Double economyPrice;
+	
+	@Column(nullable = false)
+	private Double premiumEconomyPrice;
+	
+	@Column(nullable = false)
+	private Double bussinessPrice;
+	
+	@Column(nullable = false)
+	private Double firstPrice;
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "flight", orphanRemoval = true)
+	private List<Ticket> tickets;
 	
 		
 	public Flight() {
+		tickets = new ArrayList<>();
 		status = FlightStatus.IN_PROGRESS;
+	}
+	
+	public Flight(FlightDTO flightInfo) {
+		tickets = new ArrayList<>();
+		status = FlightStatus.IN_PROGRESS;
+		this.setStartDateAndTime(flightInfo.getStartDateAndTime());
+		this.setEndDateAndTime(flightInfo.getEndDateAndTime());
+		this.setLength(flightInfo.getLength());
+		this.setMaxCarryOnBags(flightInfo.getMaxCarryOnBags());
+		this.setMaxCheckedBags(flightInfo.getMaxCheckedBags());
+		this.setAdditionalServicesAvailable(flightInfo.getAdditionalServicesAvailable());
+		this.setEconomyPrice(flightInfo.getEconomyPrice());
+		this.setPremiumEconomyPrice(flightInfo.getPremiumEconomyPrice());
+		this.setBussinessPrice(flightInfo.getBussinessPrice());
+		this.setFirstPrice(flightInfo.getFirstPrice());
 	}
 
 	public Integer getId() {
@@ -182,6 +216,77 @@ public class Flight implements Serializable{
 
 	public void setStatus(FlightStatus status) {
 		this.status = status;
+	}
+	
+	public List<List<Ticket>> getTickets() {
+		ArrayList<List<Ticket>> ret = new ArrayList<>();
+		int itemsInRow = this.airplane.getColNum() * this.airplane.getSeatsPerCol();
+		int lower = 0;
+		for(int i = 0; i < this.airplane.getRowNum(); ++i) {
+			List<Ticket> row = this.tickets.subList(lower, lower + itemsInRow);
+			lower += itemsInRow;
+			ret.add(row);
+		}
+		return ret;
+	}
+
+	public void setTickets(List<Ticket> ticket) {
+		this.tickets = ticket;
+	}
+	
+	public void removeTicket(Ticket ticket) {
+		ticket.setFlight(null);
+		this.tickets.remove(ticket);
+	}
+
+	public void removeTicketsStartingFromIndex(int index) {
+		for(int i = this.tickets.size() - 1; i >= index; --i) {
+			   removeTicket(this.tickets.get(i));
+		}
+	}
+	
+	public void addTicket(Ticket ticket) {
+		this.tickets.add(ticket);
+	}
+	
+	public Ticket getTicket(int i) {
+		return this.tickets.get(i);
+	}
+	
+	public int ticketsSize() {
+		return this.tickets.size();
+	}	
+
+	public Double getEconomyPrice() {
+		return economyPrice;
+	}
+
+	public void setEconomyPrice(Double economyPrice) {
+		this.economyPrice = economyPrice;
+	}
+
+	public Double getPremiumEconomyPrice() {
+		return premiumEconomyPrice;
+	}
+
+	public void setPremiumEconomyPrice(Double premiumEconomyPrice) {
+		this.premiumEconomyPrice = premiumEconomyPrice;
+	}
+
+	public Double getBussinessPrice() {
+		return bussinessPrice;
+	}
+
+	public void setBussinessPrice(Double bussinessPrice) {
+		this.bussinessPrice = bussinessPrice;
+	}
+
+	public Double getFirstPrice() {
+		return firstPrice;
+	}
+
+	public void setFirstPrice(Double firstPrice) {
+		this.firstPrice = firstPrice;
 	}
 
 	@Override

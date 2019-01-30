@@ -47,7 +47,7 @@
 </div>
 
 <div *ngIf="pageNumber === 1" >
-  <form [formGroup]="flightForm" (validSubmit)="nextPage(1)">
+  <form [formGroup]="flightForm1" (validSubmit)="nextPage(1)">
     <div class="modal-body">
         <p class="text-muted" align="center">Departure information</p>
         <hr>
@@ -82,7 +82,7 @@
         <div class="input-group form-group">
             <div class="input-group-prepend">
               <span class="input-group-text">
-                <i class="fa fa-euro-sign" aria-hidden="true"></i>
+                <i class="fa fa-map" aria-hidden="true"></i>
               </span>
             </div>
             <input formControlName="length" type="text" class="form-control" placeholder="Distance" required="required">
@@ -93,7 +93,7 @@
                 <i class="fa fa-shopping-bag" aria-hidden="true"></i>
               </span>
             </div>
-            <input type="text" class="form-control" placeholder="Country" required="required" formControlName="maxCarryOnBags">
+            <input type="text" class="form-control" placeholder="Maximal number of carry on bags" required="required" formControlName="maxCarryOnBags">
         </div>
         <div class="input-group form-group">
             <div class="input-group-prepend">
@@ -101,7 +101,7 @@
                 <i class="fa fa-suitcase-rolling" aria-hidden="true"></i>
               </span>
             </div>
-            <input type="text" class="form-control" placeholder="Country" required="required" formControlName="maxCheckedBags">
+            <input type="text" class="form-control" placeholder="Maximal number of bags to check in" formControlName="maxCheckedBags">
         </div>
         <label><input formControlName="additionalServicesAvailable" type="checkbox">Additional services available</label>
     </div>
@@ -114,41 +114,61 @@
 </div>
 
 <div *ngIf="pageNumber === 2" >
-  <form [formGroup]="flightForm" (validSubmit)="submit()">
+  <form [formGroup]="flightForm2" (validSubmit)="submit()">
     <div class="modal-body">
-        <p class="text-muted" align="center">Tickets information</p>
+        <p class="text-muted" align="center">Tickets pirces for:</p>
         <hr>
         <div class="input-group form-group">
             <div class="input-group-prepend">
-              <span class="input-group-text">
-                <i class="fa fa-euro-sign" aria-hidden="true"></i>
-              </span>
+                <span class="input-group-text" style="width: 150px">
+                    Economy class
+                </span>
             </div>
             <input formControlName="economyPrice" type="text" class="form-control" placeholder="Economy class price" required="required">
+            <div class="input-group-append">
+                <span class="input-group-text">
+                    <i class="fa fa-euro-sign" aria-hidden="true"></i>
+                </span>
+            </div>
         </div>
         <div class="input-group form-group">
             <div class="input-group-prepend">
-              <span class="input-group-text">
-                <i class="fa fa-euro-sign" aria-hidden="true"></i>
+              <span class="input-group-text" style="width: 150px">
+                Premium economy
               </span>
             </div>
             <input formControlName="premiumEconomyPrice" type="text" class="form-control" placeholder="Premium economy class price" required="required">
-        </div>
+            <div class="input-group-append">
+                <span class="input-group-text">
+                    <i class="fa fa-euro-sign" aria-hidden="true"></i>
+                </span>
+            </div>
+         </div>
         <div class="input-group form-group">
             <div class="input-group-prepend">
-              <span class="input-group-text">
-                <i class="fa fa-euro-sign" aria-hidden="true"></i>
+              <span class="input-group-text" style="width: 150px">
+                Bussiness class
               </span>
             </div>
             <input formControlName="bussinessPrice" type="text" class="form-control" placeholder="Bussiness class price" required="required">
-        </div>
+            <div class="input-group-append">
+                <span class="input-group-text">
+                    <i class="fa fa-euro-sign" aria-hidden="true"></i>
+                </span>
+            </div>
+          </div>
         <div class="input-group form-group">
             <div class="input-group-prepend">
-              <span class="input-group-text">
-                <i class="fa fa-euro-sign" aria-hidden="true"></i>
+              <span class="input-group-text" style="width: 150px">
+                First class
               </span>
             </div>
             <input formControlName="firstPrice" type="text" class="form-control" placeholder="First class price" required="required">
+            <div class="input-group-append">
+                <span class="input-group-text">
+                    <i class="fa fa-euro-sign" aria-hidden="true"></i>
+                </span>
+            </div>
         </div>
         <p class="text-muted" align="center">Airplane information</p>
         <hr>
@@ -162,7 +182,7 @@
                 <option *ngFor="let item of airplanes; let i=index" [ngValue]="i"> {{item.name}}</option>
             </select>
         </div>
-        <app-airplane-display [airplane]="airplanes[flightForm.value.airplaneIndex]" [useButtons]="false"></app-airplane-display>
+        <app-airplane-display [airplane]="airplanes[flightForm2.value.airplaneIndex]" [useButtons]="false"></app-airplane-display>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modalRef.hide()">Close</button>

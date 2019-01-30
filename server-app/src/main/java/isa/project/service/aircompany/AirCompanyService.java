@@ -54,7 +54,7 @@ public class AirCompanyService {
 
 		// kreiraj destinaciju
 		Destination destination = new Destination(airCompany, destinationDTO.getLabel(), destinationDTO.getCountry(),
-				destinationDTO.getAirportName());
+				destinationDTO.getCity(), destinationDTO.getAirportName());
 
 		// sacuvaj
 		return destinationRepository.save(destination);

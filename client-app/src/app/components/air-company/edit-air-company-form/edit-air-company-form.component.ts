@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Location } from './../../../model/location';
 import { LocationService } from './../../../services/location-service';
 import { Subject } from 'rxjs';
@@ -14,9 +15,10 @@ import { AirCompanyService } from 'src/app/services/air-company/air-company.serv
 })
 export class EditAirCompanyFormComponent implements OnInit {
   public onClose: Subject<AirCompany>;
-  @Input() airCompany: AirCompany;
   errorMessage: String = '';
   editForm: FormGroup;
+  @Input() airCompany: AirCompany = new AirCompany();
+  @Input() isAddForm = false;
 
   constructor(public modalRef: BsModalRef, private formBuilder: FormBuilder,
     private airCompanyService: AirCompanyService, private locationService: LocationService ) { }
@@ -25,33 +27,70 @@ export class EditAirCompanyFormComponent implements OnInit {
     this.onClose = new Subject();
     this.editForm = this.formBuilder.group({
       name: [this.airCompany.name, [Validators.required]],
+      city: [this.airCompany.location.city, [Validators.required]],
+      country: [this.airCompany.location.country, [Validators.required]],
       address: [this.airCompany.location.address, [Validators.required]],
       description: [this.airCompany.description]
     });
   }
 
-  onEditAirCompany() {
+  addressChanged(value): boolean {
+    if (this.isAddForm) {
+      return true;
+    }
+    return value.address !== this.airCompany.location.address || value.city !== this.airCompany.location.city
+    || value.country !== this.airCompany.location.country;
+  }
+
+  onSubmit() {
     const value = this.editForm.value;
     value.location = new Location();
-    if ( value.address !== this.airCompany.location.address ) {
+    if ( this.addressChanged(value) ) {
       value.location.address = value.address;
-      this.locationService.decode(value.address).subscribe(
+      value.location.city = value.city;
+      value.location.country = value.country;
+      this.locationService.decode(value.address + ',+' + value.city + ',+' + value.conutry).subscribe(
         (data) => {
           value.location.lat = data.results[0].geometry.location.lat;
           value.location.lon = data.results[0].geometry.location.lng;
-          this.edit(value);
+          this.submit(value);
         },
         (error) => {
           console.log(error);
           value.location.lat = 0;
           value.location.lon = 0;
-          this.edit(value);
+          this.submit(value);
         }
       );
     } else {
+      // ovde ce uci samo edit, pa ako vec nisu menjali nista, da ne trazimo opet od googla koordinate
       value.location = this.airCompany.location;
+      this.submit(value);
+    }
+  }
+
+  submit(value) {
+    if (this.isAddForm) {
+      this.add(value);
+    } else {
       this.edit(value);
     }
+  }
+
+  add(value) {
+    this.airCompanyService.add(value).subscribe(data => {
+        this.onClose.next(data);
+        this.modalRef.hide();
+      },
+      (err: HttpErrorResponse) => {
+        console.log(err);
+        // interceptor je hendlovao ove zahteve
+        if (err.status === 401 || err.status === 403 || err.status === 404) {
+          this.modalRef.hide();
+        }
+        this.errorMessage = err.error.details;
+      }
+    );
   }
 
   edit(value) {

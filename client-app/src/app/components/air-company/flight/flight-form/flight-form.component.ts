@@ -19,7 +19,8 @@ export class FlightFormComponent implements OnInit {
   datePickerConfig: Partial<BsDatepickerConfig>;
   pageNumber = 0;
   errorMessage: String = '';
-  flightForm: FormGroup;
+  flightForm1: FormGroup; // za poletanje sletanje itd
+  flightForm2: FormGroup; // za cene
   @Input() airCompanyId;
   @Input() isAddForm = false;
   @Input() flight: Flight = new Flight();
@@ -28,6 +29,7 @@ export class FlightFormComponent implements OnInit {
   destinations: Destination[] = [];
   addedDestinations: Destination[] = [];
   selectedDestination = 0;
+  destinationWarning = '';
 
   // za izbor aviona
   airplanes: Airplane[] = [];
@@ -38,6 +40,7 @@ export class FlightFormComponent implements OnInit {
     private datePipe: DatePipe) { }
 
   ngOnInit() {
+
     this.datePickerConfig = Object.assign({},
       {
         containerClass: 'theme-default',
@@ -47,6 +50,9 @@ export class FlightFormComponent implements OnInit {
     this.airCompanyService.get(this.airCompanyId).subscribe(
       (data) => {
         this.destinations = data.destinations;
+        for (const fd of this.flight.destinations) {
+          this.addedDestinations.push(fd.destination);
+        }
       }
     );
     this.airCompanyService.getActiveAirplanes(this.airCompanyId).subscribe(
@@ -54,20 +60,22 @@ export class FlightFormComponent implements OnInit {
         this.airplanes = data;
       }
     );
-    this.flightForm = this.formBuilder.group({
-      economyPrice: [0, [Validators.required, Validators.min(0)]],
-      premiumEconomyPrice: [0, [Validators.required, Validators.min(0)]],
-      bussinessPrice: [0, [Validators.required, Validators.min(0)]],
-      firstPrice: [0, [Validators.required, Validators.min(0)]],
-      airplaneIndex: [0, [Validators.required]],
-      length: [0, [Validators.required, Validators.min(0)]],
-      maxCarryOnBags: [0, [Validators.required, Validators.min(0)]],
-      maxCheckedBags: [0, [Validators.required, Validators.min(0)]],
-      additionalServicesAvailable: [false],
-      departureDate: [new Date(), Validators.required],
-      arrivalDate: [new Date(), Validators.required],
-      departureTime: ['00:00', Validators.required],
-      arrivalTime: ['00:00', Validators.required]
+    this.flightForm1 = this.formBuilder.group({
+      length: [this.flight.length, [Validators.required, Validators.min(0)]],
+      maxCarryOnBags: [this.flight.maxCarryOnBags, [Validators.required, Validators.min(0)]],
+      maxCheckedBags: [this.flight.maxCheckedBags, [Validators.required, Validators.min(0)]],
+      additionalServicesAvailable: [this.flight.additionalServicesAvailable],
+      departureDate: [this.datePipe.transform(this.flight.startDateAndTime, 'yyyy-MM-dd'), Validators.required],
+      arrivalDate: [this.datePipe.transform(this.flight.endDateAndTime, 'yyyy-MM-dd'), Validators.required],
+      departureTime: [this.datePipe.transform(this.flight.endDateAndTime, 'hh:mm'), Validators.required],
+      arrivalTime: [this.datePipe.transform(this.flight.endDateAndTime, 'hh:mm'), Validators.required]
+    });
+    this.flightForm2 = this.formBuilder.group({
+      economyPrice: [this.flight.economyPrice, [Validators.required, Validators.min(0)]],
+      premiumEconomyPrice: [this.flight.premiumEconomyPrice, [Validators.required, Validators.min(0)]],
+      bussinessPrice: [this.flight.bussinessPrice, [Validators.required, Validators.min(0)]],
+      firstPrice: [this.flight.firstPrice, [Validators.required, Validators.min(0)]],
+      airplaneIndex: [0, [Validators.required]]
     });
   }
 
@@ -117,20 +125,21 @@ export class FlightFormComponent implements OnInit {
   }
 
   convertFormToDTO(): any {
-    const value = this.flightForm.value;
+    const value1 = this.flightForm1.value;
+    const value2 = this.flightForm2.value;
     const flight = {
-      airplaneId: this.airplanes[value.airplaneIndex].id,
+      airplaneId: this.airplanes[value2.airplaneIndex].id,
       destinations: this.addedDestinations.map(function(a) {return a.id; }),
-      startDateAndTime: this.datePipe.transform(value.departureDate, 'yyyy-MM-dd') + ' ' +  value.departureTime,
-      endDateAndTime: this.datePipe.transform(value.arrivalDate, 'yyyy-MM-dd') + ' ' + value.arrivalTime,
-      economyPrice: value.economyPrice,
-      premiumEconomyPrice: value.premiumEconomyPrice,
-      bussinessPrice: value.bussinessPrice,
-      firstPrice: value.firstPrice,
-      length: value.length,
-      maxCarryOnBags: value.maxCarryOnBags,
-      maxCheckedBags: value.maxCheckedBags,
-      additionalServicesAvailable: value.additionalServicesAvailable
+      startDateAndTime: this.datePipe.transform(value1.departureDate, 'yyyy-MM-dd') + ' ' +  value1.departureTime,
+      endDateAndTime: this.datePipe.transform(value1.arrivalDate, 'yyyy-MM-dd') + ' ' + value1.arrivalTime,
+      economyPrice: value2.economyPrice,
+      premiumEconomyPrice: value2.premiumEconomyPrice,
+      bussinessPrice: value2.bussinessPrice,
+      firstPrice: value2.firstPrice,
+      length: value1.length,
+      maxCarryOnBags: value1.maxCarryOnBags,
+      maxCheckedBags: value1.maxCheckedBags,
+      additionalServicesAvailable: value1.additionalServicesAvailable
     };
     return flight;
   }

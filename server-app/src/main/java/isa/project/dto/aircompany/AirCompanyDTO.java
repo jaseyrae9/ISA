@@ -1,5 +1,6 @@
 package isa.project.dto.aircompany;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -15,6 +16,7 @@ public class AirCompanyDTO {
 	private String description;
 	
 	@NotNull (message = "Location must be enetered.")
+	@Valid
 	private Location location;
 		
 	public AirCompanyDTO() {

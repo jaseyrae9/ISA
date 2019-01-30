@@ -1,6 +1,6 @@
-insert into locations(id, address, lon, lat) values (100, 'Marka Miljanova 7b, Novi Sad',19.849669, 45.261406);
-insert into locations(id, address, lon, lat) values (101, 'London, UK',-0.127758, 51.507351);
-insert into locations(id, address, lon, lat) values (102, 'Kraljice Jelene 28, Indjija',20.068591, 45.043876);
+insert into locations(id, city, country, address, lon, lat) values (100, 'Novi Sad', 'Srbija', 'Marka Miljanova 7b',19.849669, 45.261406);
+insert into locations(id, city, country, address, lon, lat) values (101, 'London', 'Velika Britanija', 'Neka ulica',-0.127758, 51.507351);
+insert into locations(id, city, country, address, lon, lat) values (102, 'Novi Sad', 'Srbija', 'Jozefa Marcoka 2',19.831655, 45.236972);
 
 insert into hotel (id, hotel_name, hotel_description, location_id) values (100, 'Hotel proba 1', 'Opis 1', 100);
 insert into hotel (id, hotel_name, hotel_description, location_id) values (101, 'Hotel proba 2', 'Opis 2', 101);

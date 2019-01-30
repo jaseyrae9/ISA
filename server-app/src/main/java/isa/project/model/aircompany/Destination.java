@@ -32,6 +32,9 @@ public class Destination implements Serializable {
 
 	@Column(nullable = false)
 	private String country;
+	
+	@Column(nullable = false)
+	private String city;
 
 	@Column(nullable = false)
 	private String airportName;
@@ -42,11 +45,12 @@ public class Destination implements Serializable {
 	public Destination() {
 	}
 	
-	public Destination(AirCompany airCompany, String label, String country, String airportName) {
+	public Destination(AirCompany airCompany, String label, String country, String city, String airportName) {
 		super();	
 		this.airCompany = airCompany;
 		this.label = label;
 		this.country = country;
+		this.city = city;
 		this.airportName = airportName;
 		this.active = true;
 	}
@@ -83,6 +87,14 @@ public class Destination implements Serializable {
 
 	public void setCountry(String country) {
 		this.country = country;
+	}
+	
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
 	}
 
 	public String getAirportName() {

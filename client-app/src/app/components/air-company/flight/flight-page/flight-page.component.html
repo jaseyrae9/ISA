@@ -12,7 +12,8 @@
 	<div class="row rounded align-items-center p-2 mt-3">
      <div class="col-5 pt-2" align="center" *ngIf="flight.destinations.length > 0" >
             <p>{{flight.destinations[0].destination.label}}
-            <br><small class="text-muted">{{flight.destinations[0].destination.airportName}}, {{flight.destinations[0].destination.country}}</small>
+            <br><small class="text-muted">{{flight.destinations[0].destination.airportName}}, <br>
+              {{flight.destinations[0].destination.city}}, {{flight.destinations[0].destination.country}}</small>
             </p>
             <hr>
             <p>{{flight.startDateAndTime}}</p>
@@ -29,7 +30,8 @@
     </div>
     <div class="col-5 pt-2" align="center" *ngIf="flight.destinations.length > 0" >
             <p>{{flight.destinations[flight.destinations.length-1].destination.label}}
-            <br><small class="text-muted">{{flight.destinations[flight.destinations.length-1].destination.airportName}}, {{flight.destinations[flight.destinations.length-1].destination.country}}</small>
+            <br><small class="text-muted">{{flight.destinations[flight.destinations.length-1].destination.airportName}},<br>
+              {{flight.destinations[flight.destinations.length-1].destination.city}},  {{flight.destinations[flight.destinations.length-1].destination.country}}</small>
             </p>
             <hr>
           	<p>{{flight.endDateAndTime}}</p>

@@ -2,14 +2,11 @@
   <!-- Button trigger modal -->
   <div *ngIf="tokenService.isSysAdmin" style="align-content: center" div class="row">
     <div class="col-12 text-center">
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewAirCompany">
+      <button type="button" class="btn btn-primary" (click)="openAddAirCompmanyModal()">
         Add new air company
       </button>
     </div>
   </div>
-
-  <!-- Modal -->
-  <app-new-air-company-form class="modal fade" id="addNewAirCompany" tabindex="-1" role="dialog" aria-hidden="true" (airCompanyCreated)='airCompanyCreated($event)'></app-new-air-company-form>
   <hr>
   <div class="container">
     <app-company-basic-details *ngFor="let company of companies" [company] = 'company' class="row border rounded align-items-center p-1 mt-3"></app-company-basic-details>

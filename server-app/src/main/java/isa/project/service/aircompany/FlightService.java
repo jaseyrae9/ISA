@@ -18,6 +18,8 @@ import isa.project.model.aircompany.Destination;
 import isa.project.model.aircompany.Flight;
 import isa.project.model.aircompany.Flight.FlightStatus;
 import isa.project.model.aircompany.FlightDestination;
+import isa.project.model.aircompany.Ticket;
+import isa.project.model.aircompany.Ticket.TicketStatus;
 import isa.project.model.users.AirCompanyAdmin;
 import isa.project.model.users.User;
 import isa.project.repository.aircompany.AirCompanyRepository;
@@ -120,7 +122,7 @@ public class FlightService {
 			throws ResourceNotFoundException, RequestDataException {
 		checkDates(flightInfo);
 		AirCompany airCompany = findAirCompany(airCompanyId);
-		Flight flight = new Flight();
+		Flight flight = new Flight(flightInfo);
 		flight.setAirCompany(airCompany);
 		flight.setAirplane(findAirplane(airCompany, flightInfo.getAirplaneId()));
 		ArrayList<FlightDestination> destinations = new ArrayList<>();
@@ -130,14 +132,31 @@ public class FlightService {
 			fd.setFlight(flight);
 			destinations.add(fd);
 		}
-		flight.setDestinations(destinations);
-		flight.setStartDateAndTime(flightInfo.getStartDateAndTime());
-		flight.setEndDateAndTime(flightInfo.getEndDateAndTime());
-		flight.setLength(flightInfo.getLength());
-		flight.setMaxCarryOnBags(flightInfo.getMaxCarryOnBags());
-		flight.setMaxCheckedBags(flightInfo.getMaxCheckedBags());
-		flight.setAdditionalServicesAvailable(flightInfo.getAdditionalServicesAvailable());
+		flight.setDestinations(destinations);		
+		setTickets(flight, flightInfo);
 		return flightRepository.save(flight);
+	}
+	
+	private void setTickets(Flight flight, FlightDTO info) {
+		//za svako sediste namesti kartu
+		for(int i = 0; i < flight.getAirplane().getSeats().size(); ++i) {
+			if(i > flight.ticketsSize() - 1) {
+				//nedostaje karta, treba dodati novu
+				Ticket ticket = new Ticket(flight, info.getPriceForClass(flight.getAirplane().getSeats().get(i).getSeatClass()));
+				flight.addTicket(ticket);
+			} else {
+				//postoji karta, samo je izmeni
+				Ticket ticket = flight.getTicket(i);
+				if(!ticket.getStatus().equals(TicketStatus.RESERVED)){
+					ticket.setPrice(info.getPriceForClass(flight.getAirplane().getSeats().get(i).getSeatClass()));
+				}
+			}
+		}
+		
+		//obrisi viska karte ako postoje
+		if(flight.getAirplane().getSeats().size() < flight.ticketsSize()) {
+			flight.removeTicketsStartingFromIndex(flight.getAirplane().getSeats().size());
+		}
 	}
 
 	/**

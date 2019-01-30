@@ -9,6 +9,8 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import isa.project.model.aircompany.Seat.SeatClass;
+
 /**
  * @author Milica
  *
@@ -153,5 +155,18 @@ public class FlightDTO {
 
 	public void setFirstPrice(Double firstPrice) {
 		this.firstPrice = firstPrice;
+	}
+	
+	public Double getPriceForClass(SeatClass seatClass) {
+		switch (seatClass) {
+		case PREMIUM_ECONOMY:
+			return premiumEconomyPrice;
+		case FIRST:
+			return firstPrice;
+		case BUSSINESS:
+			return bussinessPrice;
+		default:
+			return economyPrice;
+		}
 	}
 }
