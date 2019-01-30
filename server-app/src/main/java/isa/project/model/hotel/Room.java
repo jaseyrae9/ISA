@@ -55,6 +55,12 @@ public class Room implements Serializable{
 	@Column(name = "active")
 	private Boolean active;	
 	
+	@Column(name = "totalRating")
+	private Integer totalRating;
+	
+	@Column(name = "ratingCount")
+	private Integer ratingCount;
+	
 	@Version
 	private Long version;
 
@@ -70,6 +76,8 @@ public class Room implements Serializable{
 		this.price = price;
 		this.type = type;
 		this.active = true;
+		this.totalRating = 5; // na pocetku je ocena 5
+		this.ratingCount = 1; // jedan glas
 	}
 
 	public Integer getId() {
@@ -151,12 +159,27 @@ public class Room implements Serializable{
 	public void setVersion(Long version) {
 		this.version = version;
 	}
+	
+	public Integer getRatingCount() {
+		return ratingCount;
+	}
+
+	public void setRatingCount(Integer ratingCount) {
+		this.ratingCount = ratingCount;
+	}
+
+	public Integer getTotalRating() {
+		return totalRating;
+	}
+
+	public void setTotalRating(Integer totalRating) {
+		this.totalRating = totalRating;
+	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((hotel == null) ? 0 : hotel.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
@@ -171,11 +194,6 @@ public class Room implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Room other = (Room) obj;
-		if (hotel == null) {
-			if (other.hotel != null)
-				return false;
-		} else if (!hotel.equals(other.hotel))
-			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;

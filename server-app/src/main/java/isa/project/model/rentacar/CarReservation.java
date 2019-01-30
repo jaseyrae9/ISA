@@ -51,6 +51,9 @@ public class CarReservation {
 	@JoinColumn(name="customer_id", referencedColumnName="id")
 	private Customer customer;
 	
+	@Column(name = "isRated")
+	private Boolean isRated;
+	
 	public CarReservation() {
 		
 	}
@@ -65,6 +68,7 @@ public class CarReservation {
 		this.pickUpBranchOffice = pickUpBranchOffice;
 		this.dropOffBranchOffice = dropOffBranchOffice;
 		this.active = true;
+		this.isRated = false;
 	}
 
 	public Integer getId() {
@@ -129,6 +133,14 @@ public class CarReservation {
 
 	public void setActive(Boolean active) {
 		this.active = active;
+	}
+
+	public Boolean getIsRated() {
+		return isRated;
+	}
+
+	public void setIsRated(Boolean isRated) {
+		this.isRated = isRated;
 	}
 
 	@Override

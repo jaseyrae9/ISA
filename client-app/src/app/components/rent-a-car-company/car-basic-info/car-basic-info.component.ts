@@ -16,7 +16,7 @@ import { NgxNotificationService } from 'ngx-notification';
 export class CarBasicInfoComponent implements OnInit {
   @Input() car: Car;
 
-  @Output() carDeleted: EventEmitter<Car> = new EventEmitter();
+  @Output() carDeleted: EventEmitter<number> = new EventEmitter();
   @Output() carRented: EventEmitter<Car> = new EventEmitter();
 
   @Input() isCarsTab = true;
@@ -49,8 +49,8 @@ export class CarBasicInfoComponent implements OnInit {
   deleteCar() {
     this.carCompanyService.delete(this.car.id, this.companyId).subscribe(
       data => {
-        console.log('Brisanje automobila');
-        this.carDeleted.emit(this.car);
+        console.log('Brisanje automobila', this.car);
+        this.carDeleted.emit(this.car.id);
       },
       error => {
         console.log(error);

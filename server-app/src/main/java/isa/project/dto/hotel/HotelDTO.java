@@ -26,6 +26,8 @@ public class HotelDTO {
 	@NotNull (message = "Location must be enetered.")
 	private Location location;
 	
+	private Double averageRating;
+		
 	public HotelDTO() {
 		
 	}
@@ -35,7 +37,7 @@ public class HotelDTO {
 		this.name = hotel.getName();
 		this.description = hotel.getDescription();
 		this.location = hotel.getLocation();
-		
+		this.averageRating = (hotel.getTotalRating() / (double) hotel.getRatingCount());
 		this.rooms = new ArrayList<>();
 		if(hotel.getRooms() != null) {
 			for(Room room: hotel.getRooms()) {
@@ -97,5 +99,14 @@ public class HotelDTO {
 
 	public void setLocation(Location location) {
 		this.location = location;
-	}		
+	}
+
+	public Double getAverageRating() {
+		return averageRating;
+	}
+
+	public void setAverageRating(Double averageRating) {
+		this.averageRating = averageRating;
+	}	
+	
 }

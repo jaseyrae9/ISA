@@ -47,6 +47,12 @@ public class RentACarCompany {
 	@JoinColumn(name="location_id", nullable = false)
 	private Location location;
 	
+	@Column(name = "totalRating")
+	private Integer totalRating;
+	
+	@Column(name = "ratingCount")
+	private Integer ratingCount;
+	
 	public RentACarCompany() {
 		super();
 	}
@@ -55,6 +61,8 @@ public class RentACarCompany {
 		super();
 		this.name = name;
 		this.description = description;
+		this.totalRating = 5; // na pocetku je ocena 5
+		this.ratingCount = 1; // jedan glas
 	}
 
 	public Integer getId() {
@@ -84,7 +92,8 @@ public class RentACarCompany {
 	public Set<Car> getCars() {
 		if(cars != null)
 			return cars.stream().filter(p -> p.getActive() == true).collect(Collectors.toSet()); // Da vraca samo aktivne automobile
-		return null;
+		else
+			return null;
 	}
 
 	public void setCars(Set<Car> cars) {
@@ -107,6 +116,22 @@ public class RentACarCompany {
 
 	public void setLocation(Location location) {
 		this.location = location;
+	}
+
+	public Integer getTotalRating() {
+		return totalRating;
+	}
+
+	public void setTotalRating(Integer totalRating) {
+		this.totalRating = totalRating;
+	}
+
+	public Integer getRatingCount() {
+		return ratingCount;
+	}
+
+	public void setRatingCount(Integer ratingCount) {
+		this.ratingCount = ratingCount;
 	}
 
 	@Override

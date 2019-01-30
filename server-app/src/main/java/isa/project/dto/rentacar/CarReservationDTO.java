@@ -26,6 +26,8 @@ public class CarReservationDTO {
 	
 	private Boolean active;
 	
+	private Boolean isRated;
+	
 	public CarReservationDTO() {
 		
 	}
@@ -37,6 +39,7 @@ public class CarReservationDTO {
 		this.pickUpBranchOffice = reservation.getPickUpBranchOffice();
 		this.dropOffBranchOffice = reservation.getDropOffBranchOffice();
 		this.active = reservation.getActive();
+		this.isRated = reservation.getIsRated();
 	}
 
 	public Integer getId() {
@@ -85,6 +88,14 @@ public class CarReservationDTO {
 
 	public void setActive(Boolean active) {
 		this.active = active;
+	}
+
+	public Boolean getIsRated() {
+		return isRated;
+	}
+
+	public void setIsRated(Boolean isRated) {
+		this.isRated = isRated;
 	}
 
 }
