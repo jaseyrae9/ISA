@@ -75,9 +75,28 @@ public class FlightController {
 	@PreAuthorize("hasAnyRole('AIRADMIN')")
 	@AdminAccountActiveCheck
 	@AirCompanyAdminCheck
-	public ResponseEntity<?> createAirplane(@PathVariable Integer id, @Valid @RequestBody FlightDTO flight)
+	public ResponseEntity<?> createFlight(@PathVariable Integer id, @Valid @RequestBody FlightDTO flight)
 			throws ResourceNotFoundException, RequestDataException {
 		return new ResponseEntity<>(flightService.addNewFlight(id, flight), HttpStatus.CREATED);
+	}
+	
+	/**
+	 * Uređuje postojeći let.
+	 * 
+	 * @param id - oznaka aviokompanije
+	 * @param flightId - oznaka leta
+	 * @param flight - informacije u letu
+	 * @return - uređeni let
+	 * @throws ResourceNotFoundException - aviokompanija, let, avion ili destinacija nisu pronađeni
+	 * @throws RequestDataException - datumi neispravni, status nije in_progress
+	 */
+	@RequestMapping(value = "/editFlight/{id}/{flightId}", method = RequestMethod.PUT, consumes = "application/json")
+	@PreAuthorize("hasAnyRole('AIRADMIN')")
+	@AdminAccountActiveCheck
+	@AirCompanyAdminCheck
+	public ResponseEntity<?> editFlight(@PathVariable Integer id, @PathVariable Integer flightId ,@Valid @RequestBody FlightDTO flight)
+			throws ResourceNotFoundException, RequestDataException {
+		return new ResponseEntity<>(flightService.editFlight(id, flightId, flight), HttpStatus.OK);
 	}
 	
 	/**

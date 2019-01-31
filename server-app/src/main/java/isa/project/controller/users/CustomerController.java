@@ -1,6 +1,7 @@
 package isa.project.controller.users;
 
 import java.io.IOException;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.mail.MessagingException;
@@ -105,17 +106,19 @@ public class CustomerController {
 	 */
 	@RequestMapping(value = "/confirmRegistration", method = RequestMethod.GET)
 	public ResponseEntity<?> confirmRegistration(@RequestParam("token") String token) {
+		System.out.println("hi");
+		System.out.println(token);
+		Optional<VerificationToken>  verificationToken= tokenService.findByToken(token);
 
-		VerificationToken verificationToken = tokenService.findByToken(token);
-
-		if (verificationToken == null) {
+		if (!verificationToken.isPresent()) {
+			System.out.println("hi2");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).header(HttpHeaders.LOCATION, "/api/").build();
 		}
 
-		Customer customer = (Customer) verificationToken.getUser();
+		Customer customer = (Customer) verificationToken.get().getUser();
 		customer.setConfirmedMail(true);
 		customerService.saveCustomer(customer);
-
+		System.out.println("confirmed");
 		// redirekcija gde zelimo
 		return ResponseEntity.status(HttpStatus.FOUND).header(HttpHeaders.LOCATION, "/api/").build();
 	}

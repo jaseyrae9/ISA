@@ -1,4 +1,6 @@
 <div style="padding: 1%" class="container">
+  <small class="class="text-muted> Find hotels with rooms available when <b>You</b> need them: </small>
+  <hr>
   <!-- PRETRAGA HOTELA -->
   <form name="form" [formGroup]="searchHotelForm" (validSubmit)="onSearch()">
     <div class="row">
@@ -32,7 +34,7 @@
             </span>
           </div>
           <input class="form-control" #drp="bsDaterangepicker" [bsConfig]='datePickerConfig' bsDaterangepicker
-            formControlName="bsRangeValue">
+            formControlName="bsRangeValue" placeholder="Check in and check out date">
         </div>
       </div>
 
@@ -45,7 +47,7 @@
     </div>
   </form>
 
-  <p *ngIf='hotels.length == 0' align="center" style="font-size: 35px; color:  #33cabb;">Nothing is found.</p>
+  <p *ngIf='hotels.length == 0' align="center" style="font-size: 20px; color:  #33cabb;" class="mt-3">Nothing is found.</p>
 
 
   <app-hotel-basic-details *ngFor="let hotel of hotels" [hotel]='hotel' class="row border rounded align-items-center p-1 mt-3"></app-hotel-basic-details>

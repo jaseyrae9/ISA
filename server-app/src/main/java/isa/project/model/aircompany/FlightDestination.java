@@ -2,7 +2,6 @@ package isa.project.model.aircompany;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -23,12 +22,12 @@ public class FlightDestination implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)	
-	@JoinColumn(name="flight_id", referencedColumnName="id", nullable = false)
+	@ManyToOne(fetch = FetchType.EAGER)	
+	@JoinColumn(name="flight_id", referencedColumnName="id")
 	private Flight flight;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)	
-	@JoinColumn(name="destination_id", referencedColumnName="id", nullable = false)
+	@ManyToOne(fetch = FetchType.EAGER)	
+	@JoinColumn(name="destination_id", referencedColumnName="id")
 	private Destination destination;
 	
 	public Long getId() {

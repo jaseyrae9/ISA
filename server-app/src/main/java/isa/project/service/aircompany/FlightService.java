@@ -1,6 +1,7 @@
 package isa.project.service.aircompany;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -125,61 +126,128 @@ public class FlightService {
 		Flight flight = new Flight(flightInfo);
 		flight.setAirCompany(airCompany);
 		flight.setAirplane(findAirplane(airCompany, flightInfo.getAirplaneId()));
-		ArrayList<FlightDestination> destinations = new ArrayList<>();
+		ArrayList<Destination> destinations = new ArrayList<>();
 		for (Long id : flightInfo.getDestinations()) {
-			FlightDestination fd = new FlightDestination();
-			fd.setDestination(findDestination(airCompany, id));
-			fd.setFlight(flight);
-			destinations.add(fd);
+			destinations.add(findDestination(airCompany, id));
 		}
-		flight.setDestinations(destinations);		
+		setDestinations(flight, destinations);
 		setTickets(flight, flightInfo);
 		return flightRepository.save(flight);
 	}
 	
+	/**
+	 * Uredjuje letove.
+	 * @param airCompanyId - oznaka aviokompanije.
+	 * @param flightId - oznaka leta
+	 * @param flightInfo - detalji o letu
+	 * @return - uredjeni let
+	 * @throws ResourceNotFoundException - ako se ne nadju aviokompanija, let, itd..
+	 * @throws RequestDataException - datumi pogresni, status nije in_progress
+	 */
+	public Flight editFlight(Integer airCompanyId, Integer flightId, FlightDTO flightInfo) throws ResourceNotFoundException, RequestDataException {
+		checkDates(flightInfo);
+		Flight flight = findFlight(flightId);
+		if (!flight.getAirCompany().getId().equals(airCompanyId)) {
+			throw new ResourceNotFoundException(flightId.toString(), "Your company does not have flight with this id.");
+		}
+		if (!flight.getStatus().equals(FlightStatus.IN_PROGRESS)) {
+			throw new RequestDataException("You can only edit flight when their status is in progress.");
+		}
+		AirCompany airCompany = findAirCompany(airCompanyId);
+		flight.setAirplane(findAirplane(airCompany, flightInfo.getAirplaneId()));
+		flight.setData(flightInfo);
+		ArrayList<Destination> destinations = new ArrayList<>();
+		for (Long id : flightInfo.getDestinations()) {
+			destinations.add(findDestination(airCompany, id));
+		}
+		setDestinations(flight, destinations);
+		setTickets(flight, flightInfo);
+		return flightRepository.save(flight);
+	}
+	
+
+	/**
+	 * Menja status leta u izabrani. (brisanje i aktiviranje leta)
+	 * 
+	 * @param aircompanyId - oznaka aviokompanije.
+	 * @param flightId     - oznaka leta
+	 * @throws ResourceNotFoundException - ako let nije pronađen, ili admin nije
+	 *                                   zadužen za letove te aviokompanije
+	 * @throws RequestDataException      - ako let nije u statusu IN_PROGRESS
+	 */
+	public Flight changeStatus(Integer aircompanyId, Integer flightId, FlightStatus status)
+			throws ResourceNotFoundException, RequestDataException {
+		Flight flight = findFlight(flightId);
+
+		if (!flight.getAirCompany().getId().equals(aircompanyId)) {
+			throw new ResourceNotFoundException(flightId.toString(), "Your company does not have flight with this id.");
+		}
+
+		if (!flight.getStatus().equals(FlightStatus.IN_PROGRESS)) {
+			throw new RequestDataException(
+					"Flight you are trying to delete is not in status IN_PROGRESS and can not be delete.");
+		}
+
+		flight.setStatus(status);
+		return flightRepository.save(flight);
+	}
+	
+	/**
+	 * Dodaje, uklanja i edituje destinacije u letu. 
+	 * @param flight - let
+	 * @param destinations - destinacije
+	 */
+	private void setDestinations(Flight flight, List<Destination> destinations) {
+		for(int i = 0; i < destinations.size(); ++i) {
+			if( i < flight.getDestinations().size() - 1) {
+				//uredi postojecu destinaciju
+				FlightDestination fd = flight.getDestinations().get(i);
+				fd.setDestination(destinations.get(i));
+			}
+			else {
+				//kreiraj novu
+				FlightDestination fd = new FlightDestination();
+				fd.setDestination(destinations.get(i));
+				fd.setFlight(flight);
+				flight.addDestination(fd);
+			}
+		}
+		
+		// obrisi viska destinacije
+		if (flight.getDestinations().size() > destinations.size()) {
+			flight.removeDestinationsStartingFromIndex(destinations.size());
+		}
+	}
+	
+
+	/**
+	 * Ispravlja karte u letu.
+	 * 
+	 * @param flight - let
+	 * @param info - informacije iz dto
+	 */
 	private void setTickets(Flight flight, FlightDTO info) {
-		//za svako sediste namesti kartu
-		for(int i = 0; i < flight.getAirplane().getSeats().size(); ++i) {
-			if(i > flight.ticketsSize() - 1) {
-				//nedostaje karta, treba dodati novu
-				Ticket ticket = new Ticket(flight, info.getPriceForClass(flight.getAirplane().getSeats().get(i).getSeatClass()));
+		// za svako sediste namesti kartu
+		for (int i = 0; i < flight.getAirplane().getSeats().size(); ++i) {
+			if (i > flight.ticketsSize() - 1) {
+				// nedostaje karta, treba dodati novu
+				Ticket ticket = new Ticket(flight,
+						info.getPriceForClass(flight.getAirplane().getSeats().get(i).getSeatClass()));
 				flight.addTicket(ticket);
 			} else {
-				//postoji karta, samo je izmeni
+				// postoji karta, samo je izmeni
 				Ticket ticket = flight.getTicket(i);
-				if(!ticket.getStatus().equals(TicketStatus.RESERVED)){
+				if (!ticket.getStatus().equals(TicketStatus.RESERVED)) {
 					ticket.setPrice(info.getPriceForClass(flight.getAirplane().getSeats().get(i).getSeatClass()));
 				}
 			}
 		}
-		
-		//obrisi viska karte ako postoje
-		if(flight.getAirplane().getSeats().size() < flight.ticketsSize()) {
+
+		// obrisi viska karte ako postoje
+		if (flight.getAirplane().getSeats().size() < flight.ticketsSize()) {
 			flight.removeTicketsStartingFromIndex(flight.getAirplane().getSeats().size());
 		}
 	}
-
-	/**
-	 * Menja status leta u izabrani.
-	 * @param aircompanyId - oznaka aviokompanije.
-	 * @param flightId - oznaka leta
-	 * @throws ResourceNotFoundException - ako let nije pronađen, ili admin nije zadužen za letove te aviokompanije
-	 * @throws RequestDataException - ako let nije u statusu IN_PROGRESS
-	 */
-	public Flight changeStatus(Integer aircompanyId, Integer flightId, FlightStatus status) throws ResourceNotFoundException, RequestDataException {
-		Flight flight = findFlight(flightId);
-		
-		if(!flight.getAirCompany().getId().equals(aircompanyId)) {
-			throw new ResourceNotFoundException(flightId.toString(), "Your company does not have flight with this id.");
-		}
-		
-		if(!flight.getStatus().equals(FlightStatus.IN_PROGRESS)) {
-			throw new RequestDataException("Flight you are trying to delete is not in status IN_PROGRESS and can not be delete.");
-		}
-		
-		flight.setStatus(status);
-		return flightRepository.save(flight);
-	}	
 
 	/**
 	 * Provera da li je vreme dolaska posle vremena polaska.

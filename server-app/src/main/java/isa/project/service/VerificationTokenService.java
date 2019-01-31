@@ -1,5 +1,7 @@
 package isa.project.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +20,7 @@ public class VerificationTokenService {
     }
 
     
-    public VerificationToken findByToken(String token) {
+    public Optional<VerificationToken> findByToken(String token) {
         return tokenRepository.findByToken(token);
     }
 }

@@ -10,9 +10,6 @@
 
   <hr>
 
-  
-  <p *ngIf='companies.length == 0' align="center" style="font-size: 35px; color:  #33cabb;">Nothing is found.</p>
-
   <app-car-company-basic-details *ngFor="let cmp of companies" [carCompany] = 'cmp' class="row border rounded align-items-center p-1 mt-3"></app-car-company-basic-details>
 
   <nav style="padding-top: 20px">

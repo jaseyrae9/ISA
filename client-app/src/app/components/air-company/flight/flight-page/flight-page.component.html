@@ -3,14 +3,20 @@
     <div class="col-12 mb-2" *ngIf="tokenService.isAirAdmin" >
         <section style="text-align:right">
             <a class="edit" *ngIf="flight.status == 'IN_PROGRESS'" (click)="activateFlight()"><i class="fa fa-check"></i></a>
-            <a class="edit"><i class="fa fa-edit"></i></a>
+            <a class="edit" (click)="openEditForm()"><i class="fa fa-edit"></i></a>
             <a class="delete" *ngIf="flight.status == 'IN_PROGRESS'" (click)="deleteFlight()"><i class="fa fa-trash"></i></a>
         </section>
     </div>
   </div>
-
 	<div class="row rounded align-items-center p-2 mt-3">
-     <div class="col-5 pt-2" align="center" *ngIf="flight.destinations.length > 0" >
+      <div class="col-auto border-right py-5" style="min-width:150px;" align="center">
+        <h3 class="display-4" style="font-size:20px;">
+            <a routerLink="/aircompany/{{flight.airCompanyBasicInfo.id}}">{{flight.airCompanyBasicInfo.name}}</a>
+        </h3>
+      <small class="text-muted">{{flight.airCompanyBasicInfo.location.city}}, {{flight.airCompanyBasicInfo.location.country}}</small>
+    </div>
+
+     <div class="col-4 pt-2" align="center" *ngIf="flight.destinations.length > 0" >
             <p>{{flight.destinations[0].destination.label}}
             <br><small class="text-muted">{{flight.destinations[0].destination.airportName}}, <br>
               {{flight.destinations[0].destination.city}}, {{flight.destinations[0].destination.country}}</small>
@@ -18,17 +24,17 @@
             <hr>
             <p>{{flight.startDateAndTime}}</p>
 		</div>
-    <div class="col-auto pl-0">
-            <i class="fa fa-plane-departure fa-2x"></i>
+    <div class="col-auto  pl-0 pr-4">
+        <i class="fa fa-plane-departure fa-2x"></i>
     </div>
     <div class="col-auto pt-3">
             <span class="badge badge-primary p-2">Duration: <br/> {{flight.duration}}</span>
             <p align="center"><small class="text-muted">{{flight.destinations.length - 2}} stops<br>{{flight.length}} km</small></p>
 		</div>
-    <div class="col-auto pl-0">
-      <i class="fa fa-plane-arrival fa-2x"></i>
+    <div class="col-auto pl-0 pr-4">
+        <i class="fa fa-plane-arrival fa-2x"></i>
     </div>
-    <div class="col-5 pt-2" align="center" *ngIf="flight.destinations.length > 0" >
+    <div class="col-4 pt-2" align="center" *ngIf="flight.destinations.length > 0" >
             <p>{{flight.destinations[flight.destinations.length-1].destination.label}}
             <br><small class="text-muted">{{flight.destinations[flight.destinations.length-1].destination.airportName}},<br>
               {{flight.destinations[flight.destinations.length-1].destination.city}},  {{flight.destinations[flight.destinations.length-1].destination.country}}</small>
@@ -68,13 +74,9 @@
       </h2>
     </div>
     <div id="seats-content" class="collapse" data-parent="#accordionExample">
-      <div class="card-body">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-      </div>
+      <app-tickets-display [flight]="flight"></app-tickets-display>
     </div>
   </div>
-
-
 
 
   <div class="card">
@@ -87,6 +89,7 @@
     </div>
     <div id="info-content" class="collapse" data-parent="#accordionExample">
       <div class="card-body text-muted">
+          <br>
           <i class="fa fa-shopping-bag" aria-hidden="true"></i> Max number of carry on bags: {{flight.maxCarryOnBags}}
           <br>
           <i class="fa fa-suitcase-rolling" aria-hidden="true"></i> Max number of bags you can check in: {{flight.maxCheckedBags}}

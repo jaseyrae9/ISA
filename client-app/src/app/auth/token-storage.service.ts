@@ -19,6 +19,7 @@ export class TokenStorageService {
   public isCarAdmin = false;
   public isHotelAdmin = false;
   public isCustomer = false;
+  public isVistor = false;
 
   public logggedInEmitter = this.isLoggedIn.asObservable();
   public usernameEmitter = this.username.asObservable();
@@ -72,6 +73,7 @@ export class TokenStorageService {
     this.isCarAdmin = false;
     this.isHotelAdmin = false;
     this.isCustomer = false;
+    this.isVistor  = false;
     const roles = this.getRoles();
     if (roles) {
       for (const role of roles) {
@@ -91,6 +93,8 @@ export class TokenStorageService {
           this.isCustomer = true;
         }
       }
+    } else {
+      this.isVistor = true;
     }
   }
 

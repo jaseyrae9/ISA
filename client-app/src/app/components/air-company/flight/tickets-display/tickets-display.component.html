@@ -1,0 +1,14 @@
+<div *ngFor="let row of flight.tickets; let i = index" align="center">
+  <span [tooltip]="tt" placement="left" *ngFor="let item of row; let j = index"
+    [class.mr-5]="(j+1)%flight.airplane.seatsPerCol === 0 && (j+1)!= row.length"
+    [ngClass]="flight.airplane.seats[i*flight.airplane.seatsPerCol*flight.airplane.colNum + j].seatClass"
+    class="seat px-2 py-1 rounded">
+    <ng-template #tt>
+      Ticket status: <b>{{item.status}}</b> <br/>
+      Seat class: <b>{{flight.airplane.seats[i*flight.airplane.seatsPerCol*flight.airplane.colNum + j].seatClass}}</b> <br/>
+      Column: <b>{{flight.airplane.seats[i*flight.airplane.seatsPerCol*flight.airplane.colNum + j].colNum}}</b> <br/>
+      Row: <b>{{flight.airplane.seats[i*flight.airplane.seatsPerCol*flight.airplane.colNum + j].rowNum}}</b> <br>
+      Price: <b>{{item.price - item.discount}}</b> <br>
+    </ng-template>
+  </span>
+</div>

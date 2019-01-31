@@ -32,7 +32,7 @@ public class Airplane implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)	
+	@ManyToOne(fetch = FetchType.EAGER)	
 	@JoinColumn(name="air_company_id", referencedColumnName="id", nullable = false)
 	private AirCompany airCompany;
 	

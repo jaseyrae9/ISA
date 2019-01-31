@@ -40,11 +40,11 @@ public class Flight implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)	
+	@ManyToOne(fetch = FetchType.EAGER)	
 	@JoinColumn(name="air_company_id", referencedColumnName="id", nullable = false)
 	private AirCompany airCompany;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)	
+	@ManyToOne(fetch = FetchType.EAGER)	
 	@JoinColumn(name="airplane_id", referencedColumnName="id", nullable = false)
 	private Airplane airplane;
 	
@@ -94,12 +94,18 @@ public class Flight implements Serializable{
 		
 	public Flight() {
 		tickets = new ArrayList<>();
+		destinations = new ArrayList<>();
 		status = FlightStatus.IN_PROGRESS;
 	}
 	
 	public Flight(FlightDTO flightInfo) {
 		tickets = new ArrayList<>();
+		destinations = new ArrayList<>();
 		status = FlightStatus.IN_PROGRESS;
+		setData(flightInfo);
+	}
+	
+	public void setData(FlightDTO flightInfo) {
 		this.setStartDateAndTime(flightInfo.getStartDateAndTime());
 		this.setEndDateAndTime(flightInfo.getEndDateAndTime());
 		this.setLength(flightInfo.getLength());
@@ -147,6 +153,21 @@ public class Flight implements Serializable{
 
 	public void setDestinations(List<FlightDestination> destinations) {
 		this.destinations = destinations;
+	}
+	
+	public void removeDestination(FlightDestination flightDestination) {
+		flightDestination.setFlight(null);
+		this.destinations.remove(flightDestination);
+	}
+
+	public void removeDestinationsStartingFromIndex(int index) {
+		for(int i = this.destinations.size() - 1; i >= index; --i) {
+			   removeDestination(this.destinations.get(i));
+		}
+	}
+	
+	public void addDestination(FlightDestination destination) {
+		this.destinations.add(destination);
 	}
 
 	public Date getStartDateAndTime() {

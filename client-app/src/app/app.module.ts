@@ -30,7 +30,6 @@ import { LoginFormComponent } from './components/user/login-form/login-form.comp
 import { RegisterFormComponent } from './components/user/register-form/register-form.component';
 import { EditProfileFormComponent } from './components/user/edit-profile-form/edit-profile-form.component';
 import { UserService } from './services/user/user.service';
-import { NewAirCompanyFormComponent } from './components/air-company/new-air-company-form/new-air-company-form.component';
 import { CompanyBasicDetailsComponent } from './components/air-company/company-basic-details/company-basic-details.component';
 import { AirCompanyService } from './services/air-company/air-company.service';
 import { NewHotelFormComponent } from './components/hotel/new-hotel-form/new-hotel-form.component';
@@ -96,6 +95,7 @@ import { FlightFormComponent } from './components/air-company/flight/flight-form
 import { DatePipe } from '@angular/common';
 import { FlightPageComponent } from './components/air-company/flight/flight-page/flight-page.component';
 import { FlightTicketsDisplayComponent } from './components/air-company/flight/flight-tickets-display/flight-tickets-display.component';
+import { TicketsDisplayComponent } from './components/air-company/flight/tickets-display/tickets-display.component';
 
 @NgModule({
   declarations: [
@@ -116,7 +116,6 @@ import { FlightTicketsDisplayComponent } from './components/air-company/flight/f
     ProfileComponent,
     ChangePasswordFormComponent,
     EditProfileFormComponent,
-    NewAirCompanyFormComponent,
     NewCarCompanyFormComponent,
     CarCompanyBasicDetailsComponent,
     CompanyBasicDetailsComponent,
@@ -166,7 +165,8 @@ import { FlightTicketsDisplayComponent } from './components/air-company/flight/f
     FlightDisplayComponent,
     FlightFormComponent,
     FlightPageComponent,
-    FlightTicketsDisplayComponent
+    FlightTicketsDisplayComponent,
+    TicketsDisplayComponent
   ],
   imports: [
     BrowserModule,

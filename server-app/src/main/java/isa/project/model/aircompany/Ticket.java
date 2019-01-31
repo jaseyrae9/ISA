@@ -1,6 +1,5 @@
 package isa.project.model.aircompany;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,13 +15,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "tickets")
 public class Ticket {
-	public enum TicketStatus {UNAVIABLE, FREE, RESERVED, FAST_RESERVATION}
+	public enum TicketStatus {UNAVIABLE, AVAILABLE, RESERVED, FAST_RESERVATION}
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)	
+	@ManyToOne(fetch = FetchType.EAGER)	
 	@JoinColumn(name="flight", referencedColumnName="id")
 	private Flight flight;
 	
@@ -41,7 +40,7 @@ public class Ticket {
 
 	public Ticket(Flight flight, Double price) {
 		super();
-		this.status = TicketStatus.FREE;
+		this.status = TicketStatus.AVAILABLE;
 		this.flight = flight;
 		this.price = price;
 	}

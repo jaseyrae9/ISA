@@ -178,11 +178,14 @@
                 <i class="fa fa-plane" aria-hidden="true"></i>
               </span>
             </div>
-            <select class="custom-select" formControlName="airplaneIndex">
+            <select class="custom-select" (change)="airplaneChanged(t.selectedIndex)" #t formControlName="airplaneIndex">
                 <option *ngFor="let item of airplanes; let i=index" [ngValue]="i"> {{item.name}}</option>
             </select>
         </div>
-        <app-airplane-display [airplane]="airplanes[flightForm2.value.airplaneIndex]" [useButtons]="false"></app-airplane-display>
+        <div class="alert alert-danger mt-2" role="alert" *ngIf="airplaneWarning.length != 0">
+            {{airplaneWarning}}
+        </div>
+        <app-tickets-display [flight]="flightCopy"></app-tickets-display>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modalRef.hide()">Close</button>

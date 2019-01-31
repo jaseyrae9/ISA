@@ -2,7 +2,6 @@ package isa.project.model.aircompany;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -23,7 +22,7 @@ public class Destination implements Serializable {
 	@GeneratedValue
 	private Long id;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)	
+	@ManyToOne(fetch = FetchType.EAGER)	
 	@JoinColumn(name="air_company_id", referencedColumnName="id", nullable = false)
 	private AirCompany airCompany;
 
