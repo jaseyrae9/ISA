@@ -20,6 +20,10 @@ import { NewServiceFormComponent } from '../new-service-form/new-service-form.co
   styleUrls: ['./hotel-page.component.css', '../../../shared/css/inputField.css']
 })
 export class HotelPageComponent implements OnInit {
+  hotelMonthlyVisitation: any;
+  hotelWeeklyVisitation: any;
+  hotelDailyVisitation: any;
+
   datePickerConfig: Partial<BsDatepickerConfig>;
 
   hotelId: string;
@@ -57,6 +61,32 @@ export class HotelPageComponent implements OnInit {
         console.log('Otvoren je hotel: ', this.hotel);
        }
     );
+    if (this.tokenService.isHotelAdmin) {
+      this.hotelService.getMonthlyVisitation(hotelId).subscribe(
+        (data) => {
+          console.log('Prihod mesecni', data);
+          this.hotelMonthlyVisitation = data;
+        }
+      );
+    }
+
+    if (this.tokenService.isHotelAdmin) {
+      this.hotelService.getWeeklyVisitation(hotelId).subscribe(
+        (data) => {
+          console.log('Prihod nedeljni', data);
+          this.hotelWeeklyVisitation = data;
+        }
+      );
+    }
+
+    if (this.tokenService.isHotelAdmin) {
+      this.hotelService.getDailyVisitation(hotelId).subscribe(
+        (data) => {
+          console.log('Prihod dnevni', data);
+          this.hotelDailyVisitation = data;
+        }
+      );
+    }
   }
 
   openNewRoomModal() {
