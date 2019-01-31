@@ -27,6 +27,10 @@ export class CarSearchPageComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.rentACarCompanyService.getAllCompanies().subscribe(data => {
+      this.companies = data;
+    });
+
     this.searchCompanyForm = this.formBuilder.group({
       companyName: [''],
       bsRangeValue: [this.bsRangeValue],

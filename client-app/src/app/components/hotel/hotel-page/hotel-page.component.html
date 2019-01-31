@@ -86,11 +86,62 @@
     <!---------------------------INFO FOR ADMIN-------------------------------------->
     <!------------------------------------------------------------------------------->
     <div *ngIf="tokenService.isHotelAdmin" class="tab-pane fade" id="admin-info" aria-labelledby="admin-info-tab">
-      <rating [(ngModel)]="rate" [max]="max" [readonly]="isReadonly"></rating>
+      <!--rating [(ngModel)]="rate" [max]="max" [readonly]="isReadonly"></rating-->
 
-      <div class="col-xs-12 col-12 col-md-4 form-group">
-        <input class="form-control" #drp="bsDaterangepicker" bsDaterangepicker [(ngModel)]="bsRangeValue">
+
+      <div id="accordion">
+
+        <div class="card">
+          <div class="card-header">
+            <a class="card-link" style="color:  #33cabb;" data-toggle="collapse" href="#collapseOne">
+              Monthly income
+            </a>
+          </div>
+          <div id="collapseOne" class="collapse" data-parent="#accordion">
+            <div class="card-body">
+              <app-monthly-income-chart *ngIf="hotelMonthlyVisitation" [monthly]='hotelMonthlyVisitation.monthly'></app-monthly-income-chart>
+            </div>
+          </div>
+        </div>
+      
+        <div class="card">
+          <div class="card-header">
+            <a class="collapsed card-link" style="color:  #33cabb;" data-toggle="collapse" href="#collapseTwo">
+            Weekly income     
+              
+            </a>
+          </div>
+          <div id="collapseTwo" class="collapse" data-parent="#accordion">
+            <div class="card-body">
+              <app-weekly-income-chart *ngIf="hotelWeeklyVisitation" [weekly]='hotelWeeklyVisitation.weekly'></app-weekly-income-chart>
+            </div>
+          </div>
+        </div>
+      
+        <div class="card">
+          <div class="card-header">
+            <a class="collapsed card-link" style="color:  #33cabb;"  data-toggle="collapse" href="#collapseThree">
+             Daily income
+            </a>
+          </div>
+          <div id="collapseThree" class="collapse" data-parent="#accordion">
+            <div class="card-body">
+              <app-daily-income-chart *ngIf="hotelDailyVisitation" [daily]='hotelDailyVisitation.daily'></app-daily-income-chart>
+            </div>
+          </div>
+        </div>
+      
       </div>
+
+     
+      
+      <hr>
+
+      
+
+      <!--div class="col-xs-12 col-12 col-md-4 form-group">
+        <input class="form-control" #drp="bsDaterangepicker" bsDaterangepicker [(ngModel)]="bsRangeValue">
+      </div-->
     </div>
 
     <!------------------------------------------------------------------------------->

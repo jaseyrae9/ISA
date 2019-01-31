@@ -84,4 +84,16 @@ export class HotelService {
     return this.http.get<any>('http://localhost:8080/hotels/get/name=' + name + '/address=' + address + '/checkInDate=' + checkInDate
     + '/checkOutDate=' + checkOutDate);
   }
+
+  getMonthlyVisitation(hotelId): Observable<any> {
+    return this.http.get<any>('http://localhost:8080/report_info/hotelMonthly/' + hotelId, httpOptions);
+  }
+
+  getWeeklyVisitation(hotelId): Observable<any> {
+    return this.http.get<any>('http://localhost:8080/report_info/hotelWeekly/' + hotelId, httpOptions);
+  }
+
+  getDailyVisitation(hotelId): Observable<any> {
+    return this.http.get<any>('http://localhost:8080/report_info/hotelDaily/' + hotelId, httpOptions);
+  }
 }
