@@ -321,7 +321,7 @@ public class Flight implements Serializable{
 	}
 	
 	public Double getMinPrice() {
-		return Math.max(Math.max(economyPrice,premiumEconomyPrice),Math.max(bussinessPrice,firstPrice));
+		return Math.min(Math.min(economyPrice,premiumEconomyPrice),Math.min(bussinessPrice,firstPrice));
 	}
 
 	@Override
