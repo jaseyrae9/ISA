@@ -20,13 +20,12 @@ export class DailyIncomeChartComponent implements OnInit, AfterViewInit {
     this.chartDaily = new Chart('canvasDaily', {
       // The type of chart we want to create
       type: 'line',
-
       data: {
         labels: ['Monday', 'Thuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
         datasets: [{
             label: 'Daily',
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
+            backgroundColor: 'rgb(51, 202, 187)',
+            borderColor: 'rgb(51, 202, 187)',
             data: [this.daily[0],
                    this.daily[1],
                    this.daily[2],
