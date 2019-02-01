@@ -96,4 +96,8 @@ export class HotelService {
   getDailyVisitation(hotelId): Observable<any> {
     return this.http.get<any>('http://localhost:8080/report_info/hotelDaily/' + hotelId, httpOptions);
   }
+
+  getIncome(hotelId, startDate, endDate): Observable<any> {
+    return this.http.get<any>('http://localhost:8080/report_info/hotelIncome/' + hotelId + '/' + startDate + '/' + endDate, httpOptions);
+  }
 }

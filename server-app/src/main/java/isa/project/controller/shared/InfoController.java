@@ -1,15 +1,13 @@
 package isa.project.controller.shared;
 
+import java.text.ParseException;
 import java.util.Optional;
-
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,7 +23,7 @@ import isa.project.service.hotel.HotelService;
 
 @RestController
 @RequestMapping(value="report_info")
-public class IncomeInfoController {
+public class InfoController {
 	
 
 	@Autowired
@@ -79,6 +77,22 @@ public class IncomeInfoController {
 		}
 		
 		return new ResponseEntity<>(hotelService.getHotelDailyInfo(opt.get()), HttpStatus.OK);	
+	}
+	
+	@PreAuthorize("hasAnyRole('HOTELADMIN')")
+	@AdminAccountActiveCheck
+	@HotelAdminCheck
+	@RequestMapping(value="/hotelIncome/{id}/{startDate}/{endDate}",method=RequestMethod.GET, consumes="application/json")
+	public ResponseEntity<Double> getHotelIncome(@PathVariable Integer id, @PathVariable String startDate, @PathVariable String endDate) throws ResourceNotFoundException, ParseException{
+		//hotel must exist
+		Optional<Hotel> opt = hotelService.findHotel(id);
+		
+		//hotel is not found
+		if (!opt.isPresent()) {
+			throw new ResourceNotFoundException(id.toString(), "Hotel not found");
+		}
+		
+		return new ResponseEntity<>(hotelService.getIncome(opt.get(), startDate, endDate), HttpStatus.OK);	
 	}
 
 }

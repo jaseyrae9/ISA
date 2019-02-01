@@ -7,9 +7,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
-import org.joda.time.DateTime;
-import org.joda.time.Days;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -229,9 +228,8 @@ public class HotelService {
 		Date today = new Date();
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(today);
-		int year = cal.get(Calendar.YEAR); //
-		int day = cal.get(Calendar.DAY_OF_YEAR); // 122
-		System.out.println("day of the year: " + day);
+		int year = cal.get(Calendar.YEAR); 
+		int day = cal.get(Calendar.DAY_OF_YEAR);
 		
 		int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK); 
 		// Sunday = 1, Monday = 2, Thu = 3, Wed = 4, Thr = 5, Fri = 6, Sat = 7
@@ -240,7 +238,6 @@ public class HotelService {
 		
 		if(dayOfWeek != Calendar.SUNDAY)
 		{
-			System.out.println("EVO TI");
 			dayOfWeek -= 2; // Monday = 0, Thu = 1,Wed = 2, Thr = 3, Fri = 4, Sat = 5
 		}
 		else
@@ -249,7 +246,6 @@ public class HotelService {
 		}
 		
 		int firstDayOfWeekInYear = day - dayOfWeek;
-		System.out.println("firstDayOfWeekInYear " + firstDayOfWeekInYear);
 		
 		for (Room r : hotel.getRooms()) {
 			for (SingleRoomReservation srr : r.getSingleRoomReservations()) {
@@ -263,8 +259,6 @@ public class HotelService {
 					cal.setTime(rr.getCheckInDate());
 					int checkInYear = cal.get(Calendar.YEAR);
 					int checkInDay = cal.get(Calendar.DAY_OF_YEAR);
-					
-					
 					
 					if (checkOutYear == year && checkInYear == year) // Za sve rezervacije u ovoj godini
 					{
@@ -281,5 +275,41 @@ public class HotelService {
 		}
 		
 		return drdto;
+	}
+	
+	public Double getIncome(Hotel hotel, String startDate, String endDate) throws ParseException {
+		Double retVal = new Double(0);
+	
+		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+
+		java.util.Date start = sdf1.parse(startDate);
+		java.sql.Date sqlStartDate = new java.sql.Date(start.getTime());
+		
+		java.util.Date end = sdf1.parse(endDate);
+		java.sql.Date sqlEndDate = new java.sql.Date(end.getTime());
+		
+		
+		for (Room r : hotel.getRooms()) {
+			for (SingleRoomReservation srr : r.getSingleRoomReservations()) {
+				RoomReservation rr = srr.getRoomReservation();
+
+				if (rr.getActive()) { // Ako rezervacija nije otkazana
+					if(rr.getCheckOutDate().compareTo(sqlStartDate) > 0 && rr.getCheckOutDate().compareTo(sqlEndDate) < 0) // Politika mog hotela je da se placa kada se napusta soba
+					{
+						long diff = rr.getCheckOutDate().getTime() - rr.getCheckInDate().getTime();
+					    System.out.println ("Days: " + TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS));
+					    long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) + 1;
+						retVal += days * r.getPrice();
+					}
+					for(AdditionalService s : rr.getAdditionalServices())
+					{
+						retVal += s.getPrice();
+					}
+				}
+			}
+		}
+
+		
+		return retVal;
 	}
 }

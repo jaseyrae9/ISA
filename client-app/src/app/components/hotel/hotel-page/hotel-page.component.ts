@@ -13,6 +13,7 @@ import { EditServiceFormComponent } from 'src/app/components/hotel/edit-service-
 import { EditHotelFormComponent } from '../edit-hotel-form/edit-hotel-form.component';
 import { NewRoomFormComponent } from '../new-room-form/new-room-form.component';
 import { NewServiceFormComponent } from '../new-service-form/new-service-form.component';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-hotel-page',
@@ -23,6 +24,8 @@ export class HotelPageComponent implements OnInit {
   hotelMonthlyVisitation: any;
   hotelWeeklyVisitation: any;
   hotelDailyVisitation: any;
+
+  income: any;
 
   datePickerConfig: Partial<BsDatepickerConfig>;
 
@@ -47,7 +50,7 @@ export class HotelPageComponent implements OnInit {
     this.datePickerConfig = Object.assign({},
       {
         containerClass: 'theme-default',
-        dateInputFormat: 'DD/MM/YYYY'
+        dateInputFormat: 'YYYY-MM-DD'
       });
 
   }
@@ -59,7 +62,7 @@ export class HotelPageComponent implements OnInit {
       (data) => {
         this.hotel = data;
         console.log('Otvoren je hotel: ', this.hotel);
-       }
+      }
     );
     if (this.tokenService.isHotelAdmin) {
       this.hotelService.getMonthlyVisitation(hotelId).subscribe(
@@ -156,14 +159,32 @@ export class HotelPageComponent implements OnInit {
   // editing hotel
   openEditModal() {
     const initialState = {
-       hotel: this.hotel,
-       hotelId: this.hotelId
-     };
-     this.modalRef = this.modalService.show(EditHotelFormComponent, { initialState });
-     this.modalRef.content.onClose.subscribe(hotel => {
-       this.hotel = hotel;
-       this.ngxNotificationService.sendMessage('Hotel is changed!', 'dark', 'bottom-right' );
-      });
-   }
+      hotel: this.hotel,
+      hotelId: this.hotelId
+    };
+    this.modalRef = this.modalService.show(EditHotelFormComponent, { initialState });
+    this.modalRef.content.onClose.subscribe(hotel => {
+      this.hotel = hotel;
+      this.ngxNotificationService.sendMessage('Hotel is changed!', 'dark', 'bottom-right');
+    });
+  }
 
+  getIncome() {
+
+    const date0 = new Date(this.bsRangeValue[0]);
+    const datum0 = formatDate(date0, 'yyyy-MM-dd', 'en');
+    console.log(datum0);
+    const date1 = new Date(this.bsRangeValue[1]);
+    const datum1 = formatDate(date1, 'yyyy-MM-dd', 'en');
+    console.log(datum1);
+
+    this.hotelService.getIncome(this.hotel.id, datum0, datum1).subscribe(
+      data => {
+        this.income = data;
+      },
+      error => {
+        console.log(error.error.message);
+      }
+    );
+  }
 }
