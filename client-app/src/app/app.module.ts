@@ -99,6 +99,7 @@ import { TicketsDisplayComponent } from './components/air-company/flight/tickets
 import { MonthlyIncomeChartComponent } from './components/shared/components/monthly-income-chart/monthly-income-chart.component';
 import { WeeklyIncomeChartComponent } from './components/shared/components/weekly-income-chart/weekly-income-chart.component';
 import { DailyIncomeChartComponent } from './components/shared/components/daily-income-chart/daily-income-chart.component';
+import { ChangeTicketsPricesFormComponent } from './components/air-company/flight/change-tickets-prices-form/change-tickets-prices-form.component';
 
 @NgModule({
   declarations: [
@@ -172,7 +173,8 @@ import { DailyIncomeChartComponent } from './components/shared/components/daily-
     TicketsDisplayComponent,
     MonthlyIncomeChartComponent,
     WeeklyIncomeChartComponent,
-    DailyIncomeChartComponent
+    DailyIncomeChartComponent,
+    ChangeTicketsPricesFormComponent
   ],
   imports: [
     BrowserModule,
@@ -217,7 +219,8 @@ import { DailyIncomeChartComponent } from './components/shared/components/daily-
     EditHotelFormComponent,
     NewRoomFormComponent,
     BaggageFormComponent,
-    FlightFormComponent
+    FlightFormComponent,
+    ChangeTicketsPricesFormComponent
 ]
 })
 export class AppModule { }

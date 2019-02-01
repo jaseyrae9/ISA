@@ -1,8 +1,8 @@
 <div class="item">
     <div class="heading">
         <section style="text-align:right" *ngIf="tokenService.isAirAdmin && showLinks">
-            <a (click)="openEditModal()" class="edit"><i class="fa fa-edit"></i></a>
-            <a class="delete" (click)="deleteDestination()"><i class="fa fa-trash"></i></a>
+            <a placement="bottom" tooltip="Edit" (click)="openEditModal()" class="edit"><i class="fa fa-edit"></i></a>
+            <a placement="bottom" tooltip="Delete" class="delete" (click)="deleteDestination()"><i class="fa fa-trash"></i></a>
         </section>
         <h3>{{destination.label}}</h3>
     </div>

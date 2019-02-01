@@ -1,3 +1,4 @@
+import { ChangeTicketsPricesFormComponent } from './../change-tickets-prices-form/change-tickets-prices-form.component';
 import { FlightFormComponent } from './../flight-form/flight-form.component';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -47,6 +48,17 @@ export class FlightPageComponent implements OnInit {
     );
   }
 
+  openChangePricesForm() {
+    const initialState = {
+      flight: this.flight
+    };
+    this.modalRef = this.modalService.show(ChangeTicketsPricesFormComponent, { initialState });
+    this.modalRef.content.onClose.subscribe(fligth => {
+      this.setFlight(fligth);
+      this.ngxNotificationService.sendMessage('Tickets prices changed.', 'dark', 'bottom-right');
+    });
+  }
+
   openEditForm() {
     const initialState = {
       airCompanyId: this.flight.airCompanyBasicInfo.id,
@@ -55,24 +67,28 @@ export class FlightPageComponent implements OnInit {
     };
     this.modalRef = this.modalService.show(FlightFormComponent, { initialState });
     this.modalRef.content.onClose.subscribe(fligth => {
-      this.flight.airplane  = fligth.airplane;
-      this.flight.destinations = fligth.destinations;
-      this.flight.startDateAndTime = fligth.startDateAndTime;
-      this.flight.endDateAndTime = fligth.endDateAndTime;
-      this.flight.duration = fligth.duration;
-      this.flight.length = fligth.length;
-      this.flight.airCompanyBasicInfo = fligth.airCompanyBasicInfo;
-      this.flight.maxCarryOnBags = fligth.maxCarryOnBags;
-      this.flight.maxCheckedBags = fligth.maxCheckedBags;
-      this.flight.additionalServicesAvailable = fligth.additionalServicesAvailable;
-      this.flight.status = fligth.status;
-      this.flight.economyPrice = fligth.economyPrice;
-      this.flight.premiumEconomyPrice = fligth.premiumEconomyPrice;
-      this.flight.firstPrice = fligth.firstPrice;
-      this.flight.bussinessPrice = fligth.bussinessPrice;
-      this.flight.tickets = fligth.tickets;
+      this.setFlight(fligth);
       this.ngxNotificationService.sendMessage('Flight edited.', 'dark', 'bottom-right');
     });
+  }
+
+  setFlight(fligth) {
+    this.flight.airplane  = fligth.airplane;
+    this.flight.destinations = fligth.destinations;
+    this.flight.startDateAndTime = fligth.startDateAndTime;
+    this.flight.endDateAndTime = fligth.endDateAndTime;
+    this.flight.duration = fligth.duration;
+    this.flight.length = fligth.length;
+    this.flight.airCompanyBasicInfo = fligth.airCompanyBasicInfo;
+    this.flight.maxCarryOnBags = fligth.maxCarryOnBags;
+    this.flight.maxCheckedBags = fligth.maxCheckedBags;
+    this.flight.additionalServicesAvailable = fligth.additionalServicesAvailable;
+    this.flight.status = fligth.status;
+    this.flight.economyPrice = fligth.economyPrice;
+    this.flight.premiumEconomyPrice = fligth.premiumEconomyPrice;
+    this.flight.firstPrice = fligth.firstPrice;
+    this.flight.bussinessPrice = fligth.bussinessPrice;
+    this.flight.tickets = fligth.tickets;
   }
 
 }

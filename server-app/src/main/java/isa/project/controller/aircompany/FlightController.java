@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import isa.project.aspects.AdminAccountActiveCheck;
 import isa.project.aspects.AirCompanyAdminCheck;
 import isa.project.dto.aircompany.FlightDTO;
+import isa.project.dto.aircompany.FlightTicketsPriceChangeDTO;
 import isa.project.exception_handlers.RequestDataException;
 import isa.project.exception_handlers.ResourceNotFoundException;
 import isa.project.model.aircompany.Flight.FlightStatus;
@@ -97,6 +98,25 @@ public class FlightController {
 	public ResponseEntity<?> editFlight(@PathVariable Integer id, @PathVariable Integer flightId ,@Valid @RequestBody FlightDTO flight)
 			throws ResourceNotFoundException, RequestDataException {
 		return new ResponseEntity<>(flightService.editFlight(id, flightId, flight), HttpStatus.OK);
+	}
+	
+	/**
+	 * Uređuje cene postojećeg let.
+	 * 
+	 * @param id - oznaka aviokompanije
+	 * @param flightId - oznaka leta
+	 * @param info - informacije o novim cenama
+	 * @return - let čije karte imaju nove cene
+	 * @throws ResourceNotFoundException - aviokompanija, let, avion ili destinacija nisu pronađeni
+	 * @throws RequestDataException - datumi neispravni, status nije in_progress
+	 */
+	@RequestMapping(value = "/changePrices/{id}/{flightId}", method = RequestMethod.PUT, consumes = "application/json")
+	@PreAuthorize("hasAnyRole('AIRADMIN')")
+	@AdminAccountActiveCheck
+	@AirCompanyAdminCheck
+	public ResponseEntity<?> changePrices(@PathVariable Integer id, @PathVariable Integer flightId ,@Valid @RequestBody FlightTicketsPriceChangeDTO info)
+			throws ResourceNotFoundException, RequestDataException {
+		return new ResponseEntity<>(flightService.setTicketsPrices(id, flightId, info), HttpStatus.OK);
 	}
 	
 	/**

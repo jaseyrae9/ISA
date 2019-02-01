@@ -2,9 +2,10 @@
   <div class="row">
     <div class="col-12 mb-2" *ngIf="tokenService.isAirAdmin" >
         <section style="text-align:right">
-            <a class="edit" *ngIf="flight.status == 'IN_PROGRESS'" (click)="activateFlight()"><i class="fa fa-check"></i></a>
-            <a class="edit" (click)="openEditForm()"><i class="fa fa-edit"></i></a>
-            <a class="delete" *ngIf="flight.status == 'IN_PROGRESS'" (click)="deleteFlight()"><i class="fa fa-trash"></i></a>
+            <a placement="bottom" tooltip="Show flight to customers" class="edit" *ngIf="flight.status == 'IN_PROGRESS'" (click)="activateFlight()"><i class="fa fa-check"></i></a>
+            <a placement="bottom" tooltip="Change prices" class="edit" (click)="openChangePricesForm()"><i class="fa fa-tag"></i></a>
+            <a placement="bottom" tooltip="Edit" class="edit" (click)="openEditForm()" *ngIf="flight.status == 'IN_PROGRESS'"><i class="fa fa-edit"></i></a>
+            <a placement="bottom" tooltip="Delete" class="delete" *ngIf="flight.status == 'IN_PROGRESS'" (click)="deleteFlight()"><i class="fa fa-trash"></i></a>
         </section>
     </div>
   </div>
@@ -58,7 +59,7 @@
     <div id="stops-content" class="collapse" data-parent="#accordionExample">
       <div class="card-body p-3">
         <div class="row pt-4 justify-content-md-center" >
-            <app-destination *ngFor="let item of flight.destinations" class="col-md-5 col-lg-4" [destination]="item.destination" [showLinks]=false></app-destination>
+            <app-destination *ngFor="let item of flight.destinations" class="col-md-5 col-lg-4 mb-3" [destination]="item.destination" [showLinks]=false></app-destination>
         </div>
       </div>
     </div>
@@ -73,7 +74,7 @@
         </button>
       </h2>
     </div>
-    <div id="seats-content" class="collapse" data-parent="#accordionExample">
+    <div id="seats-content" class="collapse m-5" data-parent="#accordionExample">
       <app-tickets-display [flight]="flight"></app-tickets-display>
     </div>
   </div>

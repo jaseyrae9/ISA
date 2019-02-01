@@ -128,6 +128,7 @@ public class Airplane implements Serializable {
 		this.seatsPerCol = seatsPerCol;
 	}
 
+	@JsonIgnore
 	public List<Seat> getSeats() {
 		return seats;
 	}

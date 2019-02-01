@@ -68,14 +68,14 @@ export class FlightFormComponent implements OnInit {
       premiumEconomyPrice: [this.flight.premiumEconomyPrice, [Validators.required, Validators.min(0)]],
       bussinessPrice: [this.flight.bussinessPrice, [Validators.required, Validators.min(0)]],
       firstPrice: [this.flight.firstPrice, [Validators.required, Validators.min(0)]],
-      airplaneIndex: ['', [Validators.required]]
+      airplaneIndex: [0, [Validators.required]]
     });
     this.onClose = new Subject();
     this.airCompanyService.get(this.airCompanyId).subscribe(
       (data) => {
         this.destinations = data.destinations;
         for (const fd of this.flight.destinations) {
-          this.addedDestinations.push(fd.destination);
+          this.addedDestinations.push(JSON.parse(JSON.stringify(fd.destination)));
         }
       }
     );
@@ -105,22 +105,22 @@ export class FlightFormComponent implements OnInit {
     this.airplaneWarning = '';
     this.airplaneIndex = data;
     const airplane = this.airplanes[this.airplaneIndex];
-    const seats = [].concat.apply([], airplane.seats);
     this.flightCopy.airplane = airplane;
+    console.log(airplane);
     const tickets = [];
     let row = 0;
     do {
-      row += 1;
       const seatsInRow = [];
       let seatCounter = 0;
       do {
         const t = new Ticket();
+        t.seat = airplane.seats[row][seatCounter];
         seatsInRow.push(t);
         seatCounter += 1;
       } while ( seatCounter < airplane.colNum * airplane.seatsPerCol);
       tickets.push(seatsInRow);
+      row += 1;
     } while (row < airplane.rowNum );
-    airplane.seats = seats;
     this.flightCopy.tickets = tickets;
   }
 

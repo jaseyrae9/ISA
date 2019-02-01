@@ -103,6 +103,10 @@ export class AirCompanyService {
     return this.http.put<Flight>('http://localhost:8080/aircompanies/editFlight/' + company + '/' + id, flight, httpOptions);
   }
 
+  changeTicketsPrices(company, id, prices): Observable<Flight> {
+    return this.http.put<Flight>('http://localhost:8080/aircompanies/changePrices/' + company + '/' + id, prices, httpOptions);
+  }
+
   deleteFlight(company, flight): Observable<any> {
     return this.http.delete<any>('http://localhost:8080/aircompanies/deleteFlight/' + company + '/' + flight);
   }

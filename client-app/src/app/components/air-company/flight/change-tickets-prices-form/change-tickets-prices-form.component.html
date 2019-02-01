@@ -1,0 +1,68 @@
+<div class="modal-header">
+  <h5 class="modal-title" *ngIf="!isAddForm" >Change <b style="color: #33cabb;">ticket prices</b></h5>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+  <form [formGroup]="pricesForm" (validSubmit)="submit()">
+  <div class="modal-body">
+    <p class="text-muted" align="center">Price change only affects tickets that haven't already been reserved.</p>
+    <hr>
+    <div class="input-group form-group">
+      <div class="input-group-prepend">
+          <span class="input-group-text" style="width: 150px">
+              Economy class
+          </span>
+      </div>
+      <input formControlName="economyPrice" type="text" class="form-control" placeholder="Economy class price" required="required">
+      <div class="input-group-append">
+          <span class="input-group-text">
+              <i class="fa fa-euro-sign" aria-hidden="true"></i>
+          </span>
+      </div>
+    </div>
+    <div class="input-group form-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text" style="width: 150px">
+            Premium economy
+          </span>
+        </div>
+        <input formControlName="premiumEconomyPrice" type="text" class="form-control" placeholder="Premium economy class price" required="required">
+        <div class="input-group-append">
+            <span class="input-group-text">
+                <i class="fa fa-euro-sign" aria-hidden="true"></i>
+            </span>
+        </div>
+    </div>
+    <div class="input-group form-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text" style="width: 150px">
+          Bussiness class
+        </span>
+      </div>
+      <input formControlName="bussinessPrice" type="text" class="form-control" placeholder="Bussiness class price" required="required">
+      <div class="input-group-append">
+          <span class="input-group-text">
+              <i class="fa fa-euro-sign" aria-hidden="true"></i>
+          </span>
+      </div>
+    </div>
+    <div class="input-group form-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text" style="width: 150px">
+          First class
+        </span>
+      </div>
+      <input formControlName="firstPrice" type="text" class="form-control" placeholder="First class price" required="required">
+      <div class="input-group-append">
+          <span class="input-group-text">
+              <i class="fa fa-euro-sign" aria-hidden="true"></i>
+          </span>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modalRef.hide()">Close</button>
+    <input type="submit" class="btn btn-primary" value="Save"/>
+  </div>
+  </form>

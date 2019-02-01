@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import isa.project.dto.aircompany.FlightDTO;
+import isa.project.dto.aircompany.FlightTicketsPriceChangeDTO;
 import isa.project.exception_handlers.RequestDataException;
 import isa.project.exception_handlers.ResourceNotFoundException;
 import isa.project.model.aircompany.AirCompany;
@@ -19,6 +20,7 @@ import isa.project.model.aircompany.Destination;
 import isa.project.model.aircompany.Flight;
 import isa.project.model.aircompany.Flight.FlightStatus;
 import isa.project.model.aircompany.FlightDestination;
+import isa.project.model.aircompany.Seat;
 import isa.project.model.aircompany.Ticket;
 import isa.project.model.aircompany.Ticket.TicketStatus;
 import isa.project.model.users.AirCompanyAdmin;
@@ -193,28 +195,64 @@ public class FlightService {
 	}
 	
 	/**
+	 * Promena cena leta. Moguća za aktivne i in_progress letove. Cene se postavljaju samo za mesta koja nisu 
+	 * rezervisana.
+	 * @param airCompanyId - oznaka aviokomapnije
+	 * @param flightId - oznaka leta
+	 * @param info - nove cene
+	 * @return - let sa izmenjenim kartama
+	 * @throws ResourceNotFoundException - ako resurs nije pronađen
+	 */
+	public Flight setTicketsPrices(Integer airCompanyId, Integer flightId, FlightTicketsPriceChangeDTO info) throws ResourceNotFoundException {
+		Flight flight = findFlight(flightId);
+
+		if (!flight.getAirCompany().getId().equals(airCompanyId)) {
+			throw new ResourceNotFoundException(flightId.toString(), "Your company does not have flight with this id.");
+		}
+		
+		if(flight.getStatus().equals(FlightStatus.DELETED)) {
+			throw new ResourceNotFoundException(flightId.toString(), "Your company does not have flight with this id.");
+		}
+		
+		flight.setEconomyPrice(info.getEconomyPrice());
+		flight.setPremiumEconomyPrice(info.getPremiumEconomyPrice());
+		flight.setBussinessPrice(info.getBussinessPrice());
+		flight.setFirstPrice(info.getFirstPrice());
+		
+		for(int i = 0; i < flight.ticketsSize(); ++i) {
+			Ticket t = flight.getTicket(i);
+			if(!t.getStatus().equals(TicketStatus.RESERVED)) {
+				Double newPrice = info.getPriceForClass(t.getSeat().getSeatClass());
+				t.setPrice(newPrice);
+			}
+		}
+		
+		return flightRepository.save(flight);
+	}
+	
+	/**
 	 * Dodaje, uklanja i edituje destinacije u letu. 
 	 * @param flight - let
 	 * @param destinations - destinacije
 	 */
 	private void setDestinations(Flight flight, List<Destination> destinations) {
 		for(int i = 0; i < destinations.size(); ++i) {
-			if( i < flight.getDestinations().size() - 1) {
-				//uredi postojecu destinaciju
-				FlightDestination fd = flight.getDestinations().get(i);
-				fd.setDestination(destinations.get(i));
-			}
-			else {
+			if( i > flight.getDestinations().size() - 1) {
 				//kreiraj novu
 				FlightDestination fd = new FlightDestination();
 				fd.setDestination(destinations.get(i));
 				fd.setFlight(flight);
 				flight.addDestination(fd);
 			}
+			else {
+				//uredi postojecu destinaciju
+				FlightDestination fd = flight.getDestinations().get(i);
+				fd.setDestination(destinations.get(i));				
+			}
 		}
 		
 		// obrisi viska destinacije
-		if (flight.getDestinations().size() > destinations.size()) {
+		if (destinations.size() < flight.getDestinations().size()) {
 			flight.removeDestinationsStartingFromIndex(destinations.size());
 		}
 	}
@@ -231,14 +269,18 @@ public class FlightService {
 		for (int i = 0; i < flight.getAirplane().getSeats().size(); ++i) {
 			if (i > flight.ticketsSize() - 1) {
 				// nedostaje karta, treba dodati novu
-				Ticket ticket = new Ticket(flight,
-						info.getPriceForClass(flight.getAirplane().getSeats().get(i).getSeatClass()));
+				Seat seat  = flight.getAirplane().getSeats().get(i);
+				Double price = info.getPriceForClass(seat.getSeatClass());
+				Ticket ticket = new Ticket(flight, seat, price);
 				flight.addTicket(ticket);
 			} else {
 				// postoji karta, samo je izmeni
 				Ticket ticket = flight.getTicket(i);
 				if (!ticket.getStatus().equals(TicketStatus.RESERVED)) {
-					ticket.setPrice(info.getPriceForClass(flight.getAirplane().getSeats().get(i).getSeatClass()));
+					Seat seat  = flight.getAirplane().getSeats().get(i);
+					Double price = info.getPriceForClass(seat.getSeatClass());
+					ticket.setSeat(seat);
+					ticket.setPrice(price);
 				}
 			}
 		}

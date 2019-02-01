@@ -20,10 +20,14 @@ public class Ticket {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+		
 	@ManyToOne(fetch = FetchType.EAGER)	
-	@JoinColumn(name="flight", referencedColumnName="id")
-	private Flight flight;
+	@JoinColumn(name="flight", referencedColumnName="id", nullable = false)
+	private Flight flight;	
+
+	@ManyToOne(fetch = FetchType.EAGER)	
+	@JoinColumn(name="seat", referencedColumnName="id", nullable = false)
+	private Seat seat;
 	
 	@Column(nullable = false)
 	private Double price;
@@ -35,13 +39,14 @@ public class Ticket {
 	private TicketStatus status;
 	
 	public Ticket() {
-		
+		this.status = TicketStatus.AVAILABLE;
 	}
 
-	public Ticket(Flight flight, Double price) {
+	public Ticket(Flight flight, Seat seat, Double price) {
 		super();
 		this.status = TicketStatus.AVAILABLE;
 		this.flight = flight;
+		this.seat = seat;
 		this.price = price;
 	}
 
@@ -60,6 +65,14 @@ public class Ticket {
 
 	public void setFlight(Flight flight) {
 		this.flight = flight;
+	}
+
+	public Seat getSeat() {
+		return seat;
+	}
+
+	public void setSeat(Seat seat) {
+		this.seat = seat;
 	}
 
 	public Double getPrice() {

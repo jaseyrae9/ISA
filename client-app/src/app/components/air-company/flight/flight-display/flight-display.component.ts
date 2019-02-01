@@ -59,15 +59,6 @@ export class FlightDisplayComponent implements OnInit {
     );
   }
 
-  flightEvent(data) {
-    this.loadFlights();
-    if (data.status = 0) {
-      this.ngxNotificationService.sendMessage('Flight deleted.', 'dark', 'bottom-right');
-    } else {
-      this.ngxNotificationService.sendMessage('Flight edited.', 'dark', 'bottom-right');
-    }
-  }
-
   arrowAction(i: number, event: any) {
     if ( this.pageNumber + i >= 0 && this.pageNumber + i < this.pages.length) {
       this.pageNumber += i;
@@ -79,4 +70,14 @@ export class FlightDisplayComponent implements OnInit {
     this.pageNumber = i;
     this.loadFlights();
   }
+
+  flightEvent(data) {
+    this.loadFlights();
+    if (data.status = 0) {
+      this.ngxNotificationService.sendMessage('Flight deleted.', 'dark', 'bottom-right');
+    } else {
+      this.ngxNotificationService.sendMessage('Flight edited.', 'dark', 'bottom-right');
+    }
+  }
+
 }

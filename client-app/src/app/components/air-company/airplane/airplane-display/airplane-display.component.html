@@ -1,9 +1,9 @@
 <div class="item">
   <div class="heading mb-2">
       <section style="text-align:right" *ngIf="useButtons" >
-          <a class="edit" *ngIf="airplane.status == 'IN_PROGRESS'" (click)="activateAirplane()"><i class="fa fa-check"></i></a>
-          <a class="edit" *ngIf="airplane.status == 'IN_PROGRESS'" (click)="editAirplane()"><i class="fa fa-edit"></i></a>
-          <a class="delete"  (click)="deleteAirplane()"><i class="fa fa-trash"></i></a>
+          <a placement="bottom" tooltip="Activate plane" class="edit" *ngIf="airplane.status == 'IN_PROGRESS'" (click)="activateAirplane()"><i class="fa fa-check"></i></a>
+          <a placement="bottom" tooltip="Edit" class="edit" *ngIf="airplane.status == 'IN_PROGRESS'" (click)="editAirplane()"><i class="fa fa-edit"></i></a>
+          <a placement="bottom" tooltip="Delete" class="delete"  (click)="deleteAirplane()"><i class="fa fa-trash"></i></a>
       </section>
       <h3>{{airplane.name}}</h3>
   </div>
