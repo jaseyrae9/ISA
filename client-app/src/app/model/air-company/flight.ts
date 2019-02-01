@@ -19,6 +19,7 @@ export class Flight {
     premiumEconomyPrice = 0;
     bussinessPrice = 0;
     firstPrice = 0;
+    minPrice = 0;
     tickets: Ticket[][];
 }
 

@@ -1,0 +1,49 @@
+<div class="container">
+    <div class="row border rounded align-items-center p-2 mt-3">
+       <div class="col-auto pt-2" align="center">
+          <p>
+              {{fastTicket.flight.destinations[0].destination.label}}
+              <br><small class="text-muted">{{fastTicket.flight.destinations[0].destination.airportName}}, <br>
+              {{fastTicket.flight.destinations[0].destination.city}}, {{fastTicket.flight.destinations[0].destination.country}}</small>
+          </p>
+          <hr>
+          <p>{{fastTicket.flight.startDateAndTime}}</p>
+       </div>
+       <div class="col-auto pl-0 pr-2">
+          <i class="fa fa-plane-departure fa-2x"></i>
+       </div>
+       <div class="col-auto pt-3">
+          <span class="badge badge-primary p-2">Duration:  <br/> {{fastTicket.flight.duration}}</span>
+          <p align="center"><small class="text-muted">{{fastTicket.flight.destinations.length - 2}} stops</small></p>
+       </div>
+       <div class="col-auto pl-0 pr-4">
+          <i class="fa fa-plane-arrival fa-2x"></i>
+       </div>
+       <div class="col-auto pt-2" align="center">
+          <p>{{fastTicket.flight.destinations[fastTicket.flight.destinations.length-1].destination.label}}
+              <br><small class="text-muted">{{fastTicket.flight.destinations[fastTicket.flight.destinations.length-1].destination.airportName}},<br>
+                {{fastTicket.flight.destinations[fastTicket.flight.destinations.length-1].destination.city}}  {{fastTicket.flight.destinations[fastTicket.flight.destinations.length-1].destination.country}}</small>
+          </p>
+          <hr>
+          <p>{{fastTicket.flight.endDateAndTime}}</p>
+       </div>
+       <div class="col-2 border-left p-3" align="center">
+          <p style="font-size: 22px; color: #2288f9;"><i class="fa fa-couch"></i></p>
+          <hr>
+          <small class="text-muted">
+            Class: {{fastTicket.ticket.seat.seatClass}}<br>
+            Row: {{fastTicket.ticket.seat.rowNum}}<br>
+            Column: {{fastTicket.ticket.seat.colNum}}</small>
+       </div>
+       <div class="col border-left p-3" align="center">
+          <div class="ribbon">€{{fastTicket.ticket.price - fastTicket.ticket.discount}}</div>
+          <p class="text-muted font-weight-light" style="font-size: 35px;  text-decoration: line-through;">€{{fastTicket.ticket.price}}</p>
+          <hr>
+          <a class="btn btn-primary px-4 m-2" routerLink="/flight/{{fastTicket.flight.id}}">Details</a>
+          <button class="btn btn-primary px-4 m-2" *ngIf="tokenService.isAirAdmin" (click)="deleteTicket()">Delete</button>
+          <button class="btn btn-primary px-4 m-2" *ngIf="tokenService.isCustomer" >Reserve</button>
+       </div>
+    </div>
+ </div>
+
+

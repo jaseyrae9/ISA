@@ -1,5 +1,6 @@
 package isa.project.model.aircompany;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -14,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import isa.project.model.shared.AdditionalService;
@@ -48,6 +50,10 @@ public class AirCompany {
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<AdditionalService> baggageInformation;
+	
+	@OrderBy("creationDate DESC")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<TicketForFastReservation> ticketForFastReservations;
 	
 	public AirCompany() {
 		super();
@@ -131,6 +137,19 @@ public class AirCompany {
 
 	public void setFlight(Set<Flight> flight) {
 		this.flight = flight;
+	}
+
+	public List<TicketForFastReservation> getTicketForFastReservations() {
+		return ticketForFastReservations;
+	}
+
+	public void setTicketForFastReservations(List<TicketForFastReservation> ticketForFastReservations) {
+		this.ticketForFastReservations = ticketForFastReservations;
+	}
+	
+	public void removeTicket(TicketForFastReservation ticket) {
+		ticket.setAirCompany(null);
+		this.ticketForFastReservations.remove(ticket);
 	}
 
 	@Override

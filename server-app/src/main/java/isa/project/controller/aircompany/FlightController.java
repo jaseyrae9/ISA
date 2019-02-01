@@ -1,5 +1,8 @@
 package isa.project.controller.aircompany;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -18,9 +21,12 @@ import isa.project.aspects.AdminAccountActiveCheck;
 import isa.project.aspects.AirCompanyAdminCheck;
 import isa.project.dto.aircompany.FlightDTO;
 import isa.project.dto.aircompany.FlightTicketsPriceChangeDTO;
+import isa.project.dto.aircompany.TicketForFastReservationDTO;
+import isa.project.dto.aircompany.CreateFastReservationTicketsDTO;
 import isa.project.exception_handlers.RequestDataException;
 import isa.project.exception_handlers.ResourceNotFoundException;
 import isa.project.model.aircompany.Flight.FlightStatus;
+import isa.project.model.aircompany.TicketForFastReservation;
 import isa.project.security.TokenUtils;
 import isa.project.service.aircompany.FlightService;
 
@@ -80,77 +86,158 @@ public class FlightController {
 			throws ResourceNotFoundException, RequestDataException {
 		return new ResponseEntity<>(flightService.addNewFlight(id, flight), HttpStatus.CREATED);
 	}
-	
+
 	/**
 	 * Uređuje postojeći let.
 	 * 
-	 * @param id - oznaka aviokompanije
+	 * @param id       - oznaka aviokompanije
 	 * @param flightId - oznaka leta
-	 * @param flight - informacije u letu
+	 * @param flight   - informacije u letu
 	 * @return - uređeni let
-	 * @throws ResourceNotFoundException - aviokompanija, let, avion ili destinacija nisu pronađeni
-	 * @throws RequestDataException - datumi neispravni, status nije in_progress
+	 * @throws ResourceNotFoundException - aviokompanija, let, avion ili destinacija
+	 *                                   nisu pronađeni
+	 * @throws RequestDataException      - datumi neispravni, status nije
+	 *                                   in_progress
 	 */
 	@RequestMapping(value = "/editFlight/{id}/{flightId}", method = RequestMethod.PUT, consumes = "application/json")
 	@PreAuthorize("hasAnyRole('AIRADMIN')")
 	@AdminAccountActiveCheck
 	@AirCompanyAdminCheck
-	public ResponseEntity<?> editFlight(@PathVariable Integer id, @PathVariable Integer flightId ,@Valid @RequestBody FlightDTO flight)
-			throws ResourceNotFoundException, RequestDataException {
+	public ResponseEntity<?> editFlight(@PathVariable Integer id, @PathVariable Integer flightId,
+			@Valid @RequestBody FlightDTO flight) throws ResourceNotFoundException, RequestDataException {
 		return new ResponseEntity<>(flightService.editFlight(id, flightId, flight), HttpStatus.OK);
 	}
-	
+
 	/**
 	 * Uređuje cene postojećeg let.
 	 * 
-	 * @param id - oznaka aviokompanije
+	 * @param id       - oznaka aviokompanije
 	 * @param flightId - oznaka leta
-	 * @param info - informacije o novim cenama
+	 * @param info     - informacije o novim cenama
 	 * @return - let čije karte imaju nove cene
-	 * @throws ResourceNotFoundException - aviokompanija, let, avion ili destinacija nisu pronađeni
-	 * @throws RequestDataException - datumi neispravni, status nije in_progress
+	 * @throws ResourceNotFoundException - aviokompanija, let, avion ili destinacija
+	 *                                   nisu pronađeni
+	 * @throws RequestDataException      - datumi neispravni, status nije
+	 *                                   in_progress
 	 */
 	@RequestMapping(value = "/changePrices/{id}/{flightId}", method = RequestMethod.PUT, consumes = "application/json")
 	@PreAuthorize("hasAnyRole('AIRADMIN')")
 	@AdminAccountActiveCheck
 	@AirCompanyAdminCheck
-	public ResponseEntity<?> changePrices(@PathVariable Integer id, @PathVariable Integer flightId ,@Valid @RequestBody FlightTicketsPriceChangeDTO info)
+	public ResponseEntity<?> changePrices(@PathVariable Integer id, @PathVariable Integer flightId,
+			@Valid @RequestBody FlightTicketsPriceChangeDTO info)
 			throws ResourceNotFoundException, RequestDataException {
 		return new ResponseEntity<>(flightService.setTicketsPrices(id, flightId, info), HttpStatus.OK);
 	}
-	
+
 	/**
 	 * Menja status leta u obrisan.
 	 * 
-	 * @param id - oznaka aviokompanije kojoj let pripada.
+	 * @param id     - oznaka aviokompanije kojoj let pripada.
 	 * @param flight - oznaka leta.
 	 * @return
-	 * @throws ResourceNotFoundException - ukoliko let sa datom oznakom nije pornađen.
-	 * @throws RequestDataException - ako prosleđeni let nema status in_progress
+	 * @throws ResourceNotFoundException - ukoliko let sa datom oznakom nije
+	 *                                   pornađen.
+	 * @throws RequestDataException      - ako prosleđeni let nema status
+	 *                                   in_progress
 	 */
 	@RequestMapping(value = "/deleteFlight/{id}/{flight}", method = RequestMethod.DELETE)
 	@PreAuthorize("hasAnyRole('AIRADMIN')")
 	@AdminAccountActiveCheck
 	@AirCompanyAdminCheck
-	public ResponseEntity<?> deleteFlight(@PathVariable Integer id, @PathVariable Integer flight) throws ResourceNotFoundException, RequestDataException{
+	public ResponseEntity<?> deleteFlight(@PathVariable Integer id, @PathVariable Integer flight)
+			throws ResourceNotFoundException, RequestDataException {
 		flightService.changeStatus(id, flight, FlightStatus.DELETED);
 		return ResponseEntity.ok().build();
 	}
-	
+
 	/**
 	 * Menja status leta u aktiva.
 	 * 
-	 * @param id - oznaka aviokompanije kojoj let pripada.
+	 * @param id     - oznaka aviokompanije kojoj let pripada.
 	 * @param flight - oznaka leta.
 	 * @return
-	 * @throws ResourceNotFoundException - ukoliko let sa datom oznakom nije pornađen.
-	 * @throws RequestDataException - ako prosleđeni let nema status in_progress
+	 * @throws ResourceNotFoundException - ukoliko let sa datom oznakom nije
+	 *                                   pornađen.
+	 * @throws RequestDataException      - ako prosleđeni let nema status
+	 *                                   in_progress
 	 */
 	@RequestMapping(value = "/activateFlight/{id}/{flight}", method = RequestMethod.PUT)
 	@PreAuthorize("hasAnyRole('AIRADMIN')")
 	@AdminAccountActiveCheck
 	@AirCompanyAdminCheck
-	public ResponseEntity<?> activateFlight(@PathVariable Integer id, @PathVariable Integer flight) throws ResourceNotFoundException, RequestDataException{
+	public ResponseEntity<?> activateFlight(@PathVariable Integer id, @PathVariable Integer flight)
+			throws ResourceNotFoundException, RequestDataException {
 		return new ResponseEntity<>(flightService.changeStatus(id, flight, FlightStatus.ACTIVE), HttpStatus.OK);
 	}
+
+	/**
+	 * Kreira nove karte za brzu rezervaciju.
+	 * @param aircomapanyId - oznaka aviokompanije
+	 * @param flightId - oznaka leta
+	 * @param tickets - oznaka karti
+	 * @return - let sa novo kreiranim kartama
+	 * @throws ResourceNotFoundException - ako neki od resursa nije pronadjen
+	 * @throws RequestDataException - ako let nije aktivan ili karta nije u stanju available
+	 */
+	@RequestMapping(value = "/createTickets/{aircomapanyId}/{flightId}", method = RequestMethod.POST)
+	@PreAuthorize("hasAnyRole('AIRADMIN')")
+	@AdminAccountActiveCheck
+	@AirCompanyAdminCheck
+	public ResponseEntity<?> createTicketsForFastReservation(@PathVariable Integer aircomapanyId,
+			@PathVariable Integer flightId, @Valid @RequestBody CreateFastReservationTicketsDTO tickets)
+			throws ResourceNotFoundException, RequestDataException {
+		return new ResponseEntity<>(flightService.createTicketsForFastReservations(aircomapanyId, flightId,
+				tickets.getTickets(), tickets.getDiscount()), HttpStatus.CREATED);
+	}
+	
+	/**
+	 * Brise postojecu kartu za brze rezervacije. Mesto se oslobadja, tako da se moze regularno rezervisati.
+	 * @param aircomapanyId - oznaka aviokomapnije
+	 * @param ticketId - oznaka karte
+	 * @return
+	 * @throws RequestDataException - resurs nije pronadjen
+	 * @throws ResourceNotFoundException - karta ne pripada prosledjenoj aviokompaniji
+	 */
+	@RequestMapping(value = "/deleteTicket/{aircomapanyId}/{ticketId}", method = RequestMethod.DELETE)
+	@PreAuthorize("hasAnyRole('AIRADMIN')")
+	@AdminAccountActiveCheck
+	@AirCompanyAdminCheck
+	public ResponseEntity<?> deleteTicketForFastReservation(@PathVariable Integer aircomapanyId, @PathVariable Integer ticketId) throws RequestDataException, ResourceNotFoundException{
+		flightService.deleteTicketForFastReservation(aircomapanyId, ticketId);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	/**
+	 * Onemogućava sedište za izabrani let.
+	 * @param aircomapanyId - oznaka aviokomapnije
+	 * @param flightId - oznaka leta
+	 * @param ticketIds - oznake karte
+	 * @return
+	 * @throws RequestDataException - resurs nije pronadjen
+	 * @throws ResourceNotFoundException - karta ne pripada prosledjenoj aviokompaniji
+	 */
+	@RequestMapping(value = "/disableTicket/{aircomapanyId}/{flightId}", method = RequestMethod.PUT)
+	@PreAuthorize("hasAnyRole('AIRADMIN')")
+	@AdminAccountActiveCheck
+	@AirCompanyAdminCheck
+	public ResponseEntity<?> disableTicketForFastReservation(@PathVariable Integer aircomapanyId, @PathVariable Integer flightId ,@RequestBody List<Long> ticketsIds) throws RequestDataException, ResourceNotFoundException{
+		return new ResponseEntity<>(flightService.disableSeats(aircomapanyId, flightId, ticketsIds) ,HttpStatus.OK);
+	}
+	
+	/**
+	 * Vraca sve karte za brzu rezervaciju aviokompanije.
+	 * @param aircomapanyId - oznaka kompanije
+	 * @return - karte za brzu rezervaciju
+	 * @throws ResourceNotFoundException - ako aviokompanija nije pronadjena
+	 */
+	@RequestMapping(value = "/getTickets/{aircomapanyId}", method = RequestMethod.GET)
+	public ResponseEntity<?> getTicketsForFastResrvation(@PathVariable Integer aircomapanyId) throws ResourceNotFoundException{
+		List<TicketForFastReservationDTO> ret = new ArrayList<>();
+		for(TicketForFastReservation ticket: flightService.getTicketsForFastResrevation(aircomapanyId)) {
+			ret.add(new TicketForFastReservationDTO(ticket));
+		}
+		return new ResponseEntity<>(ret, HttpStatus.OK);
+	}
 }
+ 

@@ -1,3 +1,5 @@
+import { DisableSeatsFormComponent } from './../disable-seats-form/disable-seats-form.component';
+import { CreateFastReservationsFormComponent } from './../create-fast-reservations-form/create-fast-reservations-form.component';
 import { ChangeTicketsPricesFormComponent } from './../change-tickets-prices-form/change-tickets-prices-form.component';
 import { FlightFormComponent } from './../flight-form/flight-form.component';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
@@ -16,6 +18,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 export class FightBasicInfoComponent implements OnInit {
   modalRef: BsModalRef;
   @Output() flightEvent: EventEmitter<Object> = new EventEmitter();
+  @Output() ticketsCreated: EventEmitter<Object> = new EventEmitter();
   @Input() flight = new Flight();
   constructor(private ngxNotificationService: NgxNotificationService, public tokenService: TokenStorageService,
      private airService: AirCompanyService, private modalService: BsModalService) { }
@@ -41,6 +44,29 @@ export class FightBasicInfoComponent implements OnInit {
       }
       // neuspesnu aktivaciju ce handlovati interceptori
     );
+  }
+
+  openCreateFastTicketsForm() {
+    const initialState = {
+      flight: this.flight
+    };
+    this.modalRef = this.modalService.show(CreateFastReservationsFormComponent, { initialState });
+    this.modalRef.content.onClose.subscribe(fligth => {
+      this.setFlight(fligth);
+      this.ngxNotificationService.sendMessage('Fast reservations created.', 'dark', 'bottom-right');
+      this.ticketsCreated.emit(fligth);
+    });
+  }
+
+  openDisableSeatsForm() {
+    const initialState = {
+      flight: this.flight
+    };
+    this.modalRef = this.modalService.show(DisableSeatsFormComponent, { initialState });
+    this.modalRef.content.onClose.subscribe(fligth => {
+      this.setFlight(fligth);
+      this.ngxNotificationService.sendMessage('Seats marked as unavailable.', 'dark', 'bottom-right');
+    });
   }
 
   openChangePricesForm() {

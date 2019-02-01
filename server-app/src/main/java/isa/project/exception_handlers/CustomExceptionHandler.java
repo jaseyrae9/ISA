@@ -3,7 +3,6 @@ package isa.project.exception_handlers;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,18 +59,6 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST);
 	}
 	
-	/**
-	 * Handles errors triggered by database, such as violation of unique constrain.
-	 * @param ex
-	 * @return custom error response
-	 */
-	@ExceptionHandler(DataIntegrityViolationException.class)
-	public ResponseEntity<Object> dataIntegrity(ResourceNotFoundException ex) {
-		List<String> details = new ArrayList<>();
-		details.add(ex.getMessage());
-		ErrorResponse response = new ErrorResponse("Constrain violation.", details);
-		return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST);
-	}
 	
 	/**
 	 * Handles errors triggered by bad credentials.
@@ -98,4 +85,5 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 		ErrorResponse response = new ErrorResponse("Admin account exception", details);
 		return new ResponseEntity<Object>(response, HttpStatus.UNAUTHORIZED);
 	}
+
 }

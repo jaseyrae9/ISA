@@ -23,16 +23,21 @@ import isa.project.model.aircompany.FlightDestination;
 import isa.project.model.aircompany.Seat;
 import isa.project.model.aircompany.Ticket;
 import isa.project.model.aircompany.Ticket.TicketStatus;
+import isa.project.model.aircompany.TicketForFastReservation;
 import isa.project.model.users.AirCompanyAdmin;
 import isa.project.model.users.User;
 import isa.project.repository.aircompany.AirCompanyRepository;
 import isa.project.repository.aircompany.FlightRepository;
+import isa.project.repository.aircompany.TicketForFastReservationRepository;
 import isa.project.repository.users.UserRepository;
 
 @Service
 public class FlightService {
 	@Autowired
 	private AirCompanyRepository airCompanyRepository;
+	
+	@Autowired
+	private TicketForFastReservationRepository ticketForFastReservationRepository;
 
 	@Autowired
 	private FlightRepository flightRepository;
@@ -195,6 +200,146 @@ public class FlightService {
 	}
 	
 	/**
+	 * Onemogućava sedišta za rezervaciju u tom letu. (Kao zamena za brisanje sedišta).
+	 * @param aircompanyId - oznaka aviokompanije
+	 * @param flightId - oznaka leta
+	 * @param tickets - oznaka jedne ili više karti
+	 * @return - izmenjeni let
+	 * @throws RequestDataException - sedište nije slobodno
+	 * @throws ResourceNotFoundException - ako resurs nije pronađen
+	 */
+	public Flight disableSeats(Integer aircompanyId, Integer flightId, List<Long> tickets) throws RequestDataException, ResourceNotFoundException {
+				
+		Flight flight = findFlight(flightId);
+
+		if (!flight.getAirCompany().getId().equals(aircompanyId)) {
+			throw new ResourceNotFoundException(flightId.toString(), "Your company does not have flight with this id.");
+		}
+		
+		//mark all seats as AVAILABLE if they were UNAVIABLE 
+		for(int i = 0; i < flight.ticketsSize(); ++i) {
+			Ticket ticket = flight.getTicket(i);
+			if(ticket.getStatus() == TicketStatus.UNAVIABLE) {
+				ticket.setStatus(TicketStatus.AVAILABLE);
+			}
+		}
+
+		//mark desired seats as UNAVIABLE 
+		for(Long id: tickets) {
+			Optional<Ticket> ticketOpt = flight.getTicketById(id);
+			if(!ticketOpt.isPresent()) {
+				throw new ResourceNotFoundException(id.toString(), "Ticket not found.");
+			}
+			Ticket ticket = ticketOpt.get();
+			if(!ticket.getStatus().equals(TicketStatus.AVAILABLE)) {
+				throw new RequestDataException("Ticket must be available to become unavailable.");
+			}
+			ticket.setStatus(TicketStatus.UNAVIABLE);
+		}
+		
+		return flightRepository.save(flight);
+	}
+	
+	/**
+	 * Kreira karte namenje za brzu rezervaciju.
+	 * @param aircompanyId - oznaka aviokompanije
+	 * @param flightId - oznaka leta
+	 * @param tickets - oznake karti
+	 * @param discount - popust
+	 * @return - let sa izmenjenim kartama
+	 * @throws ResourceNotFoundException - resursi nisu pronadjeni
+	 * @throws RequestDataException - let nije aktivan
+	 */
+	public Flight createTicketsForFastReservations(Integer aircompanyId, Integer flightId, List<Long> tickets, Double discount) throws ResourceNotFoundException, RequestDataException {
+		//pronadji let
+		Flight flight = findFlight(flightId);
+
+		if (!flight.getAirCompany().getId().equals(aircompanyId)) {
+			throw new ResourceNotFoundException(flightId.toString(), "Your company does not have flight with this id.");
+		}
+
+		if (!flight.getStatus().equals(FlightStatus.ACTIVE)) {
+			throw new RequestDataException(
+					"Tickets for fast reservations can only be created for active flights.");
+		}
+		
+		//pronadji aviokompaniju
+		AirCompany airCompany = findAirCompany(aircompanyId);
+		
+		//kreiraj karte
+		for(Long id: tickets) {
+			Optional<Ticket> ticketOpt = flight.getTicketById(id);
+			if(!ticketOpt.isPresent()) {
+				throw new ResourceNotFoundException(id.toString(), "Ticket not found.");
+			}
+			Ticket ticket = ticketOpt.get();
+			if(!ticket.getStatus().equals(TicketStatus.AVAILABLE)) {
+				throw new RequestDataException("Ticket must be available to become fast reservation ticket.");
+			}
+			ticket.setStatus(TicketStatus.FAST_RESERVATION);
+			ticket.setDiscount(discount);
+			TicketForFastReservation tffr = new TicketForFastReservation(airCompany, ticket);
+			airCompany.getTicketForFastReservations().add(tffr);
+		}
+		
+		//sacuvaj sve
+		airCompanyRepository.save(airCompany);
+		return flightRepository.save(flight);		
+	}
+	
+	/**
+	 * Brise kartu za rezervaciju. Time mesto postaje slobodno.
+	 * @param aircompanyId - oznaka aviokompanije.
+	 * @param fastReservationId - oznaka karte za brzu rezervaciju.
+	 * @throws RequestDataException - karta ne pripada datoj aviokompaniji.
+	 * @throws ResourceNotFoundException - ako karta ili aviokompanija nisu pronadjeni.
+	 */
+	public void deleteTicketForFastReservation(Integer aircompanyId, Integer fastReservationId) throws RequestDataException, ResourceNotFoundException {
+		//pronadji kartu
+		TicketForFastReservation ticket = findTicketForFastResrvation(fastReservationId);
+		if(!ticket.getAirCompany().getId().equals(aircompanyId)) {
+			throw new RequestDataException("Ticket does not belong to your aircompany.");
+		}
+		//oslobodi sediste
+		ticket.getTicket().setStatus(TicketStatus.AVAILABLE);
+		
+		//pronadji aviokompaniju
+		AirCompany airCompany = findAirCompany(aircompanyId);
+		//brisi kartu
+		airCompany.removeTicket(ticket);
+		//sacuvaj da vise nema karte
+		airCompanyRepository.save(airCompany);
+		//sacuvaj oslobodjeno mesto
+		flightRepository.save(ticket.getTicket().getFlight());
+	}
+	
+	/**
+	 * Vraca sve karte namenjene za brzu rezervaciju koji pripadaju zadatoj kompaniji.
+	 * @param aircompanyId - oznaka kompanije
+	 * @return - karte za brzu rezervaciju
+	 * @throws ResourceNotFoundException - ako kompanija nije pronadjena
+	 */
+	public List<TicketForFastReservation> getTicketsForFastResrevation(Integer aircompanyId) throws ResourceNotFoundException{
+		AirCompany airCompany = findAirCompany(aircompanyId);
+		return airCompany.getTicketForFastReservations();
+	}
+	
+	
+	/**
+	 * Pronalazi kartu za brzu rezevrvaciju.
+	 * @param fastReservationId - oznaka karte
+	 * @return - karta
+	 * @throws ResourceNotFoundException - ako karta nije pronadjena
+	 */
+	private TicketForFastReservation findTicketForFastResrvation(Integer fastReservationId) throws ResourceNotFoundException {
+		Optional<TicketForFastReservation> ticketOpt = ticketForFastReservationRepository.findById(fastReservationId);
+		if(!ticketOpt.isPresent()) {
+			throw new ResourceNotFoundException(fastReservationId.toString(), "Ticket for fast reservation not found.");
+		}
+		return ticketOpt.get();
+	}
+	
+	/**
 	 * Promena cena leta. Moguća za aktivne i in_progress letove. Cene se postavljaju samo za mesta koja nisu 
 	 * rezervisana.
 	 * @param airCompanyId - oznaka aviokomapnije
@@ -242,12 +387,14 @@ public class FlightService {
 				FlightDestination fd = new FlightDestination();
 				fd.setDestination(destinations.get(i));
 				fd.setFlight(flight);
+				fd.setIndex(i);
 				flight.addDestination(fd);
 			}
 			else {
 				//uredi postojecu destinaciju
 				FlightDestination fd = flight.getDestinations().get(i);
-				fd.setDestination(destinations.get(i));				
+				fd.setDestination(destinations.get(i));	
+				fd.setIndex(i);
 			}
 		}
 		
@@ -272,6 +419,7 @@ public class FlightService {
 				Seat seat  = flight.getAirplane().getSeats().get(i);
 				Double price = info.getPriceForClass(seat.getSeatClass());
 				Ticket ticket = new Ticket(flight, seat, price);
+				ticket.setIndex(i);
 				flight.addTicket(ticket);
 			} else {
 				// postoji karta, samo je izmeni
@@ -281,6 +429,7 @@ public class FlightService {
 					Double price = info.getPriceForClass(seat.getSeatClass());
 					ticket.setSeat(seat);
 					ticket.setPrice(price);
+					ticket.setIndex(i);
 				}
 			}
 		}
@@ -357,10 +506,10 @@ public class FlightService {
 		Optional<Destination> destination = airCompany.getDestinations().stream()
 				.filter(d -> d.getId().equals(destinationID)).findFirst();
 		if (!destination.isPresent()) {
-			throw new ResourceNotFoundException(destinationID.toString(), "Destination not found.");
+			throw new RequestDataException("Destination you are trying to use is not found.");
 		}
 		if (!destination.get().getActive()) {
-			throw new RequestDataException("Destination is deleted.");
+			throw new RequestDataException("Destination you are trying to use is not found.");
 		}
 		return destination.get();
 	}

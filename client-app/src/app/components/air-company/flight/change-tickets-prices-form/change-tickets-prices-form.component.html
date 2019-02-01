@@ -60,6 +60,9 @@
           </span>
       </div>
     </div>
+    <div class="alert alert-danger" role="alert" *ngIf="errorMessage.length != 0">
+        {{errorMessage}}
+    </div>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modalRef.hide()">Close</button>

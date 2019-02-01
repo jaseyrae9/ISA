@@ -10,7 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "tickets")
@@ -20,7 +20,8 @@ public class Ticket {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-		
+	
+	@JsonBackReference(value="flight")
 	@ManyToOne(fetch = FetchType.EAGER)	
 	@JoinColumn(name="flight", referencedColumnName="id", nullable = false)
 	private Flight flight;	
@@ -38,6 +39,9 @@ public class Ticket {
 	@Column(nullable = false)
 	private TicketStatus status;
 	
+	@Column(nullable = false)
+	private Integer index;
+		
 	public Ticket() {
 		this.status = TicketStatus.AVAILABLE;
 	}
@@ -58,7 +62,6 @@ public class Ticket {
 		this.id = id;
 	}
 
-	@JsonIgnore
 	public Flight getFlight() {
 		return flight;
 	}
@@ -88,7 +91,11 @@ public class Ticket {
 	}
 
 	public void setDiscount(Double discount) {
-		this.discount = discount;
+		if(discount > price) {
+			this.discount = this.price;
+		} else {
+			this.discount = discount;
+		}
 	}
 
 	public TicketStatus getStatus() {
@@ -97,6 +104,14 @@ public class Ticket {
 
 	public void setStatus(TicketStatus status) {
 		this.status = status;
+	}
+
+	public Integer getIndex() {
+		return index;
+	}
+
+	public void setIndex(Integer index) {
+		this.index = index;
 	}
 
 	@Override

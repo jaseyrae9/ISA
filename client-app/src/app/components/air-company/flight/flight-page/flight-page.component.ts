@@ -1,3 +1,5 @@
+import { DisableSeatsFormComponent } from './../disable-seats-form/disable-seats-form.component';
+import { CreateFastReservationsFormComponent } from './../create-fast-reservations-form/create-fast-reservations-form.component';
 import { ChangeTicketsPricesFormComponent } from './../change-tickets-prices-form/change-tickets-prices-form.component';
 import { FlightFormComponent } from './../flight-form/flight-form.component';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
@@ -69,6 +71,28 @@ export class FlightPageComponent implements OnInit {
     this.modalRef.content.onClose.subscribe(fligth => {
       this.setFlight(fligth);
       this.ngxNotificationService.sendMessage('Flight edited.', 'dark', 'bottom-right');
+    });
+  }
+
+  openDisableSeatsForm() {
+    const initialState = {
+      flight: this.flight
+    };
+    this.modalRef = this.modalService.show(DisableSeatsFormComponent, { initialState });
+    this.modalRef.content.onClose.subscribe(fligth => {
+      this.setFlight(fligth);
+      this.ngxNotificationService.sendMessage('Seats marked as unavailable.', 'dark', 'bottom-right');
+    });
+  }
+
+  openCreateFastTicketsForm() {
+    const initialState = {
+      flight: this.flight
+    };
+    this.modalRef = this.modalService.show(CreateFastReservationsFormComponent, { initialState });
+    this.modalRef.content.onClose.subscribe(fligth => {
+      this.setFlight(fligth);
+      this.ngxNotificationService.sendMessage('Fast reservations created.', 'dark', 'bottom-right');
     });
   }
 

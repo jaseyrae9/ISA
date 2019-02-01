@@ -1,0 +1,17 @@
+<div class="modal-header">
+    <h5 class="modal-title" *ngIf="!isAddForm" >Disable <b style="color: #33cabb;">seats</b></h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <p class="text-muted" align="center">Mark all the seats you want to make unavaialable for booking in this flight.</p>
+    <app-tickets-display [flight]="flight" [seatDisabler]=true #tickets></app-tickets-display>
+    <div class="alert alert-danger" role="alert" *ngIf="errorMessage.length != 0">
+        {{errorMessage}}
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modalRef.hide()">Close</button>
+    <button type="button" class="btn btn-primary" (click)="disableSeats()">Disable</button>
+</div>

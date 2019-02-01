@@ -3,6 +3,12 @@
     [class.mr-5]="(j+1)%flight.airplane.seatsPerCol === 0 && (j+1)!= row.length"
     [ngClass]="item.seat.seatClass"
     class="seat px-2 py-1 rounded">
+    <span *ngIf="(!useCheckboxes || item.status!='AVAILABLE') && !seatDisabler" class="status"> {{item.status.charAt(0)}} </span>
+    <input type="checkbox" *ngIf="useCheckboxes && item.status=='AVAILABLE'  && !seatDisabler"  (change)="onTicketChecked($event, item)"/>
+
+    <span *ngIf="seatDisabler && (item.status=='FAST_RESERVATION' || item.status=='RESERVED')" class="status"> {{item.status.charAt(0)}} </span>
+    <input type="checkbox" *ngIf="seatDisabler && (item.status=='AVAILABLE' || item.status=='UNAVIABLE')" [checked]="item.status=='UNAVIABLE'"  (change)="onTicketChecked($event, item)"/>
+
     <ng-template #tt>
       Ticket status: <b>{{item.status}}</b> <br/>
       Seat class: <b>{{item.seat.seatClass}}</b> <br/>

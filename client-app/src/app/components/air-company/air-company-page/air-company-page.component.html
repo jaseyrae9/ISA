@@ -25,6 +25,11 @@
             <i class="fa fa-plane-departure" aria-hidden="true"></i>Flights
           </a>
       </li>
+      <li class = "nav-item">
+          <a href = "#fastreservations" role="tab" data-toggle="tab" class = "nav-link">
+            <i class="fa fa-business-time" aria-hidden="true"></i>Fast reservations
+          </a>
+      </li>
   </ul>
 
   <div class="tab-content" id="myTabContent">
@@ -96,8 +101,21 @@
       </div>
 
       <div class="tab-pane fade" id="flights" aria-labelledby="flights-tab">
-          <app-flight-display [airCompanyId]="id"></app-flight-display>
+          <app-flight-display [airCompanyId]="id" (ticketsCreated)="loadFastReservationTickets()"></app-flight-display>
       </div>
+
+      <div class="tab-pane fade" id="fastreservations" aria-labelledby="airplanes-tab">
+          <div class = "container">
+            <div *ngIf="fastResTickets.length == 0 else fastResTicketsDiv" class="text-center">
+                <p>There are no tickets for fast reservations.</p>
+            </div>
+            <ng-template #fastResTicketsDiv>
+            <div class ="row" *ngFor="let item of fastResTickets">
+              <app-fast-ticket-display class="col-12 mb-3" [fastTicket]="item" (ticketDeleted)="onTicketDeleted($event)"></app-fast-ticket-display>
+            </div>
+            </ng-template>
+          </div>
+        </div>
 
   </div>
 </div>

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,6 +28,7 @@ import org.joda.time.format.PeriodFormatterBuilder;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import isa.project.dto.aircompany.AirCompanyDTO;
 import isa.project.dto.aircompany.FlightDTO;
@@ -48,6 +51,7 @@ public class Flight implements Serializable{
 	@JoinColumn(name="airplane_id", referencedColumnName="id", nullable = false)
 	private Airplane airplane;
 	
+	@OrderColumn(name="index")
 	@OneToMany(mappedBy = "flight", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<FlightDestination> destinations;
 	
@@ -86,8 +90,10 @@ public class Flight implements Serializable{
 	private Double bussinessPrice;
 	
 	@Column(nullable = false)
-	private Double firstPrice;
-	
+	private Double firstPrice;	
+
+	@OrderColumn(name="index")
+	@JsonManagedReference(value="flight")
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "flight", orphanRemoval = true)
 	private List<Ticket> tickets;
 	
@@ -274,6 +280,10 @@ public class Flight implements Serializable{
 		return this.tickets.get(i);
 	}
 	
+	public Optional<Ticket> getTicketById(Long id) {
+		return this.tickets.stream().filter(t -> t.getId().equals(id)).findFirst();
+	}
+	
 	public int ticketsSize() {
 		return this.tickets.size();
 	}	
@@ -308,6 +318,10 @@ public class Flight implements Serializable{
 
 	public void setFirstPrice(Double firstPrice) {
 		this.firstPrice = firstPrice;
+	}
+	
+	public Double getMinPrice() {
+		return Math.max(Math.max(economyPrice,premiumEconomyPrice),Math.max(bussinessPrice,firstPrice));
 	}
 
 	@Override

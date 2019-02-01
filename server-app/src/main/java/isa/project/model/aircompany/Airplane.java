@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -51,6 +52,7 @@ public class Airplane implements Serializable {
 	@Column(nullable = false)
 	private Integer seatsPerCol;
 	
+	@OrderColumn(name = "index")
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "airplane", orphanRemoval = true)
 	private List<Seat> seats;	
 	
@@ -64,10 +66,13 @@ public class Airplane implements Serializable {
 		this.rowNum = airplaneDTO.getRowNum();
 		this.seatsPerCol = airplaneDTO.getSeatsPerCol();
 		this.seats = new ArrayList<>();
+		int index = 0;
 		for(SeatDTO seatDTO:airplaneDTO.getSeatsAsArray()) {
 			Seat seat = new Seat(seatDTO);
 			seat.setAirplane(this);
+			seat.setIndex(index);
 			this.seats.add(seat);
+			index += 1;
 		}
 	}
 		

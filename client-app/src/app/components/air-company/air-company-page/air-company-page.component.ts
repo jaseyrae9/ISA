@@ -1,3 +1,4 @@
+import { TicketForFastReservation } from './../../../model/air-company/ticket-for-fast-reservation';
 import { AdditionalService } from 'src/app/model/additional-service';
 import { AirplaneFormComponent } from './../airplane/airplane-form/airplane-form.component';
 import { NgxNotificationService } from 'ngx-notification';
@@ -24,6 +25,7 @@ export class AirCompanyPageComponent implements OnInit {
   id;
   airCompany: AirCompany = new AirCompany();
   airplanes: Airplane[] = [];
+  fastResTickets: TicketForFastReservation[] = [];
 
   constructor(private ngxNotificationService: NgxNotificationService,
     private modalService: BsModalService, private route: ActivatedRoute, private airCompanyService: AirCompanyService,
@@ -40,6 +42,28 @@ export class AirCompanyPageComponent implements OnInit {
     this.tokenService.rolesEmitter.subscribe(
       (data) => { if (data !== null) { this.loadAirplanes(this.airCompany.id); } }
     );
+    this.loadFastReservationTickets();
+   }
+
+   loadFastReservationTickets() {
+    this.airCompanyService.getTicketsForFastReservation(this.id).subscribe(
+      (data) => {
+        this.fastResTickets = data;
+      }
+    );
+   }
+
+   onTicketAdded() {
+      this.loadFastReservationTickets();
+   }
+
+   onTicketDeleted(ticket) {
+    console.log(ticket);
+    const index: number = this.fastResTickets.indexOf(ticket);
+    console.log(index);
+    if (index !== -1) {
+      this.fastResTickets.splice(index, 1);
+    }
    }
 
    loadAirplanes(id) {

@@ -130,9 +130,11 @@ public class AirplaneService {
 				seat.setSeatClass(seatDTO.getSeatClass());
 				seat.setColNum(seatDTO.getColNum());
 				seat.setRowNum(seatDTO.getRowNum());
+				seat.setIndex(i);
 			} else {
-				System.out.println("creating seat");
-				airplane.getSeats().add(new Seat(seatDTO));
+				Seat seat = new Seat(seatDTO);
+				seat.setIndex(i);
+				airplane.getSeats().add(seat);
 			}
 		}
 		

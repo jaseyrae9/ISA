@@ -114,4 +114,21 @@ export class AirCompanyService {
   activateFlight(company, flight): Observable<any> {
     return this.http.put<any>('http://localhost:8080/aircompanies/activateFlight/' + company + '/' + flight, httpOptions);
   }
+
+  disableSeats(company, flight, tickets): Observable<any> {
+    return this.http.put<Flight>('http://localhost:8080/aircompanies/disableTicket/' + company + '/' + flight, tickets, httpOptions);
+  }
+
+  createTicketsForFastReservation(company, flight, data): Observable<any> {
+    return this.http.post<any>('http://localhost:8080/aircompanies/createTickets/' + company + '/' + flight,
+     data, httpOptions);
+  }
+
+  deleteTicketForFastReservation(company, ticket) {
+    return this.http.delete<any>('http://localhost:8080/aircompanies/deleteTicket/' + company + '/' + ticket);
+  }
+
+  getTicketsForFastReservation(company): Observable<any> {
+    return this.http.get<Flight>('http://localhost:8080/aircompanies/getTickets/' + company);
+  }
 }

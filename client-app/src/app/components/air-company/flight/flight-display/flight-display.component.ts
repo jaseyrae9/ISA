@@ -3,7 +3,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { AirCompanyService } from 'src/app/services/air-company/air-company.service';
 import { Flight } from './../../../../model/air-company/flight';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { NgxNotificationService } from 'ngx-notification';
 
@@ -14,6 +14,7 @@ import { NgxNotificationService } from 'ngx-notification';
 })
 export class FlightDisplayComponent implements OnInit {
   @Input() airCompanyId;
+  @Output() ticketsCreated: EventEmitter<Object> = new EventEmitter();
   flights: Flight[] = [];
   pages: Array<Number> = new Array();
   pageNumber = 0;
@@ -78,6 +79,10 @@ export class FlightDisplayComponent implements OnInit {
     } else {
       this.ngxNotificationService.sendMessage('Flight edited.', 'dark', 'bottom-right');
     }
+  }
+
+  ticketsCreatedEvent(data) {
+    this.ticketsCreated.emit(data);
   }
 
 }

@@ -2,6 +2,7 @@ package isa.project.model.aircompany;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -22,6 +23,9 @@ public class FlightDestination implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@Column
+	private Integer index;
+	
 	@ManyToOne(fetch = FetchType.EAGER)	
 	@JoinColumn(name="flight_id", referencedColumnName="id")
 	private Flight flight;
@@ -36,6 +40,14 @@ public class FlightDestination implements Serializable{
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Integer getIndex() {
+		return index;
+	}
+
+	public void setIndex(Integer index) {
+		this.index = index;
 	}
 
 	@JsonIgnore()

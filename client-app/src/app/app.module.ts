@@ -94,12 +94,16 @@ import { FlightDisplayComponent } from './components/air-company/flight/flight-d
 import { FlightFormComponent } from './components/air-company/flight/flight-form/flight-form.component';
 import { DatePipe } from '@angular/common';
 import { FlightPageComponent } from './components/air-company/flight/flight-page/flight-page.component';
-import { FlightTicketsDisplayComponent } from './components/air-company/flight/flight-tickets-display/flight-tickets-display.component';
 import { TicketsDisplayComponent } from './components/air-company/flight/tickets-display/tickets-display.component';
 import { MonthlyIncomeChartComponent } from './components/shared/components/monthly-income-chart/monthly-income-chart.component';
 import { WeeklyIncomeChartComponent } from './components/shared/components/weekly-income-chart/weekly-income-chart.component';
 import { DailyIncomeChartComponent } from './components/shared/components/daily-income-chart/daily-income-chart.component';
+// tslint:disable-next-line:max-line-length
 import { ChangeTicketsPricesFormComponent } from './components/air-company/flight/change-tickets-prices-form/change-tickets-prices-form.component';
+// tslint:disable-next-line:max-line-length
+import { CreateFastReservationsFormComponent } from './components/air-company/flight/create-fast-reservations-form/create-fast-reservations-form.component';
+import { FastTicketDisplayComponent } from './components/air-company/flight/fast-ticket-display/fast-ticket-display.component';
+import { DisableSeatsFormComponent } from './components/air-company/flight/disable-seats-form/disable-seats-form.component';
 
 @NgModule({
   declarations: [
@@ -169,12 +173,14 @@ import { ChangeTicketsPricesFormComponent } from './components/air-company/fligh
     FlightDisplayComponent,
     FlightFormComponent,
     FlightPageComponent,
-    FlightTicketsDisplayComponent,
     TicketsDisplayComponent,
     MonthlyIncomeChartComponent,
     WeeklyIncomeChartComponent,
     DailyIncomeChartComponent,
-    ChangeTicketsPricesFormComponent
+    ChangeTicketsPricesFormComponent,
+    CreateFastReservationsFormComponent,
+    FastTicketDisplayComponent,
+    DisableSeatsFormComponent
   ],
   imports: [
     BrowserModule,
@@ -220,7 +226,9 @@ import { ChangeTicketsPricesFormComponent } from './components/air-company/fligh
     NewRoomFormComponent,
     BaggageFormComponent,
     FlightFormComponent,
-    ChangeTicketsPricesFormComponent
+    ChangeTicketsPricesFormComponent,
+    CreateFastReservationsFormComponent,
+    DisableSeatsFormComponent
 ]
 })
 export class AppModule { }

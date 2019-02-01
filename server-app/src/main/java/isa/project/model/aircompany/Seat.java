@@ -34,6 +34,9 @@ public class Seat implements Serializable{
 	private SeatClass seatClass;
 	
 	@Column(nullable = false)
+	private Integer index;
+	
+	@Column(nullable = false)
 	private Integer rowNum;	
 	
 	@Column(nullable = false)
@@ -72,6 +75,14 @@ public class Seat implements Serializable{
 
 	public void setSeatClass(SeatClass seatClass) {
 		this.seatClass = seatClass;
+	}
+
+	public Integer getIndex() {
+		return index;
+	}
+
+	public void setIndex(Integer index) {
+		this.index = index;
 	}
 
 	public Integer getRowNum() {
