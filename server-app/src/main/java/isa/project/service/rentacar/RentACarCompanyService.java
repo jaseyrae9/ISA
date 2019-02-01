@@ -58,8 +58,6 @@ public class RentACarCompanyService {
 		}		
 		
 		Car car = new Car(carCompany.get(), carDTO.getBrand(), carDTO.getModel(), carDTO.getYearOfProduction(), carDTO.getSeatsNumber(), carDTO.getDoorsNumber(), carDTO.getPrice(), carDTO.getType());
-		
-		System.out.println("Cuvanje automobila");
 		return carRepository.save(car);
 	}
 	

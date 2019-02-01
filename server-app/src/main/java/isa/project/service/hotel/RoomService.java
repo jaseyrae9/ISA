@@ -19,6 +19,7 @@ import isa.project.model.shared.AdditionalService;
 import isa.project.model.users.Customer;
 import isa.project.model.users.User;
 import isa.project.repository.hotel.HotelRepository;
+import isa.project.repository.hotel.RoomRepository;
 import isa.project.repository.hotel.RoomReservationRepository;
 import isa.project.repository.hotel.SingleRoomReservationRepository;
 import isa.project.repository.users.UserRepository;
@@ -33,11 +34,19 @@ public class RoomService {
 	private UserRepository userRepository;
 
 	@Autowired
+	private RoomRepository roomRepository;
+	
+	@Autowired
 	private RoomReservationRepository roomReservationRepository;
 
 	@Autowired
 	private SingleRoomReservationRepository singleRoomReservationRepository;
 
+	
+	public Room saveRoom(Room room) {
+		System.out.println("room " + room.getId());
+		return roomRepository.save(room);
+	}
 	
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	public RoomReservation addReservation(Integer hotelId, String customer, RoomReservationDTO roomReservationDTO)

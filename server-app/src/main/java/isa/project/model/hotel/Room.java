@@ -29,7 +29,7 @@ public class Room implements Serializable{
 	private Integer id;
 	
 	@JsonBackReference(value="hotel")
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)	
+	@ManyToOne(fetch = FetchType.EAGER)	
 	@JoinColumn(name="hotel_id", referencedColumnName="id")
 	private Hotel hotel;
 
@@ -158,6 +158,10 @@ public class Room implements Serializable{
 
 	public void setVersion(Long version) {
 		this.version = version;
+	}
+	
+	public void increaseVersion() {
+		this.version++;
 	}
 	
 	public Integer getRatingCount() {

@@ -37,8 +37,6 @@ public class RoomReservationDTO {
 		this.checkOutDate = roomReservation.getCheckOutDate();
 		this.active = roomReservation.getActive();
 		this.additionalServices = roomReservation.getAdditionalServices();
-		
-		System.out.println("RoomReservationDTO konsturktor");
 		this.reservations = new HashSet<>();
 		if(roomReservation.getSingleRoomReservations() != null) {
 			for(SingleRoomReservation srr: roomReservation.getSingleRoomReservations()) {

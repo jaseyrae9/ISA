@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Car } from 'src/app/model/rent-a-car-company/car';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
@@ -7,6 +7,7 @@ import { EditCarFormComponent } from '../edit-car-form/edit-car-form.component';
 import { ActivatedRoute } from '@angular/router';
 import { RentACarCompanyService } from 'src/app/services/rent-a-car-company/rent-a-car-company.service';
 import { NgxNotificationService } from 'ngx-notification';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-car-basic-info',
@@ -25,8 +26,8 @@ export class CarBasicInfoComponent implements OnInit {
   companyId: string;
 
   constructor(private route: ActivatedRoute, public tokenService: TokenStorageService,
-  private modalService: BsModalService, public carCompanyService: RentACarCompanyService,
-  public ngxNotificationService: NgxNotificationService) { }
+    private modalService: BsModalService, public carCompanyService: RentACarCompanyService,
+    public ngxNotificationService: NgxNotificationService) { }
 
   ngOnInit() {
     const companyId = this.route.snapshot.paramMap.get('id');
@@ -35,14 +36,14 @@ export class CarBasicInfoComponent implements OnInit {
 
   // izmena auta
   openEditModal() {
-   const initialState = {
+    const initialState = {
       car: this.car,
       companyId: this.companyId
     };
     this.modalRef = this.modalService.show(EditCarFormComponent, { initialState });
     this.modalRef.content.onClose.subscribe(car => {
       this.car = car;
-      this.ngxNotificationService.sendMessage('Car is changed!', 'dark', 'bottom-right' );
+      this.ngxNotificationService.sendMessage('Car is changed!', 'dark', 'bottom-right');
     });
   }
 
@@ -52,8 +53,12 @@ export class CarBasicInfoComponent implements OnInit {
         console.log('Brisanje automobila', this.car);
         this.carDeleted.emit(this.car.id);
       },
-      error => {
-        console.log(error);
+      (err: HttpErrorResponse) => {
+        // interceptor je hendlovao ove zahteve
+        if (err.status === 401 || err.status === 403 || err.status === 404) {
+          this.modalRef.hide();
+        }
+        this.ngxNotificationService.sendMessage(err.error.details, 'danger', 'bottom-right');
       }
     );
   }

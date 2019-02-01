@@ -70,10 +70,10 @@ INSERT into branch_office (id, active, branch_office_name, location_id, rentacar
 INSERT into branch_office (id, active, branch_office_name, location_id, rentacar_company_id) VALUES (101, true, 'Branch office name 2', 101, 100);
 INSERT into branch_office (id, active, branch_office_name, location_id, rentacar_company_id) VALUES (102, true, 'Branch office name 3', 102, 100);
 
-INSERT INTO room (id, active, floor, number_of_beds, price, rating_count, room_number, total_rating, type, hotel_id) VALUES (600, true, 4, 2, 20, 2, 20, 9, 'Regular', 100);
-INSERT INTO room (id, active, floor, number_of_beds, price, rating_count, room_number, total_rating, type, hotel_id) VALUES (601, true, 4, 2, 20, 3, 20, 15, 'Regular', 100);
-INSERT INTO room (id, active, floor, number_of_beds, price, rating_count, room_number, total_rating, type, hotel_id) VALUES (602, true, 4, 4, 25, 3, 20, 12, 'Studio', 100);
-INSERT INTO room (id, active, floor, number_of_beds, price, rating_count, room_number, total_rating, type, hotel_id) VALUES (603, true, 4, 7, 35, 2, 20, 10, 'Apartman', 100);
+INSERT INTO room (id, active, floor, number_of_beds, price, rating_count, room_number, total_rating, type, version, hotel_id) VALUES (600, true, 4, 2, 20, 2, 20, 9, 'Regular', 0, 100);
+INSERT INTO room (id, active, floor, number_of_beds, price, rating_count, room_number, total_rating, type, version, hotel_id) VALUES (601, true, 4, 2, 20, 3, 20, 15, 'Regular', 0, 100);
+INSERT INTO room (id, active, floor, number_of_beds, price, rating_count, room_number, total_rating, type, version, hotel_id) VALUES (602, true, 4, 4, 25, 3, 20, 12, 'Studio', 0, 100);
+INSERT INTO room (id, active, floor, number_of_beds, price, rating_count, room_number, total_rating, type, version, hotel_id) VALUES (603, true, 4, 7, 35, 2, 20, 10, 'Apartman', 0, 100);
 
 insert into car (id, active, brand, doors_number, model, price, rating_count, seats_number, total_rating, type, year_of_production, rentacar_company_id) values (500, true, 'Fiat', 5, 'Punto 1.2', 20, 2, 5, 9, 'Sedan', 2010, 100);
 insert into car (id, active, brand, doors_number, model, price, rating_count, seats_number, total_rating, type, year_of_production, rentacar_company_id) values (501, true, 'BMW', 2, 'Z4', 39, 2, 5, 8, 'Convertible', 2017, 100);

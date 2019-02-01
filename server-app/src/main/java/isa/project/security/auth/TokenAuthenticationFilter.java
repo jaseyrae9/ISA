@@ -49,10 +49,6 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 				}
 			}
 		}
-		else
-		{
-			System.out.println("Token je null");
-		}
 		
 		chain.doFilter(request, response);
 	}
