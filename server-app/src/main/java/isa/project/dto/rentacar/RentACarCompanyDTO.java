@@ -22,7 +22,7 @@ public class RentACarCompanyDTO {
 	private ArrayList<BranchOfficeDTO> branchOffices = new ArrayList<>();
 	
 	@NotNull (message = "Location must be enetered.")
-	private Location location;	
+	private Location location;
 	
 	private Double averageRating;
 	

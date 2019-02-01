@@ -161,4 +161,9 @@ export class BookFormComponent implements OnInit {
       }
     );
   }
+
+  onChange() {
+    this.visibleRooms = [];
+    this.bookedRooms = [];
+  }
 }

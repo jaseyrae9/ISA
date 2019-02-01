@@ -51,9 +51,7 @@ public class RoomDTO {
 		this.averageRating = (room.getTotalRating() / (double) room.getRatingCount());
 		if(room.getSingleRoomReservations() != null) {
 			for(SingleRoomReservation srr: room.getSingleRoomReservations()) {
-				System.out.println("ovdee");
 				this.reservations.add(new SingleRoomReservationDTO(srr));
-				System.out.println();
 			}
 		}
 	}

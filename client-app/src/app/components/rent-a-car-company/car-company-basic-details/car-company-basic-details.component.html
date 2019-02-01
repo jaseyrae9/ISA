@@ -1,11 +1,12 @@
 <div class="col">
-    <div class="media">
-    <img src="//placehold.it/200x150" class="align-self-start mr-4 py-2" alt="...">
-    <div class="media-body pr-3">
-          <h3 class="display-4" align="left">{{carCompany.name}}</h3>
-          <p class="text-muted" align="left">Adresa</p>
-          <hr>
-          <a routerLink="/rent-a-car-company/{{carCompany.id}}">Details...</a>
-    </div>
-    </div>
-  </div>
+      <div class="media">
+            <app-map [location]="carCompany.location" class="align-self-start mr-4 pt-2"></app-map>
+            <div class="media-body pr-3">
+                  <h3 class="display-4" align="left">{{carCompany.name}}</h3>
+                  <p class="text-muted" align="left">{{carCompany.location.address}}, {{carCompany.location.city}},
+                        {{carCompany.location.country}}</p>
+                  <hr>
+                  <a routerLink="/rent-a-car-company/{{carCompany.id}}">Details...</a>
+            </div>
+      </div>
+</div>

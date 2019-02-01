@@ -24,6 +24,13 @@
         <i class="fa fa-book" aria-hidden="true"></i>Rent
       </a>
     </li>
+
+    <!--ADMIN-->
+    <li class="nav-item"  *ngIf="tokenService.isCarAdmin" >
+      <a href="#admin-info" role="tab" data-toggle="tab" class="nav-link">
+        <i class="fa fa-info" aria-hidden="true"></i>Admin info
+      </a>
+    </li>
   </ul>
 
 
@@ -31,10 +38,10 @@
 
     <div class="tab-pane fade show active p-3" id="info" aria-labelledby="info-tab">
       <div class="media">
-        <img src="//placehold.it/200x150" class="align-self-start mr-4 pt-2" alt="...">
+        <app-map [location]="carCompany.location" class="align-self-start mr-4 pt-2"></app-map>
         <div class="media-body pr-3">
           <h3 class="display-4" align="left">{{carCompany.name}}</h3>
-          <p class="text-muted" align="left">Adresa</p>
+          <p class="text-muted" align="left">{{carCompany.location.address}}, {{carCompany.location.city}}, {{carCompany.location.country}}</p>
           <hr>
           <p>{{carCompany.description}}</p>
           <div align="right">
@@ -46,6 +53,7 @@
     </div>
 
 
+    <!--CARS-->
     <div class="tab-pane fade" id="cars" aria-labelledby="cars-tab">
       <!-- Button trigger modal -->
       <div *ngIf="tokenService.isCarAdmin" style="align-content: center" div class="row">
@@ -62,6 +70,7 @@
       </div>
     </div>
 
+    <!--BRANCH OFFICES-->
     <div class="tab-pane fade" id="branchOffices" aria-labelledby="branches-tab">
       <!-- Button trigger modal -->
       <div *ngIf="tokenService.isCarAdmin" style="align-content: center" div class="row">
@@ -86,6 +95,55 @@
       <app-rent-form [carCompanyId]='companyId' [branchOffices]='carCompany.branchOffices' [cars]='carCompany.cars'></app-rent-form>
     </div>
 
+
+    <!--ADMIN INFO-->
+    <div *ngIf="tokenService.isCarAdmin" class="tab-pane fade" id="admin-info" aria-labelledby="admin-info-tab">
+      <div id="accordion">
+        <div class="card">
+          <div class="card-header">
+            <a class="card-link" style="color:  #33cabb;" data-toggle="collapse" href="#collapseOne">
+              Monthly resevations
+            </a>
+          </div>
+          <div id="collapseOne" class="collapse" data-parent="#accordion">
+            <div class="card-body">
+              <app-monthly-income-chart *ngIf="monthlyCarReservation" [monthly]='monthlyCarReservation.monthly'></app-monthly-income-chart>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+              <a class="collapsed card-link" style="color:  #33cabb;" data-toggle="collapse" href="#collapseTwo">
+                Weekly reservations
+  
+              </a>
+            </div>
+            <div id="collapseTwo" class="collapse" data-parent="#accordion">
+              <div class="card-body">
+                <app-weekly-income-chart *ngIf="weeklyCarReservation" [weekly]='weeklyCarReservation.weekly'></app-weekly-income-chart>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+              <div class="card-header">
+                <a class="collapsed card-link" style="color:  #33cabb;" data-toggle="collapse" href="#collapseThree">
+                  Daily reservations
+                </a>
+              </div>
+              <div id="collapseThree" class="collapse" data-parent="#accordion">
+                <div class="card-body">
+                  <app-daily-income-chart *ngIf="dailyCarReservation" [daily]='dailyCarReservation.daily'></app-daily-income-chart>
+                </div>
+              </div>
+            </div>
+      
+       
+      </div>
+    </div>
+
+    <!---->
 
   </div>
 </div>

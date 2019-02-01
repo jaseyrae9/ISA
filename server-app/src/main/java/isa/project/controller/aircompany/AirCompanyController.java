@@ -112,6 +112,8 @@ public class AirCompanyController {
 			airCompany.setName(company.getName());
 			airCompany.setDescription(company.getDescription());
 			airCompany.getLocation().setAddress(company.getLocation().getAddress());
+			airCompany.getLocation().setCity(company.getLocation().getCity());
+			airCompany.getLocation().setCountry(company.getLocation().getCountry());
 			airCompany.getLocation().setLat(company.getLocation().getLat());
 			airCompany.getLocation().setLon(company.getLocation().getLon());
 		});

@@ -28,6 +28,8 @@ export class NewCarCompanyFormComponent implements OnInit {
     this.onClose = new Subject();
     this.newCarCompanyForm = this.formBuilder.group({
       name: [this.carCompany.name, [Validators.required]],
+      city: [this.carCompany.location.city, [Validators.required]],
+      country: [this.carCompany.location.country, [Validators.required]],
       address: [this.carCompany.location.address,  [Validators.required]],
       description: [this.carCompany.description],
       });
@@ -52,7 +54,8 @@ export class NewCarCompanyFormComponent implements OnInit {
     this.carCompany.name = this.newCarCompanyForm.value.name;
     this.carCompany.description = this.newCarCompanyForm.value.description;
     this.carCompany.location.address = this.newCarCompanyForm.value.address;
-
+    this.carCompany.location.city = this.newCarCompanyForm.value.city;
+    this.carCompany.location.country = this.newCarCompanyForm.value.country;
     this.rentACarCompanyService.add(this.carCompany).subscribe(
       data => {
         this.onClose.next(data);

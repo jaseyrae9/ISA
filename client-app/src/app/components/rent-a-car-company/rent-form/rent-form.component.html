@@ -9,7 +9,7 @@
             <i class="fa fa-calendar-alt" aria-hidden="true"></i>
           </span>
         </div>
-        <input class="form-control" #drp="bsDaterangepicker" [bsConfig]='datePickerConfig' bsDaterangepicker
+        <input placeholder="Pick up and drop off date" class="form-control" #drp="bsDaterangepicker" [bsConfig]='datePickerConfig' bsDaterangepicker
           formControlName="bsRangeValue" (ngModelChange)="onChange($event)">
       </div>
 
@@ -39,6 +39,7 @@
           </span>
         </div>
         <select class="form-control" placeholder="Pick up location" required="required" formControlName="pickUpBranchOffice">
+          <option hidden [ngValue]="null">Select pick up location</option>
           <option *ngFor="let branchOffice of branchOffices" value="{{branchOffice.id}}">{{branchOffice.location.address}}</option>
         </select>
       </div>
@@ -64,6 +65,7 @@
           </span>
         </div>
         <select class="form-control" placeholder="Drop off location" required="required" formControlName="dropOffBranchOffice">
+          <option hidden [ngValue]="null">Select drop off location</option>
           <option *ngFor="let branchOffice of branchOffices" value="{{branchOffice.id}}">{{branchOffice.location.address}}</option>
         </select>
       </div>

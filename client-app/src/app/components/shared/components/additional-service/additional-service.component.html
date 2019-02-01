@@ -1,10 +1,10 @@
 <div class="item">
     <div class="heading">
         <section style="text-align:right">
-            <a (click)="clickEdit()" *ngIf="isAdditionalServicesTab && !tokenService.isVistor && !tokenService.isCustomer"  class="edit"><i class="fa fa-edit"></i></a>
-            <a class="delete" *ngIf="isAdditionalServicesTab && !tokenService.isVistor && !tokenService.isCustomer"  (click)="clickDelete()"><i class="fa fa-trash"></i></a>
-            <a class="check" (click)="clickCheck()" *ngIf="!isAdditionalServicesTab && !isChecked"  ><i class="fa fa-check"></i></a>
-            <a class="x" (click)="clickX()" *ngIf="!isAdditionalServicesTab && isChecked"  ><i class="fa fa-times"></i></a>
+            <a placement="bottom" tooltip="Edit" (click)="clickEdit()" *ngIf="isAdditionalServicesTab && !tokenService.isVistor && !tokenService.isCustomer"  class="edit"><i class="fa fa-edit"></i></a>
+            <a placement="bottom" tooltip="Delete" class="delete" *ngIf="isAdditionalServicesTab && !tokenService.isVistor && !tokenService.isCustomer"  (click)="clickDelete()"><i class="fa fa-trash"></i></a>
+            <a placement="bottom" tooltip="Add to reservation" class="check" (click)="clickCheck()" *ngIf="!isAdditionalServicesTab && !isChecked"  ><i class="fa fa-check"></i></a>
+            <a placement="bottom" tooltip="Remove from reservation" class="x" (click)="clickX()" *ngIf="!isAdditionalServicesTab && isChecked"  ><i class="fa fa-times"></i></a>
 
         </section>
         <h3>{{additionalService.name}}</h3>

@@ -18,14 +18,9 @@ public class SingleRoomReservationDTO {
 	}
 	
 	public SingleRoomReservationDTO(SingleRoomReservation reservation) {
-		System.out.println("pozvan");
 		this.id = reservation.getId();
-		//this.room = new RoomDTO(reservation.getRoom()); 
-		//System.out.println("room id " + this.room.getId());
 		this.roomReservation = new RoomReservationDTO(reservation.getRoomReservation());
-		//System.out.println(this.roomReservation);
 		this.isRated = reservation.getIsRated();
-
 	}
 
 	public Integer getId() {

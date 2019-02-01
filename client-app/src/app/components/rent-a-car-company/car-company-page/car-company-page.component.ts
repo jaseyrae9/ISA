@@ -23,6 +23,12 @@ export class CarCompanyPageComponent implements OnInit {
   companyId: string;
   maxValue = 0;
 
+  monthlyCarReservation: any;
+  weeklyCarReservation: any;
+  dailyCarReservation: any;
+
+  income: any;
+
   constructor(private modalService: BsModalService,
      private route: ActivatedRoute,
      private carService: RentACarCompanyService,
@@ -38,6 +44,30 @@ export class CarCompanyPageComponent implements OnInit {
         console.log('Otvorena je kompanija: ', this.carCompany);
       }
     );
+    if (this.tokenService.isCarAdmin) {
+      this.carService.getMonthlyResevations(companyId).subscribe(
+        (data) => {
+          console.log('Mesecne rezervacije: ', data);
+          this.monthlyCarReservation = data;
+        }
+      );
+    }
+    if (this.tokenService.isCarAdmin) {
+      this.carService.getWeeklyResevations(companyId).subscribe(
+        (data) => {
+          console.log('Nedeljne rezervacije: ', data);
+          this.weeklyCarReservation = data;
+        }
+      );
+    }
+    if (this.tokenService.isCarAdmin) {
+      this.carService.getDailyResevations(companyId).subscribe(
+        (data) => {
+          console.log('Dnevne rezervacije: ', data);
+          this.dailyCarReservation = data;
+        }
+      );
+    }
   }
 
   carDeleted(carId: number) {

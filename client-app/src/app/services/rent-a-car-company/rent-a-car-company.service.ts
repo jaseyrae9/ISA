@@ -83,4 +83,14 @@ export class RentACarCompanyService {
     return this.http.get<CarReservation>('http://localhost:8080/rent_a_car_companies/getAllSearched/companyName=' + companyName
     + '/companyAddress=' + companyAddress + '/pickUpDate=' + pickUpDate + '/dropOffDate=' + dropOffDate, httpOptions);
   }
+  getMonthlyResevations(companyId): Observable<any> {
+    return this.http.get<any>('http://localhost:8080/report_info/rentACarCompanyMonthly/' + companyId, httpOptions);
+  }
+  getWeeklyResevations(companyId): Observable<any> {
+    return this.http.get<any>('http://localhost:8080/report_info/rentACarCompanyWeekly/' + companyId, httpOptions);
+  }
+  getDailyResevations(companyId): Observable<any> {
+    return this.http.get<any>('http://localhost:8080/report_info/rentACarCompanyDaily/' + companyId, httpOptions);
+  }
+
 }

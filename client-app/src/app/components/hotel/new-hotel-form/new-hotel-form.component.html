@@ -13,7 +13,26 @@
           <i class="fa fa-hotel" aria-hidden="true"></i>
         </span>
       </div>
-      <input type="text" class="form-control" formControlName="name"  placeholder="Hotel name" required="required">
+      <input type="text" class="form-control" formControlName="name" placeholder="Hotel name" required="required">
+    </div>
+
+
+    <div class="input-group form-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">
+          <i class="fa fa-flag" aria-hidden="true"></i>
+        </span>
+      </div>
+      <input formControlName="country" name="country" type="text" class="form-control" placeholder="Country" required="required">
+    </div>
+
+    <div class="input-group form-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">
+          <i class="fa fa-city" aria-hidden="true"></i>
+        </span>
+      </div>
+      <input formControlName="city" name="city" type="text" class="form-control" placeholder="City" required="required">
     </div>
 
     <div class="input-group form-group">
@@ -42,7 +61,7 @@
 
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Close</button>
-    <input type="submit" class="btn btn-primary" value="Add"/>
+    <input type="submit" class="btn btn-primary" value="Add" />
   </div>
 
 </form>

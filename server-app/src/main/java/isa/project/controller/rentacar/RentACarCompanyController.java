@@ -2,6 +2,7 @@ package isa.project.controller.rentacar;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,7 +46,7 @@ public class RentACarCompanyController {
 
 	@Autowired
 	private CarService carService;
-	
+
 	/**
 	 * Returns DTO objects for rent a car companies. Objects contain id, name,
 	 * address and description.
@@ -62,11 +63,11 @@ public class RentACarCompanyController {
 			companiesDTO.add(new RentACarCompanyDTO(company));
 		}
 
-		Page<RentACarCompanyDTO> ret = new PageImpl<>(companiesDTO, companies.getPageable(), companies.getTotalElements());
+		Page<RentACarCompanyDTO> ret = new PageImpl<>(companiesDTO, companies.getPageable(),
+				companies.getTotalElements());
 
 		return ResponseEntity.ok(ret);
 	}
-	
 
 	/**
 	 * Returns DTO objects for rent a car companies. Objects contain id, name,
@@ -86,7 +87,6 @@ public class RentACarCompanyController {
 
 		return new ResponseEntity<>(ret, HttpStatus.OK);
 	}
-
 
 	/**
 	 * Returns data about rent a car company with selected id.
@@ -112,7 +112,8 @@ public class RentACarCompanyController {
 	 */
 	@PreAuthorize("hasAnyRole('SYS')")
 	@RequestMapping(value = "/add", method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<RentACarCompanyDTO> addRentACarCompany(@Valid @RequestBody RentACarCompanyDTO rentACarCompanyDTO) {
+	public ResponseEntity<RentACarCompanyDTO> addRentACarCompany(
+			@Valid @RequestBody RentACarCompanyDTO rentACarCompanyDTO) {
 		RentACarCompany company = new RentACarCompany(rentACarCompanyDTO.getName(),
 				rentACarCompanyDTO.getDescription());
 		company.setLocation(rentACarCompanyDTO.getLocation());
@@ -145,6 +146,8 @@ public class RentACarCompanyController {
 			rentACarCompany.setName(company.getName());
 			rentACarCompany.setDescription(company.getDescription());
 			rentACarCompany.getLocation().setAddress(company.getLocation().getAddress());
+			rentACarCompany.getLocation().setCity(company.getLocation().getCity());
+			rentACarCompany.getLocation().setCountry(company.getLocation().getCountry());
 			rentACarCompany.getLocation().setLat(company.getLocation().getLat());
 			rentACarCompany.getLocation().setLon(company.getLocation().getLon());
 		});
@@ -173,13 +176,14 @@ public class RentACarCompanyController {
 	 * 
 	 * @param car
 	 * @return
+	 * @throws RequestDataException 
 	 */
 	@PreAuthorize("hasAnyRole('CARADMIN')")
 	@AdminAccountActiveCheck
 	@RentACarCompanyAdminCheck
 	@RequestMapping(value = "/editCar/{companyId}", method = RequestMethod.PUT, consumes = "application/json")
 	public ResponseEntity<CarDTO> editCar(@PathVariable Integer companyId, @Valid @RequestBody CarDTO carDTO)
-			throws ResourceNotFoundException {
+			throws ResourceNotFoundException, RequestDataException {
 		Optional<RentACarCompany> carCompany = rentACarCompanyService.findRentACarCompany(companyId);
 
 		if (!carCompany.isPresent()) {
@@ -188,13 +192,21 @@ public class RentACarCompanyController {
 
 		for (Car c : carCompany.get().getCars()) {
 			if (c.getId().equals(carDTO.getId())) {
-				c.setBrand(carDTO.getBrand());
-				c.setModel(carDTO.getModel());
-				c.setType(carDTO.getType());
-				c.setYearOfProduction(carDTO.getYearOfProduction());
-				c.setSeatsNumber(carDTO.getSeatsNumber());
-				c.setDoorsNumber(carDTO.getDoorsNumber());
-				c.setPrice(carDTO.getPrice());
+				
+				if (notReserved(c)) {
+					c.setBrand(carDTO.getBrand());
+					c.setModel(carDTO.getModel());
+					c.setType(carDTO.getType());
+					c.setYearOfProduction(carDTO.getYearOfProduction());
+					c.setSeatsNumber(carDTO.getSeatsNumber());
+					c.setDoorsNumber(carDTO.getDoorsNumber());
+					c.setPrice(carDTO.getPrice());
+					break;
+				}
+				else
+				{
+					throw new RequestDataException("Can't edit reserved car!");
+				}
 			}
 		}
 
@@ -207,7 +219,7 @@ public class RentACarCompanyController {
 	@RentACarCompanyAdminCheck
 	@RequestMapping(value = "/deleteCar/{carCompanyId}/{carId}", method = RequestMethod.DELETE, consumes = "application/json")
 	public ResponseEntity<?> deleteCar(@PathVariable Integer carCompanyId, @PathVariable Integer carId)
-			throws ResourceNotFoundException {
+			throws ResourceNotFoundException, RequestDataException {
 		Optional<RentACarCompany> rentACarCompany = rentACarCompanyService.findRentACarCompany(carCompanyId);
 
 		if (!rentACarCompany.isPresent()) {
@@ -216,13 +228,31 @@ public class RentACarCompanyController {
 
 		for (Car c : rentACarCompany.get().getCars()) {
 			if (c.getId().equals(carId)) {
-				c.setActive(false);
-				break;
+				if (notReserved(c)) {
+					c.setActive(false);
+					break;
+				}
+				else
+				{
+					throw new RequestDataException("Can't delete reserved car!");
+				}
 			}
 		}
 
 		rentACarCompanyService.saveRentACarCompany(rentACarCompany.get());
 		return new ResponseEntity<>(carId, HttpStatus.OK);
+	}
+
+	public Boolean notReserved(Car car) {
+		Date today = new Date();
+		for (CarReservation c : car.getCarReservations()) {
+			if (c.getActive()) {
+				if (today.compareTo(c.getDropOffDate()) < 0) { // Ako neko treba da ga vrati
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -237,8 +267,9 @@ public class RentACarCompanyController {
 	@RequestMapping(value = "/addBranchOffice/{companyId}", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<BranchOfficeDTO> addBranchOffice(@PathVariable Integer companyId,
 			@Valid @RequestBody BranchOfficeDTO branchOfficeDTO) throws ResourceNotFoundException {
+
 		BranchOffice branchOffice = rentACarCompanyService.addBranchOffice(companyId, branchOfficeDTO);
-		branchOffice.setLocation(branchOfficeDTO.getLocation());
+
 		return new ResponseEntity<>(new BranchOfficeDTO(branchOffice), HttpStatus.CREATED);
 	}
 
@@ -289,6 +320,7 @@ public class RentACarCompanyController {
 			if (bo.getId().equals(branchOfficeDTO.getId())) {
 				bo.setName(branchOfficeDTO.getName());
 				bo.getLocation().setAddress(branchOfficeDTO.getLocation().getAddress());
+
 				bo.getLocation().setLat(branchOfficeDTO.getLocation().getLat());
 				bo.getLocation().setLon(branchOfficeDTO.getLocation().getLon());
 			}
@@ -299,40 +331,45 @@ public class RentACarCompanyController {
 	}
 
 	@PreAuthorize("hasAnyRole('CUSTOMER')")
-	@RequestMapping(value="/rentCar/{carCompanyId}/{pickUpBranchOfficeId}/{dropOffBranchOfficeId}/{pickUpDate}/{dropOffDate}/{carId}/{customer}", method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<CarReservationDTO> rentCar(@PathVariable Integer carCompanyId, @PathVariable Integer pickUpBranchOfficeId, @PathVariable Integer dropOffBranchOfficeId,
-			@PathVariable String pickUpDate, @PathVariable String dropOffDate, @PathVariable Integer carId, @PathVariable String customer) throws ResourceNotFoundException, ParseException, RequestDataException{ 
-	
-		CarReservation carReservation = carService.addReservation(carCompanyId, carId, customer, pickUpBranchOfficeId, dropOffBranchOfficeId, pickUpDate, dropOffDate);
-		
+	@RequestMapping(value = "/rentCar/{carCompanyId}/{pickUpBranchOfficeId}/{dropOffBranchOfficeId}/{pickUpDate}/{dropOffDate}/{carId}/{customer}", method = RequestMethod.POST, consumes = "application/json")
+	public ResponseEntity<CarReservationDTO> rentCar(@PathVariable Integer carCompanyId,
+			@PathVariable Integer pickUpBranchOfficeId, @PathVariable Integer dropOffBranchOfficeId,
+			@PathVariable String pickUpDate, @PathVariable String dropOffDate, @PathVariable Integer carId,
+			@PathVariable String customer) throws ResourceNotFoundException, ParseException, RequestDataException {
+
+		CarReservation carReservation = carService.addReservation(carCompanyId, carId, customer, pickUpBranchOfficeId,
+				dropOffBranchOfficeId, pickUpDate, dropOffDate);
+
 		return new ResponseEntity<>(new CarReservationDTO(carReservation), HttpStatus.CREATED);
 	}
-	
+
 	@RequestMapping(value = "/getAllSearched/{companyName}/{companyAddress}/{pickUpDate}/{dropOffDate}", method = RequestMethod.GET, consumes = "application/json")
-	public ResponseEntity<?> getAllSearchedCompanies(@PathVariable String companyName, @PathVariable String companyAddress,
-			@PathVariable String pickUpDate, @PathVariable String dropOffDate, HttpServletRequest request, Pageable page ) throws ParseException {
-		
+	public ResponseEntity<?> getAllSearchedCompanies(@PathVariable String companyName,
+			@PathVariable String companyAddress, @PathVariable String pickUpDate, @PathVariable String dropOffDate,
+			HttpServletRequest request, Pageable page) throws ParseException {
+
 		String carCompanyName = "";
-		if(companyName.split("=").length > 1) {
+		if (companyName.split("=").length > 1) {
 			carCompanyName = companyName.split("=")[1];
 		}
-		
+
 		String carCompanyAddress = "";
-		if(companyAddress.split("=").length > 1) {
-			carCompanyAddress = companyAddress.split("=")[1];			
+		if (companyAddress.split("=").length > 1) {
+			carCompanyAddress = companyAddress.split("=")[1];
 		}
-		
-		String pickUp ="";
-		if(pickUpDate.split("=").length > 1) {
+
+		String pickUp = "";
+		if (pickUpDate.split("=").length > 1) {
 			pickUp = pickUpDate.split("=")[1];
 		}
 
 		String dropOff = "";
-		if(dropOffDate.split("=").length > 1) {
+		if (dropOffDate.split("=").length > 1) {
 			dropOff = dropOffDate.split("=")[1];
 		}
-		
-		Iterable<RentACarCompany> companies = rentACarCompanyService.searchAll(carCompanyName, carCompanyAddress, pickUp, dropOff);
+
+		Iterable<RentACarCompany> companies = rentACarCompanyService.searchAll(carCompanyName, carCompanyAddress,
+				pickUp, dropOff);
 
 		// convert companies to DTO
 		List<RentACarCompanyDTO> ret = new ArrayList<>();
@@ -343,6 +380,4 @@ public class RentACarCompanyController {
 		return new ResponseEntity<>(ret, HttpStatus.OK);
 	}
 
-	
-	
 }

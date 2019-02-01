@@ -7,6 +7,7 @@ import { EditRoomFormComponent } from '../edit-room-form/edit-room-form.componen
 import { ActivatedRoute } from '@angular/router';
 import { HotelService } from 'src/app/services/hotel/hotel.service';
 import { NgxNotificationService } from 'ngx-notification';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-room-basic-info',
@@ -59,8 +60,12 @@ export class RoomBasicInfoComponent implements OnInit {
       data => {
         this.roomDeleted.emit(data);
       },
-      error => {
-        console.log(error);
+      (err: HttpErrorResponse) => {
+        // interceptor je hendlovao ove zahteve
+        if (err.status === 401 || err.status === 403 || err.status === 404) {
+          this.modalRef.hide();
+        }
+        this.ngxNotificationService.sendMessage(err.error.details, 'danger', 'bottom-right');
       }
     );
   }

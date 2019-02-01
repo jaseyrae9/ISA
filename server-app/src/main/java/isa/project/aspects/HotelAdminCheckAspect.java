@@ -33,10 +33,8 @@ public class HotelAdminCheckAspect {
 
 	@Before("@annotation(isa.project.aspects.HotelAdminCheck)")
 	public void logBefore(JoinPoint joinPoint) throws AdminAccountException{
-		System.out.println("AA");
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
 				.getRequest();
-		System.out.println("BB");
 		String email = tokenUtils.getEmailFromToken(tokenUtils.getToken(request));
 		HotelAdmin user = hotelAdminRespository.findByEmail(email).get();
 		

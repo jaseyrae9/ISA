@@ -29,6 +29,8 @@ export class NewHotelFormComponent implements OnInit {
     this.onClose = new Subject();
     this.newHotelForm = this.formBuilder.group({
       name: [this.hotel.name, [Validators.required]],
+      city: [this.hotel.location.city, [Validators.required]],
+      country: [this.hotel.location.country, [Validators.required]],
       address: [this.hotel.location.address,  [Validators.required]],
       description: [this.hotel.description]
       });
@@ -53,6 +55,8 @@ export class NewHotelFormComponent implements OnInit {
     this.hotel.name = this.newHotelForm.value.name;
     this.hotel.description = this.newHotelForm.value.description;
     this.hotel.location.address = this.newHotelForm.value.address;
+    this.hotel.location.city = this.newHotelForm.value.city;
+    this.hotel.location.country = this.newHotelForm.value.country;
     this.hotelService.add(this.hotel).subscribe(
       data => {
         this.onClose.next(data);
