@@ -70,8 +70,8 @@ public class RentACarCompanyService {
 			throw new ResourceNotFoundException(companyId.toString(), "Rent a car company not found");
 		}
 		
-		BranchOffice branchOffice = new BranchOffice(
-				carCompany.get(), branchOfficeDTO.getName());
+		BranchOffice branchOffice = new BranchOffice(carCompany.get(), branchOfficeDTO.getName());
+		branchOffice.setLocation(branchOfficeDTO.getLocation());
 		
 		return branchOfficeRepository.save(branchOffice);
 	}

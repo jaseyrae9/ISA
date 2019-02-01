@@ -170,6 +170,8 @@ public class HotelController {
 			hotel.setName(hotelDTO.getName());
 			hotel.setDescription(hotelDTO.getDescription());
 			hotel.getLocation().setAddress(hotelDTO.getLocation().getAddress());
+			hotel.getLocation().setCity(hotelDTO.getLocation().getCity());
+			hotel.getLocation().setCountry(hotelDTO.getLocation().getCountry());
 			hotel.getLocation().setLat(hotelDTO.getLocation().getLat());
 			hotel.getLocation().setLon(hotelDTO.getLocation().getLon());
 		});
