@@ -1,0 +1,27 @@
+.badge-primary{
+  background-color: #33cabb;
+}
+
+.fa{
+  color: #33cabb;
+}
+
+a:hover{
+  color: darkslategrey;
+}
+
+a:focus{
+  color: darkslategrey;
+}
+
+a{
+  color: #33cabb;
+}
+
+button{
+  color: #33cabb;
+}
+
+button:hover{
+  color: darkslategrey;
+}

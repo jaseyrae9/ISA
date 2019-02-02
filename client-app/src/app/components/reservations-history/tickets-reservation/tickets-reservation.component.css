@@ -1,0 +1,22 @@
+.badge-primary{
+  background-color: #33cabb;
+}
+
+.fas{
+  color: #33cabb;
+}
+
+.pricing-table .item {
+  background-color: #ffffff;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
+  border-top: 2px solid #33cabb;
+  padding: 30px;
+  overflow: hidden;
+  position: relative;
+}
+
+.pricing-table .item p {
+  text-align: center;
+  margin-top: 20px;
+  opacity: 0.7;
+}

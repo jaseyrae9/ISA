@@ -1,3 +1,4 @@
+import { AllReservationsComponent } from './components/reservations-history/all-reservations/all-reservations.component';
 import { FlightPageComponent } from './components/air-company/flight/flight-page/flight-page.component';
 import { Routes, RouterModule } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
@@ -30,6 +31,7 @@ const routes: Routes = [
   { path: 'rent-a-car-companies', component: AllCarsCompaniesPageComponent },
   { path: 'rent-a-car-company/:id', component: CarCompanyPageComponent },
   { path: 'find-car', component: CarSearchPageComponent },
+  { path: 'history', component: AllReservationsComponent },
   {
     path: 'profile', component: ProfileComponent,
     canActivate: [RoleGuardService],

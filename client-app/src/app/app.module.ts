@@ -104,6 +104,11 @@ import { ChangeTicketsPricesFormComponent } from './components/air-company/fligh
 import { CreateFastReservationsFormComponent } from './components/air-company/flight/create-fast-reservations-form/create-fast-reservations-form.component';
 import { FastTicketDisplayComponent } from './components/air-company/flight/fast-ticket-display/fast-ticket-display.component';
 import { DisableSeatsFormComponent } from './components/air-company/flight/disable-seats-form/disable-seats-form.component';
+import { AllReservationsComponent } from './components/reservations-history/all-reservations/all-reservations.component';
+import { TicketsReservationComponent } from './components/reservations-history/tickets-reservation/tickets-reservation.component';
+import { CarReservationComponent } from './components/reservations-history/car-reservation/car-reservation.component';
+import { HotelReservationComponent } from './components/reservations-history/hotel-reservation/hotel-reservation.component';
+import { ReservationComponent } from './components/reservations-history/reservation/reservation.component';
 
 @NgModule({
   declarations: [
@@ -180,7 +185,12 @@ import { DisableSeatsFormComponent } from './components/air-company/flight/disab
     ChangeTicketsPricesFormComponent,
     CreateFastReservationsFormComponent,
     FastTicketDisplayComponent,
-    DisableSeatsFormComponent
+    DisableSeatsFormComponent,
+    AllReservationsComponent,
+    TicketsReservationComponent,
+    CarReservationComponent,
+    HotelReservationComponent,
+    ReservationComponent
   ],
   imports: [
     BrowserModule,
