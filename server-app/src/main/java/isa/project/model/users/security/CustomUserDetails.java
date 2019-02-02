@@ -10,12 +10,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import isa.project.model.users.User;
 
 public class CustomUserDetails extends User implements UserDetails {
-
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 8362933053338873751L;
-	
+	 
 	public CustomUserDetails(final User user)
 	{
 		super(user);

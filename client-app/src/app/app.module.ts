@@ -6,7 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgxNotificationComponent } from 'ngx-notification';
-import { ModalModule } from 'ngx-bootstrap/modal';
+import { ModalModule, BsModalRef } from 'ngx-bootstrap/modal';
 
 import { JwtInterceptor } from './auth/auth-interceptor';
 import { NgBootstrapFormValidationModule } from 'ng-bootstrap-form-validation';
@@ -204,7 +204,7 @@ import { DisableSeatsFormComponent } from './components/air-company/flight/disab
   providers: [HotelService, AirCompanyService, UserService, DataService, RoleGuardService, LocationService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    DatePipe
+    DatePipe, BsModalRef
   ],
   bootstrap: [AppComponent],
   entryComponents: [
@@ -228,7 +228,10 @@ import { DisableSeatsFormComponent } from './components/air-company/flight/disab
     FlightFormComponent,
     ChangeTicketsPricesFormComponent,
     CreateFastReservationsFormComponent,
-    DisableSeatsFormComponent
+    DisableSeatsFormComponent,
+    AddAirCompanyAdminComponent,
+    AddHotelAdminComponent,
+    AddCarAdminComponent
 ]
 })
 export class AppModule { }

@@ -2,7 +2,6 @@ import { HotelService } from 'src/app/services/hotel/hotel.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Hotel } from 'src/app/model/hotel/hotel';
-import { Room } from 'src/app/model/hotel/room';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { AdditionalService } from 'src/app/model/additional-service';
 import { NgxNotificationService } from 'ngx-notification';

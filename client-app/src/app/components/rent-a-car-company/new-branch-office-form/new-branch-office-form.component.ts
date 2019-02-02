@@ -1,6 +1,5 @@
-import { Component, OnInit, Output, ViewChild, ElementRef, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { BranchOffice } from 'src/app/model/rent-a-car-company/branch-offfice';
-import { ActivatedRoute } from '@angular/router';
 import { RentACarCompanyService } from 'src/app/services/rent-a-car-company/rent-a-car-company.service';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Subject } from 'rxjs/Subject';
@@ -23,7 +22,6 @@ export class NewBranchOfficeFormComponent implements OnInit {
 
   constructor(public modalRef: BsModalRef,
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
     private rentACarCompanyService: RentACarCompanyService,
     private locationService: LocationService) { }
 

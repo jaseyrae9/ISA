@@ -37,7 +37,7 @@ values ('CUST', 2004, 'Marka Miljanova 7b', true, 'lanat98@gmail.com', 'Milana',
 INSERT INTO users (type, id, address, confirmed_mail, email, first_name, last_name, last_password_reset_date, password, needs_password_change, phone_number, air_company_id, hotel_id, rent_a_car_company_id)
 values ('HA', 3000, 'FTN, Novi Sad', true, 'krstic@admin.com', 'Admin', 'Admin', '2018-12-26 23:09:42','$2a$10$QQxHVraAtUHQqf266vLzfuNLsF5XVS7W4AnJatRZR2gtQpk1LMD0K', false, 'admin phone1', NULL, 100, NULL);
 INSERT INTO users (type, id, address, confirmed_mail, email, first_name, last_name, last_password_reset_date, password, needs_password_change, phone_number, air_company_id, hotel_id, rent_a_car_company_id)
-values ('RACA', 3001, 'FTN, Novi Sad', true, 'jelena@admin.com', 'Admin', 'Admin', '2018-12-26 23:09:42','$2a$10$QQxHVraAtUHQqf266vLzfuNLsF5XVS7W4AnJatRZR2gtQpk1LMD0K', false, 'admin phone2', NULL, NULL, 100);
+values ('RACA', 3001, 'FTN, Novi Sad', true, 'jelena@admin.com', 'Admin', 'Admin', '2018-12-26 23:09:42','$2a$10$QQxHVraAtUHQqf266vLzfuNLsF5XVS7W4AnJatRZR2gtQpk1LMD0K', false, 'admin phone2', NULL, NULL, 101);
 
 INSERT INTO user_authority ( user_id, authority_id ) VALUES (1000, 2);
 INSERT INTO user_authority ( user_id, authority_id ) VALUES (1001, 4);

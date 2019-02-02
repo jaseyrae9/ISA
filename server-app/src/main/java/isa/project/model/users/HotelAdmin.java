@@ -28,6 +28,7 @@ public class HotelAdmin extends User {
 	public HotelAdmin(UserDTO userDTO) {
 		super(userDTO.getEmail(), userDTO.getPassword(), userDTO.getFirstName(), userDTO.getLastName(),
 				userDTO.getPhoneNumber(), userDTO.getAddress(), true);
+		this.setConfirmedMail(true);
 	}
 
 	public Hotel getHotel() {
