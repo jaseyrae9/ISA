@@ -8,7 +8,7 @@
                 </h3>
                 <small class="text-muted">{{reservation.car.rentACarCompany.location.city}}, {{reservation.car.rentACarCompany.location.country}}</small>
                 <p class="pb-2 pt-1">
-                   <rating [(ngModel)]="rateCompany" [max]="max" (click)="rateCarCompany()" [readonly]="reservation.isCompanyRated"></rating>
+                   <rating [(ngModel)]="reservation.car.rentACarCompany.averageRating" [max]="max" (click)="rateCarCompany()" [readonly]="reservation.isCompanyRated"></rating>
                 </p> 
              </div>
              <div class="col-3 pt-4" align="center">
@@ -25,7 +25,7 @@
                 <small>{{reservation.car.brand}} {{reservation.car.model}}</small><br>
                 <small class="text-muted">{{reservation.car.type}}</small>
                 <br>
-                <rating [(ngModel)]="rateCar" [max]="max" [readonly]="reservation.isCarRated" (keyup)="confirmSelectionCar($event)"></rating>
+                <rating [(ngModel)]="reservation.car.averageRating" [max]="max" [readonly]="reservation.isCarRated" (click)="rateCar()"></rating>
              </div>
              <div class="col-auto pl-0">
                 <i class="fas fa-arrow-right"></i>

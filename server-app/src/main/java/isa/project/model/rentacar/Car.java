@@ -174,12 +174,20 @@ public class Car implements Serializable {
 		this.carReservations = carReservations;
 	}
 
+	public void addToTotalRating(Integer x) {
+		this.totalRating += x;
+	}
+	
 	public Integer getTotalRating() {
 		return totalRating;
 	}
 
 	public void setTotalRating(Integer totalRating) {
 		this.totalRating = totalRating;
+	}
+	
+	public void incrementRatingCount() {
+		this.ratingCount++;
 	}
 
 	public Integer getRatingCount() {

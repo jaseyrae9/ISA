@@ -24,9 +24,13 @@ public class RoomReservationDTO {
 	
 	private Set<Room> reservations = new HashSet<>();
 	
+	private Set<Room> roomReservations = new HashSet<>();
+	
 	private Boolean active;
 	
 	private HotelDTO hotel;
+	
+	private Boolean isHotelRated;
 	
 	public RoomReservationDTO() {
 		
@@ -39,9 +43,28 @@ public class RoomReservationDTO {
 		this.active = roomReservation.getActive();
 		this.additionalServices = roomReservation.getAdditionalServices();
 		this.reservations = new HashSet<>();
+		this.isHotelRated = roomReservation.getIsHotelRated();
 		if(roomReservation.getSingleRoomReservations() != null) {
 			for(SingleRoomReservation srr: roomReservation.getSingleRoomReservations()) {
 				this.reservations.add(srr.getRoom());
+			}
+			// Da ga nateram da soba ima samo rezervacije koje se odnose na tu rezervaciju
+			for(SingleRoomReservation srr: roomReservation.getSingleRoomReservations()) {
+				System.out.println("SingleRoomReservation: " + srr.getId());
+				Room room = new Room(srr.getRoom());
+				
+				Set<SingleRoomReservation> srrSet = new HashSet<>();
+				for(SingleRoomReservation roomSingle : srr.getRoom().getSingleRoomReservations()) {
+					System.out.println("SingleRoomReservationSoba: " + roomSingle.getId());
+					if(roomSingle.getId().equals(srr.getId())) {
+						System.out.println("dodata neka");
+						srrSet.add(srr);
+					}
+					
+				}
+				
+				room.setSingleRoomReservations(srrSet);
+				this.roomReservations.add(room);
 			}
 		}
 		
@@ -102,4 +125,22 @@ public class RoomReservationDTO {
 	public void setHotel(HotelDTO hotel) {
 		this.hotel = hotel;
 	}
+
+	public Set<Room> getRoomReservations() {
+		return roomReservations;
+	}
+
+	public void setRoomReservations(Set<Room> roomReservations) {
+		this.roomReservations = roomReservations;
+	}
+
+	public Boolean getIsHotelRated() {
+		return isHotelRated;
+	}
+
+	public void setIsHotelRated(Boolean isHotelRated) {
+		this.isHotelRated = isHotelRated;
+	}
+	
+	
 }

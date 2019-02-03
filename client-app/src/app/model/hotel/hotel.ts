@@ -9,5 +9,5 @@ export class Hotel {
     rooms: Room[];
     additionalServices: AdditionalService[] = [];
     location: Location = new Location();
-    rating: number;
+    averageRating: number;
 }

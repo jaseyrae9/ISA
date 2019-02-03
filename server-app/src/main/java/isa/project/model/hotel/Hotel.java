@@ -130,12 +130,20 @@ public class Hotel {
 		this.totalRating = totalRating;
 	}
 
+	public void addToTotalRating(Integer x) {
+		this.totalRating += x;
+	}
+	
 	public Integer getRatingCount() {
 		return ratingCount;
 	}
 
 	public void setRatingCount(Integer ratingCount) {
 		this.ratingCount = ratingCount;
+	}
+	
+	public void incrementRatingCount() {
+		this.ratingCount++;
 	}
 
 	@Override

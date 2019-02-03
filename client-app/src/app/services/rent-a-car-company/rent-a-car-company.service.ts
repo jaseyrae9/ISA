@@ -93,8 +93,18 @@ export class RentACarCompanyService {
     return this.http.get<any>('http://localhost:8080/report_info/rentACarCompanyDaily/' + companyId, httpOptions);
   }
 
-  rateCarCompany(rate, reservationId): Observable<any> {
-    return this.http.put<any>('http://localhost:8080/reservation/rateCarCompany/' + reservationId + '/' + rate, httpOptions);
+  rateCarCompany(carCompanyId, reservationId, rate): Observable<any> {
+    return this.http.put<any>('http://localhost:8080/reservation/rateCarCompany/'
+    + carCompanyId + '/' + reservationId + '/' + rate, httpOptions);
   }
 
+  rateCar(carId, reservationId, rate): Observable<any> {
+    return this.http.put<any>('http://localhost:8080/reservation/rateCar/'
+    + carId + '/' + reservationId + '/' + rate, httpOptions);
+  }
+
+  getIncome(companyId, startDate, endDate): Observable<any> {
+    return this.http.get<any>('http://localhost:8080/report_info/rentACarCompanyIncome/' + companyId
+    + '/' + startDate + '/' + endDate, httpOptions);
+  }
 }
