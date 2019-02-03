@@ -8,6 +8,7 @@ import { AdditionalService } from 'src/app/model/additional-service';
   styleUrls: ['./additional-service.component.css', '../../../../shared/css/item.css', '../../../../shared/css/deleteAndEditLinks.css']
 })
 export class AdditionalServiceComponent implements OnInit {
+  @Input() companyId = -10;
   public loggedIn: Boolean;
 
   @Input() additionalService: AdditionalService;

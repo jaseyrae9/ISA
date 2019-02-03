@@ -40,7 +40,7 @@
           <p class="text-muted font-weight-light" style="font-size: 35px;  text-decoration: line-through;">€{{fastTicket.ticket.price}}</p>
           <hr>
           <a class="btn btn-primary px-4 m-2" routerLink="/flight/{{fastTicket.flight.id}}">Details</a>
-          <button class="btn btn-primary px-4 m-2" *ngIf="tokenService.isAirAdmin" (click)="deleteTicket()">Delete</button>
+          <button class="btn btn-primary px-4 m-2" *ngIf="tokenService.isAirAdmin && tokenService.companyId==this.fastTicket.flight.airCompanyBasicInfo.id" (click)="deleteTicket()">Delete</button>
           <button class="btn btn-primary px-4 m-2" *ngIf="tokenService.isCustomer" (click)="fastReservation()">Reserve</button>
        </div>
     </div>

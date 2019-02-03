@@ -3,78 +3,80 @@
     <hr>
 
     <!--search-->
-    <form name="form">
+    <form name="form" [formGroup]="searchForm">
         <div class="row">
-
-            <div class="col-sm-4">
-                <div class="input-group form-group">
+            <div class="col-3 input-group form-group">
                     <div class="input-group-prepend">
                         <span class="input-group-text">
                             <i class="fa fa-plane-departure" aria-hidden="true"></i>
                         </span>
                     </div>
-                    <input type="text" class="form-control" placeholder="Departure airport">
-                </div>
-                <div class="input-group form-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">
-                            <i class="fa fa-male" aria-hidden="true"></i>
-                        </span>
-                    </div>
-                    <input type="text" class="form-control" placeholder="Number of people">
-                </div>
+                    <input formControlName="departureAirport" type="text" class="form-control" placeholder="Departure airport">
             </div>
-
-            <div class="col-sm-4">
-                <div class="input-group form-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">
-                            <i class="fa fa-plane-arrival" aria-hidden="true"></i>
-                        </span>
-                    </div>
-                    <input type="text" class="form-control" placeholder="Arrival airport">
-                </div>
-                <div class="input-group form-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">
-                            <i class="fa fa-euro-sign" aria-hidden="true"></i>
-                        </span>
-                    </div>
-                    <input type="text" class="form-control" placeholder="Min price">
-                    <div class="center">
-                        <p style="color: gray">-</p>
-                    </div>
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">
-                            <i class="fa fa-euro-sign" aria-hidden="true"></i>
-                        </span>
-                    </div>
-                    <input type="text" class="form-control" placeholder="Max price">
-                </div>
+            <div class="col-3 input-group form-group">
+              <div class="input-group-prepend">
+                  <span class="input-group-text">
+                      <i class="fa fa-plane-arrival" aria-hidden="true"></i>
+                  </span>
+              </div>
+              <input formControlName="arrivalAirport" type="text" class="form-control" placeholder="Arrival airport">
             </div>
-
-            <div class="col-sm-4">
-                <div class="input-group form-group">
+            <div class="col-3 input-group form-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <i class="fa fa-male" aria-hidden="true"></i>
+                    </span>
+                </div>
+                <input formControlName="numberOfPeople" type="text" class="form-control" placeholder="Number of people">
+            </div>
+            <div class="col-3 input-group form-group">
                     <div class="input-group-prepend">
                         <span class="input-group-text">
                             <i class="fa fa-calendar-alt" aria-hidden="true"></i>
                         </span>
                     </div>
-                    <input class="form-control" #drp="bsDaterangepicker" [bsConfig]='datePickerConfig'
+                    <input formControlName="dates" class="form-control" #drp="bsDaterangepicker" [bsConfig]='datePickerConfig'
                         bsDaterangepicker placeholder="Departure and arrival date">
-                </div>
-            </div>
+             </div>
+        </div>
 
-            <div class="alert alert-danger" role="alert" *ngIf="errorMessage.length != 0">
-                {{errorMessage}}
+        <div class="row justify-content-md-center">
+          <div class="col-2 ml-0">
+            <div class="input-group form-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="fa fa-euro-sign" aria-hidden="true"></i>
+                </span>
+              </div>
+              <input formControlName="minPrice" type="text" class="form-control" placeholder="Min price">
             </div>
+          </div>
+          <div class="col-auto p-0 m-0">
+              -
+          </div>
+          <div class="col-2 mr-0">
+            <div class="input-group form-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="fa fa-euro-sign" aria-hidden="true"></i>
+                </span>
+              </div>
+              <input formControlName="maxPrice" type="text" class="form-control" placeholder="Max price">
+            </div>
+          </div>
+        </div>
 
-            <div class="container-fluid">
-                <div class="col-sm-12 text-center">
-                    <input type="submit" class="btn btn-primary btn-space" value="Search" />
-                    <input type="submit" class="btn btn-primary btn-space" value="Cancel earch" />
-                </div>
-            </div>
+        <div class="alert alert-danger row" role="alert" *ngIf="errorMessage.length != 0">
+          {{errorMessage}}
+        </div>
+
+        <div class="row">
+          <div class="container-fluid">
+              <div class="col-sm-12 text-center">
+                  <input type="submit" class="btn btn-primary btn-space" value="Search" />
+                  <input type="submit" class="btn btn-primary btn-space" value="Cancel" />
+              </div>
+          </div>
         </div>
     </form>
 
@@ -102,26 +104,24 @@
                                 </div>
                                 <br>
                                 <div class="input-group form-group">
-                                    <ng5-slider [(value)]="minCarryOnBags" [(highValue)]="maxCarryOnBags" [options]="optionsCarryOnBags"
-                                        #ng5></ng5-slider>
+                                    <ng5-slider [(value)]="minCarryOnBags" [options]="optionsCarryOnBags"></ng5-slider>
                                 </div>
                             </div>
 
                             <div class="col-sm-6">
                                 <div class="input-group form-group">
-                                    <ng5-slider [(value)]="minCheckInBaggage" [(highValue)]="maxCheckInBaggage"
-                                        [options]="optionsCheckInBaggage" #ng5></ng5-slider>
+                                    <ng5-slider [(value)]="minCheckInBaggage" [options]="optionsCheckInBaggage"></ng5-slider>
                                 </div>
                                 <!--for stops-->
                                 <div class="input-group form-group">
-                                    <ng5-slider [(value)]="min" [(highValue)]="max" [options]="optionsNumber" #ng5></ng5-slider>
+                                    <ng5-slider [(value)]="maxStops" [options]="optionsNumber"></ng5-slider>
                                 </div>
                             </div>
 
                             <div class="container-fluid">
                                 <div class="col-sm-12 text-center">
-                                    <input type="submit" class="btn btn-primary btn-space" value="Filter" />
-                                    <input type="submit" class="btn btn-primary btn-space" value="Cancel filter" />
+                                    <input type="submit" class="btn btn-primary btn-space" value="Filter"/>
+                                    <input type="submit" class="btn btn-primary btn-space" value="Cancel" />
                                 </div>
                             </div>
                         </div>
@@ -130,6 +130,6 @@
             </div>
         </div>
 
-       
+
         <!--ubaciti za poruku rezultata pretrage i prikaz pretraga-->
     </div>

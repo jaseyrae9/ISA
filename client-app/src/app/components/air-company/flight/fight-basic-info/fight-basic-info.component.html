@@ -1,5 +1,5 @@
 <div class="row border rounded align-items-center p-2 mt-2">
-    <div class="col-12 mb-2" *ngIf="tokenService.isAirAdmin" >
+    <div class="col-12 mb-2" *ngIf="tokenService.isAirAdmin && tokenService.companyId==flight.airCompanyBasicInfo.id" >
         <section style="text-align:right">
           <a placement="bottom" tooltip="Disable seats" class="edit" (click)="openDisableSeatsForm()"><i class="fa fa-couch"></i></a>
           <a placement="bottom" tooltip="Crete fast reservations" class="edit" *ngIf="flight.status == 'ACTIVE'" (click)="openCreateFastTicketsForm()"><i class="fa fa-ticket-alt"></i></a>

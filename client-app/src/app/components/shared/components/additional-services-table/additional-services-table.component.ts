@@ -7,6 +7,7 @@ import { AdditionalService } from 'src/app/model/additional-service';
   styleUrls: ['./additional-services-table.component.css']
 })
 export class AdditionalServicesTableComponent implements OnInit {
+  @Input() companyId = -10;
   @Input() additionalServices: AdditionalService[];
 
   @Output() editEmitter: EventEmitter<AdditionalService> = new EventEmitter();

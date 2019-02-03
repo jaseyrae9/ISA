@@ -67,7 +67,8 @@ export class AirCompanyPageComponent implements OnInit {
    }
 
    loadAirplanes(id) {
-    if (this.tokenService.isAirAdmin) {
+    // tslint:disable-next-line:triple-equals
+    if (this.tokenService.isAirAdmin && this.tokenService.companyId == id) {
       this.airCompanyService.getAllAirplanes(id).subscribe(
         (data) => {
           this.airplanes = data;

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BsDatepickerConfig } from 'ngx-bootstrap';
 import { Options, LabelType } from 'ng5-slider';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-flight-search-page',
@@ -8,18 +9,14 @@ import { Options, LabelType } from 'ng5-slider';
   styleUrls: ['./flight-search-page.component.css', '../../shared/css/inputField.css']
 })
 export class FlightSearchPageComponent implements OnInit {
+  searchForm: FormGroup;
   datePickerConfig: Partial<BsDatepickerConfig>;
   errorMessage: String = '';
   bsRangeValue: Date[];
 
   minCarryOnBags = 0;
-  maxCarryOnBags = 4;
-
   minCheckInBaggage = 0;
-  maxCheckInBaggage = 4;
-
-  min = 0; // for stops
-  max = 4;
+  maxStops = 0;
 
   optionsCarryOnBags: Options = {
     floor: 0,
@@ -36,12 +33,10 @@ export class FlightSearchPageComponent implements OnInit {
 
     translate: (value: number, label: LabelType): string => {
       switch (label) {
-        case LabelType.Low:
-          return '<b>Min carry on bags: </b>' + value;
-        case LabelType.High:
-          return '<b>Max carry on bags: </b>' + value;
-        default:
-          return 'Cary on bags: ' + value;
+      case LabelType.Low:
+        return '<b>Carry on bags: </b>' + value + '+';
+      default:
+        return 'Carry on bags: ' + value;
       }
     }
   };
@@ -62,9 +57,7 @@ export class FlightSearchPageComponent implements OnInit {
     translate: (value: number, label: LabelType): string => {
       switch (label) {
         case LabelType.Low:
-          return '<b>Min check in baggage: </b>' + value;
-        case LabelType.High:
-          return '<b>Max check in baggage: </b>' + value;
+          return '<b>Min check in baggage: </b>' + value + '+';
         default:
           return 'Check in baggage: ' + value;
       }
@@ -87,9 +80,7 @@ export class FlightSearchPageComponent implements OnInit {
     translate: (value: number, label: LabelType): string => {
       switch (label) {
         case LabelType.Low:
-          return '<b>Min stops: </b>' + value;
-        case LabelType.High:
-          return '<b>Max stops: </b> ' + value + '+';
+          return '<b>Max stops: </b>' + value + '+';
         default:
           return 'Stops: ' + value;
       }
@@ -97,7 +88,7 @@ export class FlightSearchPageComponent implements OnInit {
   };
 
 
-  constructor() {
+  constructor(private formBuilder: FormBuilder) {
     this.datePickerConfig = Object.assign({},
       {
         containerClass: 'theme-default',
@@ -106,6 +97,14 @@ export class FlightSearchPageComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.searchForm = this.formBuilder.group({
+      departureAirport: ['', [Validators.required]],
+      arrivalAirport: ['', [Validators.required]],
+      dates: ['', [Validators.required]],
+      numberOfPeople: ['', [Validators.required, Validators.min(1)]],
+      minPrice: ['', [Validators.min(0)]],
+      maxPrice: ['', [Validators.min(0)]]
+    });
   }
 
 }

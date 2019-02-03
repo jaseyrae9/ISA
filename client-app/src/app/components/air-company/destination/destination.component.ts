@@ -14,7 +14,7 @@ import { NgxNotificationService } from 'ngx-notification';
 export class DestinationComponent implements OnInit {
   @Input() showLinks = true;
   @Input() destination: Destination = new Destination();
-  @Input() airportId: Number = 0;
+  @Input() airportId = 0;
   @Output() destinationEvent: EventEmitter<Object> = new EventEmitter();
   modalRef: BsModalRef;
 

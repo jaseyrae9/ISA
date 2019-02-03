@@ -10,7 +10,7 @@
           <i class="fa fa-suitcase" aria-hidden="true"></i>Baggage informations
         </a>
       </li>
-      <li class = "nav-item" *ngIf="tokenService.isAirAdmin">
+      <li class = "nav-item" *ngIf="tokenService.isAirAdmin && tokenService.companyId == airCompany.id">
           <a href = "#airplanes" role="tab" data-toggle="tab" class = "nav-link">
             <i class="fa fa-plane" aria-hidden="true"></i>Airplanes
           </a>
@@ -42,7 +42,7 @@
                 <p class="text-muted" align="left">{{airCompany.location.address}}, {{airCompany.location.city}}, {{airCompany.location.country}}</p>
                 <hr>
                 <p>{{airCompany.description}}</p>
-                <div align = "right" *ngIf="tokenService.isAirAdmin">
+                <div align = "right" *ngIf="tokenService.isAirAdmin  && tokenService.companyId == airCompany.id">
                   <button class="btn btn-primary float-right" (click)="openEditAirCompanyModal()"><i class="fa fa-edit" aria-hidden="true"></i>Edit</button>
                 </div>
         </div>
@@ -50,18 +50,18 @@
       </div>
 
       <div class="tab-pane fade" id="services" aria-labelledby="services-tab">
-        <div *ngIf="tokenService.isAirAdmin" style="align-content: center" div class="row mb-3">
+        <div *ngIf="tokenService.isAirAdmin  && tokenService.companyId == airCompany.id" style="align-content: center" div class="row mb-3">
           <div class="col-12 text-center">
             <button type="button" class="btn btn-primary" (click)="openBaggageModal()">
               Add new baggage information
             </button>
           </div>
         </div>
-        <app-additional-services-table [additionalServices]="airCompany.baggageInformation" (deleteEmitter)='deleteBaggage($event)' (editEmitter)='editBaggage($event)'></app-additional-services-table>
+        <app-additional-services-table [companyId]="id" [additionalServices]="airCompany.baggageInformation" (deleteEmitter)='deleteBaggage($event)' (editEmitter)='editBaggage($event)'></app-additional-services-table>
       </div>
 
       <div class="tab-pane fade" id="destinations" aria-labelledby="destinations-tab">
-          <div *ngIf="tokenService.isAirAdmin" style="align-content: center" div class="row mb-3">
+          <div *ngIf="tokenService.isAirAdmin  && tokenService.companyId == airCompany.id" style="align-content: center" div class="row mb-3">
               <div class="col-12 text-center">
                 <button type="button" class="btn btn-primary" (click)="openAddDestinationModal()">
                   Add new destination
@@ -81,7 +81,7 @@
       </div>
 
       <div class="tab-pane fade" id="airplanes" aria-labelledby="airplanes-tab">
-        <div class="container mb-3">
+        <div *ngIf="tokenService.isAirAdmin  && tokenService.companyId == airCompany.id" class="container mb-3">
           <div class="col-12 text-center">
               <button type="button" class="btn btn-primary" (click)="openAddAirplaneModal()">
                 Add new airplane

@@ -1,4 +1,4 @@
-<div class="container mb-3" *ngIf="tokenService.isAirAdmin">
+<div class="container mb-3" *ngIf="tokenService.isAirAdmin && tokenService.companyId == airCompanyId">
   <div class="col-12 text-center">
       <button type="button" class="btn btn-primary" (click)="openAddForm()">
         Add new flight

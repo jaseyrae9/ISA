@@ -99,44 +99,13 @@ VALUES (100, '2018-11-21', 300, 2002, null, null);
 --INSERT INTO single_room_reservation (id, is_room_rated, room_id, room_reservation_id) VALUES (401, false, 600, 181);
 --INSERT INTO single_room_reservation (id, is_room_rated, room_id, room_reservation_id) VALUES (402, false, 603, 181);
 
--- Avijoni :)
-INSERT INTO airplanes(id, col_num, name, row_num, seats_per_col, status, air_company_id)
-VALUES (900, 1, 'Lasta', 2, 2, 0, 100);
-INSERT INTO airplanes(id, col_num, name, row_num, seats_per_col, status, air_company_id)
-VALUES (901, 1, 'Galeb', 3, 2, 1, 100);
-INSERT INTO airplanes(id, col_num, name, row_num, seats_per_col, status, air_company_id)
-VALUES (902, 1, 'Boing', 4, 2, 2, 100);
-
 -- Destinacije
 INSERT INTO destinations(id, active, airport_name, city, country, label, air_company_id)
 VALUES (1100, true, 'Nikola Tesla', 'Beograd', 'Srbija', 'JAT', 100);
 INSERT INTO destinations(id, active, airport_name, city, country, label, air_company_id)
 VALUES (1101, true, 'MilicaTodo', 'Milici', 'Republika Srpska', 'MIL', 100);
 
---Sedista
-INSERT INTO seats(id, col_num, index, row_num, seat_class, airplane_id)
-VALUES (99, 1, 1, 1, 0, 900);
-INSERT INTO seats(id, col_num, index, row_num, seat_class, airplane_id)
-VALUES (100, 1, 2, 2, 1, 900);
 
-INSERT INTO seats(id, col_num, index, row_num, seat_class, airplane_id)
-VALUES (101, 1, 1, 1, 1, 901);
-INSERT INTO seats(id, col_num, index, row_num, seat_class, airplane_id)
-VALUES (102, 1, 2, 2, 2, 901);
-INSERT INTO seats(id, col_num, index, row_num, seat_class, airplane_id)
-VALUES (103, 1, 3, 3, 0, 901);
-
-INSERT INTO seats(id, col_num, index, row_num, seat_class, airplane_id)
-VALUES (104, 1, 1, 1, 1, 902);
-INSERT INTO seats(id, col_num, index, row_num, seat_class, airplane_id)
-VALUES (105, 1, 2, 2, 2, 902);
-INSERT INTO seats(id, col_num, index, row_num, seat_class, airplane_id)
-VALUES (106, 1, 3, 3, 1, 902);
-INSERT INTO seats(id, col_num, index, row_num, seat_class, airplane_id)
-VALUES (107, 1, 4, 4, 2, 902);
-
-INSERT INTO flights(id, additional_services_available, bussiness_price, economy_price, end_date_and_time, first_price, length, max_carry_on_bags, max_checked_bags, premium_economy_price, start_date_and_time, status, air_company_id, airplane_id)
-VALUES (200, true, 100, 50, '2019-02-14', 1000, 345.2, 2, 2, 150, '2019-02-13', 0, 100, 902);
 
 
 	
