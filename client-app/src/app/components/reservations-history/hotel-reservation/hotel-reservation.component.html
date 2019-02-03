@@ -21,7 +21,7 @@
                 </div>
                 <div class="col-2 pt-3" align="center">
                     <!--Stavite ovde kao data target rooms+oznaka_rezervacije soba-->
-                    <button class="btn btn-primary collapsed dropdown-toggle" data-toggle="collapse" [attr.data-target]="'#r' + reservation.id">Rooms</button>
+                    <button class="btn btn-primary collapsed dropdown-toggle" data-toggle="collapse" [attr.data-target]="'#hotelroom' + reservation.id">Rooms</button>
                 </div>
                 <div class="col-auto pl-0">
                     <i class="fas fa-arrow-right"></i>
@@ -38,7 +38,7 @@
     </div>
 
     <!--Stavite ovde kao id rooms+oznaka_rezervacije soba-->
-    <div [attr.id]="'r' + reservation.id" class="collapse p-4" style="border: solid #ffffff;">
+    <div [attr.id]="'hotelroom' + reservation.id" class="collapse p-4" style="border: solid #ffffff;">
         <section class="pricing-table">
             <div class="row justify-content-md-left">
                 <!--Ovaj div ispod je za ng for soba-->

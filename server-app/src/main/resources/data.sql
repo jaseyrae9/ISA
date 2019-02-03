@@ -78,17 +78,19 @@ insert into car (id, active, brand, doors_number, model, price, rating_count, se
 insert into car (id, active, brand, doors_number, model, price, rating_count, seats_number, total_rating, type, year_of_production, rentacar_company_id) values (501, true, 'BMW', 2, 'Z4', 39, 2, 5, 8, 'Convertible', 2017, 101);
 insert into car (id, active, brand, doors_number, model, price, rating_count, seats_number, total_rating, type, year_of_production, rentacar_company_id) values (502, true, 'Fiat', 7, '500L', 30, 3, 5, 15, 'Sedan', 2016, 101);
 
-INSERT INTO reservation(id, creation_date, customer_id) VALUES (100, '2018-11-21', 2002);
-INSERT INTO reservation(id, creation_date, customer_id) VALUES (101, '2018-12-15', 2002);
-INSERT INTO reservation(id, creation_date, customer_id) VALUES (102, '2018-10-20', 2002); 
---INSERT INTO reservation(id, creation_date, customer_id) VALUES (103, '2018-11-10', 2002);
+INSERT INTO car_reservation(id, active, drop_off_date, is_car_rated, is_company_rated, pick_up_date, car_id, drop_off_branch_office_id, pick_up_branch_office_id)
+VALUES (300, true, '2019-02-25', true, true, '2019-01-30', 500, 100, 101);
+INSERT INTO car_reservation(id, active, drop_off_date, is_car_rated, is_company_rated, pick_up_date, car_id, drop_off_branch_office_id, pick_up_branch_office_id)
+VALUES (301, true, '2019-02-18', false, false, '2019-01-30', 501, 101, 100);
+INSERT INTO car_reservation(id, active, drop_off_date, is_car_rated, is_company_rated, pick_up_date, car_id, drop_off_branch_office_id, pick_up_branch_office_id)
+VALUES (302, true, '2019-02-02', false, false, '2019-01-30', 502, 102, 102);
 
-INSERT INTO car_reservation(id, active, drop_off_date, is_car_rated, is_company_rated, pick_up_date, car_id, drop_off_branch_office_id, pick_up_branch_office_id, reservation_id)
-VALUES (300, true, '2019-02-25', true, true, '2019-01-30', 500, 100, 101, 100 );
-INSERT INTO car_reservation(id, active, drop_off_date, is_car_rated, is_company_rated, pick_up_date, car_id, drop_off_branch_office_id, pick_up_branch_office_id, reservation_id)
-VALUES (301, true, '2019-02-18', false, false, '2019-01-30', 501, 101, 100, 101);
-INSERT INTO car_reservation(id, active, drop_off_date, is_car_rated, is_company_rated, pick_up_date, car_id, drop_off_branch_office_id, pick_up_branch_office_id, reservation_id)
-VALUES (302, true, '2019-02-02', false, false, '2019-01-30', 502, 102, 102, 102);
+INSERT INTO reservation(id, creation_date, car_reservation_id, customer_id, flight_reservation_id, room_reservation_id) 
+VALUES (100, '2018-11-21', 300, 2002, null, null);
+
+--INSERT INTO reservation(id, creation_date, customer_id) VALUES (101, '2018-12-15', 2002);
+--INSERT INTO reservation(id, creation_date, customer_id) VALUES (102, '2018-10-20', 2002); 
+--INSERT INTO reservation(id, creation_date, customer_id) VALUES (103, '2018-11-10', 2002);
 
 --INSERT INTO room_reservation(id, active, check_in_date, check_out_date, is_hotel_rated, reservation_id) VALUES (180, true, '2019-01-30', '2019-02-05', true, 102);
 --INSERT INTO room_reservation(id, active, check_in_date, check_out_date, is_hotel_rated, reservation_id) VALUES (181, true, '2019-01-15', '2019-01-28', false, 103);
@@ -96,4 +98,48 @@ VALUES (302, true, '2019-02-02', false, false, '2019-01-30', 502, 102, 102, 102)
 --INSERT INTO single_room_reservation (id, is_room_rated, room_id, room_reservation_id) VALUES (400, false, 600, 180);
 --INSERT INTO single_room_reservation (id, is_room_rated, room_id, room_reservation_id) VALUES (401, false, 600, 181);
 --INSERT INTO single_room_reservation (id, is_room_rated, room_id, room_reservation_id) VALUES (402, false, 603, 181);
+
+-- Avijoni :)
+INSERT INTO airplanes(id, col_num, name, row_num, seats_per_col, status, air_company_id)
+VALUES (900, 1, 'Lasta', 2, 2, 0, 100);
+INSERT INTO airplanes(id, col_num, name, row_num, seats_per_col, status, air_company_id)
+VALUES (901, 1, 'Galeb', 3, 2, 1, 100);
+INSERT INTO airplanes(id, col_num, name, row_num, seats_per_col, status, air_company_id)
+VALUES (902, 1, 'Boing', 4, 2, 2, 100);
+
+-- Destinacije
+INSERT INTO destinations(id, active, airport_name, city, country, label, air_company_id)
+VALUES (1100, true, 'Nikola Tesla', 'Beograd', 'Srbija', 'JAT', 100);
+INSERT INTO destinations(id, active, airport_name, city, country, label, air_company_id)
+VALUES (1101, true, 'MilicaTodo', 'Milici', 'Republika Srpska', 'MIL', 100);
+
+--Sedista
+INSERT INTO seats(id, col_num, index, row_num, seat_class, airplane_id)
+VALUES (99, 1, 1, 1, 0, 900);
+INSERT INTO seats(id, col_num, index, row_num, seat_class, airplane_id)
+VALUES (100, 1, 2, 2, 1, 900);
+
+INSERT INTO seats(id, col_num, index, row_num, seat_class, airplane_id)
+VALUES (101, 1, 1, 1, 1, 901);
+INSERT INTO seats(id, col_num, index, row_num, seat_class, airplane_id)
+VALUES (102, 1, 2, 2, 2, 901);
+INSERT INTO seats(id, col_num, index, row_num, seat_class, airplane_id)
+VALUES (103, 1, 3, 3, 0, 901);
+
+INSERT INTO seats(id, col_num, index, row_num, seat_class, airplane_id)
+VALUES (104, 1, 1, 1, 1, 902);
+INSERT INTO seats(id, col_num, index, row_num, seat_class, airplane_id)
+VALUES (105, 1, 2, 2, 2, 902);
+INSERT INTO seats(id, col_num, index, row_num, seat_class, airplane_id)
+VALUES (106, 1, 3, 3, 1, 902);
+INSERT INTO seats(id, col_num, index, row_num, seat_class, airplane_id)
+VALUES (107, 1, 4, 4, 2, 902);
+
+INSERT INTO flights(id, additional_services_available, bussiness_price, economy_price, end_date_and_time, first_price, length, max_carry_on_bags, max_checked_bags, premium_economy_price, start_date_and_time, status, air_company_id, airplane_id)
+VALUES (200, true, 100, 50, '2019-02-14', 1000, 345.2, 2, 2, 150, '2019-02-13', 0, 100, 902);
+
+
+	
+
+
 

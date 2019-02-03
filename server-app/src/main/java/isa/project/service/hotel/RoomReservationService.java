@@ -15,10 +15,10 @@ import isa.project.repository.hotel.SingleRoomReservationRepository;
 public class RoomReservationService {
 
 	@Autowired
-	RoomReservationRepository roomReservationReposiory;
+	private RoomReservationRepository roomReservationReposiory;
 	
 	@Autowired
-	SingleRoomReservationRepository singleRoomReservationRepository;
+	private SingleRoomReservationRepository singleRoomReservationRepository;
 	
 	public Optional<RoomReservation> findRoomReservation(Integer id) {
 		return roomReservationReposiory.findById(id);
