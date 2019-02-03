@@ -36,9 +36,6 @@ public class SingleRoomReservation {
 	@Column(name = "isRoomRated")
 	private Boolean isRoomRated;
 	
-	@Column(name = "isHotelRated")
-	private Boolean isHotelRated;
-	
 	public SingleRoomReservation() {
 
 	}
@@ -47,7 +44,6 @@ public class SingleRoomReservation {
 		this.room = room;
 		this.roomReservation = roomReservation;
 		this.isRoomRated = false;
-		this.isHotelRated = false;
 	}
 
 	public Integer getId() {
@@ -80,14 +76,6 @@ public class SingleRoomReservation {
 
 	public void setIsRoomRated(Boolean isRoomRated) {
 		this.isRoomRated = isRoomRated;
-	}
-
-	public Boolean getIsHotelRated() {
-		return isHotelRated;
-	}
-
-	public void setIsHotelRated(Boolean isHotelRated) {
-		this.isHotelRated = isHotelRated;
 	}
 
 	@Override

@@ -238,12 +238,13 @@ public class RentACarCompanyService {
 
 		Date start = sdf1.parse(startDate);
 		java.sql.Date sqlStartDate = new java.sql.Date(start.getTime());
-
+		
 		Date end = sdf1.parse(endDate);
 		java.sql.Date sqlEndDate = new java.sql.Date(end.getTime());
-
+		
 		for (Car car : rentACarCompany.getCars()) {
 			for (CarReservation reservation : car.getCarReservations()) {
+				System.out.println("Ovde2");
 				if (reservation.getActive() && reservation.getDropOffDate().compareTo(sqlStartDate) > 0
 						&& reservation.getDropOffDate().compareTo(sqlEndDate) < 0) {
 					long diff = reservation.getDropOffDate().getTime() - reservation.getPickUpDate().getTime();

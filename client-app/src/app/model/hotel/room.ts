@@ -8,6 +8,9 @@ export class Room {
     price: number;
     type: string;
     active: boolean;
+    rating: number;
+    singleRoomReservations: SingleRoomReservation[];
     reservations: SingleRoomReservation[];
-
+    ratingCount: number;
+    totalRating: number;
 }

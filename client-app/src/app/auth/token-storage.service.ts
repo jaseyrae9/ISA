@@ -5,6 +5,7 @@ import { Role } from 'src/app/model/role';
 const TOKEN_KEY = 'AuthToken';
 const USERNAME_KEY = 'username';
 const ROLES_KEY = 'roles';
+const COMPANY_KEY = 'company';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ export class TokenStorageService {
   private isLoggedIn = new Subject<Boolean>();
   private username = new Subject<String>();
   private roles = new Subject<Role[]>();
+  private company = new Subject<Number>();
 
   public isSysAdmin = false;
   public isAirAdmin = false;
@@ -21,9 +23,12 @@ export class TokenStorageService {
   public isCustomer = false;
   public isVistor = false;
 
+  public companyId = -1;
+
   public logggedInEmitter = this.isLoggedIn.asObservable();
   public usernameEmitter = this.username.asObservable();
   public rolesEmitter = this.roles.asObservable();
+  public companyEmitter = this.company.asObservable();
 
   constructor() {
     this.isLoggedIn.next(false);
@@ -65,6 +70,12 @@ export class TokenStorageService {
     window.sessionStorage.setItem(ROLES_KEY, JSON.stringify(roles));
     this.checkRoles();
     this.rolesEmitChange(roles);
+  }
+
+  public saveComapny(companyId: number) {
+    window.sessionStorage.setItem(COMPANY_KEY, JSON.stringify(companyId));
+    this.companyId = companyId;
+    this.company.next(companyId);
   }
 
   public checkRoles() {

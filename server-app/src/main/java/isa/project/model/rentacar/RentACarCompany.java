@@ -125,6 +125,10 @@ public class RentACarCompany {
 	public void setTotalRating(Integer totalRating) {
 		this.totalRating = totalRating;
 	}
+	
+	public void addToTotalRating(Integer x) {
+		this.totalRating += x;
+	}
 
 	public Integer getRatingCount() {
 		return ratingCount;
@@ -134,6 +138,10 @@ public class RentACarCompany {
 		this.ratingCount = ratingCount;
 	}
 
+	public void incrementRatingCount() {
+		this.ratingCount++;
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(id);

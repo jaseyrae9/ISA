@@ -139,6 +139,33 @@
               </div>
             </div>
       
+            <div class="card">
+              <div class="card-header">
+                <a class="collapsed card-link" style="color:  #33cabb;" data-toggle="collapse" href="#collapseFour">
+                  Income info
+                </a>
+              </div>
+              <div id="collapseFour" class="collapse" data-parent="#accordion">
+                <div class="card-body">
+                  <div class="row ">
+                    <div class="col-sm-5">
+                      <p style="color: gray;">Select the period in which you want to calculate the income:</p>
+                    </div>
+                    <div class="col-sm-4">
+                      <input class="form-control" #drp="bsDaterangepicker" [bsConfig]='datePickerConfig' bsDaterangepicker
+                        [(ngModel)]="bsRangeValue">
+                    </div>
+                    <div class="col-sm-2">
+                      <button type="button" class="btn btn-primary" (click)="getIncome()">Get income</button>
+    
+                    </div>
+                    <div class="col-sm-1">
+                      <p style="font-size: 25px; color:  #33cabb;">{{income}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
        
       </div>
     </div>

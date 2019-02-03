@@ -1,4 +1,5 @@
 import { CarReservation } from './car-reservation';
+import { RentACarCompany } from './rent-a-car-company';
 
 export class Car {
     id: number;
@@ -10,4 +11,6 @@ export class Car {
     yearOfProduction: number;
     price: number;
     reservations: CarReservation[] = [];
+    rentACarCompany: RentACarCompany;
+    averageRating: number;
 }

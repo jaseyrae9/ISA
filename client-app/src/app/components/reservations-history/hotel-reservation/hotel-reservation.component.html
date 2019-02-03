@@ -5,61 +5,52 @@
             <div class="row border rounded align-items-center p-2 mt-3 mb-0">
                 <div class="col-2 border-right py-1" align="center">
                     <h3 class="display-4" style="font-size:22px;">
-                        <a routerLink="">Naziv kompanije</a>
+                        <a routerLink="">{{reservation.hotel.name}}</a>
                     </h3>
-                    <small class="text-muted">Grad, Drazava</small>
+                    <small class="text-muted">{{reservation.hotel.location.city}}, {{reservation.hotel.location.country}}</small>
                     <p class="pb-2 pt-1">
-                       <!--Zameni zvezdice onim vasim-->
-                       <i class="fas fa-star"></i>
-                       <i class="fas fa-star"></i>
-                       <i class="fas fa-star"></i>
-                       <i class="fas fa-star"></i>
-                       <i class="fas fa-star"></i>
+                        <rating [(ngModel)]="hotelRate" [max]="max" (click)="rateHotel()" [readonly]="reservation.isHotelRated"></rating>
                     </p>
                 </div>
                 <div class="col-3 pt-4" style="padding-top:34px;" align="center">
                     <p>Check in date: <br> <i class="fas fa-calendar-check"></i></p>
-                    <p>1/1/19</p>
+                    <p>{{reservation.checkInDate}}</p>
                 </div>
                 <div class="col-auto pr-0">
                     <i class="fas fa-arrow-right"></i>
                 </div>
                 <div class="col-2 pt-3" align="center">
                     <!--Stavite ovde kao data target rooms+oznaka_rezervacije soba-->
-                    <button class="btn btn-primary collapsed dropdown-toggle" data-toggle="collapse" data-target="#rooms1">Rooms</button>
+                    <button class="btn btn-primary collapsed dropdown-toggle" data-toggle="collapse" [attr.data-target]="'#r' + reservation.id">Rooms</button>
                 </div>
                 <div class="col-auto pl-0">
                     <i class="fas fa-arrow-right"></i>
                 </div>
                 <div class="col-3 pt-4" style="padding-top:34px;" align="center">
                     <p>Check out date:<br><i class="fas fa-calendar-times"></i></p>
-                    <p>1/1/19</p>
+                    <p>{{reservation.checkOutDate}}</p>
                 </div>
                 <div class="col-1 border-left px-1 py-5" align="center">
-                    <p class="py-6" style="font-size: 35px; color: #33cabb">€150</p>
+                    <p class="py-6" style="font-size: 35px; color: #33cabb">€{{totalPrice}}</p>
                  </div>
             </div>
         </div>
     </div>
 
     <!--Stavite ovde kao id rooms+oznaka_rezervacije soba-->
-    <div id="rooms1" class="collapse p-4" style="border: solid #ffffff;">
+    <div [attr.id]="'r' + reservation.id" class="collapse p-4" style="border: solid #ffffff;">
         <section class="pricing-table">
             <div class="row justify-content-md-left">
                 <!--Ovaj div ispod je za ng for soba-->
-                <div class="col-3 mb-0 ml">
+                <div *ngFor="let res of reservation.roomReservations" class="col-3 mb-0 ml">
                     <div class="item py-2" align="center">
                         <i class="fas fa-bed"></i>
                         <br>
-                        <small>No. 101</small>
+                        <small>No. {{res.roomNumber}}</small>
                         <br>
-                        <small class="text-muted">Floor 5.<br>4 beds</small>
+                        <small class="text-muted">Floor {{res.floor}}.<br>{{res.numberOfBeds}} beds</small>
                         <br>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
+                        <rating [(ngModel)]="res.rating" [max]="max" (click)="rateRoom(res.id)" [readonly]="res.singleRoomReservations[0].isRoomRated"></rating>
                     </div>
                 </div>
             </div>
