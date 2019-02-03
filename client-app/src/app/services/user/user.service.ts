@@ -63,4 +63,8 @@ export class UserService {
     // tslint:disable-next-line:max-line-length
     return this.http.get('//localhost:8080/friendship/search?searchTerm=' + searchTerm + '&page=' + pageNumber + '&size=2' + '&sort=' + sortBy);
   }
+  getReservations(): Observable<any> {
+    return this.http.get('//localhost:8080/customers/getAllReservations');
+  }
+
 }

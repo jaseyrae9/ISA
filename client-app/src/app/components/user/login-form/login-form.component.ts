@@ -43,6 +43,7 @@ export class LoginFormComponent implements OnInit {
           this.tokenStorage.saveToken(data.token);
           const tokenPayload: TokenPayload = decode(data.token);
           this.tokenStorage.saveRoles(tokenPayload.roles);
+          console.log(tokenPayload);
         }
       },
       error => {

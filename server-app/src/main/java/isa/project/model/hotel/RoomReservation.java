@@ -14,15 +14,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import isa.project.model.shared.AdditionalService;
-import isa.project.model.users.Customer;
+import isa.project.model.users.Reservation;
 
 @Entity
 @Table(name = "room_reservation")
@@ -47,25 +47,22 @@ public class RoomReservation {
 	
 	private Boolean active;
 	
-	@JsonBackReference(value = "room-reservations")
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)	
-	@JoinColumn(name="customer_id", referencedColumnName="id")
-	private Customer customer;
-	
+	@JsonBackReference(value = "reservation-room-reservation")
+	@OneToOne(fetch = FetchType.LAZY)	
+	@JoinColumn(name="reservation_id", referencedColumnName="id")
+	private Reservation reservation;	
 	
 	public RoomReservation() {	
 	}
 
-	public RoomReservation(Customer customer, Date checkInDate, Date checkOutDate) {
+	public RoomReservation(Date checkInDate, Date checkOutDate) {
 		super();
-		this.customer = customer;
 		this.checkInDate = checkInDate;
 		this.checkOutDate = checkOutDate;
 		this.additionalServices = new HashSet<>();
 		this.singleRoomReservations = new HashSet<>();
 		this.active = true;
-	}
-	
+	}	
 
 	public Integer getId() {
 		return id;
@@ -121,6 +118,14 @@ public class RoomReservation {
 
 	public void setActive(Boolean active) {
 		this.active = active;
+	}
+	
+	public Reservation getReservation() {
+		return reservation;
+	}
+
+	public void setReservation(Reservation reservation) {
+		this.reservation = reservation;
 	}
 
 	@Override

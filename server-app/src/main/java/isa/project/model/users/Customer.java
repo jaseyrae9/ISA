@@ -11,20 +11,14 @@ import javax.persistence.OneToMany;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import isa.project.dto.users.UserDTO;
-import isa.project.model.hotel.RoomReservation;
-import isa.project.model.rentacar.CarReservation;
 
 @Entity
 @DiscriminatorValue("CUST")
 public class Customer extends User {
 
-	@JsonManagedReference(value = "customer-car-reservations")
+	@JsonManagedReference(value = "customer-reservations")
 	@OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-	private Set<CarReservation> carReservations;
-	
-	@JsonManagedReference(value = "room-reservations")
-	@OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-	private Set<RoomReservation> roomReservations;
+	private Set<Reservation> reservations;
 	
 	public Customer() {
 		super();
@@ -41,13 +35,13 @@ public class Customer extends User {
 				userDTO.getPhoneNumber(), userDTO.getAddress(), false);
 	}
 
-	public Set<CarReservation> getCarReservations() {
-		return carReservations;
+	public Set<Reservation> getReservations() {
+		return reservations;
 	}
 
-	public void setCarReservations(Set<CarReservation> carReservations) {
-		this.carReservations = carReservations;
+	public void setReservations(Set<Reservation> reservations) {
+		this.reservations = reservations;
 	}
-	
+
 	
 }

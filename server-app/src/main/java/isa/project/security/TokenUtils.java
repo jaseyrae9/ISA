@@ -4,11 +4,13 @@ import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mobile.device.Device;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,11 +19,28 @@ import org.springframework.stereotype.Component;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import isa.project.model.users.AirCompanyAdmin;
+import isa.project.model.users.HotelAdmin;
+import isa.project.model.users.RentACarAdmin;
 import isa.project.model.users.security.CustomUserDetails;
+import isa.project.repository.users.AirCompanyAdminRepository;
+import isa.project.repository.users.HotelAdminRepository;
+import isa.project.repository.users.RentACarAdminRepository;
+
+
 
 @Component
 public class TokenUtils {
+	
+	@Autowired
+	private RentACarAdminRepository rentACarRepository;
 
+	@Autowired
+	private HotelAdminRepository hotelAdminRepository;
+	
+	@Autowired
+	private AirCompanyAdminRepository airCompanyAdminRepository;
+	
 	private final String AUDIENCE_UNKNOWN = "unknown";
 	private final String AUDIENCE_WEB = "web";
 	private final String AUDIENCE_MOBILE = "mobile";
@@ -168,6 +187,22 @@ public class TokenUtils {
 	public String generateToken(UserDetails userDetails, Device device) {
 		Map<String, Object> claims = new HashMap<String, Object>();
 		claims.put("roles", userDetails.getAuthorities());
+		
+		Optional<RentACarAdmin> rentACarAdmin = rentACarRepository.findByEmail(userDetails.getUsername());
+		if(rentACarAdmin.isPresent()) {
+			claims.put("companyId", rentACarAdmin.get().getRentACarCompany().getId());
+		}
+		
+		Optional<HotelAdmin> hotelAdmin = hotelAdminRepository.findByEmail(userDetails.getUsername());
+		if(hotelAdmin.isPresent()) {
+			claims.put("companyId", hotelAdmin.get().getHotel().getId());
+		}
+		
+		Optional<AirCompanyAdmin> airCompanyAdmin = airCompanyAdminRepository.findByEmail(userDetails.getUsername());
+		if(airCompanyAdmin.isPresent()) {
+			claims.put("companyId", airCompanyAdmin.get().getAirCompany().getId());
+		}
+		
 		claims.put("sub", userDetails.getUsername());
 		claims.put("audience", this.generateAudience(device));
 		claims.put("created", this.generateCurrentDate());

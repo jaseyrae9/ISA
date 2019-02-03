@@ -102,7 +102,7 @@ export class RentFormComponent implements OnInit {
     const date1 = new Date(this.rentForm.value.bsRangeValue[1]);
     const datum1 = formatDate(date1, 'yyyy-MM-dd', 'en');
 
-    for (const r of car.carReservations) {
+    for (const r of car.reservations) {
       if (datum0 >= r.pickUpDate.toString() &&
         datum0 <= r.dropOffDate.toString()) {
         return false;

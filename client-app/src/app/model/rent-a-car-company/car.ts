@@ -9,5 +9,5 @@ export class Car {
     doorsNumber: number;
     yearOfProduction: number;
     price: number;
-    carReservations: CarReservation[] = [];
+    reservations: CarReservation[] = [];
 }

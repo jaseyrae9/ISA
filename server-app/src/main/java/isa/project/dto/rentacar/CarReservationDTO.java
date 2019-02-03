@@ -26,20 +26,27 @@ public class CarReservationDTO {
 	
 	private Boolean active;
 	
-	private Boolean isRated;
+	private Boolean isCarRated;
+	
+	private Boolean isCompanyRated;
+	
+	private CarDTO car;
 	
 	public CarReservationDTO() {
 		
 	}
 
 	public CarReservationDTO(CarReservation reservation) {
+		System.out.println("BB" + reservation.getId());
 		this.id = reservation.getId();
 		this.pickUpDate = reservation.getPickUpDate();
 		this.dropOffDate = reservation.getDropOffDate();
 		this.pickUpBranchOffice = reservation.getPickUpBranchOffice();
 		this.dropOffBranchOffice = reservation.getDropOffBranchOffice();
 		this.active = reservation.getActive();
-		this.isRated = reservation.getIsRated();
+		this.isCarRated = reservation.getIsCarRated();
+		this.isCompanyRated = reservation.getIsCompanyRated();	
+		
 	}
 
 	public Integer getId() {
@@ -90,12 +97,27 @@ public class CarReservationDTO {
 		this.active = active;
 	}
 
-	public Boolean getIsRated() {
-		return isRated;
+	public Boolean getIsCarRated() {
+		return isCarRated;
 	}
 
-	public void setIsRated(Boolean isRated) {
-		this.isRated = isRated;
+	public void setIsCarRated(Boolean isCarRated) {
+		this.isCarRated = isCarRated;
 	}
 
+	public Boolean getIsCompanyRated() {
+		return isCompanyRated;
+	}
+
+	public void setIsCompanyRated(Boolean isCompanyRated) {
+		this.isCompanyRated = isCompanyRated;
+	}
+
+	public CarDTO getCar() {
+		return car;
+	}
+
+	public void setCar(CarDTO car) {
+		this.car = car;
+	}
 }

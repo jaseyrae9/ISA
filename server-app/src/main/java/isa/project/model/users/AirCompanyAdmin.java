@@ -28,6 +28,7 @@ public class AirCompanyAdmin extends User {
 	public AirCompanyAdmin(UserDTO userDTO) {
 		super(userDTO.getEmail(), userDTO.getPassword(), userDTO.getFirstName(), userDTO.getLastName(),
 				userDTO.getPhoneNumber(), userDTO.getAddress(), true);
+		this.setConfirmedMail(true);
 	}
 
 	public AirCompany getAirCompany() {

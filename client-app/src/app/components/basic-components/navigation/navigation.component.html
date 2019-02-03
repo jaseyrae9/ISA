@@ -13,7 +13,7 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                           <a class="dropdown-item" routerLink="/find-flight">Find flight</a>
                           <a class="dropdown-item" routerLink="/aircompanies">All companies</a>
-                          <a *ngIf="tokenService.isSysAdmin" class="dropdown-item" href="#" data-toggle="modal" data-target="#addAirCompanyAdmin">Add admin</a>
+                          <a *ngIf="tokenService.isSysAdmin" class="dropdown-item" href="#" (click)="openNewAirAdminModal()">Add admin</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown" routerLinkActive="active">
@@ -23,7 +23,7 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                           <a class="dropdown-item" routerLink="/find-room">Find hotel</a>
                           <a class="dropdown-item" routerLink="/hotels">All hotels</a>
-                          <a *ngIf="tokenService.isSysAdmin" class="dropdown-item" href="#" data-toggle="modal" data-target="#addHotelAdmin">Add admin</a>
+                          <a *ngIf="tokenService.isSysAdmin" class="dropdown-item" href="#" (click)="openNewHotelAdminModal()" >Add admin</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown" routerLinkActive="active">
@@ -33,7 +33,7 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                           <a class="dropdown-item" routerLink="/find-car">Find rent-a-car company</a>
                           <a class="dropdown-item" routerLink="/rent-a-car-companies">All rent-a-car companies</a>
-                          <a *ngIf="tokenService.isSysAdmin" class="dropdown-item" href="#" data-toggle="modal" data-target="#addCarCompanyAdmin">Add admin</a>
+                          <a *ngIf="tokenService.isSysAdmin" class="dropdown-item" href="#" (click)="openNewCarCompanyAdminModal()">Add admin</a>
                         </div>
                     </li>
                 </ul>
@@ -80,16 +80,6 @@
                   <div class="modal-content">
                     <div class="modal-body">
                         <app-add-hotel-admin></app-add-hotel-admin>
-                    </div>
-                  </div>
-                </div>
-            </div>
-
-            <div class="modal fade" id="addAirCompanyAdmin" role="dialog" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-body">
-                        <app-add-air-company-admin></app-add-air-company-admin>
                     </div>
                   </div>
                 </div>

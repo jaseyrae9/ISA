@@ -90,7 +90,7 @@ public class Hotel {
 	
 	public Set<Room> getRooms() {
 		if(rooms != null)
-			return rooms.stream().filter(p -> p.getActive() == true).collect(Collectors.toSet()); // Da vraca samo aktivne
+			return rooms.stream().filter(p -> p.getActive()).collect(Collectors.toSet()); // Da vraca samo aktivne
 		else
 			return null;
 	}
@@ -101,7 +101,7 @@ public class Hotel {
 
 	public Set<AdditionalService> getAdditionalServices() {
 		if(additionalServices != null)
-			return additionalServices.stream().filter(p -> p.getActive() == true).collect(Collectors.toSet()); // Da vraca samo aktivne
+			return additionalServices.stream().filter(p -> p.getActive()).collect(Collectors.toSet()); // Da vraca samo aktivne
 		else
 			return null;
 	}

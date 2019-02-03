@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.validation.constraints.NotNull;
-
 import isa.project.model.hotel.Room;
 import isa.project.model.hotel.RoomReservation;
 import isa.project.model.hotel.SingleRoomReservation;
@@ -26,6 +25,8 @@ public class RoomReservationDTO {
 	private Set<Room> reservations = new HashSet<>();
 	
 	private Boolean active;
+	
+	private HotelDTO hotel;
 	
 	public RoomReservationDTO() {
 		
@@ -94,5 +95,11 @@ public class RoomReservationDTO {
 		this.reservations = reservations;
 	}
 
-	
+	public HotelDTO getHotel() {
+		return hotel;
+	}
+
+	public void setHotel(HotelDTO hotel) {
+		this.hotel = hotel;
+	}
 }

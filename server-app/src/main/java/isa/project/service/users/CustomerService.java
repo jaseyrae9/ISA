@@ -36,4 +36,8 @@ public class CustomerService {
 	public Customer saveCustomer(Customer customer) {
 		return customerRepository.save(customer);
 	}
+	
+	public Optional<Customer> findCustomer(String email){
+		return customerRepository.findByEmail(email);
+	}
 }

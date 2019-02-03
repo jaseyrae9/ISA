@@ -27,7 +27,8 @@ public class RentACarAdmin extends User {
 	 */
 	public RentACarAdmin(UserDTO userDTO) {
 		super(userDTO.getEmail(), userDTO.getPassword(), userDTO.getFirstName(), userDTO.getLastName(),
-				userDTO.getPhoneNumber(), userDTO.getAddress(), false);
+				userDTO.getPhoneNumber(), userDTO.getAddress(), true);
+		this.setConfirmedMail(true);
 	}
 
 	public RentACarCompany getRentACarCompany() {

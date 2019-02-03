@@ -5,7 +5,7 @@ import java.util.List;
 
 public class MonthlyReportDTO {
 
-	List<Integer> monthly = Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+	private List<Integer> monthly = Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
 	public MonthlyReportDTO() {
 	}

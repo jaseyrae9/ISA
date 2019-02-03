@@ -5,7 +5,7 @@ import java.util.List;
 
 public class WeeklyReportDTO {
 
-	List<Integer> weekly = Arrays.asList(0, 0, 0, 0, 0, 0);
+	private List<Integer> weekly = Arrays.asList(0, 0, 0, 0, 0, 0);
 
 	public WeeklyReportDTO() {
 

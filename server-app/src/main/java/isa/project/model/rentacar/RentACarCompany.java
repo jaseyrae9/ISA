@@ -36,7 +36,7 @@ public class RentACarCompany {
 	private String description;
 	
 	@JsonManagedReference(value="rent-a-car")
-	@OneToMany(mappedBy = "rentACarCompany", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "rentACarCompany", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Car> cars;
 	
 	@JsonManagedReference(value="branch-offices")

@@ -93,4 +93,8 @@ export class RentACarCompanyService {
     return this.http.get<any>('http://localhost:8080/report_info/rentACarCompanyDaily/' + companyId, httpOptions);
   }
 
+  rateCarCompany(rate, reservationId): Observable<any> {
+    return this.http.put<any>('http://localhost:8080/reservation/rateCarCompany/' + reservationId + '/' + rate, httpOptions);
+  }
+
 }
