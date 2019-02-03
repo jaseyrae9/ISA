@@ -1,5 +1,6 @@
 package isa.project.model.aircompany;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,44 +9,61 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
 @Setter
 @Entity
 @Table(name = "tickets")
 public class Ticket {
 	public enum TicketStatus {UNAVIABLE, AVAILABLE, RESERVED, FAST_RESERVATION}
 	
+	@Getter
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long id;	
+
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true, mappedBy="ticket")
+	private TicketReservation reservation;
 	
+	@Getter
 	@JsonBackReference(value="flight")
 	@ManyToOne(fetch = FetchType.EAGER)	
 	@JoinColumn(name="flight", referencedColumnName="id")
 	private Flight flight;	
 
+	@Getter
 	@ManyToOne(fetch = FetchType.EAGER)	
 	@JoinColumn(name="seat", referencedColumnName="id", nullable = false)
 	private Seat seat;
 	
+	@Getter
 	@Column(nullable = false)
 	private Double price;
 	
+	@Getter
 	@Column
 	private Double discount;
 	
+	@Getter
 	@Column(nullable = false)
 	private TicketStatus status;
 	
+	@Getter
 	@Column(nullable = false)
 	private Integer index;
+	
+	@Getter
+	@Version
+	@Column(nullable = false)
+	private Integer version;
 		
 	public Ticket() {
 		this.status = TicketStatus.AVAILABLE;
@@ -65,6 +83,11 @@ public class Ticket {
 		} else {
 			this.discount = discount;
 		}
+	}
+	
+	@JsonIgnore
+	public TicketReservation getReservation() {
+		return reservation;
 	}
 
 	@Override

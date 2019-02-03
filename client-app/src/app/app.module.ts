@@ -110,6 +110,7 @@ import { CarReservationComponent } from './components/reservations-history/car-r
 import { HotelReservationComponent } from './components/reservations-history/hotel-reservation/hotel-reservation.component';
 import { ReservationComponent } from './components/reservations-history/reservation/reservation.component';
 import { ReserveFlightFormComponent } from './components/air-company/flight/reserve-flight-form/reserve-flight-form.component';
+import { ReservationInformationComponent } from './components/air-company/flight/reservation-information/reservation-information.component';
 
 @NgModule({
   declarations: [
@@ -192,7 +193,8 @@ import { ReserveFlightFormComponent } from './components/air-company/flight/rese
     CarReservationComponent,
     HotelReservationComponent,
     ReservationComponent,
-    ReserveFlightFormComponent
+    ReserveFlightFormComponent,
+    ReservationInformationComponent
   ],
   imports: [
     BrowserModule,
@@ -243,7 +245,8 @@ import { ReserveFlightFormComponent } from './components/air-company/flight/rese
     DisableSeatsFormComponent,
     AddAirCompanyAdminComponent,
     AddHotelAdminComponent,
-    AddCarAdminComponent
+    AddCarAdminComponent,
+    ReservationInformationComponent
 ]
 })
 export class AppModule { }

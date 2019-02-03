@@ -8,8 +8,10 @@ import isa.project.dto.hotel.RoomReservationDTO;
 import isa.project.dto.rentacar.CarDTO;
 import isa.project.dto.rentacar.CarReservationDTO;
 import isa.project.dto.rentacar.RentACarCompanyDTO;
+import isa.project.model.aircompany.FlightReservation;
 import isa.project.model.hotel.SingleRoomReservation;
 import isa.project.model.users.Reservation;
+import lombok.Getter;
 
 public class ReservationDTO {
 
@@ -20,6 +22,9 @@ public class ReservationDTO {
 	private CarReservationDTO carReservation;
 	
 	private RoomReservationDTO roomReservation;
+	
+	@Getter
+	private FlightReservation flightReservation;
 
 	public ReservationDTO(Reservation reservation) {
 		this.id = reservation.getId();
@@ -39,6 +44,7 @@ public class ReservationDTO {
 			
 		}
 		
+		this.flightReservation = reservation.getFlightReservation();
 	}
 
 	public CarReservationDTO getCarReservation() {

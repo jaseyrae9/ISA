@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
 import org.springframework.mobile.device.Device;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -183,6 +184,7 @@ public class CustomerController {
 		emailService.sendNotificaitionAsync(recipientMail, subject, message);
 	}
 
+	@PreAuthorize("hasAnyRole('CUSTOMER')")
 	@RequestMapping(value = "/getAllReservations", method = RequestMethod.GET)
 	public ResponseEntity<?> getAllReservations(HttpServletRequest request) throws ResourceNotFoundException {
 		String email = tokenUtils.getEmailFromToken(tokenUtils.getToken(request));

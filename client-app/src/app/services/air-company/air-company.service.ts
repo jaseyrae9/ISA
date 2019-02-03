@@ -131,4 +131,8 @@ export class AirCompanyService {
   getTicketsForFastReservation(company): Observable<any> {
     return this.http.get<Flight>('http://localhost:8080/aircompanies/getTickets/' + company);
   }
+
+  fastReservation(id, passport) {
+    return this.http.post<any>('http://localhost:8080/aircompanies/fastReservation/' + id, passport, httpOptions);
+  }
 }

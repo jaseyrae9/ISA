@@ -41,7 +41,7 @@
           <hr>
           <a class="btn btn-primary px-4 m-2" routerLink="/flight/{{fastTicket.flight.id}}">Details</a>
           <button class="btn btn-primary px-4 m-2" *ngIf="tokenService.isAirAdmin" (click)="deleteTicket()">Delete</button>
-          <button class="btn btn-primary px-4 m-2" *ngIf="tokenService.isCustomer" >Reserve</button>
+          <button class="btn btn-primary px-4 m-2" *ngIf="tokenService.isCustomer" (click)="fastReservation()">Reserve</button>
        </div>
     </div>
  </div>

@@ -47,6 +47,19 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 	
 	/**
+	 * Handles errors when requested reservation is not possible.
+	 * @param ex
+	 * @return custom error response
+	 */
+	@ExceptionHandler(ReservationNotAvailable.class)
+	public ResponseEntity<Object> resourceNotFound(ReservationNotAvailable ex) {
+		List<String> details = new ArrayList<>();
+		details.add(ex.getMessage());
+		ErrorResponse response = new ErrorResponse("Reservation not possible", details);
+		return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST);
+	}
+	
+	/**
 	 * Handles errors when data sent in request is incorrect.
 	 * @param ex
 	 * @return custom error response
