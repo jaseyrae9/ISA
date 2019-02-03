@@ -8,7 +8,7 @@ import isa.project.model.rentacar.RentACarCompany;
 
 public interface RentACarCompanyRepository extends JpaRepository<RentACarCompany, Integer> {
 
-	@Query("SELECT r FROM RentACarCompany r WHERE r.name LIKE %:name% AND r.location.address LIKE %:address%")
+	@Query("SELECT r FROM RentACarCompany r WHERE lower(r.name) LIKE %:name% AND lower(r.location.address) LIKE %:address%")
 	Iterable<RentACarCompany> searchNameAndAddress(@Param("name") String name, @Param("address") String address);
 
 }

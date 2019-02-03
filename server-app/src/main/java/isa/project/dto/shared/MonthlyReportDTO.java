@@ -7,9 +7,6 @@ public class MonthlyReportDTO {
 
 	private List<Integer> monthly = Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
-	public MonthlyReportDTO() {
-	}
-
 	public List<Integer> getMonthly() {
 		return monthly;
 	}

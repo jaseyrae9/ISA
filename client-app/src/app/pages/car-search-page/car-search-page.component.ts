@@ -36,6 +36,8 @@ export class CarSearchPageComponent implements OnInit {
       bsRangeValue: [this.bsRangeValue],
       companyAddress: [''],
     });
+
+    this.onSearch();
   }
 
   onSearch() {

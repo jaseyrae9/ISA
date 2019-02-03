@@ -78,14 +78,3 @@ INSERT INTO room (id, active, floor, number_of_beds, price, rating_count, room_n
 insert into car (id, active, brand, doors_number, model, price, rating_count, seats_number, total_rating, type, year_of_production, rentacar_company_id) values (500, true, 'Fiat', 5, 'Punto 1.2', 20, 2, 5, 9, 'Sedan', 2010, 100);
 insert into car (id, active, brand, doors_number, model, price, rating_count, seats_number, total_rating, type, year_of_production, rentacar_company_id) values (501, true, 'BMW', 2, 'Z4', 39, 2, 5, 8, 'Convertible', 2017, 100);
 insert into car (id, active, brand, doors_number, model, price, rating_count, seats_number, total_rating, type, year_of_production, rentacar_company_id) values (502, true, 'Fiat', 7, '500L', 30, 3, 5, 15, 'Sedan', 2016, 100);
-
-INSERT INTO car_reservation (id, active, drop_off_date, is_rated, pick_up_date, car_id, customer_id, drop_off_branch_office_id,
-pick_up_branch_office_id) VALUES (300, true, '2019-02-25', true, '2019-01-30', 500, 2002, 100, 101);
-INSERT INTO car_reservation (id, active, drop_off_date, is_rated, pick_up_date, car_id, customer_id, drop_off_branch_office_id,
-pick_up_branch_office_id) VALUES (301, true, '2019-02-18', false, '2019-01-30', 501, 2002, 100, 101);
-
-INSERT INTO room_reservation (id, active, check_in_date, check_out_date, customer_id) VALUES (180, true, '2019-01-30', '2019-02-05', 2001);
-INSERT INTO room_reservation (id, active, check_in_date, check_out_date, customer_id) VALUES (181, true, '2019-01-15', '2019-01-28', 2001);
-
-INSERT INTO single_room_reservation (id, is_rated, room_id, room_reservation_id) VALUES (400, false, 600, 180);
-INSERT INTO single_room_reservation (id, is_rated, room_id, room_reservation_id) VALUES (401, true, 600, 181);

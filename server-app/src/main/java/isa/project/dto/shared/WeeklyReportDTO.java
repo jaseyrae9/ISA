@@ -7,10 +7,6 @@ public class WeeklyReportDTO {
 
 	private List<Integer> weekly = Arrays.asList(0, 0, 0, 0, 0, 0);
 
-	public WeeklyReportDTO() {
-
-	}
-
 	public List<Integer> getWeekly() {
 		return weekly;
 	}

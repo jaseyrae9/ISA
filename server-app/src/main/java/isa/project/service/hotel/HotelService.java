@@ -102,11 +102,11 @@ public class HotelService {
 			String hotelCheckOutDate) throws ParseException {
 
 		List<Hotel> ret = new ArrayList<Hotel>();
-		Iterable<Hotel> hotels = hotelRepository.findSearchAll(hotelName, hotelAddress);
+		Iterable<Hotel> hotels = hotelRepository.findSearchAll(hotelName.toLowerCase(), hotelAddress.toLowerCase());
 
 		for (Hotel hotel : hotels) {
 			Hotel hotel_temp = hotelRepository.findById(hotel.getId()).get();
-			if (!hotelCheckInDate.equals("") && !hotelCheckOutDate.equals("")) {
+			if (!hotelCheckOutDate.isEmpty() && !hotelCheckOutDate.isEmpty()) {
 				SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
 
 				Date inDate = sdf1.parse(hotelCheckInDate);

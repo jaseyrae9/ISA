@@ -12,11 +12,7 @@ public class CreateFastReservationTicketsDTO {
 	private double discount;
 	
 	@NotEmpty(message = "Choose at least one ticket to create tickets for fast reservations.")
-	private List<Long> tickets;
-	
-	public CreateFastReservationTicketsDTO() {
-		
-	}
+	private List<Long> tickets;	
 
 	public double getDiscount() {
 		return discount;

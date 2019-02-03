@@ -67,6 +67,12 @@ public class TicketForFastReservation {
 	public void setTicket(Ticket ticket) {
 		this.ticket = ticket;
 	}
-	
-	
+
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}	
 }

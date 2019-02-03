@@ -7,10 +7,6 @@ public class DailyReportDTO {
 
 	private List<Integer> daily = Arrays.asList(0, 0, 0, 0, 0, 0, 0);
 
-	public DailyReportDTO() {
-		
-	}
-
 	public List<Integer> getDaily() {
 		return daily;
 	}

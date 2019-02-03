@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import isa.project.aspects.AdminAccountActiveCheck;
@@ -95,30 +96,11 @@ public class HotelController {
 		return new ResponseEntity<>(new HotelDTO(hotel.get()), HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/get/{name}/{address}/{checkInDate}/{checkOutDate}", method = RequestMethod.GET)
-	public ResponseEntity<List<HotelDTO>> getCompany(@PathVariable String name, @PathVariable String address,
-			@PathVariable String checkInDate, @PathVariable String checkOutDate) throws ParseException {
-
-		String hotelName = "";
-		if (name.split("=").length > 1) {
-			hotelName = name.split("=")[1];
-		}
-
-		String hotelAddress = "";
-		if (address.split("=").length > 1) {
-			hotelAddress = address.split("=")[1];
-
-		}
-
-		String hotelCheckInDate = "";
-		if (checkInDate.split("=").length > 1) {
-			hotelCheckInDate = checkInDate.split("=")[1];
-		}
-
-		String hotelCheckOutDate = "";
-		if (checkOutDate.split("=").length > 1) {
-			hotelCheckOutDate = checkOutDate.split("=")[1];
-		}
+	@RequestMapping(value = "/search", method = RequestMethod.GET)
+	public ResponseEntity<List<HotelDTO>> getCompany(@RequestParam(defaultValue = "") String hotelName,
+			@RequestParam(defaultValue = "") String hotelAddress,
+			@RequestParam(defaultValue = "") String hotelCheckInDate,
+			@RequestParam(defaultValue = "") String hotelCheckOutDate) throws ParseException {
 
 		Iterable<Hotel> hotels = hotelService.findSearchAll(hotelName, hotelAddress, hotelCheckInDate,
 				hotelCheckOutDate);
@@ -203,7 +185,7 @@ public class HotelController {
 	 * 
 	 * @param room
 	 * @return
-	 * @throws RequestDataException 
+	 * @throws RequestDataException
 	 */
 	@PreAuthorize("hasAnyRole('HOTELADMIN')")
 	@AdminAccountActiveCheck
@@ -225,8 +207,8 @@ public class HotelController {
 					r.setNumberOfBeds(roomDTO.getNumberOfBeds());
 					r.setPrice(roomDTO.getPrice());
 					r.setType(roomDTO.getType());
-					r.increaseVersion(); 
-				}  else
+					r.increaseVersion();
+				} else
 					throw new RequestDataException("Can't edit reserved room!");
 			}
 		}
@@ -271,10 +253,8 @@ public class HotelController {
 		Date today = new Date();
 		for (SingleRoomReservation srr : r.getSingleRoomReservations()) {
 			RoomReservation rr = srr.getRoomReservation();
-			if (rr.getActive()) {
-				if (today.compareTo(rr.getCheckOutDate()) < 0) { // Ako neko treba da izadje
-					return false;
-				}
+			if (rr.getActive() && today.compareTo(rr.getCheckOutDate()) < 0) {
+				return false;
 			}
 		}
 		return true;

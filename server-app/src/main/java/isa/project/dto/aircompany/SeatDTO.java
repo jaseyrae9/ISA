@@ -9,17 +9,7 @@ import isa.project.model.aircompany.Seat;
 import isa.project.model.aircompany.Seat.SeatClass;
 
 public class SeatDTO {
-	private static HashMap<String, SeatClass> possibleClasses = new HashMap<String, SeatClass>()
-	{
-		private static final long serialVersionUID = -2767222280619990913L;
-
-	{
-	     put("ECONOMY", SeatClass.ECONOMY);
-	     put("PREMIUM_ECONOMY", SeatClass.PREMIUM_ECONOMY);
-	     put("BUSSINESS", SeatClass.BUSSINESS);
-	     put("FIRST", SeatClass.FIRST);
-	}};
-	
+	private static HashMap<String, SeatClass> possibleClasses;
 	private Integer id;
 	
 	@NotNull(message = "Seat class can not be empty.")
@@ -34,7 +24,13 @@ public class SeatDTO {
 	private Integer colNum;
 	
 	public SeatDTO() {
-		
+		if(possibleClasses == null) {
+			SeatDTO.possibleClasses = new HashMap<>();
+			SeatDTO.possibleClasses.put("ECONOMY", SeatClass.ECONOMY);
+			SeatDTO.possibleClasses.put("PREMIUM_ECONOMY", SeatClass.PREMIUM_ECONOMY);
+			SeatDTO.possibleClasses.put("BUSSINESS", SeatClass.BUSSINESS);
+			SeatDTO.possibleClasses.put("FIRST", SeatClass.FIRST);
+		}
 	}
 	
 	public SeatDTO(Seat seat) {

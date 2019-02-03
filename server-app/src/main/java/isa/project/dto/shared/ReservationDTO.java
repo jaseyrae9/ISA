@@ -21,10 +21,6 @@ public class ReservationDTO {
 	
 	private RoomReservationDTO roomReservation;
 
-	public ReservationDTO() {
-
-	}
-
 	public ReservationDTO(Reservation reservation) {
 		this.id = reservation.getId();
 		this.creationDate = reservation.getCreationDate();

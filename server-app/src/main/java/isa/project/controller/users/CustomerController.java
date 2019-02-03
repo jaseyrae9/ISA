@@ -184,7 +184,7 @@ public class CustomerController {
 	}
 
 	@RequestMapping(value = "/getAllReservations", method = RequestMethod.GET)
-	private ResponseEntity<?> getAllReservations(HttpServletRequest request) throws ResourceNotFoundException {
+	public ResponseEntity<?> getAllReservations(HttpServletRequest request) throws ResourceNotFoundException {
 		String email = tokenUtils.getEmailFromToken(tokenUtils.getToken(request));
 
 		Optional<Customer> customer = customerService.findCustomer(email);

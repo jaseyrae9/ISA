@@ -81,8 +81,8 @@ export class HotelService {
   }
 
   getSearchAll(name: String, address: String, checkInDate: String, checkOutDate: String): Observable<any> {
-    return this.http.get<any>('http://localhost:8080/hotels/get/name=' + name + '/address=' + address + '/checkInDate=' + checkInDate
-    + '/checkOutDate=' + checkOutDate);
+    return this.http.get<any>('http://localhost:8080/hotels/search?hotelName=' + name + '&hotelAddress='
+    + address + '&hotelCheckInDate=' + checkInDate + '&hotelCheckOutDate=' + checkOutDate);
   }
 
   getMonthlyVisitation(hotelId): Observable<any> {

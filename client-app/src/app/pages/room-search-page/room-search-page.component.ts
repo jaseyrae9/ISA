@@ -33,6 +33,7 @@ export class RoomSearchPageComponent implements OnInit {
       bsRangeValue: [this.bsRangeValue],
       hotelAddress: [''],
     });
+    this.onSearch();
   }
 
   onSearch() {

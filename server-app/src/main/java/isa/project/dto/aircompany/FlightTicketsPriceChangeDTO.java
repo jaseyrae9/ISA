@@ -22,10 +22,6 @@ public class FlightTicketsPriceChangeDTO {
 	@Min(value = 0, message = "Minimal price is 0.")
 	private Double firstPrice;
 	
-	public FlightTicketsPriceChangeDTO() {
-		
-	}
-
 	public Double getEconomyPrice() {
 		return economyPrice;
 	}

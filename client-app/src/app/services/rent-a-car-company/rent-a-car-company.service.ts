@@ -80,8 +80,8 @@ export class RentACarCompanyService {
   }
 
   getAllSearched(companyName: String, companyAddress: String, pickUpDate: String, dropOffDate: String): Observable<any> {
-    return this.http.get<CarReservation>('http://localhost:8080/rent_a_car_companies/getAllSearched/companyName=' + companyName
-    + '/companyAddress=' + companyAddress + '/pickUpDate=' + pickUpDate + '/dropOffDate=' + dropOffDate, httpOptions);
+    return this.http.get<CarReservation>('http://localhost:8080/rent_a_car_companies/search?name=' + companyName
+    + '&address=' + companyAddress + '&pickUpDate=' + pickUpDate + '&dropOffDate=' + dropOffDate, httpOptions);
   }
   getMonthlyResevations(companyId): Observable<any> {
     return this.http.get<any>('http://localhost:8080/report_info/rentACarCompanyMonthly/' + companyId, httpOptions);

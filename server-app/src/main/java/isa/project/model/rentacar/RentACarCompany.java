@@ -91,7 +91,7 @@ public class RentACarCompany {
 
 	public Set<Car> getCars() {
 		if(cars != null)
-			return cars.stream().filter(p -> p.getActive() == true).collect(Collectors.toSet()); // Da vraca samo aktivne automobile
+			return cars.stream().filter(p -> p.getActive()).collect(Collectors.toSet()); // Da vraca samo aktivne automobile
 		else
 			return null;
 	}
@@ -102,7 +102,7 @@ public class RentACarCompany {
 
 	public Set<BranchOffice> getBranchOffices() {
 		if(branchOffices != null)
-			return branchOffices.stream().filter(p -> p.getActive() == true).collect(Collectors.toSet()); // Da vraca samo aktivne
+			return branchOffices.stream().filter(p -> p.getActive()).collect(Collectors.toSet()); // Da vraca samo aktivne
 		return null;
 	}
 

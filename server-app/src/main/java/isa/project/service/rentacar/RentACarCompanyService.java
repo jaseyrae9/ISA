@@ -85,15 +85,15 @@ public class RentACarCompanyService {
 	public Iterable<RentACarCompany> searchAll(String carCompanyName, String carCompanyAddress, String pickUp,
 			String dropOff) throws ParseException {
 		List<RentACarCompany> ret = new ArrayList<>();
-		Iterable<RentACarCompany> companies = rentACarRepository.searchNameAndAddress(carCompanyName,
-				carCompanyAddress);
+		Iterable<RentACarCompany> companies = rentACarRepository.searchNameAndAddress(carCompanyName.toLowerCase(),
+				carCompanyAddress.toLowerCase());
 
 		for (RentACarCompany company : companies) {
 			boolean free = true;
 
 			RentACarCompany temp = rentACarRepository.findById(company.getId()).get();
 
-			if (!pickUp.equals("") && !dropOff.equals("")) {
+			if (!pickUp.isEmpty() && !dropOff.isEmpty()) {
 				SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
 				Date date0 = sdf1.parse(pickUp);
 				Date date1 = sdf1.parse(dropOff);

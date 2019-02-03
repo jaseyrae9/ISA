@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import isa.project.aspects.AdminAccountActiveCheck;
@@ -176,7 +177,7 @@ public class RentACarCompanyController {
 	 * 
 	 * @param car
 	 * @return
-	 * @throws RequestDataException 
+	 * @throws RequestDataException
 	 */
 	@PreAuthorize("hasAnyRole('CARADMIN')")
 	@AdminAccountActiveCheck
@@ -192,7 +193,7 @@ public class RentACarCompanyController {
 
 		for (Car c : carCompany.get().getCars()) {
 			if (c.getId().equals(carDTO.getId())) {
-				
+
 				if (notReserved(c)) {
 					c.setBrand(carDTO.getBrand());
 					c.setModel(carDTO.getModel());
@@ -202,9 +203,7 @@ public class RentACarCompanyController {
 					c.setDoorsNumber(carDTO.getDoorsNumber());
 					c.setPrice(carDTO.getPrice());
 					break;
-				}
-				else
-				{
+				} else {
 					throw new RequestDataException("Can't edit reserved car!");
 				}
 			}
@@ -231,9 +230,7 @@ public class RentACarCompanyController {
 				if (notReserved(c)) {
 					c.setActive(false);
 					break;
-				}
-				else
-				{
+				} else {
 					throw new RequestDataException("Can't delete reserved car!");
 				}
 			}
@@ -246,10 +243,8 @@ public class RentACarCompanyController {
 	public Boolean notReserved(Car car) {
 		Date today = new Date();
 		for (CarReservation c : car.getCarReservations()) {
-			if (c.getActive()) {
-				if (today.compareTo(c.getDropOffDate()) < 0) { // Ako neko treba da ga vrati
-					return false;
-				}
+			if (c.getActive() && today.compareTo(c.getDropOffDate()) < 0) {
+				return false;
 			}
 		}
 		return true;
@@ -343,33 +338,12 @@ public class RentACarCompanyController {
 		return new ResponseEntity<>(new CarReservationDTO(carReservation), HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/getAllSearched/{companyName}/{companyAddress}/{pickUpDate}/{dropOffDate}", method = RequestMethod.GET, consumes = "application/json")
-	public ResponseEntity<?> getAllSearchedCompanies(@PathVariable String companyName,
-			@PathVariable String companyAddress, @PathVariable String pickUpDate, @PathVariable String dropOffDate,
-			HttpServletRequest request, Pageable page) throws ParseException {
+	@RequestMapping(value = "/search", method = RequestMethod.GET, consumes = "application/json")
+	public ResponseEntity<?> getAllSearchedCompanies(@RequestParam(defaultValue = "") String name,
+			@RequestParam(defaultValue = "") String address, @RequestParam(defaultValue = "") String pickUp,
+			@RequestParam(defaultValue = "") String dropOff) throws ParseException {
 
-		String carCompanyName = "";
-		if (companyName.split("=").length > 1) {
-			carCompanyName = companyName.split("=")[1];
-		}
-
-		String carCompanyAddress = "";
-		if (companyAddress.split("=").length > 1) {
-			carCompanyAddress = companyAddress.split("=")[1];
-		}
-
-		String pickUp = "";
-		if (pickUpDate.split("=").length > 1) {
-			pickUp = pickUpDate.split("=")[1];
-		}
-
-		String dropOff = "";
-		if (dropOffDate.split("=").length > 1) {
-			dropOff = dropOffDate.split("=")[1];
-		}
-
-		Iterable<RentACarCompany> companies = rentACarCompanyService.searchAll(carCompanyName, carCompanyAddress,
-				pickUp, dropOff);
+		Iterable<RentACarCompany> companies = rentACarCompanyService.searchAll(name, address, pickUp, dropOff);
 
 		// convert companies to DTO
 		List<RentACarCompanyDTO> ret = new ArrayList<>();
