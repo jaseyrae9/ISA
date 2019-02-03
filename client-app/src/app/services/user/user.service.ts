@@ -62,4 +62,8 @@ export class UserService {
   searchCustomers(searchTerm: string, pageNumber: number): Observable<any> {
     return this.http.get('//localhost:8080/friendship/search?searchTerm=' + searchTerm + '&page=' + pageNumber + '&size=2');
   }
+  getReservations(): Observable<any> {
+    return this.http.get('//localhost:8080/customers/getAllReservations');
+  }
+
 }

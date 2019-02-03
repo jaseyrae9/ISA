@@ -3,16 +3,16 @@
     <div class="card-header">
       <h2 class="mb-0">
         <!--Ovde kao data target obavezno staviti id porduzbine-->
-        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#oznaka">
-          Oznaka rezervacije: 21.2.2018.
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" [attr.data-target]="'#r' + reservation.id" #button>
+         Date of reservation: {{date}}         
         </button>
       </h2>
     </div>
     <!--Ovde obavezno kao id staviti id porduzbine-->
-    <div id="oznaka" class="collapse m-2">
+    <div [attr.id]="'r' + reservation.id" class="collapse m-2" #div>
       <!--Dodati ng if ove da se ne prikazuje ako nema auto u rezervaciji npr-->
-      <app-tickets-reservation></app-tickets-reservation>
-      <app-hotel-reservation></app-hotel-reservation>
-      <app-car-reservation></app-car-reservation>
+      <!--app-tickets-reservation></app-tickets-reservation-->
+      <app-hotel-reservation *ngIf="reservation.roomReservation" [reservation]="reservation.roomReservation"></app-hotel-reservation>
+      <app-car-reservation *ngIf="reservation.carReservation" [reservation]="reservation.carReservation"></app-car-reservation>
     </div>
   </div>

@@ -33,8 +33,11 @@ public class SingleRoomReservation {
 	@JoinColumn(name = "room_reservation_id", referencedColumnName = "id")
 	private RoomReservation roomReservation;
 
-	@Column(name = "isRated")
-	private Boolean isRated;
+	@Column(name = "isRoomRated")
+	private Boolean isRoomRated;
+	
+	@Column(name = "isHotelRated")
+	private Boolean isHotelRated;
 	
 	public SingleRoomReservation() {
 
@@ -43,7 +46,8 @@ public class SingleRoomReservation {
 	public SingleRoomReservation(Room room, RoomReservation roomReservation) {
 		this.room = room;
 		this.roomReservation = roomReservation;
-		this.isRated = false;
+		this.isRoomRated = false;
+		this.isHotelRated = false;
 	}
 
 	public Integer getId() {
@@ -69,13 +73,21 @@ public class SingleRoomReservation {
 	public void setRoomReservation(RoomReservation roomReservation) {
 		this.roomReservation = roomReservation;
 	}
-	
-	public Boolean getIsRated() {
-		return isRated;
+
+	public Boolean getIsRoomRated() {
+		return isRoomRated;
 	}
 
-	public void setIsRated(Boolean isRated) {
-		this.isRated = isRated;
+	public void setIsRoomRated(Boolean isRoomRated) {
+		this.isRoomRated = isRoomRated;
+	}
+
+	public Boolean getIsHotelRated() {
+		return isHotelRated;
+	}
+
+	public void setIsHotelRated(Boolean isHotelRated) {
+		this.isHotelRated = isHotelRated;
 	}
 
 	@Override

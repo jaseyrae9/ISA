@@ -1,4 +1,5 @@
 import { BranchOffice } from './branch-offfice';
+import { Car } from './car';
 
 export class CarReservation {
     id: number;
@@ -6,5 +7,7 @@ export class CarReservation {
     dropOffDate: Date;
     pickUpBranchOffice: BranchOffice = new BranchOffice();
     dropOffBranchOffice: BranchOffice = new BranchOffice();
-    // active?
+    car: Car = new Car();
+    isCarRated: Boolean;
+    isCompanyRated: Boolean;
 }

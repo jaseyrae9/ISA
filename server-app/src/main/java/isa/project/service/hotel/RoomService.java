@@ -16,7 +16,6 @@ import isa.project.model.hotel.Room;
 import isa.project.model.hotel.RoomReservation;
 import isa.project.model.hotel.SingleRoomReservation;
 import isa.project.model.shared.AdditionalService;
-import isa.project.model.users.Customer;
 import isa.project.model.users.User;
 import isa.project.repository.hotel.HotelRepository;
 import isa.project.repository.hotel.RoomRepository;
@@ -68,8 +67,7 @@ public class RoomService {
 			throw new ResourceNotFoundException(customer, "Customer is not found");
 		}
 
-		RoomReservation roomReservation = new RoomReservation((Customer) user.get(),
-				roomReservationDTO.getCheckInDate(), roomReservationDTO.getCheckOutDate());
+		RoomReservation roomReservation = new RoomReservation(roomReservationDTO.getCheckInDate(), roomReservationDTO.getCheckOutDate());
 
 		for (AdditionalService a : roomReservationDTO.getAdditionalServices()) {
 			Optional<AdditionalService> temp = hotel.get().getAdditionalServices().stream().filter(o -> o.getId().equals(a.getId())).findFirst();

@@ -5,7 +5,7 @@ import java.util.List;
 
 public class DailyReportDTO {
 
-	List<Integer> daily = Arrays.asList(0, 0, 0, 0, 0, 0, 0);
+	private List<Integer> daily = Arrays.asList(0, 0, 0, 0, 0, 0, 0);
 
 	public DailyReportDTO() {
 		
@@ -21,7 +21,6 @@ public class DailyReportDTO {
 
 	public void increaseDaily(int day, Integer increase) {
 		this.daily.set(day, this.daily.get(day) + increase);
-	}
-	
+	}	
 	
 }

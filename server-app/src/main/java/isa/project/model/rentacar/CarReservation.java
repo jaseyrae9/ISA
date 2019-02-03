@@ -11,12 +11,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import isa.project.model.users.Customer;
-
+import isa.project.model.users.Reservation;
 
 @Entity
 @Table(name = "car_reservation")
@@ -44,31 +44,34 @@ public class CarReservation {
 	@JsonBackReference(value="car-reservations")
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)	
 	@JoinColumn(name="car_id", referencedColumnName="id")
-	private Car car;
+	private Car car;	
 	
-	@JsonBackReference(value = "customer-car-reservations")
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)	
-	@JoinColumn(name="customer_id", referencedColumnName="id")
-	private Customer customer;
+	@JsonBackReference(value = "reservation-car-reservation")
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)	
+	@JoinColumn(name="reservation_id", referencedColumnName="id")
+	private Reservation reservation;
 	
-	@Column(name = "isRated")
-	private Boolean isRated;
+	@Column(name = "isCarRated")
+	private Boolean isCarRated;
+	
+	@Column(name = "isCompanyRated")
+	private Boolean isCompanyRated;
 	
 	public CarReservation() {
 		
 	}
 
-	public CarReservation(Customer customer, Car car, Date pickUpDate, Date dropOffDate, BranchOffice pickUpBranchOffice,
+	public CarReservation(Car car, Date pickUpDate, Date dropOffDate, BranchOffice pickUpBranchOffice,
 			BranchOffice dropOffBranchOffice) {
 		super();
-		this.customer = customer;
 		this.car = car;
 		this.pickUpDate = pickUpDate;
 		this.dropOffDate = dropOffDate;
 		this.pickUpBranchOffice = pickUpBranchOffice;
 		this.dropOffBranchOffice = dropOffBranchOffice;
 		this.active = true;
-		this.isRated = false;
+		this.isCarRated = false;
+		this.isCompanyRated = false;
 	}
 
 	public Integer getId() {
@@ -118,14 +121,6 @@ public class CarReservation {
 	public void setCar(Car car) {
 		this.car = car;
 	}
-
-	public Customer getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
 	
 	public Boolean getActive() {
 		return active;
@@ -134,13 +129,29 @@ public class CarReservation {
 	public void setActive(Boolean active) {
 		this.active = active;
 	}
-
-	public Boolean getIsRated() {
-		return isRated;
+	
+	public Boolean getIsCarRated() {
+		return isCarRated;
 	}
 
-	public void setIsRated(Boolean isRated) {
-		this.isRated = isRated;
+	public void setIsCarRated(Boolean isCarRated) {
+		this.isCarRated = isCarRated;
+	}
+
+	public Boolean getIsCompanyRated() {
+		return isCompanyRated;
+	}
+
+	public void setIsCompanyRated(Boolean isCompanyRated) {
+		this.isCompanyRated = isCompanyRated;
+	}
+
+	public Reservation getReservation() {
+		return reservation;
+	}
+
+	public void setReservation(Reservation reservation) {
+		this.reservation = reservation;
 	}
 
 	@Override

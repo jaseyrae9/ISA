@@ -2,6 +2,7 @@ package isa.project.service.rentacar;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,6 @@ import isa.project.model.rentacar.BranchOffice;
 import isa.project.model.rentacar.Car;
 import isa.project.model.rentacar.CarReservation;
 import isa.project.model.rentacar.RentACarCompany;
-import isa.project.model.users.Customer;
 import isa.project.model.users.User;
 import isa.project.repository.rentacar.CarReservationRepository;
 import isa.project.repository.rentacar.RentACarCompanyRepository;
@@ -67,8 +67,8 @@ public class CarService {
 		}
 
 		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
-		java.util.Date date0 = sdf1.parse(pickUpDate);
-		java.util.Date date1 = sdf1.parse(dropOffDate);
+		Date date0 = sdf1.parse(pickUpDate);
+		Date date1 = sdf1.parse(dropOffDate);
 		java.sql.Date sqlPickUpDate = new java.sql.Date(date0.getTime());
 		java.sql.Date sqlDropOffDate = new java.sql.Date(date1.getTime());
 
@@ -92,7 +92,7 @@ public class CarService {
 			throw new RequestDataException("Car is rented in that period.");
 		}
 
-		CarReservation carReservation = new CarReservation((Customer) user.get(), car.get(), sqlPickUpDate,
+		CarReservation carReservation = new CarReservation(car.get(), sqlPickUpDate,
 				sqlDropOffDate, bopu.get(), bodo.get());
 		System.out.println("carReservation" + carReservation);
 

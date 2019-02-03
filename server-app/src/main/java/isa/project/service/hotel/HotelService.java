@@ -109,10 +109,10 @@ public class HotelService {
 			if (!hotelCheckInDate.equals("") && !hotelCheckOutDate.equals("")) {
 				SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
 
-				java.util.Date inDate = sdf1.parse(hotelCheckInDate);
+				Date inDate = sdf1.parse(hotelCheckInDate);
 				java.sql.Date sqlInDate = new java.sql.Date(inDate.getTime());
 
-				java.util.Date outDate = sdf1.parse(hotelCheckOutDate);
+				Date outDate = sdf1.parse(hotelCheckOutDate);
 				java.sql.Date sqlOutDate = new java.sql.Date(outDate.getTime());
 
 				boolean free = true;
@@ -147,8 +147,6 @@ public class HotelService {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(today);
 		int year = cal.get(Calendar.YEAR);
-		System.out.println("Trenutna godina: " + year);
-		
 
 		for (Room r : hotel.getRooms()) {
 			for (SingleRoomReservation srr : r.getSingleRoomReservations()) {
@@ -157,17 +155,15 @@ public class HotelService {
 				if (rr.getActive()) { // Ako rezervacija nije otkazana
 
 					cal.setTime(rr.getCheckOutDate());
-					System.out.println("godina checkouta: " + cal.get(Calendar.YEAR));
 					int checkOutYear = cal.get(Calendar.YEAR);
 					int checkOutMonth = cal.get(Calendar.MONTH);
 					cal.setTime(rr.getCheckInDate());
 					int checkInYear = cal.get(Calendar.YEAR);
 					int checkInMonth = cal.get(Calendar.MONTH);
-					
+
 					if (checkOutYear == year && checkInYear == year) // Za sve rezervacije u ovoj godini
 					{
-						for(int i=checkInMonth; i<=checkOutMonth; i++)
-						{
+						for (int i = checkInMonth; i <= checkOutMonth; i++) {
 							midto.increaseMonthly(i, r.getNumberOfBeds());
 						}
 					}
@@ -185,10 +181,10 @@ public class HotelService {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(today);
 		int year = cal.get(Calendar.YEAR); //
-		
+
 		cal.set(Calendar.DAY_OF_MONTH, 1);
 		int weekBegin = cal.get(Calendar.WEEK_OF_YEAR);
-        int maxWeekNumber = cal.getActualMaximum(Calendar.WEEK_OF_MONTH);
+		int maxWeekNumber = cal.getActualMaximum(Calendar.WEEK_OF_MONTH);
 		int weekEnd = weekBegin + maxWeekNumber - 1;
 
 		for (Room r : hotel.getRooms()) {
@@ -203,15 +199,11 @@ public class HotelService {
 					cal.setTime(rr.getCheckInDate());
 					int checkInYear = cal.get(Calendar.YEAR);
 					int checkInWeek = cal.get(Calendar.WEEK_OF_YEAR);
-					
-					
-					
+
 					if (checkOutYear == year && checkInYear == year) // Za sve rezervacije u ovoj godini
 					{
-						for(int i = checkInWeek; i<=checkOutWeek; i++)
-						{
-							if(i >= weekBegin && i<= weekEnd)
-							{
+						for (int i = checkInWeek; i <= checkOutWeek; i++) {
+							if (i >= weekBegin && i <= weekEnd) {
 								widto.increaseWeekly(i - weekBegin, r.getNumberOfBeds());
 							}
 						}
@@ -223,31 +215,27 @@ public class HotelService {
 
 		return widto;
 	}
+
 	public DailyReportDTO getHotelDailyInfo(Hotel hotel) {
 		DailyReportDTO drdto = new DailyReportDTO();
-		
+
 		Date today = new Date();
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(today);
-		int year = cal.get(Calendar.YEAR); 
+		int year = cal.get(Calendar.YEAR);
 		int day = cal.get(Calendar.DAY_OF_YEAR);
-		
-		int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK); 
+
+		int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
 		// Sunday = 1, Monday = 2, Thu = 3, Wed = 4, Thr = 5, Fri = 6, Sat = 7
-		
-		System.out.println("dayOfWeek " + dayOfWeek);
-		
-		if(dayOfWeek != Calendar.SUNDAY)
-		{
+
+		if (dayOfWeek != Calendar.SUNDAY) {
 			dayOfWeek -= 2; // Monday = 0, Thu = 1,Wed = 2, Thr = 3, Fri = 4, Sat = 5
-		}
-		else
-		{
+		} else {
 			dayOfWeek = 7;
 		}
-		
+
 		int firstDayOfWeekInYear = day - dayOfWeek;
-		
+
 		for (Room r : hotel.getRooms()) {
 			for (SingleRoomReservation srr : r.getSingleRoomReservations()) {
 				RoomReservation rr = srr.getRoomReservation();
@@ -260,13 +248,11 @@ public class HotelService {
 					cal.setTime(rr.getCheckInDate());
 					int checkInYear = cal.get(Calendar.YEAR);
 					int checkInDay = cal.get(Calendar.DAY_OF_YEAR);
-					
+
 					if (checkOutYear == year && checkInYear == year) // Za sve rezervacije u ovoj godini
 					{
-						for(int i = checkInDay; i<=checkOutDay; i++)
-						{
-							if(i >= firstDayOfWeekInYear && i<= firstDayOfWeekInYear+6)
-							{
+						for (int i = checkInDay; i <= checkOutDay; i++) {
+							if (i >= firstDayOfWeekInYear && i <= firstDayOfWeekInYear + 6) {
 								drdto.increaseDaily(i - firstDayOfWeekInYear, r.getNumberOfBeds());
 							}
 						}
@@ -274,43 +260,38 @@ public class HotelService {
 				}
 			}
 		}
-		
+
 		return drdto;
 	}
-	
+
 	public Double getIncome(Hotel hotel, String startDate, String endDate) throws ParseException {
 		Double retVal = new Double(0);
-	
+
 		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
 
-		java.util.Date start = sdf1.parse(startDate);
+		Date start = sdf1.parse(startDate);
 		java.sql.Date sqlStartDate = new java.sql.Date(start.getTime());
-		
-		java.util.Date end = sdf1.parse(endDate);
+
+		Date end = sdf1.parse(endDate);
 		java.sql.Date sqlEndDate = new java.sql.Date(end.getTime());
-		
-		
+
 		for (Room r : hotel.getRooms()) {
 			for (SingleRoomReservation srr : r.getSingleRoomReservations()) {
 				RoomReservation rr = srr.getRoomReservation();
-
-				if (rr.getActive()) { // Ako rezervacija nije otkazana
-					if(rr.getCheckOutDate().compareTo(sqlStartDate) > 0 && rr.getCheckOutDate().compareTo(sqlEndDate) < 0) // Politika mog hotela je da se placa kada se napusta soba
-					{
-						long diff = rr.getCheckOutDate().getTime() - rr.getCheckInDate().getTime();
-					    System.out.println ("Days: " + TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS));
-					    long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) + 1;
-						retVal += days * r.getPrice();
-					}
-					for(AdditionalService s : rr.getAdditionalServices())
-					{
-						retVal += s.getPrice();
-					}
+				if (rr.getActive() && rr.getCheckOutDate().compareTo(sqlStartDate) > 0
+						&& rr.getCheckOutDate().compareTo(sqlEndDate) < 0) {
+					// Politika mog hotela je da se placa kada se napusta soba
+					long diff = rr.getCheckOutDate().getTime() - rr.getCheckInDate().getTime();
+					long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) + 1;
+					retVal += days * r.getPrice();
 				}
+				for (AdditionalService s : rr.getAdditionalServices()) {
+					retVal += s.getPrice();
+				}
+
 			}
 		}
 
-		
 		return retVal;
 	}
 }

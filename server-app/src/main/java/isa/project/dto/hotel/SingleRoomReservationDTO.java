@@ -11,7 +11,9 @@ public class SingleRoomReservationDTO {
 	
 	private RoomReservationDTO roomReservation;
 
-	private Boolean isRated;
+	private Boolean isRoomRated;
+	
+	private Boolean isHotelRate;
 
 	public SingleRoomReservationDTO() {
 		
@@ -20,7 +22,8 @@ public class SingleRoomReservationDTO {
 	public SingleRoomReservationDTO(SingleRoomReservation reservation) {
 		this.id = reservation.getId();
 		this.roomReservation = new RoomReservationDTO(reservation.getRoomReservation());
-		this.isRated = reservation.getIsRated();
+		this.isRoomRated = reservation.getIsRoomRated();
+		this.isHotelRate = reservation.getIsHotelRated();
 	}
 
 	public Integer getId() {
@@ -46,13 +49,21 @@ public class SingleRoomReservationDTO {
 	public void setRoomReservation(RoomReservationDTO roomReservation) {
 		this.roomReservation = roomReservation;
 	}
-	
-	public Boolean getIsRated() {
-		return isRated;
+
+	public Boolean getIsRoomRated() {
+		return isRoomRated;
 	}
 
-	public void setIsRated(Boolean isRated) {
-		this.isRated = isRated;
+	public void setIsRoomRated(Boolean isRoomRated) {
+		this.isRoomRated = isRoomRated;
+	}
+
+	public Boolean getIsHotelRate() {
+		return isHotelRate;
+	}
+
+	public void setIsHotelRate(Boolean isHotelRate) {
+		this.isHotelRate = isHotelRate;
 	}
 
 }

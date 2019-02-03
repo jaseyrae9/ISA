@@ -31,7 +31,7 @@ public class Car implements Serializable {
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)	
 	@JoinColumn(name="rentacar_company_id", referencedColumnName="id")
 	private RentACarCompany rentACarCompany;
-	
+
 	@Column(name = "type")
 	private String type;
 	

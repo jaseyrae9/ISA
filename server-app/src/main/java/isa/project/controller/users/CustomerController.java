@@ -1,10 +1,13 @@
 package isa.project.controller.users;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -28,9 +31,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 
+import isa.project.dto.shared.ReservationDTO;
 import isa.project.dto.users.AuthenticationResponse;
 import isa.project.dto.users.UserDTO;
+import isa.project.exception_handlers.ResourceNotFoundException;
 import isa.project.model.users.Customer;
+import isa.project.model.users.Reservation;
 import isa.project.model.users.User;
 import isa.project.model.users.security.VerificationToken;
 import isa.project.security.TokenUtils;
@@ -62,38 +68,40 @@ public class CustomerController {
 
 	@Autowired
 	private AuthorityService authorityService;
-	
+
 	@Autowired
 	private EmailService emailService;
 
-
 	/**
-	 * Register new customer. Saves customer to database and send confirmation email.
-	 * Returns error response if required customer data is missing or email or phone number are not unique.
+	 * Register new customer. Saves customer to database and send confirmation
+	 * email. Returns error response if required customer data is missing or email
+	 * or phone number are not unique.
+	 * 
 	 * @param customerDTO data for customer being registered.
 	 * @param request
 	 * @return
 	 */
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public ResponseEntity<?> registerUser(@Valid @RequestBody UserDTO customerDTO, WebRequest request) {
-		//Create new customer
+		// Create new customer
 		Customer customer = new Customer(customerDTO);
 		customer.addAuthority(authorityService.findByName("CUSTOMER").get());
 
-		//save new customer to database
+		// save new customer to database
 		try {
 			customerService.registerCustomer(customer);
 		} catch (DataIntegrityViolationException e) {
-			//email or phone number are not unique
+			// email or phone number are not unique
 			return ResponseEntity.status(409).body(customer);
 		}
-		
-		//send verification email to customer
+
+		// send verification email to customer
 		try {
 			confirmRegistration(customer);
 		} catch (Exception e) {
-			//TODO: Da li treba izbrisati korisnika iz baze?
-			return new ResponseEntity<>("Confirmation email could not be sent. Your email migth not be valid.", HttpStatus.BAD_REQUEST);			
+			// TODO: Da li treba izbrisati korisnika iz baze?
+			return new ResponseEntity<>("Confirmation email could not be sent. Your email migth not be valid.",
+					HttpStatus.BAD_REQUEST);
 		}
 
 		return ResponseEntity.ok(customer);
@@ -101,12 +109,13 @@ public class CustomerController {
 
 	/**
 	 * Confirms email of registered user.
+	 * 
 	 * @param token
 	 * @return
 	 */
 	@RequestMapping(value = "/confirmRegistration", method = RequestMethod.GET)
 	public ResponseEntity<?> confirmRegistration(@RequestParam("token") String token) {
-		Optional<VerificationToken>  verificationToken= tokenService.findByToken(token);
+		Optional<VerificationToken> verificationToken = tokenService.findByToken(token);
 
 		if (!verificationToken.isPresent()) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).header(HttpHeaders.LOCATION, "/api/").build();
@@ -121,17 +130,19 @@ public class CustomerController {
 
 	/**
 	 * Tries to login user.
+	 * 
 	 * @param authenticationRequest contains email and password
 	 * @param response
-	 * @param device type of device on which user wants to login
+	 * @param device                type of device on which user wants to login
 	 * @return
 	 * @throws AuthenticationException
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ResponseEntity<?> createAuthenticationToken(@Valid @RequestBody JwtAuthenticationRequest authenticationRequest,
-			HttpServletResponse response, Device device) throws AuthenticationException, IOException {
-	
+	public ResponseEntity<?> createAuthenticationToken(
+			@Valid @RequestBody JwtAuthenticationRequest authenticationRequest, HttpServletResponse response,
+			Device device) throws AuthenticationException, IOException {
+
 		final Authentication authentication = authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(),
 						authenticationRequest.getPassword()));
@@ -142,7 +153,7 @@ public class CustomerController {
 		// Kreiraj token
 		UserDetails userDetails = this.customUserDetailsService.loadUserByUsername(authenticationRequest.getEmail());
 		String token = this.tokenUtils.generateToken(userDetails, device);
-		
+
 		// Pronadji korisnika (potrebno da bi se znalo mora li se sifra menjati)
 		User user = this.customUserDetailsService.loadByEmail(userDetails.getUsername()).get();
 
@@ -152,10 +163,11 @@ public class CustomerController {
 
 	/**
 	 * Creates email confirmation message and send it to user.
+	 * 
 	 * @param customer to whom message is being sent
 	 * @throws MessagingException
-	 * @throws InterruptedException 
-	 * @throws MailException 
+	 * @throws InterruptedException
+	 * @throws MailException
 	 */
 	private void confirmRegistration(Customer customer) throws MessagingException, MailException, InterruptedException {
 		// Token
@@ -168,6 +180,27 @@ public class CustomerController {
 		String subject = "Potvrda registracije";
 		String confirmationUrl = "http://localhost:8080/customers/confirmRegistration?token=" + token;
 		String message = "<html><body>Click here to activate your account<br>" + confirmationUrl + "</body></html>";
-		emailService.sendNotificaitionAsync(recipientMail, subject, message);		
+		emailService.sendNotificaitionAsync(recipientMail, subject, message);
 	}
+
+	@RequestMapping(value = "/getAllReservations", method = RequestMethod.GET)
+	private ResponseEntity<?> getAllReservations(HttpServletRequest request) throws ResourceNotFoundException {
+		String email = tokenUtils.getEmailFromToken(tokenUtils.getToken(request));
+
+		Optional<Customer> customer = customerService.findCustomer(email);
+
+		if (!customer.isPresent()) {
+			throw new ResourceNotFoundException(email, "Customer is not found");
+		}
+
+		List<ReservationDTO> ret = new ArrayList<ReservationDTO>();
+		if (customer.get().getReservations() != null) {
+			for (Reservation r : customer.get().getReservations()) {
+				ret.add(new ReservationDTO(r));
+			}
+		}
+
+		return new ResponseEntity<>(ret, HttpStatus.OK);
+	}
+
 }

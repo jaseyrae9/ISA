@@ -43,6 +43,8 @@ public class CarDTO {
 	
 	private ArrayList<CarReservationDTO> reservations = new ArrayList<>();
 
+	private RentACarCompanyDTO rentACarCompany;
+	
 	public CarDTO() {
 
 	}
@@ -64,7 +66,6 @@ public class CarDTO {
 				this.reservations.add(new CarReservationDTO(cr));
 			}
 		}
-		
 	}
 
 	public Integer getId() {
@@ -153,6 +154,13 @@ public class CarDTO {
 
 	public void setAverageRating(Double averageRating) {
 		this.averageRating = averageRating;
-	}	
-	
+	}
+
+	public RentACarCompanyDTO getRentACarCompany() {
+		return rentACarCompany;
+	}
+
+	public void setRentACarCompany(RentACarCompanyDTO rentACarCompany) {
+		this.rentACarCompany = rentACarCompany;
+	}
 }
