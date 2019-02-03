@@ -16,6 +16,7 @@ import { NewCarCompanyFormComponent } from 'src/app/components/rent-a-car-compan
 })
 
 export class AllCarsCompaniesPageComponent implements OnInit {
+  sort  = 'name';
   modalRef: BsModalRef;
   companies: RentACarCompany[] = [];
 
@@ -34,10 +35,15 @@ export class AllCarsCompaniesPageComponent implements OnInit {
   }
 
   loadCompanies() {
-    this.rentACarCompanyService.getAll(this.pageNumber).subscribe(data => {
+    this.rentACarCompanyService.getAll(this.pageNumber, this.sort).subscribe(data => {
       this.companies = data['content'];
       this.pages = new Array(data['totalPages']);
     });
+  }
+
+  onSortChange(value) {
+    this.sort = value;
+    this.loadCompanies();
   }
 
   openNewCarCompanyModal() {

@@ -12,6 +12,7 @@ export class FriendshipsPageComponent implements OnInit {
   friendships: Array<Friendship> = new Array();
   pageNumber = 0;
   pages: Array<Number> = new Array();
+  sort  = 'key.from.firstName';
   @Output() friendshipEvent: EventEmitter<Object> = new EventEmitter();
 
   constructor(private userService: UserService) { }
@@ -21,7 +22,7 @@ export class FriendshipsPageComponent implements OnInit {
   }
 
   loadFriends() {
-    this.userService.getFriends(this.pageNumber).subscribe(
+    this.userService.getFriends(this.pageNumber, this.sort).subscribe(
       (data) => {
         this.friendships = data['content'];
         this.pages = new Array(data['totalPages']);
@@ -31,6 +32,11 @@ export class FriendshipsPageComponent implements OnInit {
        }
       }
     );
+  }
+
+  onSortChange(value) {
+    this.sort = value;
+    this.loadFriends();
   }
 
   changePage(i: number, event: any) {

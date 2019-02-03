@@ -1,5 +1,5 @@
-<div> 
- 
+<div>
+
   <div class="container align-items-center">
   <form class="form-inline row align-items-center mt-3">
       <div class="input-group col">
@@ -16,13 +16,25 @@
   </form>
   </div>
 
+  <div class="container mt-3">
+  <div class="row justify-content-end">
+      <div class="col-3">
+          <select class="form-control form-control-sm" (change)="onSortChange($event.target.value)">
+              <option value="firstName">Sort by name, A-Z</option>
+              <option value="firstName,desc">Sort by name, Z-A</option>
+              <option value="lastName">Sort by lastname, A-Z</option>
+              <option value="lastName,desc">Sort by lastname, Z-A</option>
+            </select>
+      </div>
+  </div>
+
   <div *ngIf="searchResult.length == 0 else requestsDiv">
           <p> No users found.</p>
   </div>
   <ng-template #requestsDiv>
           <div >
           <app-friendship-display *ngFor="let friendship of searchResult" [friendship]= 'friendship' (friendshipEvent)="friendEvent($event)"></app-friendship-display>
-               
+
           <nav style="padding-top: 20px">
               <ul class="pagination" style="justify-content: center">
                       <li class="page-item">
@@ -44,5 +56,5 @@
            </nav>
          </div>
   </ng-template>
+  </div>
 </div>
- 

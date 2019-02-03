@@ -39,12 +39,12 @@ export class UserService {
     return this.http.post<ChangePasswordData>('//localhost:8080/profile/updateProfile', info, httpOptions);
   }
 
-  getFriendRequests(pageNumber: number): Observable<any> {
-    return this.http.get('//localhost:8080/friendship/friendRequests?page=' + pageNumber + '&size=2');
+  getFriendRequests(pageNumber: number, sortBy): Observable<any> {
+    return this.http.get('//localhost:8080/friendship/friendRequests?page=' + pageNumber + '&size=2' + '&sort=' + sortBy);
   }
 
-  getFriends(pageNumber: number): Observable<any> {
-    return this.http.get('//localhost:8080/friendship/friends?page=' + pageNumber + '&size=2');
+  getFriends(pageNumber: number, sortBy): Observable<any> {
+    return this.http.get('//localhost:8080/friendship/friends?page=' + pageNumber + '&size=2' + '&sort=' + sortBy);
   }
 
   acceptFriendRequest(fromId: number): Observable<any> {
@@ -59,7 +59,8 @@ export class UserService {
     return this.http.get('//localhost:8080/friendship/sendRequest/' + to);
   }
 
-  searchCustomers(searchTerm: string, pageNumber: number): Observable<any> {
-    return this.http.get('//localhost:8080/friendship/search?searchTerm=' + searchTerm + '&page=' + pageNumber + '&size=2');
+  searchCustomers(searchTerm: string, pageNumber: number, sortBy): Observable<any> {
+    // tslint:disable-next-line:max-line-length
+    return this.http.get('//localhost:8080/friendship/search?searchTerm=' + searchTerm + '&page=' + pageNumber + '&size=2' + '&sort=' + sortBy);
   }
 }

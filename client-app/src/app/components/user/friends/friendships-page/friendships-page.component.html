@@ -1,11 +1,21 @@
-<div> 
+<div class="container">
+    <div class="row justify-content-end">
+        <div class="col-3">
+            <select class="form-control form-control-sm" (change)="onSortChange($event.target.value)">
+                <option value="key.from.firstName">Sort by name, A-Z</option>
+                <option value="key.from.firstName,desc">Sort by name, Z-A</option>
+                <option value="key.from.lastName">Sort by lastname, A-Z</option>
+                <option value="key.from.lastName,desc">Sort by lastname, Z-A</option>
+              </select>
+        </div>
+    </div>
     <div *ngIf="friendships.length == 0 else requestsDiv">
             <p> You have no friends.</p>
     </div>
     <ng-template #requestsDiv>
             <div >
             <app-friendship-display *ngFor="let friendship of friendships" [friendship]= 'friendship' (friendshipEvent)="friendRemoved($event)"></app-friendship-display>
-                 
+
             <nav style="padding-top: 20px">
                 <ul class="pagination" style="justify-content: center">
                         <li class="page-item">
@@ -28,4 +38,3 @@
            </div>
     </ng-template>
 </div>
- 

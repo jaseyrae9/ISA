@@ -10,6 +10,7 @@ import { NgxNotificationService } from 'ngx-notification';
 })
 export class FriendRequestsPageComponent implements OnInit {
   requests: Array<Friendship> = new Array();
+  sort  = 'key.from.firstName';
   pageNumber = 0;
   pages: Array<Number> = new Array();
   @Output() friendRequestEvent: EventEmitter<Object> = new EventEmitter();
@@ -21,7 +22,7 @@ export class FriendRequestsPageComponent implements OnInit {
   }
 
   loadRequests() {
-    this.userService.getFriendRequests(this.pageNumber).subscribe(
+    this.userService.getFriendRequests(this.pageNumber, this.sort).subscribe(
       (data) => {
         this.requests = data['content'];
         this.pages = new Array(data['totalPages']);
@@ -32,6 +33,11 @@ export class FriendRequestsPageComponent implements OnInit {
         }
       }
     );
+  }
+
+  onSortChange(value) {
+    this.sort = value;
+    this.loadRequests();
   }
 
   changePage(i: number, event: any) {

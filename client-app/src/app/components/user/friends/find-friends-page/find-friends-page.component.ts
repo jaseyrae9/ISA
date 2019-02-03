@@ -8,6 +8,7 @@ import { Friendship } from 'src/app/model/users/friendship';
   styleUrls: ['./find-friends-page.component.css']
 })
 export class FindFriendsPageComponent implements OnInit {
+  sort  = 'firstName';
   searchTerm = '';
   searchResult: Array<Friendship> = new Array();
   pageNumber = 0;
@@ -24,12 +25,17 @@ export class FindFriendsPageComponent implements OnInit {
    * Izvrsi pretragu
    */
   search() {
-    this.userService.searchCustomers(this.searchTerm, this.pageNumber).subscribe(
+    this.userService.searchCustomers(this.searchTerm, this.pageNumber, this.sort).subscribe(
       (data) => {
         this.searchResult = data['content'];
         this.pages = new Array(data['totalPages']);
       }
     );
+  }
+
+  onSortChange(value) {
+    this.sort = value;
+    this.search();
   }
 
   changePage(i: number, event: any) {

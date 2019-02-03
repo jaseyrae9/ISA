@@ -1,3 +1,4 @@
+import { ReserveFlightFormComponent } from './components/air-company/flight/reserve-flight-form/reserve-flight-form.component';
 import { AllReservationsComponent } from './components/reservations-history/all-reservations/all-reservations.component';
 import { FlightPageComponent } from './components/air-company/flight/flight-page/flight-page.component';
 import { Routes, RouterModule } from '@angular/router';
@@ -31,6 +32,12 @@ const routes: Routes = [
   { path: 'rent-a-car-companies', component: AllCarsCompaniesPageComponent },
   { path: 'rent-a-car-company/:id', component: CarCompanyPageComponent },
   { path: 'find-car', component: CarSearchPageComponent },
+  { path: 'reserve-flight/:id', component: ReserveFlightFormComponent ,
+    canActivate: [RoleGuardService],
+    data: {
+      expectedRoles: ['CUSTOMER']
+    }
+  },
   { path: 'history', component: AllReservationsComponent },
   {
     path: 'profile', component: ProfileComponent,

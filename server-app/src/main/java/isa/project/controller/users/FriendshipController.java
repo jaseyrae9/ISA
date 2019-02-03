@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -61,7 +62,7 @@ public class FriendshipController {
 	 */
 	@PreAuthorize("hasAnyRole('CUSTOMER')")
 	@RequestMapping(value = "/friendRequests", method = RequestMethod.GET)
-	public ResponseEntity<?> getAllFriendRequests(HttpServletRequest request, Pageable page) {
+	public ResponseEntity<?> getAllFriendRequests(HttpServletRequest request,@PageableDefault(size = 2, sort = "active") Pageable page) {
 		String email = tokenUtils.getEmailFromToken(tokenUtils.getToken(request));
 
 		Page<Friendship> requests = friendshipService.getFriendshipRequests(email, page);
@@ -123,8 +124,8 @@ public class FriendshipController {
 		for (Friendship freindship : friends) {
 			friendshipsDTO.add(new FriendshipDTO(freindship, email.equals(freindship.getKey().getFrom().getEmail())));
 		}
-		
-		Page<FriendshipDTO> ret = new PageImpl<>(friendshipsDTO, friends.getPageable(), friends.getTotalElements());
+		System.out.println(page.getSort().getClass().getName());		
+		Page<FriendshipDTO> ret = new PageImpl<>(friendshipsDTO, friends.getPageable(), friends.getTotalPages());
 		return ResponseEntity.ok(ret);
 	}
 	

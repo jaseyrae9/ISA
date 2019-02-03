@@ -19,8 +19,8 @@ export class RentACarCompanyService {
 
   constructor(private http: HttpClient) { }
 
-  getAll(pageNumber): Observable<any> {
-    return this.http.get('//localhost:8080/rent_a_car_companies/all?page=' + pageNumber + '&size=2');
+  getAll(pageNumber, sortBy): Observable<any> {
+    return this.http.get('//localhost:8080/rent_a_car_companies/all?page=' + pageNumber + '&size=2&sort=' + sortBy);
   }
 
   getAllCompanies(): Observable<any> {

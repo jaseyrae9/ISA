@@ -14,6 +14,7 @@ import { NewHotelFormComponent } from 'src/app/components/hotel/new-hotel-form/n
   styleUrls: ['./all-hotels-page.component.css', '../../shared/css/inputField.css']
 })
 export class AllHotelsPageComponent implements OnInit {
+  sort  = 'name';
   pages: Array<Number> = new Array();
   pageNumber = 0;
 
@@ -30,8 +31,13 @@ export class AllHotelsPageComponent implements OnInit {
     this.loadHotels();
   }
 
+  onSortChange(value) {
+    this.sort = value;
+    this.loadHotels();
+  }
+
   loadHotels() {
-    this.hotelService.getAll(this.pageNumber).subscribe(data => {
+    this.hotelService.getAll(this.pageNumber, this.sort).subscribe(data => {
       console.log(data);
       this.hotels = data['content'];
       this.pages = new Array(data['totalPages']);

@@ -109,6 +109,7 @@ import { TicketsReservationComponent } from './components/reservations-history/t
 import { CarReservationComponent } from './components/reservations-history/car-reservation/car-reservation.component';
 import { HotelReservationComponent } from './components/reservations-history/hotel-reservation/hotel-reservation.component';
 import { ReservationComponent } from './components/reservations-history/reservation/reservation.component';
+import { ReserveFlightFormComponent } from './components/air-company/flight/reserve-flight-form/reserve-flight-form.component';
 
 @NgModule({
   declarations: [
@@ -190,7 +191,8 @@ import { ReservationComponent } from './components/reservations-history/reservat
     TicketsReservationComponent,
     CarReservationComponent,
     HotelReservationComponent,
-    ReservationComponent
+    ReservationComponent,
+    ReserveFlightFormComponent
   ],
   imports: [
     BrowserModule,

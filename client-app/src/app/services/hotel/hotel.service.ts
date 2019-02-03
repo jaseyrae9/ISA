@@ -23,8 +23,8 @@ export class HotelService {
     return this.http.get('http://localhost:8080/hotels/allHotels');
   }
 
-  getAll(page): Observable<any> {
-    return this.http.get('http://localhost:8080/hotels/all?page=' + page + '&size=2');
+  getAll(page, sort): Observable<any> {
+    return this.http.get('http://localhost:8080/hotels/all?page=' + page + '&size=2&sort=' + sort);
   }
 
   get(id: string): Observable<any> {

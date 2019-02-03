@@ -9,12 +9,24 @@
   </div>
 
   <hr>
+  <div class="row justify-content-end">
+      <div class="col-3">
+          <select class="form-control form-control-sm" (change)="onSortChange($event.target.value)">
+              <option value="name">Sort by name, A-Z</option>
+              <option value="name,desc">Sort by name, Z-A</option>
+              <option value="location.city">Sort by city, A-Z</option>
+              <option value="location.city,desc">Sort by city, Z-A</option>
+              <option value="location.country">Sort by country, A-Z</option>
+              <option value="location.country,desc">Sort by country, Z-A</option>
+            </select>
+      </div>
+  </div>
 
   <p *ngIf='hotels.length == 0' align="center" style="font-size: 35px; color:  #33cabb;">Nothing is found.</p>
 
-  
+
   <app-hotel-basic-details *ngFor="let hotel of hotels" [hotel]='hotel' class="row border rounded align-items-center p-1 mt-3"></app-hotel-basic-details>
-  
+
   <!-- Pagination navigation -->
   <nav style="padding-top: 20px">
     <ul class="pagination" style="justify-content: center">
