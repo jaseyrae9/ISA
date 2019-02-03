@@ -15,6 +15,7 @@ import isa.project.model.rentacar.Car;
 import isa.project.model.rentacar.CarReservation;
 import isa.project.model.rentacar.RentACarCompany;
 import isa.project.model.users.User;
+import isa.project.repository.rentacar.CarRepository;
 import isa.project.repository.rentacar.CarReservationRepository;
 import isa.project.repository.rentacar.RentACarCompanyRepository;
 import isa.project.repository.users.UserRepository;
@@ -30,7 +31,19 @@ public class CarService {
 
 	@Autowired
 	private CarReservationRepository carReservationRepository;
+	
+	@Autowired
+	private CarRepository carRepository;
 
+	public Optional<Car> findCar(Integer id) {
+		return carRepository.findById(id);
+	}
+	
+	public Car saveCar(Car car) {
+		return carRepository.save(car);
+	}
+	
+	
 	public CarReservation addReservation(Integer carCompanyId, Integer carId, String customer,
 			Integer pickUpBranchOfficeId, Integer dropOffBranchOfficeId, String pickUpDate, String dropOffDate)
 			throws ResourceNotFoundException, ParseException, RequestDataException {

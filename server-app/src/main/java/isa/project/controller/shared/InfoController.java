@@ -153,7 +153,7 @@ public class InfoController {
 	@PreAuthorize("hasAnyRole('CARADMIN')")
 	@AdminAccountActiveCheck
 	@RentACarCompanyAdminCheck
-	@RequestMapping(value="/rentACarCompany/{id}/{startDate}/{endDate}",method=RequestMethod.GET, consumes="application/json")
+	@RequestMapping(value="/rentACarCompanyIncome/{id}/{startDate}/{endDate}",method=RequestMethod.GET, consumes="application/json")
 	public ResponseEntity<Double> getRentACarCompanyIncome(@PathVariable Integer id, @PathVariable String startDate, @PathVariable String endDate) throws ResourceNotFoundException, ParseException{
 		//rent-a-car company must exist
 		Optional<RentACarCompany> opt = rentACarCompanyService.findRentACarCompany(id);

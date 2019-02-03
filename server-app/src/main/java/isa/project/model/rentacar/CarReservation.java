@@ -47,8 +47,7 @@ public class CarReservation {
 	private Car car;	
 	
 	@JsonBackReference(value = "reservation-car-reservation")
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)	
-	@JoinColumn(name="reservation_id", referencedColumnName="id")
+	@OneToOne(fetch = FetchType.EAGER, mappedBy = "carReservation", orphanRemoval = true)
 	private Reservation reservation;
 	
 	@Column(name = "isCarRated")

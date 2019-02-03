@@ -67,6 +67,7 @@ export class ChangePasswordFormComponent implements OnInit {
         this.tokenService.saveToken(data.token);
         const tokenPayload: TokenPayload = decode(data.token);
         this.tokenService.saveRoles(tokenPayload.roles);
+        this.tokenService.saveComapny(tokenPayload.companyId);
         this.modalRef.hide();
       },
       (err: HttpErrorResponse) => {

@@ -1,10 +1,17 @@
 import { AdditionalService } from '../additional-service';
 import { SingleRoomReservation } from './single-room-reservation';
+import { Hotel } from './hotel';
+import { Room } from './room';
 
 export class RoomReservation {
     id: number;
     checkInDate: Date;
     checkOutDate: Date;
     additionalServices: AdditionalService[];
-    reservations: SingleRoomReservation[];
+    roomReservations: Room[]; // SingleRoomReservation
+    reservations: Room[];
+    hotel: Hotel = new Hotel();
+    isHotelRated: Boolean;
+    ratingCount: number;
+    totalRating: number;
 }

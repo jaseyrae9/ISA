@@ -9,4 +9,5 @@ export class RentACarCompany {
     cars: Car[];
     branchOffices: BranchOffice[];
     location: Location = new Location();
+    averageRating: number;
 }

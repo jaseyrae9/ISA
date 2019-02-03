@@ -41,6 +41,9 @@ public class RoomService {
 	@Autowired
 	private SingleRoomReservationRepository singleRoomReservationRepository;
 
+	public Optional<Room> findRoom(Integer id) {
+		return roomRepository.findById(id);
+	}
 	
 	public Room saveRoom(Room room) {
 		System.out.println("room " + room.getId());

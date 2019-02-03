@@ -100,4 +100,12 @@ export class HotelService {
   getIncome(hotelId, startDate, endDate): Observable<any> {
     return this.http.get<any>('http://localhost:8080/report_info/hotelIncome/' + hotelId + '/' + startDate + '/' + endDate, httpOptions);
   }
+
+  rateHotel(hotelId, reservationId, rate): Observable<any> {
+    return this.http.put<any>('http://localhost:8080/reservation/rateHotel/' + hotelId + '/' + reservationId + '/' + rate, httpOptions);
+  }
+
+  rateRoom(roomId, singleReservationId, rate): Observable<any> {
+    return this.http.put<any>('http://localhost:8080/reservation/rateRoom/' + roomId + '/' + singleReservationId + '/' + rate, httpOptions);
+  }
 }

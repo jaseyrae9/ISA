@@ -1,5 +1,6 @@
 import { BranchOffice } from './branch-offfice';
 import { Car } from './car';
+import { RentACarCompany } from './rent-a-car-company';
 
 export class CarReservation {
     id: number;
@@ -10,4 +11,5 @@ export class CarReservation {
     car: Car = new Car();
     isCarRated: Boolean;
     isCompanyRated: Boolean;
+    rentACarCompany: RentACarCompany;
 }

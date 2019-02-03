@@ -12,7 +12,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -48,9 +47,11 @@ public class RoomReservation {
 	private Boolean active;
 	
 	@JsonBackReference(value = "reservation-room-reservation")
-	@OneToOne(fetch = FetchType.LAZY)	
-	@JoinColumn(name="reservation_id", referencedColumnName="id")
+	@OneToOne(fetch = FetchType.EAGER, mappedBy = "roomReservation", orphanRemoval = true)
 	private Reservation reservation;	
+	
+	@Column(name = "isHotelRated")
+	private Boolean isHotelRated;
 	
 	public RoomReservation() {	
 	}
@@ -61,6 +62,7 @@ public class RoomReservation {
 		this.checkOutDate = checkOutDate;
 		this.additionalServices = new HashSet<>();
 		this.singleRoomReservations = new HashSet<>();
+		this.isHotelRated = false;
 		this.active = true;
 	}	
 
@@ -126,6 +128,14 @@ public class RoomReservation {
 
 	public void setReservation(Reservation reservation) {
 		this.reservation = reservation;
+	}
+
+	public Boolean getIsHotelRated() {
+		return isHotelRated;
+	}
+
+	public void setIsHotelRated(Boolean isHotelRated) {
+		this.isHotelRated = isHotelRated;
 	}
 
 	@Override

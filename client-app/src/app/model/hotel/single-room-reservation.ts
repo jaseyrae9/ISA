@@ -9,4 +9,5 @@ export class SingleRoomReservation {
     endDateAndTime: Date;
     duration: string;
     length = 0;
+    isRoomRated: Boolean;
 }

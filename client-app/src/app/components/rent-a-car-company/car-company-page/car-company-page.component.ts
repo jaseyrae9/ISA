@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { RentACarCompany } from 'src/app/model/rent-a-car-company/rent-a-car-company';
 import { ActivatedRoute } from '@angular/router';
 import { RentACarCompanyService } from 'src/app/services/rent-a-car-company/rent-a-car-company.service';
-import { Car } from 'src/app/model/rent-a-car-company/car';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { BranchOffice } from 'src/app/model/rent-a-car-company/branch-offfice';
 import { NgxNotificationService } from 'ngx-notification';
@@ -11,6 +10,8 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { NewCarFormComponent } from '../new-car-form/new-car-form.component';
 import { NewBranchOfficeFormComponent } from '../new-branch-office-form/new-branch-office-form.component';
 import { EditCarCompanyFormComponent } from '../edit-car-company-form/edit-car-company-form.component';
+import { formatDate } from '@angular/common';
+import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 
 @Component({
   selector: 'app-car-company-page',
@@ -28,12 +29,20 @@ export class CarCompanyPageComponent implements OnInit {
   dailyCarReservation: any;
 
   income: any;
+  bsRangeValue: Date[];
+  datePickerConfig: Partial<BsDatepickerConfig>;
 
   constructor(private modalService: BsModalService,
      private route: ActivatedRoute,
      private carService: RentACarCompanyService,
      public tokenService: TokenStorageService,
-     public ngxNotificationService: NgxNotificationService) { }
+     public ngxNotificationService: NgxNotificationService) {
+      this.datePickerConfig = Object.assign({},
+        {
+          containerClass: 'theme-default',
+          dateInputFormat: 'YYYY-MM-DD'
+        });
+      }
 
   ngOnInit() {
     const companyId = this.route.snapshot.paramMap.get('id');
@@ -119,5 +128,23 @@ export class CarCompanyPageComponent implements OnInit {
        this.carCompany = carCompany;
        this.ngxNotificationService.sendMessage('Rent a car company is changed!', 'dark', 'bottom-right' );
       });
+   }
+
+   getIncome() {
+    const date0 = new Date(this.bsRangeValue[0]);
+    const datum0 = formatDate(date0, 'yyyy-MM-dd', 'en');
+    console.log(datum0);
+    const date1 = new Date(this.bsRangeValue[1]);
+    const datum1 = formatDate(date1, 'yyyy-MM-dd', 'en');
+    console.log(datum1);
+
+    this.carService.getIncome(this.carCompany.id, datum0, datum1).subscribe(
+      data => {
+        this.income = data;
+      },
+      error => {
+        console.log(error.error.message);
+      }
+    );
    }
 }

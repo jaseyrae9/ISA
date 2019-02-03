@@ -111,6 +111,7 @@ import { HotelReservationComponent } from './components/reservations-history/hot
 import { ReservationComponent } from './components/reservations-history/reservation/reservation.component';
 import { ReserveFlightFormComponent } from './components/air-company/flight/reserve-flight-form/reserve-flight-form.component';
 import { AddSysAdminComponent } from './components/sys-admin/add-sys-admin/add-sys-admin.component';
+import { ReservationInformationComponent } from './components/air-company/flight/reservation-information/reservation-information.component';
 
 @NgModule({
   declarations: [
@@ -194,7 +195,8 @@ import { AddSysAdminComponent } from './components/sys-admin/add-sys-admin/add-s
     HotelReservationComponent,
     ReservationComponent,
     ReserveFlightFormComponent,
-    AddSysAdminComponent
+    AddSysAdminComponent,
+    ReservationInformationComponent
   ],
   imports: [
     BrowserModule,
@@ -246,7 +248,8 @@ import { AddSysAdminComponent } from './components/sys-admin/add-sys-admin/add-s
     AddAirCompanyAdminComponent,
     AddHotelAdminComponent,
     AddCarAdminComponent,
-    AddSysAdminComponent
+    AddSysAdminComponent,
+    ReservationInformationComponent
 ]
 })
 export class AppModule { }

@@ -37,7 +37,6 @@ public class CarReservationDTO {
 	}
 
 	public CarReservationDTO(CarReservation reservation) {
-		System.out.println("BB" + reservation.getId());
 		this.id = reservation.getId();
 		this.pickUpDate = reservation.getPickUpDate();
 		this.dropOffDate = reservation.getDropOffDate();

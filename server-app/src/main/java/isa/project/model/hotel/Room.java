@@ -80,6 +80,20 @@ public class Room implements Serializable{
 		this.ratingCount = 1; // jedan glas
 	}
 
+	public Room(Room room) {
+		super();
+		this.id = room.id;
+		this.hotel = room.hotel;
+		this.floor = room.floor;
+		this.roomNumber = room.roomNumber;
+		this.numberOfBeds = room.numberOfBeds;
+		this.price = room.price;
+		this.type = room.type;
+		this.active = room.active;
+		this.totalRating = room.totalRating; 
+		this.ratingCount = room.ratingCount; 
+	}
+	
 	public Integer getId() {
 		return id;
 	}
@@ -171,6 +185,10 @@ public class Room implements Serializable{
 	public void setRatingCount(Integer ratingCount) {
 		this.ratingCount = ratingCount;
 	}
+	
+	public void incrementRatingCount() {
+		this.ratingCount++;
+	}
 
 	public Integer getTotalRating() {
 		return totalRating;
@@ -178,6 +196,10 @@ public class Room implements Serializable{
 
 	public void setTotalRating(Integer totalRating) {
 		this.totalRating = totalRating;
+	}
+	
+	public void addToTotalRating(Integer x) {
+		this.totalRating += x;
 	}
 
 	@Override
