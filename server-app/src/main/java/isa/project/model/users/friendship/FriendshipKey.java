@@ -7,7 +7,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import isa.project.model.users.Customer;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 @Embeddable
 public class FriendshipKey implements Serializable {
 	private static final long serialVersionUID = -4887821352931854328L;
@@ -19,32 +27,6 @@ public class FriendshipKey implements Serializable {
 	@ManyToOne(targetEntity = Customer.class)
 	@JoinColumn(referencedColumnName = "id")
 	private Customer to;
-
-	public FriendshipKey() {
-
-	}
-
-	public FriendshipKey(Customer from, Customer to) {
-		super();
-		this.from = from;
-		this.to = to;
-	}
-
-	public Customer getFrom() {
-		return from;
-	}
-
-	public void setFrom(Customer from) {
-		this.from = from;
-	}
-
-	public Customer getTo() {
-		return to;
-	}
-
-	public void setTo(Customer to) {
-		this.to = to;
-	}
 
 	@Override
 	public boolean equals(Object o) {

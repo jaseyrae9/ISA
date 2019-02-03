@@ -3,11 +3,13 @@ package isa.project.dto.users;
 import isa.project.model.users.Customer;
 import isa.project.model.users.friendship.Friendship;
 import isa.project.model.users.friendship.FriendshipKey;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-/**
- * DTO containing friendship information.
- *
- */
+@NoArgsConstructor
+@Getter
+@Setter
 public class FriendshipDTO {
 	private Integer user1Id;
 	private Integer user2Id;
@@ -54,60 +56,4 @@ public class FriendshipDTO {
 		user2Lastname = customer.getLastName();
 		status = 3;
 	}
-
-	public Integer getUser1Id() {
-		return user1Id;
-	}
-
-	public void setUser1Id(Integer user1Id) {
-		this.user1Id = user1Id;
-	}
-
-	public Integer getUser2Id() {
-		return user2Id;
-	}
-
-	public void setUser2Id(Integer user2Id) {
-		this.user2Id = user2Id;
-	}
-
-	public String getUser1Firstname() {
-		return user1Firstname;
-	}
-
-	public void setUser1Firstname(String user1Firstname) {
-		this.user1Firstname = user1Firstname;
-	}
-
-	public String getUser1Lastname() {
-		return user1Lastname;
-	}
-
-	public void setUser1Lastname(String user1Lastname) {
-		this.user1Lastname = user1Lastname;
-	}
-
-	public String getUser2Firstname() {
-		return user2Firstname;
-	}
-
-	public void setUser2Firstname(String user2Firstname) {
-		this.user2Firstname = user2Firstname;
-	}
-
-	public String getUser2Lastname() {
-		return user2Lastname;
-	}
-
-	public void setUser2Lastname(String user2Lastname) {
-		this.user2Lastname = user2Lastname;
-	}
-
-	public int getStatus() {
-		return status;
-	}
-
-	public void setStatus(int status) {
-		this.status = status;
-	}	
 }

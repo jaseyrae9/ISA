@@ -125,7 +125,6 @@ public class AirplaneService {
 		for (int i = 0; i < airplaneDTO.getSeatsAsArray().size(); ++i) {
 			SeatDTO seatDTO = airplaneDTO.getSeatsAsArray().get(i);
 			if (i < airplane.getSeats().size()) {
-				System.out.println("editing seat");
 				Seat seat = airplane.getSeats().get(i);
 				seat.setSeatClass(seatDTO.getSeatClass());
 				seat.setColNum(seatDTO.getColNum());
@@ -139,7 +138,6 @@ public class AirplaneService {
 		}
 		
 		if(airplaneDTO.getSeatsAsArray().size() < airplane.getSeats().size()) {
-			System.out.println("deleting seats");
 			airplane.removeSeatsStartingFromIndex(airplaneDTO.getSeatsAsArray().size());
 		}
 		

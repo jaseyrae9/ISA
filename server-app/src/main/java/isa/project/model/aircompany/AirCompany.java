@@ -20,8 +20,13 @@ import javax.persistence.Table;
 
 import isa.project.model.shared.AdditionalService;
 import isa.project.model.shared.Location;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "air_company")
 public class AirCompany {
@@ -54,59 +59,19 @@ public class AirCompany {
 	@OrderBy("creationDate DESC")
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<TicketForFastReservation> ticketForFastReservations;
-	
-	public AirCompany() {
-		super();
-	}
 
 	public AirCompany(String name, String description) {
 		super();
 		this.name = name;
 		this.description = description;
 	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Location getLocation() {
-		return location;
-	}
-
-	public void setLocation(Location location) {
-		this.location = location;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
+	
 	public Set<Destination> getDestinations() {
 		if(destinations != null)
 			return destinations.stream().filter(d -> d.getActive()).collect(Collectors.toSet());
 		else
 			return null;
 	}
-
-	public void setDestinations(Set<Destination> destinations) {
-		this.destinations = destinations;
-	}	
 	
 	public Set<AdditionalService> getBaggageInformation() {
 		if(baggageInformation != null)
@@ -117,30 +82,6 @@ public class AirCompany {
 	
 	public void addBaggageInformation(AdditionalService baggageInformation) {
 		this.baggageInformation.add(baggageInformation);
-	}
-
-	public void setBaggageInformation(Set<AdditionalService> baggageInformation) {
-		this.baggageInformation = baggageInformation;
-	}	
-
-	public Set<Airplane> getAirplanes() {
-		return airplanes;
-	}
-
-	public void setAirplanes(Set<Airplane> airplanes) {
-		this.airplanes = airplanes;
-	}	
-	
-	public Set<Flight> getFlight() {
-		return flight;
-	}
-
-	public void setFlight(Set<Flight> flight) {
-		this.flight = flight;
-	}
-
-	public List<TicketForFastReservation> getTicketForFastReservations() {
-		return ticketForFastReservations;
 	}
 
 	public void setTicketForFastReservations(List<TicketForFastReservation> ticketForFastReservations) {

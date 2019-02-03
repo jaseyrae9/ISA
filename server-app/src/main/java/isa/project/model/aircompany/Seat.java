@@ -14,7 +14,11 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import isa.project.dto.aircompany.SeatDTO;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@NoArgsConstructor
 @Entity
 @Table(name = "seats")
 public class Seat implements Serializable{
@@ -22,29 +26,36 @@ public class Seat implements Serializable{
 	
 	private static final long serialVersionUID = 2817053057255132050L;
 	
+	@Getter
+	@Setter
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	@Setter
 	@ManyToOne
-	@JoinColumn(name="airplane_id", referencedColumnName="id", nullable = false)
+	@JoinColumn(name="airplane_id", referencedColumnName="id")
 	private Airplane airplane;
 	
+	@Getter
+	@Setter
 	@Column(nullable = false)
 	private SeatClass seatClass;
 	
+	@Getter
+	@Setter
 	@Column(nullable = false)
 	private Integer index;
 	
+	@Getter
+	@Setter
 	@Column(nullable = false)
 	private Integer rowNum;	
 	
+	@Getter
+	@Setter
 	@Column(nullable = false)
 	private Integer colNum;
-	
-	public Seat() {
-		
-	}
 	
 	public Seat(SeatDTO seatDTO) {
 		this.seatClass = seatDTO.getSeatClass();
@@ -52,53 +63,9 @@ public class Seat implements Serializable{
 		this.colNum = seatDTO.getColNum();
 	}
 
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
 	@JsonIgnore
 	public Airplane getAirplane() {
 		return airplane;
-	}
-
-	public void setAirplane(Airplane airplane) {
-		this.airplane = airplane;
-	}
-	
-	public SeatClass getSeatClass() {
-		return seatClass;
-	}
-
-	public void setSeatClass(SeatClass seatClass) {
-		this.seatClass = seatClass;
-	}
-
-	public Integer getIndex() {
-		return index;
-	}
-
-	public void setIndex(Integer index) {
-		this.index = index;
-	}
-
-	public Integer getRowNum() {
-		return rowNum;
-	}
-
-	public void setRowNum(Integer rowNum) {
-		this.rowNum = rowNum;
-	}
-
-	public Integer getColNum() {
-		return colNum;
-	}
-
-	public void setColNum(Integer colNum) {
-		this.colNum = colNum;
 	}
 
 	@Override

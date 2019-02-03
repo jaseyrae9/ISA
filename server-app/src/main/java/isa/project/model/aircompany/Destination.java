@@ -13,6 +13,13 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "destinations")
 public class Destination implements Serializable {
@@ -40,9 +47,6 @@ public class Destination implements Serializable {
 	
 	@Column(nullable = false)
 	private Boolean active;
-
-	public Destination() {
-	}
 	
 	public Destination(AirCompany airCompany, String label, String country, String city, String airportName) {
 		super();	
@@ -52,64 +56,11 @@ public class Destination implements Serializable {
 		this.city = city;
 		this.airportName = airportName;
 		this.active = true;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
+	}	
 
 	@JsonIgnore
 	public AirCompany getAirCompany() {
 		return airCompany;
-	}
-
-	public void setAirCompany(AirCompany airCompany) {
-		this.airCompany = airCompany;
-	}
-
-	public String getLabel() {
-		return label;
-	}
-
-	public void setLabel(String label) {
-		this.label = label;
-	}
-
-	public String getCountry() {
-		return country;
-	}
-
-	public void setCountry(String country) {
-		this.country = country;
-	}
-	
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public String getAirportName() {
-		return airportName;
-	}
-
-	public void setAirportName(String airportName) {
-		this.airportName = airportName;
-	}	
-
-	public Boolean getActive() {
-		return active;
-	}
-
-	public void setActive(Boolean active) {
-		this.active = active;
 	}
 
 	@Override

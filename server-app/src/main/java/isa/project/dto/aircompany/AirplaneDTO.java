@@ -13,33 +13,45 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import isa.project.model.aircompany.Airplane;
 import isa.project.model.aircompany.Airplane.AirplaneStatus;
 import isa.project.model.aircompany.Seat;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@NoArgsConstructor
 public class AirplaneDTO {
+	@Getter
+	@Setter
 	private Integer id;
 	
+	@Getter
+	@Setter
 	@NotBlank(message = "Airplane name can not be blank.")
 	private String name;
 	
+	@Getter
+	@Setter
 	private AirplaneStatus status;
 	
+	@Getter
+	@Setter
 	@NotNull(message = "Row number can not be blank.")
 	@Min(value = 1, message = "There must be at least one row.")
 	private Integer rowNum;
 
+	@Getter
+	@Setter
 	@NotNull(message = "Column number can not be blank.")
 	@Min(value = 1, message = "There must be at least one column.")
 	private Integer colNum;	
 
+	@Getter
+	@Setter
 	@NotNull(message = "Seats per column number can not be blank.")
 	@Min(value = 1, message = "There must be at least one seat per column.")
 	private Integer seatsPerCol;
 	
 	@NotEmpty(message = "There must be at least one seat.")
 	private List<SeatDTO> seats;
-	
-	public AirplaneDTO() {
-		
-	}
 	
 	public AirplaneDTO(Airplane airplane) {
 		this.id = airplane.getId();
@@ -52,54 +64,6 @@ public class AirplaneDTO {
 		for(Seat seat:airplane.getSeats()) {
 			seats.add(new SeatDTO(seat));
 		}
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public AirplaneStatus getStatus() {
-		return status;
-	}
-
-	public void setStatus(AirplaneStatus status) {
-		this.status = status;
-	}
-
-	public Integer getRowNum() {
-		return rowNum;
-	}
-
-	public void setRowNum(Integer rowNum) {
-		this.rowNum = rowNum;
-	}
-
-	public Integer getColNum() {
-		return colNum;
-	}
-
-	public void setColNum(Integer colNum) {
-		this.colNum = colNum;
-	}
-
-	public Integer getSeatsPerCol() {
-		return seatsPerCol;
-	}
-
-	public void setSeatsPerCol(Integer seatsPerCol) {
-		this.seatsPerCol = seatsPerCol;
 	}
 
 	public ArrayList<List<SeatDTO>> getSeats() {

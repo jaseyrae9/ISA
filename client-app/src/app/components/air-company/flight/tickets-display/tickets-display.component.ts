@@ -15,10 +15,12 @@ export class TicketsDisplayComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    for (const row of this.flight.tickets) {
-      for (const ticket of row) {
-        if (ticket.status === 'UNAVIABLE') {
-          this.checkedTickets.push(ticket);
+    if (this.seatDisabler) {
+      for (const row of this.flight.tickets) {
+        for (const ticket of row) {
+          if (ticket.status === 'UNAVIABLE') {
+            this.checkedTickets.push(ticket);
+          }
         }
       }
     }

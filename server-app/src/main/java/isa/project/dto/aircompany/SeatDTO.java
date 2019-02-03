@@ -7,77 +7,53 @@ import javax.validation.constraints.NotNull;
 
 import isa.project.model.aircompany.Seat;
 import isa.project.model.aircompany.Seat.SeatClass;
+import lombok.Getter;
+import lombok.Setter;
 
 public class SeatDTO {
-	private static HashMap<String, SeatClass> possibleClasses;
+	private HashMap<String, SeatClass> possibleClasses;
+
+	@Getter
+	@Setter
 	private Integer id;
-	
+
+
+	@Getter
 	@NotNull(message = "Seat class can not be empty.")
 	private SeatClass seatClass;
-	
+
+	@Getter
+	@Setter
 	@NotNull(message = "Row number can not be blank.")
 	@Min(value = 1, message = "Minimal row number is 1.")
 	private Integer rowNum;
-	
+
+	@Getter
+	@Setter
 	@NotNull(message = "Column number can not be blank.")
 	@Min(value = 1, message = "Minimal column number is 1.")
 	private Integer colNum;
-	
+
 	public SeatDTO() {
-		if(possibleClasses == null) {
-			SeatDTO.possibleClasses = new HashMap<>();
-			SeatDTO.possibleClasses.put("ECONOMY", SeatClass.ECONOMY);
-			SeatDTO.possibleClasses.put("PREMIUM_ECONOMY", SeatClass.PREMIUM_ECONOMY);
-			SeatDTO.possibleClasses.put("BUSSINESS", SeatClass.BUSSINESS);
-			SeatDTO.possibleClasses.put("FIRST", SeatClass.FIRST);
-		}
+		this.possibleClasses = new HashMap<>();
+		this.possibleClasses.put("ECONOMY", SeatClass.ECONOMY);
+		this.possibleClasses.put("PREMIUM_ECONOMY", SeatClass.PREMIUM_ECONOMY);
+		this.possibleClasses.put("BUSSINESS", SeatClass.BUSSINESS);
+		this.possibleClasses.put("FIRST", SeatClass.FIRST);
 	}
-	
+
 	public SeatDTO(Seat seat) {
 		this.id = seat.getId();
 		this.seatClass = seat.getSeatClass();
-		this.rowNum= seat.getRowNum();
+		this.rowNum = seat.getRowNum();
 		this.colNum = seat.getColNum();
 	}
 
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public SeatClass getSeatClass() {
-		return seatClass;
-	}
-
-	public void setSeatClass(SeatClass seatClass) {
-		this.seatClass = seatClass;
-	}
-	
 	public void setSeatClass(String seatClass) {
-		if(possibleClasses.containsKey(seatClass)) {
+		if (possibleClasses.containsKey(seatClass)) {
 			this.seatClass = possibleClasses.get(seatClass);
+		} else {
+			this.seatClass = SeatClass.ECONOMY;
 		}
-		else {
-			this.seatClass = SeatClass.ECONOMY; 
-		}
-	}
-
-	public Integer getRowNum() {
-		return rowNum;
-	}
-
-	public void setRowNum(Integer rowNumber) {
-		this.rowNum = rowNumber;
-	}
-
-	public Integer getColNum() {
-		return colNum;
-	}
-
-	public void setColNum(Integer colNumber) {
-		this.colNum = colNumber;
 	}
 }

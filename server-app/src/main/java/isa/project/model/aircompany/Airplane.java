@@ -21,7 +21,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import isa.project.dto.aircompany.AirplaneDTO;
 import isa.project.dto.aircompany.SeatDTO;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@NoArgsConstructor
 @Entity
 @Table(name = "airplanes")
 public class Airplane implements Serializable {
@@ -29,37 +33,47 @@ public class Airplane implements Serializable {
 
 	public enum AirplaneStatus {IN_PROGRESS, ACTIVE, DELETED};
 	
+
+	@Getter
+	@Setter
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	@Setter
 	@ManyToOne(fetch = FetchType.EAGER)	
 	@JoinColumn(name="air_company_id", referencedColumnName="id", nullable = false)
 	private AirCompany airCompany;
 	
+	@Getter
+	@Setter
 	@Column(nullable = false)
 	private String name;	
 	
+	@Getter
+	@Setter
 	@Column(nullable = false)
 	private AirplaneStatus status;
 	
+	@Getter
+	@Setter
 	@Column(nullable = false)
 	private Integer rowNum;
 	
+	@Getter
+	@Setter
 	@Column(nullable = false)
 	private Integer colNum;
 	
+	@Getter
+	@Setter
 	@Column(nullable = false)
 	private Integer seatsPerCol;
 	
 	@OrderColumn(name = "index")
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "airplane", orphanRemoval = true)
 	private List<Seat> seats;	
-	
-	public Airplane() {
 		
-	}
-	
 	public Airplane(AirplaneDTO airplaneDTO) {
 		this.name = airplaneDTO.getName();
 		this.colNum = airplaneDTO.getColNum();
@@ -74,72 +88,16 @@ public class Airplane implements Serializable {
 			this.seats.add(seat);
 			index += 1;
 		}
-	}
-		
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
+	}		
 	
 	@JsonIgnore
 	public AirCompany getAirCompany() {
 		return airCompany;
 	}
 
-	public void setAirCompany(AirCompany airCompany) {
-		this.airCompany = airCompany;
-	}		
-
-	public AirplaneStatus getStatus() {
-		return status;
-	}
-
-	public void setStatus(AirplaneStatus status) {
-		this.status = status;
-	}
-
-	public Integer getRowNum() {
-		return rowNum;
-	}
-
-	public void setRowNum(Integer rowNum) {
-		this.rowNum = rowNum;
-	}
-
-	public Integer getColNum() {
-		return colNum;
-	}
-
-	public void setColNum(Integer colNum) {
-		this.colNum = colNum;
-	}	
-
-	public Integer getSeatsPerCol() {
-		return seatsPerCol;
-	}
-
-	public void setSeatsPerCol(Integer seatsPerCol) {
-		this.seatsPerCol = seatsPerCol;
-	}
-
 	@JsonIgnore
 	public List<Seat> getSeats() {
 		return seats;
-	}
-
-	public void setSeats(List<Seat> seats) {
-		this.seats = seats;
 	}
 	
 	public void removeSeat(Seat seat) {

@@ -6,6 +6,13 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@NoArgsConstructor
+@Getter
+@Setter
 public class CreateFastReservationTicketsDTO {
 	@NotNull(message = "Length can not be empty.")
 	@Min(value = 0, message = "Minimal discount is 0.")
@@ -13,20 +20,4 @@ public class CreateFastReservationTicketsDTO {
 	
 	@NotEmpty(message = "Choose at least one ticket to create tickets for fast reservations.")
 	private List<Long> tickets;	
-
-	public double getDiscount() {
-		return discount;
-	}
-
-	public void setDiscount(double discount) {
-		this.discount = discount;
-	}
-
-	public List<Long> getTickets() {
-		return tickets;
-	}
-
-	public void setTickets(List<Long> tickets) {
-		this.tickets = tickets;
-	}
 }

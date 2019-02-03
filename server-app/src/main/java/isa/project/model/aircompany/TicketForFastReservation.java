@@ -15,6 +15,13 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 public class TicketForFastReservation {
 	@Id
@@ -33,46 +40,14 @@ public class TicketForFastReservation {
 	@Column(nullable = false)
 	private Date creationDate;
 	
-	public TicketForFastReservation() {
-		
-	}
-
 	public TicketForFastReservation(AirCompany airCompany, Ticket ticket) {
 		super();
 		this.airCompany = airCompany;
 		this.ticket = ticket;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
+	}	
 
 	@JsonIgnore
 	public AirCompany getAirCompany() {
 		return airCompany;
 	}
-
-	public void setAirCompany(AirCompany airCompany) {
-		this.airCompany = airCompany;
-	}
-
-	public Ticket getTicket() {
-		return ticket;
-	}
-
-	public void setTicket(Ticket ticket) {
-		this.ticket = ticket;
-	}
-
-	public Date getCreationDate() {
-		return creationDate;
-	}
-
-	public void setCreationDate(Date creationDate) {
-		this.creationDate = creationDate;
-	}	
 }

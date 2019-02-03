@@ -4,6 +4,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import isa.project.model.aircompany.Destination;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * DTO za prenos destinacije aviokompanije.
@@ -11,6 +14,9 @@ import isa.project.model.aircompany.Destination;
  * @author Milica
  *
  */
+@NoArgsConstructor
+@Getter
+@Setter
 public class DestinationDTO {
 	private Long id;
 	
@@ -25,11 +31,7 @@ public class DestinationDTO {
 	private String country;
 	
 	@NotBlank(message = "City can not be blank.")
-	private String city;
-	
-	public DestinationDTO() {
-		
-	}
+	private String city;	
 
 	public DestinationDTO(Destination destination) {
 		this.id = destination.getId();
@@ -38,45 +40,4 @@ public class DestinationDTO {
 		this.country = destination.getCountry();
 		this.city = destination.getCity();
 	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getLabel() {
-		return label;
-	}
-
-	public void setLabel(String label) {
-		this.label = label;
-	}
-
-	public String getAirportName() {
-		return airportName;
-	}
-
-	public void setAirportName(String airportName) {
-		this.airportName = airportName;
-	}
-
-	public String getCountry() {
-		return country;
-	}
-
-	public void setCountry(String country) {
-		this.country = country;
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-	
 }

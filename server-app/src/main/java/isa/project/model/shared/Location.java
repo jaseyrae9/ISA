@@ -8,6 +8,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 @Entity
 @Table(name = "locations")
 public class Location {
@@ -37,66 +42,5 @@ public class Location {
 		lat = 0;
 		lon = 0;
 	}
-	
-	public Location(String address) {
-		lat = 0;
-		lon = 0;
-		this.address = address;
-	}
 
-	public Location(Long id, @NotBlank(message = "Address can not be blank.") String address, double lon, double lat) {
-		super();
-		this.id = id;
-		this.address = address;
-		this.lon = lon;
-		this.lat = lat;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getCountry() {
-		return country;
-	}
-
-	public void setCountry(String country) {
-		this.country = country;
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public double getLon() {
-		return lon;
-	}
-
-	public void setLon(double lon) {
-		this.lon = lon;
-	}
-
-	public double getLat() {
-		return lat;
-	}
-
-	public void setLat(double lat) {
-		this.lat = lat;
-	}
 }

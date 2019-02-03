@@ -14,17 +14,22 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 @Entity
 @Table(name = "flight_destinations")
 public class FlightDestination implements Serializable{
 	private static final long serialVersionUID = 867798187874772312L;
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long id;	
 	
 	@Column
-	private Integer index;
+	private Integer index;	
 	
 	@ManyToOne(fetch = FetchType.EAGER)	
 	@JoinColumn(name="flight_id", referencedColumnName="id")
@@ -32,39 +37,11 @@ public class FlightDestination implements Serializable{
 	
 	@ManyToOne(fetch = FetchType.EAGER)	
 	@JoinColumn(name="destination_id", referencedColumnName="id")
-	private Destination destination;
+	private Destination destination;	
 	
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Integer getIndex() {
-		return index;
-	}
-
-	public void setIndex(Integer index) {
-		this.index = index;
-	}
-
 	@JsonIgnore()
 	public Flight getFlight() {
 		return flight;
-	}
-
-	public void setFlight(Flight flight) {
-		this.flight = flight;
-	}
-	
-	public Destination getDestination() {
-		return destination;
-	}
-
-	public void setDestination(Destination destination) {
-		this.destination = destination;
 	}
 
 	@Override

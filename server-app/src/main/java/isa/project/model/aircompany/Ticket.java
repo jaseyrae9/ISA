@@ -12,6 +12,11 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 @Entity
 @Table(name = "tickets")
 public class Ticket {
@@ -23,7 +28,7 @@ public class Ticket {
 	
 	@JsonBackReference(value="flight")
 	@ManyToOne(fetch = FetchType.EAGER)	
-	@JoinColumn(name="flight", referencedColumnName="id", nullable = false)
+	@JoinColumn(name="flight", referencedColumnName="id")
 	private Flight flight;	
 
 	@ManyToOne(fetch = FetchType.EAGER)	
@@ -52,43 +57,7 @@ public class Ticket {
 		this.flight = flight;
 		this.seat = seat;
 		this.price = price;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Flight getFlight() {
-		return flight;
-	}
-
-	public void setFlight(Flight flight) {
-		this.flight = flight;
-	}
-
-	public Seat getSeat() {
-		return seat;
-	}
-
-	public void setSeat(Seat seat) {
-		this.seat = seat;
-	}
-
-	public Double getPrice() {
-		return price;
-	}
-
-	public void setPrice(Double price) {
-		this.price = price;
-	}
-
-	public Double getDiscount() {
-		return discount;
-	}
+	}	
 
 	public void setDiscount(Double discount) {
 		if(discount > price) {
@@ -96,22 +65,6 @@ public class Ticket {
 		} else {
 			this.discount = discount;
 		}
-	}
-
-	public TicketStatus getStatus() {
-		return status;
-	}
-
-	public void setStatus(TicketStatus status) {
-		this.status = status;
-	}
-
-	public Integer getIndex() {
-		return index;
-	}
-
-	public void setIndex(Integer index) {
-		this.index = index;
 	}
 
 	@Override

@@ -4,7 +4,13 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import isa.project.model.aircompany.Seat.SeatClass;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@NoArgsConstructor
+@Getter
+@Setter
 public class FlightTicketsPriceChangeDTO {
 	@NotNull(message = "Price can not be empty.")
 	@Min(value = 0, message = "Minimal price is 0.")
@@ -20,39 +26,7 @@ public class FlightTicketsPriceChangeDTO {
 	
 	@NotNull(message = "Price can not be empty.")
 	@Min(value = 0, message = "Minimal price is 0.")
-	private Double firstPrice;
-	
-	public Double getEconomyPrice() {
-		return economyPrice;
-	}
-
-	public void setEconomyPrice(Double economyPrice) {
-		this.economyPrice = economyPrice;
-	}
-
-	public Double getPremiumEconomyPrice() {
-		return premiumEconomyPrice;
-	}
-
-	public void setPremiumEconomyPrice(Double premiumEconomyPrice) {
-		this.premiumEconomyPrice = premiumEconomyPrice;
-	}
-
-	public Double getBussinessPrice() {
-		return bussinessPrice;
-	}
-
-	public void setBussinessPrice(Double bussinessPrice) {
-		this.bussinessPrice = bussinessPrice;
-	}
-
-	public Double getFirstPrice() {
-		return firstPrice;
-	}
-
-	public void setFirstPrice(Double firstPrice) {
-		this.firstPrice = firstPrice;
-	}
+	private Double firstPrice;	
 	
 	public Double getPriceForClass(SeatClass seatClass) {
 		switch (seatClass) {

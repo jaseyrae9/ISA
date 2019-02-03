@@ -32,85 +32,118 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import isa.project.dto.aircompany.AirCompanyDTO;
 import isa.project.dto.aircompany.FlightDTO;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "flights")
-public class Flight implements Serializable{
+public class Flight implements Serializable {
 	private static final long serialVersionUID = 8314910123459548244L;
-	public enum FlightStatus {IN_PROGRESS, ACTIVE, DELETED};
-	
+
+	public enum FlightStatus {
+		IN_PROGRESS, ACTIVE, DELETED
+	};
+
+	@Getter
+	@Setter
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
-	@ManyToOne(fetch = FetchType.EAGER)	
-	@JoinColumn(name="air_company_id", referencedColumnName="id", nullable = false)
+
+	@Setter
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "air_company_id", referencedColumnName = "id", nullable = false)
 	private AirCompany airCompany;
-	
-	@ManyToOne(fetch = FetchType.EAGER)	
-	@JoinColumn(name="airplane_id", referencedColumnName="id", nullable = false)
+
+	@Getter
+	@Setter
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "airplane_id", referencedColumnName = "id", nullable = false)
 	private Airplane airplane;
-	
-	@OrderColumn(name="index")
+
+	@Getter
+	@Setter
+	@OrderColumn(name = "index")
 	@OneToMany(mappedBy = "flight", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<FlightDestination> destinations;
-	
+
+	@Getter
+	@Setter
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
 	@Column(nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date startDateAndTime;
-	
+
+	@Getter
+	@Setter
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
 	@Column(nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date endDateAndTime;
-	
+
+	@Getter
+	@Setter
 	@Column(nullable = false)
 	private Double length;
-	
+
+	@Getter
+	@Setter
 	@Column(nullable = false)
 	private Integer maxCarryOnBags;
-	
+
+	@Getter
+	@Setter
 	@Column(nullable = false)
 	private Integer maxCheckedBags;
-	
+
+	@Getter
+	@Setter
 	@Column(nullable = false)
 	private Boolean additionalServicesAvailable;
-	
+
+	@Getter
+	@Setter
 	@Column(nullable = false)
 	private FlightStatus status;
-	
+
+	@Getter
+	@Setter
 	@Column(nullable = false)
 	private Double economyPrice;
-	
+
+	@Getter
+	@Setter
 	@Column(nullable = false)
 	private Double premiumEconomyPrice;
-	
+
+	@Getter
+	@Setter
 	@Column(nullable = false)
 	private Double bussinessPrice;
-	
-	@Column(nullable = false)
-	private Double firstPrice;	
 
-	@OrderColumn(name="index")
-	@JsonManagedReference(value="flight")
+	@Getter
+	@Setter
+	@Column(nullable = false)
+	private Double firstPrice;
+
+	@OrderColumn(name = "index")
+	@JsonManagedReference(value = "flight")
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "flight", orphanRemoval = true)
 	private List<Ticket> tickets;
-	
-		
+
 	public Flight() {
 		tickets = new ArrayList<>();
 		destinations = new ArrayList<>();
 		status = FlightStatus.IN_PROGRESS;
 	}
-	
+
 	public Flight(FlightDTO flightInfo) {
 		tickets = new ArrayList<>();
 		destinations = new ArrayList<>();
 		status = FlightStatus.IN_PROGRESS;
 		setData(flightInfo);
 	}
-	
+
 	public void setData(FlightDTO flightInfo) {
 		this.setStartDateAndTime(flightInfo.getStartDateAndTime());
 		this.setEndDateAndTime(flightInfo.getEndDateAndTime());
@@ -124,132 +157,43 @@ public class Flight implements Serializable{
 		this.setFirstPrice(flightInfo.getFirstPrice());
 	}
 
-	public Integer getId() {
-		return id;
+	public AirCompanyDTO getAirCompanyBasicInfo() {
+		return new AirCompanyDTO(airCompany);
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
-	
 	@JsonIgnore
 	public AirCompany getAirCompany() {
 		return airCompany;
 	}
 
-	public AirCompanyDTO getAirCompanyBasicInfo() {
-		return new AirCompanyDTO(airCompany);
-	}
-	
-	public void setAirCompany(AirCompany airCompany) {
-		this.airCompany = airCompany;
-	}
-	
-	public Airplane getAirplane() {
-		return airplane;
-	}
-
-	public void setAirplane(Airplane airplane) {
-		this.airplane = airplane;
-	}
-	
-	public List<FlightDestination> getDestinations() {
-		return destinations;
-	}
-
-	public void setDestinations(List<FlightDestination> destinations) {
-		this.destinations = destinations;
-	}
-	
 	public void removeDestination(FlightDestination flightDestination) {
 		flightDestination.setFlight(null);
 		this.destinations.remove(flightDestination);
 	}
 
 	public void removeDestinationsStartingFromIndex(int index) {
-		for(int i = this.destinations.size() - 1; i >= index; --i) {
-			   removeDestination(this.destinations.get(i));
+		for (int i = this.destinations.size() - 1; i >= index; --i) {
+			removeDestination(this.destinations.get(i));
 		}
 	}
-	
+
 	public void addDestination(FlightDestination destination) {
 		this.destinations.add(destination);
 	}
 
-	public Date getStartDateAndTime() {
-		return startDateAndTime;
-	}
-
-	public void setStartDateAndTime(Date startDateAndTime) {
-		this.startDateAndTime = startDateAndTime;
-	}
-
-	public Date getEndDateAndTime() {
-		return endDateAndTime;
-	}
-
-	public void setEndDateAndTime(Date endDateAndTime) {
-		this.endDateAndTime = endDateAndTime;
-	}
-	
 	public String getDuration() {
 		Duration duration = new Duration(startDateAndTime.getTime(), endDateAndTime.getTime());
 		Period period = duration.toPeriod();
-		PeriodFormatter formatter = new PeriodFormatterBuilder()
-				 .printZeroAlways()
-			     .appendHours()
-			     .appendLiteral(" h ")
-			     .appendMinutes()
-			     .appendLiteral(" min ")
-			     .toFormatter();
+		PeriodFormatter formatter = new PeriodFormatterBuilder().printZeroAlways().appendHours().appendLiteral(" h ")
+				.appendMinutes().appendLiteral(" min ").toFormatter();
 		return formatter.print(period);
 	}
 
-	public Double getLength() {
-		return length;
-	}
-
-	public void setLength(Double length) {
-		this.length = length;
-	}
-
-	public Integer getMaxCarryOnBags() {
-		return maxCarryOnBags;
-	}
-
-	public void setMaxCarryOnBags(Integer maxCarryOnBags) {
-		this.maxCarryOnBags = maxCarryOnBags;
-	}
-
-	public Integer getMaxCheckedBags() {
-		return maxCheckedBags;
-	}
-
-	public void setMaxCheckedBags(Integer maxCheckedBags) {
-		this.maxCheckedBags = maxCheckedBags;
-	}
-
-	public Boolean getAdditionalServicesAvailable() {
-		return additionalServicesAvailable;
-	}
-
-	public void setAdditionalServicesAvailable(Boolean additionalServicesAvailable) {
-		this.additionalServicesAvailable = additionalServicesAvailable;
-	}	
-
-	public FlightStatus getStatus() {
-		return status;
-	}
-
-	public void setStatus(FlightStatus status) {
-		this.status = status;
-	}
-	
 	public List<List<Ticket>> getTickets() {
 		ArrayList<List<Ticket>> ret = new ArrayList<>();
 		int itemsInRow = this.airplane.getColNum() * this.airplane.getSeatsPerCol();
 		int lower = 0;
-		for(int i = 0; i < this.airplane.getRowNum(); ++i) {
+		for (int i = 0; i < this.airplane.getRowNum(); ++i) {
 			List<Ticket> row = this.tickets.subList(lower, lower + itemsInRow);
 			lower += itemsInRow;
 			ret.add(row);
@@ -257,71 +201,35 @@ public class Flight implements Serializable{
 		return ret;
 	}
 
-	public void setTickets(List<Ticket> ticket) {
-		this.tickets = ticket;
-	}
-	
 	public void removeTicket(Ticket ticket) {
 		ticket.setFlight(null);
 		this.tickets.remove(ticket);
 	}
 
 	public void removeTicketsStartingFromIndex(int index) {
-		for(int i = this.tickets.size() - 1; i >= index; --i) {
-			   removeTicket(this.tickets.get(i));
+		for (int i = this.tickets.size() - 1; i >= index; --i) {
+			removeTicket(this.tickets.get(i));
 		}
 	}
-	
+
 	public void addTicket(Ticket ticket) {
 		this.tickets.add(ticket);
 	}
-	
+
 	public Ticket getTicket(int i) {
 		return this.tickets.get(i);
 	}
-	
+
 	public Optional<Ticket> getTicketById(Long id) {
 		return this.tickets.stream().filter(t -> t.getId().equals(id)).findFirst();
 	}
-	
+
 	public int ticketsSize() {
 		return this.tickets.size();
-	}	
-
-	public Double getEconomyPrice() {
-		return economyPrice;
 	}
 
-	public void setEconomyPrice(Double economyPrice) {
-		this.economyPrice = economyPrice;
-	}
-
-	public Double getPremiumEconomyPrice() {
-		return premiumEconomyPrice;
-	}
-
-	public void setPremiumEconomyPrice(Double premiumEconomyPrice) {
-		this.premiumEconomyPrice = premiumEconomyPrice;
-	}
-
-	public Double getBussinessPrice() {
-		return bussinessPrice;
-	}
-
-	public void setBussinessPrice(Double bussinessPrice) {
-		this.bussinessPrice = bussinessPrice;
-	}
-
-	public Double getFirstPrice() {
-		return firstPrice;
-	}
-
-	public void setFirstPrice(Double firstPrice) {
-		this.firstPrice = firstPrice;
-	}
-	
 	public Double getMinPrice() {
-		return Math.min(Math.min(economyPrice,premiumEconomyPrice),Math.min(bussinessPrice,firstPrice));
+		return Math.min(Math.min(economyPrice, premiumEconomyPrice), Math.min(bussinessPrice, firstPrice));
 	}
 
 	@Override
