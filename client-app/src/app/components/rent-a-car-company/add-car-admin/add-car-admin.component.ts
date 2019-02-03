@@ -7,7 +7,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-@Component({ 
+@Component({
   selector: 'app-add-car-admin',
   templateUrl: './add-car-admin.component.html',
   styleUrls: ['./add-car-admin.component.css',  '../../../shared/css/inputField.css']

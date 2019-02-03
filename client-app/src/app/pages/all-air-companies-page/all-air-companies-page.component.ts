@@ -15,17 +15,27 @@ import { NgxNotificationService } from 'ngx-notification';
 })
 export class AllAirCompaniesPageComponent implements OnInit {
   modalRef: BsModalRef;
-  companies: AirCompany[];
+  companies: AirCompany[] = [];
+
+  pages: Array<Number> = new Array();
+  pageNumber = 0;
+  sort  = 'name';
 
   constructor(private airCompanyService: AirCompanyService,
      private dataService: DataService,
-     public tokenService: TokenStorageService, private ngxNotificationService: NgxNotificationService,
+     public tokenService: TokenStorageService,
+     private ngxNotificationService: NgxNotificationService,
      private modalService: BsModalService) {
    }
 
   ngOnInit() {
-    this.airCompanyService.getAll().subscribe(data => {
-      this.companies = data;
+    this.loadCompanies();
+  }
+
+  loadCompanies() {
+    this.airCompanyService.getAllCompanies(this.pageNumber, this.sort).subscribe(data => {
+      this.companies = data['content'];
+      this.pages = new Array(data['totalPages']);
     });
   }
 
@@ -38,6 +48,24 @@ export class AllAirCompaniesPageComponent implements OnInit {
       this.ngxNotificationService.sendMessage('Air company' + data.name + ' created.', 'dark', 'bottom-right');
       this.companies.push(data);
       this.dataService.changeAirCompany(data);
+      this.loadCompanies();
     });
+  }
+
+  onSortChange(value) {
+    this.sort = value;
+    this.loadCompanies();
+  }
+
+  arrowAction(i: number, event: any) {
+    if ( this.pageNumber + i >= 0 && this.pageNumber + i < this.pages.length) {
+      this.pageNumber += i;
+      this.loadCompanies();
+    }
+  }
+
+  changePage(i: number, event: any) {
+    this.pageNumber = i;
+    this.loadCompanies();
   }
 }

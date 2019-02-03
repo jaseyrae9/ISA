@@ -21,7 +21,7 @@ export class AddAirCompanyAdminComponent implements OnInit {
 
   constructor(private airCompanyService: AirCompanyService,
     private dataService: DataService,
-    private modalRef: BsModalRef,
+    public modalRef: BsModalRef,
     private formBuilder: FormBuilder) { }
 
   ngOnInit() {

@@ -67,4 +67,8 @@ export class UserService {
     return this.http.get('//localhost:8080/customers/getAllReservations');
   }
 
+  addSysAdmin(user): Observable<User> {
+    console.log('usao u user service, user: ', user);
+    return this.http.post<User>('http://localhost:8080/sys/addSystemAdmin', user, httpOptions);
+  }
 }

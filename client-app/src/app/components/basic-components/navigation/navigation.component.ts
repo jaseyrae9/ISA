@@ -9,6 +9,7 @@ import { AddHotelAdminComponent } from '../../hotel/add-hotel-admin/add-hotel-ad
 import { AddCarAdminComponent } from '../../rent-a-car-company/add-car-admin/add-car-admin.component';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { AddSysAdminComponent } from '../../sys-admin/add-sys-admin/add-sys-admin.component';
 
 @Component({
   selector: 'app-navigation',
@@ -53,5 +54,9 @@ export class NavigationComponent implements OnInit {
 
   openNewCarCompanyAdminModal() {
     this.modalRef = this.modalService.show(AddCarAdminComponent);
+  }
+
+  openSysAdminModal() {
+    this.modalRef = this.modalService.show(AddSysAdminComponent);
   }
 }

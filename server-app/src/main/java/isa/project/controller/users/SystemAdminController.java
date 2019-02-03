@@ -11,7 +11,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +24,7 @@ import isa.project.model.rentacar.RentACarCompany;
 import isa.project.model.users.AirCompanyAdmin;
 import isa.project.model.users.HotelAdmin;
 import isa.project.model.users.RentACarAdmin;
+import isa.project.model.users.SystemAdmin;
 import isa.project.service.aircompany.AirCompanyService;
 import isa.project.service.hotel.HotelService;
 import isa.project.service.rentacar.RentACarCompanyService;
@@ -32,9 +32,9 @@ import isa.project.service.users.AirCompanyAdminService;
 import isa.project.service.users.AuthorityService;
 import isa.project.service.users.HotelAdminService;
 import isa.project.service.users.RentACarAdminService;
+import isa.project.service.users.SystemAdminService;
 
 @RestController
-@CrossOrigin(origins = "*")
 @RequestMapping(value = "sys")
 public class SystemAdminController {
 
@@ -49,6 +49,9 @@ public class SystemAdminController {
 
 	@Autowired
 	private RentACarAdminService rentACarCompanyAdminService;
+	
+	@Autowired
+	private SystemAdminService sysService;
 
 	@Autowired
 	private HotelService hotelService;
@@ -136,7 +139,7 @@ public class SystemAdminController {
 		if (rentACarCompany.isPresent()) {
 			rentACarCompanyAdmin.setRentACarCompany(rentACarCompany.get());
 		} else {
-			return new ResponseEntity<>("Air company does not exist.", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Rent a car company does not exist.", HttpStatus.BAD_REQUEST);
 		}
 
 		try {
@@ -148,6 +151,24 @@ public class SystemAdminController {
 		}
 
 		return ResponseEntity.ok(rentACarCompanyAdmin);
+	}
+	
+	@PreAuthorize("hasAnyRole('SYS')")
+	@RequestMapping(value = "/addSystemAdmin", method = RequestMethod.POST)
+	public ResponseEntity<?> addSystemAdmin(@Valid @RequestBody UserDTO userDTO) {
+		// create admin
+		SystemAdmin systemAdmin = new SystemAdmin(userDTO);
+		systemAdmin.addAuthority(authorityService.findByName("SYS").get());
+	
+		try {
+			sysService.registerSystemAdmin(systemAdmin);
+		} catch (DataIntegrityViolationException e) {
+			// email or phone number are not unique
+			logger.warn("Integrity constraint violated");
+			return ResponseEntity.status(409).body(systemAdmin);
+		}
+
+		return ResponseEntity.ok(systemAdmin);
 	}
 
 }

@@ -21,7 +21,7 @@ public class RentACarAdmin extends User {
 	}
 	
 	/**
-	 * Create rent a car admin based on UserDTO object. Used when new hotel rent a car admin is being
+	 * Create rent a car admin based on UserDTO object. Used when new rent a car admin is being
 	 * registered.
 	 * @param userDTO
 	 */

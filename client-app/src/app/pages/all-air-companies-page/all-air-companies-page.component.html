@@ -8,7 +8,42 @@
     </div>
   </div>
   <hr>
-  <div class="container">
-    <app-company-basic-details *ngFor="let company of companies" [company] = 'company' class="row border rounded align-items-center p-1 mt-3"></app-company-basic-details>
+
+  <div class="row justify-content-end">
+    <div class="col-3">
+      <select class="form-control form-control-sm" (change)="onSortChange($event.target.value)">
+        <option value="name">Sort by name, A-Z</option>
+        <option value="name,desc">Sort by name, Z-A</option>
+        <option value="location.city">Sort by city, A-Z</option>
+        <option value="location.city,desc">Sort by city, Z-A</option>
+        <option value="location.country">Sort by country, A-Z</option>
+        <option value="location.country,desc">Sort by country, Z-A</option>
+      </select>
+    </div>
   </div>
+
+  <p *ngIf='companies.length == 0' align="center" style="font-size: 35px; color:  #33cabb;">There are no air companies.</p>
+
+  <app-company-basic-details *ngFor="let company of companies" [company]='company' class="row border rounded align-items-center p-1 mt-3"></app-company-basic-details>
+
+  <nav style="padding-top: 20px">
+    <ul class="pagination" style="justify-content: center">
+      <li class="page-item">
+        <a class="page-link" aria-label="Previous" (click)="arrowAction(-1)">
+          <span aria-hidden="true">&laquo;</span>
+          <span class="sr-only">Previous</span>
+        </a>
+      </li>
+      <li class="page-item" *ngFor="let item of pages; let i = index" [ngClass]="{'active': i == pageNumber}">
+        <a class="page-link" (click)="changePage(i)"> {{i + 1}} </a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" aria-label="Next" (click)="arrowAction(1)">
+          <span aria-hidden="true">&raquo;</span>
+          <span class="sr-only">Next</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
 </div>

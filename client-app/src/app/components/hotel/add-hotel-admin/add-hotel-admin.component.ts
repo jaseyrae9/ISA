@@ -21,7 +21,7 @@ export class AddHotelAdminComponent implements OnInit {
 
   constructor(private hotelService: HotelService,
     private dataService: DataService,
-    private modalRef: BsModalRef,
+    public modalRef: BsModalRef,
     private formBuilder: FormBuilder) {
   }
 

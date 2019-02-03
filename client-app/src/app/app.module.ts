@@ -110,6 +110,7 @@ import { CarReservationComponent } from './components/reservations-history/car-r
 import { HotelReservationComponent } from './components/reservations-history/hotel-reservation/hotel-reservation.component';
 import { ReservationComponent } from './components/reservations-history/reservation/reservation.component';
 import { ReserveFlightFormComponent } from './components/air-company/flight/reserve-flight-form/reserve-flight-form.component';
+import { AddSysAdminComponent } from './components/sys-admin/add-sys-admin/add-sys-admin.component';
 
 @NgModule({
   declarations: [
@@ -192,7 +193,8 @@ import { ReserveFlightFormComponent } from './components/air-company/flight/rese
     CarReservationComponent,
     HotelReservationComponent,
     ReservationComponent,
-    ReserveFlightFormComponent
+    ReserveFlightFormComponent,
+    AddSysAdminComponent
   ],
   imports: [
     BrowserModule,
@@ -216,7 +218,7 @@ import { ReserveFlightFormComponent } from './components/air-company/flight/rese
   providers: [HotelService, AirCompanyService, UserService, DataService, RoleGuardService, LocationService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    DatePipe, BsModalRef
+    DatePipe
   ],
   bootstrap: [AppComponent],
   entryComponents: [
@@ -243,7 +245,8 @@ import { ReserveFlightFormComponent } from './components/air-company/flight/rese
     DisableSeatsFormComponent,
     AddAirCompanyAdminComponent,
     AddHotelAdminComponent,
-    AddCarAdminComponent
+    AddCarAdminComponent,
+    AddSysAdminComponent
 ]
 })
 export class AppModule { }

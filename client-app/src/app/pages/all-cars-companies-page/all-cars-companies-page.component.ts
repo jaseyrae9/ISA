@@ -8,7 +8,6 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { NewCarCompanyFormComponent } from 'src/app/components/rent-a-car-company/new-car-company-form/new-car-company-form.component';
 
-
 @Component({
   selector: 'app-all-cars-companies-page',
   templateUrl: './all-cars-companies-page.component.html',

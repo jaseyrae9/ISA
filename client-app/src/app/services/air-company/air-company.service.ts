@@ -23,6 +23,10 @@ export class AirCompanyService {
     return this.http.get('//localhost:8080/aircompanies/all');
   }
 
+  getAllCompanies(pageNumber, sortBy): Observable<any> {
+    return this.http.get('//localhost:8080/aircompanies/allAirCompanies?page=' + pageNumber + '&size=2&sort=' + sortBy);
+  }
+
   get(id: string): Observable<any> {
     return this.http.get('//localhost:8080/aircompanies/get/' + id);
   }

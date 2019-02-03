@@ -76,12 +76,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable();
 	}
 
-	// Generalna bezbednost aplikacije
+	// Generalna bezbednost aplikacije allAirCompanies
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers("/customers/register", "/customers/confirmRegistration",
 				"/customers/login",
-				"/aircompanies/all","/aircompanies/get/{id}", "/aircompanies/getFlights/{id}","/aircompanies/getFlight/{id}",
+				"/aircompanies/all", "/aircompanies/allAirCompanies", "/aircompanies/get/{id}", "/aircompanies/getFlights/{id}","/aircompanies/getFlight/{id}",
 				"/rent_a_car_companies/all",				
 				"/rent_a_car_companies/all", "/rent_a_car_companies/allCompanies", "/rent_a_car_companies/search",
 				"/rent_a_car_companies/get/{id}",

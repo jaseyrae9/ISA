@@ -4,9 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -52,6 +56,20 @@ public class AirCompanyController {
 		}
 
 		return new ResponseEntity<>(ret, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/allAirCompanies", method = RequestMethod.GET)
+	public ResponseEntity<?> getAllAvioCompaniesPage(HttpServletRequest request, Pageable page) {
+		Page<AirCompany> companies = airCompanyService.findAll(page);
+
+		// convert companies to DTO
+		List<AirCompanyDTO> companiesDTO = new ArrayList<>();
+		for (AirCompany company : companies) {
+			companiesDTO.add(new AirCompanyDTO(company));
+		}
+
+		Page<AirCompanyDTO> ret = new PageImpl<>(companiesDTO, companies.getPageable(), companies.getTotalElements());
+		return ResponseEntity.ok(ret);
 	}
 
 	/**

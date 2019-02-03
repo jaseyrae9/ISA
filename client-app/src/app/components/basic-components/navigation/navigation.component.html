@@ -47,6 +47,7 @@
                                 <a class="dropdown-item" routerLink="/profile">Profile</a>
                                 <a class="dropdown-item" routerLink="/friends" *ngIf="tokenService.isCustomer" >Friends</a>
                                 <a class="dropdown-item" routerLink="/history" *ngIf="tokenService.isCustomer" >History</a>
+                                <a *ngIf="tokenService.isSysAdmin" class="dropdown-item" href="#" (click)="openSysAdminModal()">Add system admin</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" (click)="logout()">Log out</a>
                             </div>
@@ -75,23 +76,5 @@
                 </ng-template>
             </div>
 
-            <div class="modal fade" id="addHotelAdmin" role="dialog" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-body">
-                        <app-add-hotel-admin></app-add-hotel-admin>
-                    </div>
-                  </div>
-                </div>
-            </div>
-
-            <div class="modal fade" id="addCarCompanyAdmin" role="dialog" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-body">
-                        <app-add-car-admin></app-add-car-admin>
-                    </div>
-                  </div>
-                </div>
-            </div>
+         
         </nav>

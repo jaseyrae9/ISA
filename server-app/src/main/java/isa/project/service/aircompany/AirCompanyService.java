@@ -3,6 +3,8 @@ package isa.project.service.aircompany;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import isa.project.dto.aircompany.DestinationDTO;
@@ -28,6 +30,10 @@ public class AirCompanyService {
 		return airCompanyRepository.findAll();
 	}
 
+	public Page<AirCompany> findAll(Pageable page){
+		return airCompanyRepository.findAll(page);
+	}
+	
 	public Optional<AirCompany> findAircompany(Integer id) {
 		return airCompanyRepository.findById(id);
 	}
