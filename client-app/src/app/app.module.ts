@@ -115,6 +115,9 @@ import { AddSysAdminComponent } from './components/sys-admin/add-sys-admin/add-s
 import { ReservationInformationComponent } from './components/air-company/flight/reservation-information/reservation-information.component';
 import { InviteAFriendComponent } from './components/air-company/flight/invite-a-friend/invite-a-friend.component';
 import { ShoppingCartComponent } from './components/shared/components/shopping-cart/shopping-cart.component';
+import { FastTicketFormComponent } from './components/rent-a-car-company/fast-ticket-form/fast-ticket-form.component';
+// tslint:disable-next-line:max-line-length
+import { FastReservationDisplayComponent } from './components/rent-a-car-company/fast-reservation-display/fast-reservation-display.component';
 
 @NgModule({
   declarations: [
@@ -201,7 +204,9 @@ import { ShoppingCartComponent } from './components/shared/components/shopping-c
     AddSysAdminComponent,
     ReservationInformationComponent,
     InviteAFriendComponent,
-    ShoppingCartComponent
+    ShoppingCartComponent,
+    FastTicketFormComponent,
+    FastReservationDisplayComponent
   ],
   imports: [
     BrowserModule,
@@ -256,7 +261,8 @@ import { ShoppingCartComponent } from './components/shared/components/shopping-c
     AddCarAdminComponent,
     AddSysAdminComponent,
     ReservationInformationComponent,
-    InviteAFriendComponent
+    InviteAFriendComponent,
+    FastTicketFormComponent
 ]
 })
 export class AppModule { }

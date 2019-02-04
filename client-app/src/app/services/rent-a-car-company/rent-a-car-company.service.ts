@@ -65,6 +65,7 @@ export class RentACarCompanyService {
     return this.http.delete<number>('http://localhost:8080/rent_a_car_companies/deleteCar/' + carCompanyId + '/' + carId, httpOptions);
   }
 
+
   deleteBranchOffice(branchOfficeId: number, carCompanyId: String): Observable<number> {
     return this.http.delete<number>('http://localhost:8080/rent_a_car_companies/deleteBranchOffice/' + carCompanyId
     + '/' + branchOfficeId, httpOptions);
@@ -107,4 +108,21 @@ export class RentACarCompanyService {
     return this.http.get<any>('http://localhost:8080/report_info/rentACarCompanyIncome/' + companyId
     + '/' + startDate + '/' + endDate, httpOptions);
   }
+
+  getFastCars(companyId): Observable<Car[]> {
+    return this.http.get<Car[]>('http://localhost:8080/rent_a_car_companies/getFastCars/' + companyId, httpOptions);
+  }
+
+  addCarToFastReservations(companyId, carId, discount, beginDate, endDate): Observable<any> {
+    return this.http.put<any>('http://localhost:8080/rent_a_car_companies/addCarToFastReservation/' + companyId + '/' + carId
+      + '/' + discount + '/' + beginDate + '/' + endDate, httpOptions);
+
+  }
+
+  removeCarFromFastReservations(companyId, carId): Observable<number> {
+    console.log('pokusaj uklanjanja');
+    return this.http.delete<number>('http://localhost:8080/rent_a_car_companies/removeCarFromFastReservation/' + companyId + '/'
+    + carId, httpOptions);
+  }
+
 }

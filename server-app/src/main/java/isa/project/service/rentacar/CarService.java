@@ -43,6 +43,11 @@ public class CarService {
 		return carRepository.save(car);
 	}
 	
+	public Iterable<Car> findAllFast(Integer id)
+	{
+		return carRepository.findFast(id);
+	}
+	
 	
 	public CarReservation addReservation(Integer carCompanyId, Integer carId, String customer,
 			Integer pickUpBranchOfficeId, Integer dropOffBranchOfficeId, String pickUpDate, String dropOffDate)

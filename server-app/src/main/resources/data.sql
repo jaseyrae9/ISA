@@ -36,7 +36,7 @@ values ('CUST', 2004, 'Marka Miljanova 7b', true, 'lanat98@gmail.com', 'Milana',
 INSERT INTO users (type, id, address, confirmed_mail, email, first_name, last_name, last_password_reset_date, password, needs_password_change, phone_number, air_company_id, hotel_id, rent_a_car_company_id)
 values ('HA', 3000, 'FTN, Novi Sad', true, 'krstic@admin.com', 'Admin', 'Admin', '2018-12-26 23:09:42','$2a$10$QQxHVraAtUHQqf266vLzfuNLsF5XVS7W4AnJatRZR2gtQpk1LMD0K', false, 'admin phone1', NULL, 100, NULL);
 INSERT INTO users (type, id, address, confirmed_mail, email, first_name, last_name, last_password_reset_date, password, needs_password_change, phone_number, air_company_id, hotel_id, rent_a_car_company_id)
-values ('RACA', 3001, 'FTN, Novi Sad', true, 'jelena@admin.com', 'Admin', 'Admin', '2018-12-26 23:09:42','$2a$10$QQxHVraAtUHQqf266vLzfuNLsF5XVS7W4AnJatRZR2gtQpk1LMD0K', false, 'admin phone2', NULL, NULL, 101);
+values ('RACA', 3001, 'FTN, Novi Sad', true, 'jelena@admin.com', 'Admin', 'Admin', '2018-12-26 23:09:42','$2a$10$QQxHVraAtUHQqf266vLzfuNLsF5XVS7W4AnJatRZR2gtQpk1LMD0K', false, 'admin phone2', NULL, NULL, 100);
 
 INSERT INTO user_authority ( user_id, authority_id ) VALUES (1000, 2);
 INSERT INTO user_authority ( user_id, authority_id ) VALUES (1001, 4);
@@ -65,18 +65,18 @@ insert into hotel_additional_services (hotel_id, additional_services_id) values 
 insert into hotel_additional_services (hotel_id, additional_services_id) values (100, 103);
 insert into hotel_additional_services (hotel_id, additional_services_id) values (100, 104);
 
-INSERT into branch_office (id, active, branch_office_name, location_id, rentacar_company_id) VALUES (100, true, 'Branch office name 1', 100, 101);
-INSERT into branch_office (id, active, branch_office_name, location_id, rentacar_company_id) VALUES (101, true, 'Branch office name 2', 101, 101);
-INSERT into branch_office (id, active, branch_office_name, location_id, rentacar_company_id) VALUES (102, true, 'Branch office name 3', 102, 101);
+INSERT into branch_office (id, active, branch_office_name, location_id, rentacar_company_id) VALUES (100, true, 'Branch office name 1', 100, 100);
+INSERT into branch_office (id, active, branch_office_name, location_id, rentacar_company_id) VALUES (101, true, 'Branch office name 2', 101, 100);
+INSERT into branch_office (id, active, branch_office_name, location_id, rentacar_company_id) VALUES (102, true, 'Branch office name 3', 102, 100);
 
 INSERT INTO room (id, active, floor, number_of_beds, price, rating_count, room_number, total_rating, type, version, hotel_id) VALUES (600, true, 4, 2, 20, 2, 20, 9, 'Regular', 0, 100);
 INSERT INTO room (id, active, floor, number_of_beds, price, rating_count, room_number, total_rating, type, version, hotel_id) VALUES (601, true, 4, 2, 20, 3, 20, 15, 'Regular', 0, 100);
 INSERT INTO room (id, active, floor, number_of_beds, price, rating_count, room_number, total_rating, type, version, hotel_id) VALUES (602, true, 4, 4, 25, 3, 20, 12, 'Studio', 0, 100);
 INSERT INTO room (id, active, floor, number_of_beds, price, rating_count, room_number, total_rating, type, version, hotel_id) VALUES (603, true, 4, 7, 35, 2, 20, 10, 'Apartman', 0, 100);
 
-insert into car (id, active, brand, doors_number, model, price, rating_count, seats_number, total_rating, type, year_of_production, rentacar_company_id) values (500, true, 'Fiat', 5, 'Punto 1.2', 20, 2, 5, 9, 'Sedan', 2010, 101);
-insert into car (id, active, brand, doors_number, model, price, rating_count, seats_number, total_rating, type, year_of_production, rentacar_company_id) values (501, true, 'BMW', 2, 'Z4', 39, 2, 5, 8, 'Convertible', 2017, 101);
-insert into car (id, active, brand, doors_number, model, price, rating_count, seats_number, total_rating, type, year_of_production, rentacar_company_id) values (502, true, 'Fiat', 7, '500L', 30, 3, 5, 15, 'Sedan', 2016, 101);
+insert into car (id, active, begin_date, brand, discount, doors_number, end_date, is_fast, model, price, rating_count, seats_number, total_rating, type, year_of_production, rentacar_company_id) values (500, true, null, 'Fiat', 0.0, 5, null, false, 'Punto 1.2', 20, 2, 5, 9, 'Sedan', 2010, 100);
+insert into car (id, active, begin_date, brand, discount, doors_number, end_date, is_fast, model, price, rating_count, seats_number, total_rating, type, year_of_production, rentacar_company_id) values (501, true, null, 'BMW', 0.0, 2, null, false, 'Z4', 39, 2, 5, 8, 'Convertible', 2017, 100);
+insert into car (id, active, begin_date, brand, discount, doors_number, end_date, is_fast, model, price, rating_count, seats_number, total_rating, type, year_of_production, rentacar_company_id) values (502, true, '2019-03-05','Fiat', 10.0, 7, '2019-04-05', true, '500L', 30, 3, 5, 15, 'Sedan', 2016, 100);
 
 INSERT INTO car_reservation(id, active, drop_off_date, is_car_rated, is_company_rated, pick_up_date, car_id, drop_off_branch_office_id, pick_up_branch_office_id)
 VALUES (300, true, '2019-02-25', true, true, '2019-01-30', 500, 100, 101);
