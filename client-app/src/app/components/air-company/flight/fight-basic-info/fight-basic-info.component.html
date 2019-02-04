@@ -22,7 +22,7 @@
     </div>
     <div class="col-auto pt-3">
         <span class="badge badge-primary p-2">Duration: <br/> {{flight.duration}}</span>
-        <p align="center"><small class="text-muted">{{flight.destinations.length - 2}} stops</small></p>
+        <p align="center"><small class="text-muted">{{flight.destinations.length - 2}} stops <br>{{flight.length}} km</small></p>
     </div>
     <div class="col-auto pl-0 pr-4">
         <i class="fa fa-plane-arrival fa-2x"></i>
@@ -39,5 +39,6 @@
         <p style="font-size: 45px; color:  #33cabb;">€{{flight.minPrice}}+</p>
         <hr>
         <a class="btn btn-primary px-4 m-2" routerLink="/flight/{{flight.id}}">Details</a>
+        <a class="edit btn btn-primary px-4 m-2" routerLink="/reserve-flight/{{flight.id}}" *ngIf="tokenService.isCustomer" >Reserve</a>
     </div>
 </div>

@@ -83,6 +83,7 @@ import { AirplaneDisplayComponent } from './components/air-company/airplane/airp
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 // timepicker
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
+import {DataTableModule} from 'angular-6-datatable';
 import { AirplaneFormComponent } from './components/air-company/airplane/airplane-form/airplane-form.component';
 import { MapComponent } from './components/shared/components/map/map.component';
 import { AgmCoreModule } from '@agm/core';
@@ -112,6 +113,8 @@ import { ReservationComponent } from './components/reservations-history/reservat
 import { ReserveFlightFormComponent } from './components/air-company/flight/reserve-flight-form/reserve-flight-form.component';
 import { AddSysAdminComponent } from './components/sys-admin/add-sys-admin/add-sys-admin.component';
 import { ReservationInformationComponent } from './components/air-company/flight/reservation-information/reservation-information.component';
+import { InviteAFriendComponent } from './components/air-company/flight/invite-a-friend/invite-a-friend.component';
+import { ShoppingCartComponent } from './components/shared/components/shopping-cart/shopping-cart.component';
 
 @NgModule({
   declarations: [
@@ -196,7 +199,9 @@ import { ReservationInformationComponent } from './components/air-company/flight
     ReservationComponent,
     ReserveFlightFormComponent,
     AddSysAdminComponent,
-    ReservationInformationComponent
+    ReservationInformationComponent,
+    InviteAFriendComponent,
+    ShoppingCartComponent
   ],
   imports: [
     BrowserModule,
@@ -215,7 +220,8 @@ import { ReservationInformationComponent } from './components/air-company/flight
     }),
     Ng5SliderModule,
     NgxSortableModule,
-    TimepickerModule.forRoot()
+    TimepickerModule.forRoot(),
+    DataTableModule
   ],
   providers: [HotelService, AirCompanyService, UserService, DataService, RoleGuardService, LocationService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
@@ -249,7 +255,8 @@ import { ReservationInformationComponent } from './components/air-company/flight
     AddHotelAdminComponent,
     AddCarAdminComponent,
     AddSysAdminComponent,
-    ReservationInformationComponent
+    ReservationInformationComponent,
+    InviteAFriendComponent
 ]
 })
 export class AppModule { }

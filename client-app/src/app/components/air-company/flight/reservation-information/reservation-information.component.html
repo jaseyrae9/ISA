@@ -7,10 +7,10 @@
 
 <form name="form" [formGroup]="form" (validSubmit)="submit()">
     <div class="modal-body">
-        <div class="input-group form-group" *ngIf="!isFastReservation">
+        <div class="input-group form-group" *ngIf="!isFastReservation" >
             <div class="input-group-prepend">
-              <span class="input-user">
-                <i class="fa fa-plane" aria-hidden="true"></i>
+              <span class="input-group-text">
+                <i class="fa fa-user" aria-hidden="true"></i>
               </span>
             </div>
             <input type="text" class="form-control" placeholder="First name" required="required" formControlName="firstName">

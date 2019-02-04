@@ -5,4 +5,6 @@ export class TicketReservation {
   lastName: string;
   passport: string;
   ticket: Ticket = new Ticket();
+  status = -1;
+  friend_id = -1;
 }

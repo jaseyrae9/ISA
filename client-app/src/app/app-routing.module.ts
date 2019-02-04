@@ -38,7 +38,12 @@ const routes: Routes = [
       expectedRoles: ['CUSTOMER']
     }
   },
-  { path: 'history', component: AllReservationsComponent },
+  { path: 'history', component: AllReservationsComponent  ,
+    canActivate: [RoleGuardService],
+    data: {
+      expectedRoles: ['CUSTOMER']
+    }
+  },
   {
     path: 'profile', component: ProfileComponent,
     canActivate: [RoleGuardService],

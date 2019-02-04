@@ -1,3 +1,86 @@
-<p>
-  reserve-flight-form works!
-</p>
+<div class="container my-3" *ngIf="page == 0" >
+  <div class="row col-12">
+      <h3 class="display-6" align="left">Step 1: Pick your seats</h3>
+      <hr>
+  </div>
+  <div class="row my-3">
+        <app-tickets-display [flight]="reservation.flight" [useCheckboxes]=true class="col" #tickets></app-tickets-display>
+  </div>
+  <div class="alert alert-danger row" role="alert" *ngIf="errorMessage.length != 0">
+      {{errorMessage}}
+  </div>
+  <div class="row justify-content-center my-3">
+    <div class="col-3" align="center">
+      <button class="btn btn-primary" (click)="pageOne()">Next<i class="fa fa-chevron-circle-right px-2 mr-2" aria-hidden="true" style="color:white"></i></button>
+    </div>
+  </div>
+  <div class="row">
+      <div class="progress col-12 p-0">
+          <div class="progress-bar" role="progressbar" style="width: 0%;background-color: #33cabb" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">Just started</div>
+      </div>
+  </div>
+</div>
+
+<div class="container my-3" *ngIf="page == 1">
+    <div class="row col-12">
+        <h3 class="display-6" align="left">Step 2: Enter data & invite friends</h3>
+        <hr>
+    </div>
+    <div class="row my-3 pricing-table justify-content-center">
+        <div class="col-4 mb-0 ml" *ngFor="let item of reservation.ticketReservations">
+            <div class="item py-2" align="center">
+                <i class="fas fa-couch"></i>
+                <br>
+                <small>Class: {{item.ticket.seat.seatClass}}</small>
+                <br>
+                <small class="text-muted">Row: {{item.ticket.seat.rowNum}}, Column: {{item.ticket.seat.colNum}}</small> <br>
+                <hr>
+                Reserved for: <span *ngIf="item.status == -1" >No one yet</span>
+                              <span *ngIf="item.status == 0" >You</span>
+                              <span *ngIf="item.status == 1 || item.status == 2" >{{item.firstName}} {{item.lastName}}</span> <br>
+                <span *ngIf="item.status == -1" >Passport: Unknown</span>
+                <span *ngIf="item.status == 0 || item.status == 1" >Passport: {{item.passport}}</span>
+                <span *ngIf="item.status == 2"> Yay, you invited a friend!</span> <br>
+                <hr>
+                <p style="font-size: 12px">
+                    <button (click)="fillInData(item)" class="btn btn-link p-0 m-0"> Fill in data</button><br>
+                    <button (click)="useYourData(item)" class="btn btn-link p-0 m-0">Use your data</button><br>
+                    <button (click)="inviteAFriend(item)" class="btn btn-link p-0 m-0">Invite a friend</button>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="alert alert-danger row" role="alert" *ngIf="errorMessage.length != 0">
+        {{errorMessage}}
+    </div>
+    <div class="row justify-content-center my-3">
+      <div class="col-3" align="center">
+        <button class="btn btn-primary" (click)="pageTwo()">Next<i class="fa fa-chevron-circle-right px-2 mr-2" aria-hidden="true" style="color:white"></i></button>
+      </div>
+    </div>
+    <div class="row">
+        <div class="progress col-12 p-0">
+            <div class="progress-bar" role="progressbar" style="width: 50%;background-color: #33cabb" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">Almost there</div>
+        </div>
+    </div>
+  </div>
+
+  <div class="container my-3" *ngIf="page == 2">
+      <div class="row col-12">
+          <h3 class="display-6" align="left">Step 3: Would you like to find a room or a car?</h3>
+          <hr>
+      </div>
+      <div class="row my-3">
+      </div>
+      <div class="row justify-content-center my-3">
+        <div class="col-3" align="center">
+          <button class="btn btn-primary mr-2">Yes</button>
+          <button class="btn btn-primary">No</button>
+        </div>
+      </div>
+      <div class="row">
+          <div class="progress col-12 p-0">
+              <div class="progress-bar" role="progressbar" style="width: 100%; background-color: #33cabb" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">And done!</div>
+          </div>
+      </div>
+    </div>

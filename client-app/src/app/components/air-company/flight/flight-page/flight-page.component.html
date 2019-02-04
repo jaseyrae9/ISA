@@ -1,10 +1,5 @@
 <div class="container mt-3">
     <div class="row">
-        <div class="col-12 mb-2" *ngIf="tokenService.isCustomer" >
-            <section style="text-align:center">
-                <a placement="bottom" tooltip="Reserve tickets" class="edit" routerLink="/reserve-flight/{{flight.id}"><i class="fa fa-ticket-alt"> Reserve you seat</i></a>
-            </section>
-        </div>
       <div class="col-12 mb-2" *ngIf="tokenService.isAirAdmin && tokenService.companyId==flight.airCompanyBasicInfo.id" >
           <section style="text-align:right">
               <a placement="bottom" tooltip="Disable seats" class="edit" (click)="openDisableSeatsForm()"><i class="fa fa-couch"></i></a>
@@ -21,7 +16,8 @@
           <h3 class="display-4" style="font-size:20px;">
               <a routerLink="/aircompany/{{flight.airCompanyBasicInfo.id}}">{{flight.airCompanyBasicInfo.name}}</a>
           </h3>
-          <small class="text-muted">{{flight.airCompanyBasicInfo.location.city}}, {{flight.airCompanyBasicInfo.location.country}}</small>
+          <small class="text-muted">{{flight.airCompanyBasicInfo.location.city}}, {{flight.airCompanyBasicInfo.location.country}}</small><br>
+          <a class="edit btn btn-primary px-4 m-2" routerLink="/reserve-flight/{{flight.id}}" *ngIf="tokenService.isCustomer">Reserve</a>
       </div>
 
        <div class="col-4 pt-2" align="center" *ngIf="flight.destinations.length > 0" >

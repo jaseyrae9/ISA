@@ -6,7 +6,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AirCompanyService } from './../../../../services/air-company/air-company.service';
 import { Flight } from './../../../../model/air-company/flight';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { NgxNotificationService } from 'ngx-notification';
 import { BsModalService } from 'ngx-bootstrap/modal';

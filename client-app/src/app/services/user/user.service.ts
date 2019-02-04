@@ -47,6 +47,10 @@ export class UserService {
     return this.http.get('//localhost:8080/friendship/friends?page=' + pageNumber + '&size=2' + '&sort=' + sortBy);
   }
 
+  getAllFriends(): Observable<any> {
+    return this.http.get('//localhost:8080/friendship/friends');
+  }
+
   acceptFriendRequest(fromId: number): Observable<any> {
     return this.http.get('//localhost:8080/friendship/acceptRequest/' + fromId);
   }

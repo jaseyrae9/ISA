@@ -1,0 +1,43 @@
+<div class="modal-header">
+    <h5 class="modal-title">Invite <b style="color: #33cabb;">a friend</b></h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div *ngIf="friendships.length == 0" >
+      No friends available for inviting.
+    </div>
+    <div *ngIf="friendships.length != 0">
+        <table class="table table-hover table-sm" [mfData]="friendships" #mf="mfDataTable" [mfRowsOnPage]="5" selectionMode="single">
+            <thead>
+            <tr>
+                <th style="width: 50%">
+                    <mfDefaultSorter by="user2Firstname">First name</mfDefaultSorter>
+                </th>
+                <th style="width: 50%">
+                    <mfDefaultSorter by="user2Lastname">Last name</mfDefaultSorter>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of mf.data" (click)="onClick(item)"
+            [class.table-primary]="item.user2Id == selectedFriend.user2Id">
+                <td>{{item.user2Firstname}}</td>
+                <td>{{item.user2Lastname}}</td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="4">
+                    <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modalRef.hide()">Close</button>
+    <input type="submit" class="btn btn-primary" value="Invite" [disabled]="friendships.length == 0" (click)="submit()"/>
+</div>
