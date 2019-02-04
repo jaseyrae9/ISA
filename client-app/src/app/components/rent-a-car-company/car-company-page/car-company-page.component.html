@@ -31,6 +31,13 @@
         <i class="fa fa-info" aria-hidden="true"></i>Admin info
       </a>
     </li>
+
+    <!--FAST RESERVATIONS-->
+    <li class = "nav-item">
+      <a href = "#fastreservations" role="tab" data-toggle="tab" class = "nav-link">
+        <i class="fa fa-business-time" aria-hidden="true"></i>Fast reservations
+      </a>
+  </li>
   </ul>
 
 
@@ -65,7 +72,7 @@
       </div>
       <div class="container">
         <div *ngFor="let car of carCompany.cars">
-          <app-car-basic-info [isCarsTab]="true" (carDeleted)="carDeleted($event)" [car]='car'></app-car-basic-info>
+          <app-car-basic-info  *ngIf="!car.isFast" [isCarsTab]="true" (carDeleted)="carDeleted($event)" [car]='car' (carFasten)="carFasten($event)"></app-car-basic-info>
         </div>
       </div>
     </div>
@@ -170,7 +177,19 @@
       </div>
     </div>
 
-    <!---->
+    <!--FAST RESERVATIONS TAB-->
+    <div class="tab-pane fade" id="fastreservations" aria-labelledby="airplanes-tab">
+      <div class = "container">
+        <div *ngIf="fastCarRent.length == 0 else fastCarRentDiv" class="text-center">
+            <p>There are no cars for fast reservations.</p>
+        </div>
+        <ng-template #fastCarRentDiv> 
+        <div class ="row" *ngFor="let item of fastCarRent">
+          <app-fast-reservation-display class="col-12 mb-3" [carCompanyId]='companyId' [car]="item" (carRemovedFromFastReservations)="onTicketDeleted($event)"></app-fast-reservation-display>
+        </div>
+        </ng-template>
+      </div>
+    </div>
 
   </div>
 </div>

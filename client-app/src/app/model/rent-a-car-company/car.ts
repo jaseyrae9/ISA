@@ -13,4 +13,8 @@ export class Car {
     reservations: CarReservation[] = [];
     rentACarCompany: RentACarCompany;
     averageRating: number;
+    isFast: Boolean;
+    beginDate: Date;
+    endDate: Date;
+    discount: number;
 }

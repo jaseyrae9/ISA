@@ -1,6 +1,7 @@
 package isa.project.model.rentacar;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -72,6 +73,19 @@ public class Car implements Serializable {
 	@Column(name = "ratingCount")
 	private Integer ratingCount;
 	
+	@Column(name = "isFast")
+	private Boolean isFast;
+	
+	@Column(name ="beginDate")
+	private Date beginDate;
+	
+	@Column(name ="endDate")
+	private Date endDate;
+	
+	@Column(name = "discount")
+	private Double discount;
+	
+	
 	public Car(RentACarCompany rentACarCompany, String brand, String model, Integer yearOfProduction, Integer seatsNumber, Integer doorsNumber,
 			Double price, String type) {
 		super();
@@ -86,6 +100,8 @@ public class Car implements Serializable {
 		this.active = true;
 		this.totalRating = 5; // na pocetku je ocena 5
 		this.ratingCount = 1; // jedan glas
+		this.isFast = false;
+		this.discount = 0.0; 
 	}
 
 	public void addToTotalRating(Integer x) {

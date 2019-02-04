@@ -1,6 +1,7 @@
 package isa.project.controller.rentacar;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -354,4 +355,85 @@ public class RentACarCompanyController {
 		return new ResponseEntity<>(ret, HttpStatus.OK);
 	}
 
+	@RequestMapping(value = "/getFastCars/{companyId}", method = RequestMethod.GET, consumes = "application/json")
+	public ResponseEntity<List<CarDTO>> getFastCars(@PathVariable Integer companyId) throws ResourceNotFoundException {
+
+		Optional<RentACarCompany> carCompany = rentACarCompanyService.findRentACarCompany(companyId);
+
+		if (!carCompany.isPresent()) {
+			throw new ResourceNotFoundException(companyId.toString(), "Rent a car company not found");
+		}
+
+		Iterable<Car> cars = carService.findAllFast(companyId);
+
+		// convert companies to DTO
+		List<CarDTO> ret = new ArrayList<>();
+		for (Car c : cars) {
+			ret.add(new CarDTO(c));
+		}
+
+		return new ResponseEntity<>(ret, HttpStatus.OK);
+	}
+
+	@PreAuthorize("hasAnyRole('CARADMIN')")
+	@AdminAccountActiveCheck
+	@RentACarCompanyAdminCheck
+	@RequestMapping(value = "/addCarToFastReservation/{companyId}/{carId}/{discount}/{beginDate}/{endDate}", method = RequestMethod.PUT, consumes = "application/json")
+	public ResponseEntity<?> addCarToFastReservation(@PathVariable Integer companyId, @PathVariable Integer carId,
+			@PathVariable Double discount, @PathVariable String beginDate, @PathVariable String endDate)
+			throws ResourceNotFoundException, ParseException {
+
+		Optional<RentACarCompany> carCompany = rentACarCompanyService.findRentACarCompany(companyId);
+
+		if (!carCompany.isPresent()) {
+			throw new ResourceNotFoundException(companyId.toString(), "Rent a car company not found.");
+		}
+
+		Optional<Car> car = carCompany.get().getCars().stream().filter(o -> o.getId().equals(carId)).findFirst();
+		if (!car.isPresent()) {
+			throw new ResourceNotFoundException(carId.toString(), "Car not found in that rent a car company.");
+		}
+
+		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+
+		Date start = sdf1.parse(beginDate);
+		Date end = sdf1.parse(endDate);
+
+		car.get().setIsFast(true);
+		if (discount > car.get().getPrice()) {
+			car.get().setDiscount(car.get().getPrice());
+		} else {
+			car.get().setDiscount(discount);
+		}
+		car.get().setBeginDate(start);
+		car.get().setEndDate(end);
+
+		Car c = carService.saveCar(car.get());
+		return new ResponseEntity<>(c, HttpStatus.OK);
+	}
+	
+
+	@PreAuthorize("hasAnyRole('CARADMIN')")
+	@AdminAccountActiveCheck
+	@RentACarCompanyAdminCheck
+	@RequestMapping(value = "/removeCarFromFastReservation/{companyId}/{carId}", method = RequestMethod.DELETE, consumes = "application/json")
+	public ResponseEntity<?> removeCarFromFastReservation(@PathVariable Integer companyId, @PathVariable Integer carId)
+			throws ResourceNotFoundException, ParseException {
+
+		Optional<RentACarCompany> carCompany = rentACarCompanyService.findRentACarCompany(companyId);
+
+		if (!carCompany.isPresent()) {
+			throw new ResourceNotFoundException(companyId.toString(), "Rent a car company not found.");
+		}
+
+		Optional<Car> car = carCompany.get().getCars().stream().filter(o -> o.getId().equals(carId)).findFirst();
+		if (!car.isPresent()) {
+			throw new ResourceNotFoundException(carId.toString(), "Car not found in that rent a car company.");
+		}
+
+		car.get().setIsFast(false);
+
+		Car c = carService.saveCar(car.get());
+		return new ResponseEntity<>(c, HttpStatus.OK);
+	}
 }

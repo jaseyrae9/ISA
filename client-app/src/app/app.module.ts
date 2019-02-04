@@ -112,6 +112,8 @@ import { ReservationComponent } from './components/reservations-history/reservat
 import { ReserveFlightFormComponent } from './components/air-company/flight/reserve-flight-form/reserve-flight-form.component';
 import { AddSysAdminComponent } from './components/sys-admin/add-sys-admin/add-sys-admin.component';
 import { ReservationInformationComponent } from './components/air-company/flight/reservation-information/reservation-information.component';
+import { FastTicketFormComponent } from './components/rent-a-car-company/fast-ticket-form/fast-ticket-form.component';
+import { FastReservationDisplayComponent } from './components/rent-a-car-company/fast-reservation-display/fast-reservation-display.component';
 
 @NgModule({
   declarations: [
@@ -196,7 +198,9 @@ import { ReservationInformationComponent } from './components/air-company/flight
     ReservationComponent,
     ReserveFlightFormComponent,
     AddSysAdminComponent,
-    ReservationInformationComponent
+    ReservationInformationComponent,
+    FastTicketFormComponent,
+    FastReservationDisplayComponent
   ],
   imports: [
     BrowserModule,
@@ -249,7 +253,8 @@ import { ReservationInformationComponent } from './components/air-company/flight
     AddHotelAdminComponent,
     AddCarAdminComponent,
     AddSysAdminComponent,
-    ReservationInformationComponent
+    ReservationInformationComponent,
+    FastTicketFormComponent
 ]
 })
 export class AppModule { }

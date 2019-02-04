@@ -8,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { RentACarCompanyService } from 'src/app/services/rent-a-car-company/rent-a-car-company.service';
 import { NgxNotificationService } from 'ngx-notification';
 import { HttpErrorResponse } from '@angular/common/http';
+import { FastTicketFormComponent } from '../fast-ticket-form/fast-ticket-form.component';
 
 @Component({
   selector: 'app-car-basic-info',
@@ -18,6 +19,7 @@ export class CarBasicInfoComponent implements OnInit {
   @Input() car: Car;
 
   @Output() carDeleted: EventEmitter<number> = new EventEmitter();
+  @Output() carFasten: EventEmitter<number> = new EventEmitter();
   @Output() carRented: EventEmitter<Car> = new EventEmitter();
 
   @Input() isCarsTab = true;
@@ -32,6 +34,20 @@ export class CarBasicInfoComponent implements OnInit {
   ngOnInit() {
     const companyId = this.route.snapshot.paramMap.get('id');
     this.companyId = companyId;
+  }
+
+  openFastReservationModal() {
+    const initialState = {
+      car: this.car,
+      carCompanyId: this.companyId
+    };
+    this.modalRef = this.modalService.show(FastTicketFormComponent, { initialState });
+     this.modalRef.content.onClose.subscribe(car => {
+      console.log('fast ', car);
+      this.carFasten.emit(this.car.id);
+      this.car = car;
+      this.ngxNotificationService.sendMessage('Car is added for fast reservations!', 'dark', 'bottom-right');
+    });
   }
 
   // izmena auta
@@ -66,4 +82,5 @@ export class CarBasicInfoComponent implements OnInit {
   onRent() {
     this.carRented.emit(this.car); // salje auto na koji se klikne
   }
+
 }
