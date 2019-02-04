@@ -17,7 +17,13 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import isa.project.model.users.Reservation;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@NoArgsConstructor
+@Setter
+@Getter
 @Entity
 @Table(name = "car_reservation")
 public class CarReservation {
@@ -54,11 +60,8 @@ public class CarReservation {
 	private Boolean isCarRated;
 	
 	@Column(name = "isCompanyRated")
-	private Boolean isCompanyRated;
-	
-	public CarReservation() {
-		
-	}
+	private Boolean isCompanyRated;	
+
 
 	public CarReservation(Car car, Date pickUpDate, Date dropOffDate, BranchOffice pickUpBranchOffice,
 			BranchOffice dropOffBranchOffice) {
@@ -71,86 +74,6 @@ public class CarReservation {
 		this.active = true;
 		this.isCarRated = false;
 		this.isCompanyRated = false;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public Date getPickUpDate() {
-		return pickUpDate;
-	}
-
-	public void setPickUpDate(Date pickUpDate) {
-		this.pickUpDate = pickUpDate;
-	}
-
-	public Date getDropOffDate() {
-		return dropOffDate;
-	}
-
-	public void setDropOffDate(Date dropOffDate) {
-		this.dropOffDate = dropOffDate;
-	}
-
-	public BranchOffice getPickUpBranchOffice() {
-		return pickUpBranchOffice;
-	}
-
-	public void setPickUpBranchOffice(BranchOffice pickUpBranchOffice) {
-		this.pickUpBranchOffice = pickUpBranchOffice;
-	}
-
-	public BranchOffice getDropOffBranchOffice() {
-		return dropOffBranchOffice;
-	}
-
-	public void setDropOffBranchOffice(BranchOffice dropOffBranchOffice) {
-		this.dropOffBranchOffice = dropOffBranchOffice;
-	}
-			
-	public Car getCar() {
-		return car;
-	}
-
-	public void setCar(Car car) {
-		this.car = car;
-	}
-	
-	public Boolean getActive() {
-		return active;
-	}
-
-	public void setActive(Boolean active) {
-		this.active = active;
-	}
-	
-	public Boolean getIsCarRated() {
-		return isCarRated;
-	}
-
-	public void setIsCarRated(Boolean isCarRated) {
-		this.isCarRated = isCarRated;
-	}
-
-	public Boolean getIsCompanyRated() {
-		return isCompanyRated;
-	}
-
-	public void setIsCompanyRated(Boolean isCompanyRated) {
-		this.isCompanyRated = isCompanyRated;
-	}
-
-	public Reservation getReservation() {
-		return reservation;
-	}
-
-	public void setReservation(Reservation reservation) {
-		this.reservation = reservation;
 	}
 
 	@Override

@@ -7,7 +7,13 @@ import javax.validation.constraints.NotNull;
 
 import isa.project.model.hotel.Room;
 import isa.project.model.hotel.SingleRoomReservation;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@NoArgsConstructor
+@Getter
+@Setter
 public class RoomDTO {
 	
 	private Integer id;
@@ -34,11 +40,6 @@ public class RoomDTO {
 	
 	private ArrayList<SingleRoomReservationDTO> reservations = new ArrayList<>();
 	
-	public RoomDTO()
-	{
-		
-	}
-
 	public RoomDTO(Room room)
 	{
 		this.id = room.getId();
@@ -55,77 +56,4 @@ public class RoomDTO {
 			}
 		}
 	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public Integer getFloor() {
-		return floor;
-	}
-
-	public void setFloor(Integer floor) {
-		this.floor = floor;
-	}
-
-	public Integer getRoomNumber() {
-		return roomNumber;
-	}
-
-	public void setRoomNumber(Integer roomNumber) {
-		this.roomNumber = roomNumber;
-	}
-
-	public Integer getNumberOfBeds() {
-		return numberOfBeds;
-	}
-
-	public void setNumberOfBeds(Integer numberOfBeds) {
-		this.numberOfBeds = numberOfBeds;
-	}
-
-	public Double getPrice() {
-		return price;
-	}
-
-	public void setPrice(Double price) {
-		this.price = price;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public Boolean getActive() {
-		return active;
-	}
-
-	public void setActive(Boolean active) {
-		this.active = active;
-	}
-
-	public ArrayList<SingleRoomReservationDTO> getReservations() {
-		return reservations;
-	}
-
-	public void setReservations(ArrayList<SingleRoomReservationDTO> reservations) {
-		this.reservations = reservations;
-	}
-
-	public Double getAverageRating() {
-		return averageRating;
-	}
-
-	public void setAverageRating(Double averageRating) {
-		this.averageRating = averageRating;
-	}
-	
 }

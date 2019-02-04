@@ -25,41 +25,63 @@ import javax.persistence.Table;
 import org.joda.time.DateTime;
 
 import isa.project.model.users.security.Authority;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@NoArgsConstructor
 @Entity
 @Table(name="users")
 @Inheritance(strategy=SINGLE_TABLE)
 @DiscriminatorColumn(name="type", discriminatorType=STRING)
 public abstract class User {
 
+	@Getter
+	@Setter
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	
+	@Getter
+	@Setter
 	@Column(unique = true, nullable = false, columnDefinition="VARCHAR(64)")
 	private String email;
 	
+	@Getter
 	@Column(nullable = false)
 	private String password;
 	
+	@Getter
+	@Setter
 	@Column(nullable = false)
 	private String firstName;
 	
+	@Getter
+	@Setter
 	@Column(nullable = false)
 	private String lastName;
 		
+	@Getter
+	@Setter
 	@Column(unique = true, nullable = false,  columnDefinition="VARCHAR(64)")
 	private String phoneNumber;
 	
+	@Getter
+	@Setter
 	@Column
 	private String address;
 	
+	@Getter
+	@Setter
 	@Column(nullable = false)
 	private Boolean confirmedMail;
 	
+	@Getter
+	@Setter
 	@Column(nullable = false)
 	private Boolean needsPasswordChange;
 	
+	@Getter
 	@Column
     private Timestamp lastPasswordResetDate;
 	
@@ -68,11 +90,7 @@ public abstract class User {
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
     protected Set<Authority> authorities;
-	
-	public User() {
-		super();
-	}
-	
+		
 	// Copy constructor
 	public User(User user) {
 		this.id = user.getId();
@@ -100,79 +118,11 @@ public abstract class User {
 		this.needsPasswordChange = needsPasswordChange;
 	}
 	
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
 	public void setPassword(String password) {
 		Timestamp now = new Timestamp(DateTime.now().getMillis());
-        this.setLastPasswordResetDate( now );
+        this.lastPasswordResetDate = now;
 		this.password = password;
 	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
-
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}	
-		
-	public Boolean getConfirmedMail() {
-		return confirmedMail;
-	}
-
-	public void setConfirmedMail(Boolean confirmedMail) {
-		this.confirmedMail = confirmedMail;
-	}
-
-	public Timestamp getLastPasswordResetDate() {
-        return lastPasswordResetDate;
-    }
-
-    public void setLastPasswordResetDate(Timestamp lastPasswordResetDate) {
-        this.lastPasswordResetDate = lastPasswordResetDate;
-    }
     
     public void addAuthority(Authority authority) {
     	authorities.add(authority);
@@ -184,16 +134,8 @@ public abstract class User {
 
 	public void setUserAuthorities(Set<Authority> authorities) {
 		this.authorities = authorities;
-	}	
+	}
 	
-	public Boolean getNeedsPasswordChange() {
-		return needsPasswordChange;
-	}
-
-	public void setNeedsPasswordChange(Boolean needsPasswordChange) {
-		this.needsPasswordChange = needsPasswordChange;
-	}
-
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(id);

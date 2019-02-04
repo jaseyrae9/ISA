@@ -12,18 +12,18 @@ import isa.project.model.aircompany.FlightReservation;
 import isa.project.model.hotel.SingleRoomReservation;
 import isa.project.model.users.Reservation;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@NoArgsConstructor
+@Getter
+@Setter
 public class ReservationDTO {
 
-	private Integer id;
-	
-	private Date creationDate;
-	
-	private CarReservationDTO carReservation;
-	
+	private Integer id;	
+	private Date creationDate;	
+	private CarReservationDTO carReservation;	
 	private RoomReservationDTO roomReservation;
-	
-	@Getter
 	private FlightReservation flightReservation;
 
 	public ReservationDTO(Reservation reservation) {
@@ -45,39 +45,5 @@ public class ReservationDTO {
 		}
 		
 		this.flightReservation = reservation.getFlightReservation();
-	}
-
-	public CarReservationDTO getCarReservation() {
-		return carReservation;
-	}
-
-	public void setCarReservation(CarReservationDTO carReservation) {
-		this.carReservation = carReservation;
-	}
-
-	public RoomReservationDTO getRoomReservation() {
-		return roomReservation;
-	}
-
-	public void setRoomReservation(RoomReservationDTO roomReservation) {
-		this.roomReservation = roomReservation;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public Date getCreationDate() {
-		return creationDate;
-	}
-
-	public void setCreationDate(Date creationDate) {
-		this.creationDate = creationDate;
-	}
-	
-	
+	}	
 }

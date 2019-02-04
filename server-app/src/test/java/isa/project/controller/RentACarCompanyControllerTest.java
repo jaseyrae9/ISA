@@ -1,6 +1,11 @@
 package isa.project.controller;
 
-import static org.junit.Assert.*;
+import static isa.project.constants.RentACarCompanyConstants.AVERAGE_RATING;
+import static isa.project.constants.RentACarCompanyConstants.RENT_A_CAR_COMPANY_COUNT;
+import static isa.project.constants.RentACarCompanyConstants.RENT_A_CAR_COMPANY_DESCRIPTION;
+import static isa.project.constants.RentACarCompanyConstants.RENT_A_CAR_COMPANY_NAME;
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -20,13 +25,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import isa.project.constants.RentACarCompanyConstants;
-
-import static isa.project.constants.RentACarCompanyConstants.AVERAGE_RATING;
-import static isa.project.constants.RentACarCompanyConstants.RENT_A_CAR_COMPANY_COUNT;
-import static isa.project.constants.RentACarCompanyConstants.RENT_A_CAR_COMPANY_DESCRIPTION;
-import static isa.project.constants.RentACarCompanyConstants.RENT_A_CAR_COMPANY_NAME;
-import static org.hamcrest.CoreMatchers.hasItem;
-import static org.hamcrest.Matchers.hasSize;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

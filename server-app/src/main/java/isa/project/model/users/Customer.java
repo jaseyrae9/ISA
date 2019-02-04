@@ -11,7 +11,13 @@ import javax.persistence.OneToMany;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import isa.project.dto.users.UserDTO;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @DiscriminatorValue("CUST")
 public class Customer extends User {
@@ -20,28 +26,8 @@ public class Customer extends User {
 	@OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Reservation> reservations;
 	
-	public Customer() {
-		super();
-	}
-
-	/**
-	 * Create customer based on UserDTO object. Used when new customer is being
-	 * registered.
-	 * 
-	 * @param userDTO
-	 */
 	public Customer(UserDTO userDTO) {
 		super(userDTO.getEmail(), userDTO.getPassword(), userDTO.getFirstName(), userDTO.getLastName(),
 				userDTO.getPhoneNumber(), userDTO.getAddress(), false);
 	}
-
-	public Set<Reservation> getReservations() {
-		return reservations;
-	}
-
-	public void setReservations(Set<Reservation> reservations) {
-		this.reservations = reservations;
-	}
-
-	
 }

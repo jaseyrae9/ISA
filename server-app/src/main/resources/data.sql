@@ -65,9 +65,9 @@ insert into hotel_additional_services (hotel_id, additional_services_id) values 
 insert into hotel_additional_services (hotel_id, additional_services_id) values (100, 103);
 insert into hotel_additional_services (hotel_id, additional_services_id) values (100, 104);
 
-INSERT into branch_office (id, active, branch_office_name, location_id, rentacar_company_id) VALUES (100, true, 'Branch office name 1', 100, 100);
-INSERT into branch_office (id, active, branch_office_name, location_id, rentacar_company_id) VALUES (101, true, 'Branch office name 2', 101, 100);
-INSERT into branch_office (id, active, branch_office_name, location_id, rentacar_company_id) VALUES (102, true, 'Branch office name 3', 102, 100);
+INSERT into branch_office (id, active, branch_office_name, location_id, rentacar_company_id) VALUES (100, true, 'Branch office name 1', 100, 101);
+INSERT into branch_office (id, active, branch_office_name, location_id, rentacar_company_id) VALUES (101, true, 'Branch office name 2', 101, 101);
+INSERT into branch_office (id, active, branch_office_name, location_id, rentacar_company_id) VALUES (102, true, 'Branch office name 3', 102, 101);
 
 INSERT INTO room (id, active, floor, number_of_beds, price, rating_count, room_number, total_rating, type, version, hotel_id) VALUES (600, true, 4, 2, 20, 2, 20, 9, 'Regular', 0, 100);
 INSERT INTO room (id, active, floor, number_of_beds, price, rating_count, room_number, total_rating, type, version, hotel_id) VALUES (601, true, 4, 2, 20, 3, 20, 15, 'Regular', 0, 100);

@@ -20,7 +20,13 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import isa.project.model.shared.AdditionalService;
 import isa.project.model.shared.Location;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "hotel")
 public class Hotel {
@@ -52,41 +58,13 @@ public class Hotel {
 	@Column(name = "ratingCount")
 	private Integer ratingCount;
 	
-	public Hotel() {
-		super();
-	}
-
 	public Hotel(String name, String description) {
 		super();
 		this.name = name;
 		this.description = description;
 		this.totalRating = 5; // na pocetku je ocena 5
 		this.ratingCount = 1; // jedan glas
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
+	}	
 	
 	public Set<Room> getRooms() {
 		if(rooms != null)
@@ -95,10 +73,7 @@ public class Hotel {
 			return null;
 	}
 
-	public void setRooms(Set<Room> rooms) {
-		this.rooms = rooms;
-	}
-
+	
 	public Set<AdditionalService> getAdditionalServices() {
 		if(additionalServices != null)
 			return additionalServices.stream().filter(p -> p.getActive()).collect(Collectors.toSet()); // Da vraca samo aktivne
@@ -110,37 +85,9 @@ public class Hotel {
 		additionalServices.add(as);
 	}
 
-	public void setAdditionalServices(Set<AdditionalService> additionalServices) {
-		this.additionalServices = additionalServices;
-	}
-	
-	public Location getLocation() {
-		return location;
-	}
-
-	public void setLocation(Location location) {
-		this.location = location;
-	}
-
-	public Integer getTotalRating() {
-		return totalRating;
-	}
-
-	public void setTotalRating(Integer totalRating) {
-		this.totalRating = totalRating;
-	}
-
 	public void addToTotalRating(Integer x) {
 		this.totalRating += x;
-	}
-	
-	public Integer getRatingCount() {
-		return ratingCount;
-	}
-
-	public void setRatingCount(Integer ratingCount) {
-		this.ratingCount = ratingCount;
-	}
+	}	
 	
 	public void incrementRatingCount() {
 		this.ratingCount++;

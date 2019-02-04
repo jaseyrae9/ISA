@@ -18,7 +18,13 @@ import javax.persistence.Version;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "room")
 public class Room implements Serializable{
@@ -63,9 +69,6 @@ public class Room implements Serializable{
 	
 	@Version
 	private Long version;
-
-	public Room() {
-	}
 	
 	public Room(Hotel hotel, Integer floor, Integer roomNumber, Integer numberOfBeds, Double price, String type) {
 		super();
@@ -94,108 +97,12 @@ public class Room implements Serializable{
 		this.ratingCount = room.ratingCount; 
 	}
 	
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}	
-
-	public Hotel getHotel() {
-		return hotel;
-	}
-
-	public void setHotel(Hotel hotel) {
-		this.hotel = hotel;
-	}
-
-	public Integer getRoomNumber() {
-		return roomNumber;
-	}
-
-	public void setRoomNumber(Integer roomNumber) {
-		this.roomNumber = roomNumber;
-	}
-
-	public Integer getNumberOfBeds() {
-		return numberOfBeds;
-	}
-
-	public void setNumberOfBeds(Integer numberOfBeds) {
-		this.numberOfBeds = numberOfBeds;
-	}
-
-	public Double getPrice() {
-		return price;
-	}
-
-	public void setPrice(Double price) {
-		this.price = price;
-	}
-
-	public Integer getFloor() {
-		return floor;
-	}
-
-	public void setFloor(Integer floor) {
-		this.floor = floor;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-	
-	public Boolean getActive() {
-		return active;
-	}
-
-	public void setActive(Boolean active) {
-		this.active = active;
-	}
-	
-	public Set<SingleRoomReservation> getSingleRoomReservations() {
-		return singleRoomReservations;
-	}
-
-	public void setSingleRoomReservations(Set<SingleRoomReservation> singleRoomReservations) {
-		this.singleRoomReservations = singleRoomReservations;
-	}
-
-	public Long getVersion() {
-		return version;
-	}
-
-	public void setVersion(Long version) {
-		this.version = version;
-	}
-	
 	public void increaseVersion() {
 		this.version++;
 	}
-	
-	public Integer getRatingCount() {
-		return ratingCount;
-	}
-
-	public void setRatingCount(Integer ratingCount) {
-		this.ratingCount = ratingCount;
-	}
-	
+			
 	public void incrementRatingCount() {
 		this.ratingCount++;
-	}
-
-	public Integer getTotalRating() {
-		return totalRating;
-	}
-
-	public void setTotalRating(Integer totalRating) {
-		this.totalRating = totalRating;
 	}
 	
 	public void addToTotalRating(Integer x) {

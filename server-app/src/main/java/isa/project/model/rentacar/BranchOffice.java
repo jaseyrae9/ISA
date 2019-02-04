@@ -14,7 +14,13 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import isa.project.model.shared.Location;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "branch_office")
 public class BranchOffice {
@@ -38,55 +44,11 @@ public class BranchOffice {
 	@JoinColumn(name="location_id", nullable = false)
 	private Location location;	
 	
-	public BranchOffice() {
-		
-	}
-
 	public BranchOffice(RentACarCompany rentACarCompany, String name) {
 		super();
 		this.rentACarCompany = rentACarCompany;
 		this.name = name;
 		this.active = true;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public RentACarCompany getRentACarCompany() {
-		return rentACarCompany;
-	}
-
-	public void setRentACarCompany(RentACarCompany rentACarCompany) {
-		this.rentACarCompany = rentACarCompany;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public Boolean getActive() {
-		return active;
-	}
-
-	public void setActive(Boolean active) {
-		this.active = active;
-	}
-	
-	public Location getLocation() {
-		return location;
-	}
-
-	public void setLocation(Location location) {
-		this.location = location;
 	}
 
 	@Override

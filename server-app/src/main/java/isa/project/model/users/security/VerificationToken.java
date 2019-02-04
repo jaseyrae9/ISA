@@ -15,7 +15,13 @@ import javax.persistence.OneToOne;
 
 import isa.project.model.users.Customer;
 import isa.project.model.users.User;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 public class VerificationToken {
 	private static final int EXPIRATION = 60 * 24;
@@ -38,40 +44,9 @@ public class VerificationToken {
 		return new Date(cal.getTime().getTime());
 	}
 
-	public VerificationToken() {
-	}
-
 	public VerificationToken(String token, User user) {
 		this.token = token;
 		this.user = user;
 		this.expiryDate = calculateExpiryDate(EXPIRATION);
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public Date getExpiryDate() {
-		return expiryDate;
-	}
-
-	public void setExpiryDate(Date expiryDate) {
-		this.expiryDate = expiryDate;
-	}
+	}	
 }

@@ -9,7 +9,13 @@ import isa.project.model.hotel.Hotel;
 import isa.project.model.hotel.Room;
 import isa.project.model.shared.AdditionalService;
 import isa.project.model.shared.Location;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@NoArgsConstructor
+@Getter
+@Setter
 public class HotelDTO {
 	
 	private Integer id;
@@ -26,11 +32,8 @@ public class HotelDTO {
 	@NotNull (message = "Location must be enetered.")
 	private Location location;
 	
-	private Double averageRating;
-		
-	public HotelDTO() {
-		
-	}
+	private Double averageRating;	
+	
 
 	public HotelDTO(Hotel hotel) {
 		this.id = hotel.getId();
@@ -52,61 +55,5 @@ public class HotelDTO {
 			}
 		}
 	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public ArrayList<RoomDTO> getRooms() {
-		return rooms;
-	}
-
-	public void setRooms(ArrayList<RoomDTO> rooms) {
-		this.rooms = rooms;
-	}
-
-	public ArrayList<AdditionalService> getAdditionalServices() {
-		return additionalServices;
-	}
-
-	public void setAdditionalServices(ArrayList<AdditionalService> additionalServices) {
-		this.additionalServices = additionalServices;
-	}
-
-	public Location getLocation() {
-		return location;
-	}
-
-	public void setLocation(Location location) {
-		this.location = location;
-	}
-
-	public Double getAverageRating() {
-		return averageRating;
-	}
-
-	public void setAverageRating(Double averageRating) {
-		this.averageRating = averageRating;
-	}	
 	
 }

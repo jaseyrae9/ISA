@@ -9,27 +9,25 @@ import isa.project.model.rentacar.BranchOffice;
 import isa.project.model.rentacar.Car;
 import isa.project.model.rentacar.RentACarCompany;
 import isa.project.model.shared.Location;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@NoArgsConstructor
+@Setter
+@Getter
 public class RentACarCompanyDTO {
 	
-	private Integer id;
-	
+	private Integer id;	
 	@NotBlank (message = "Name can not be blank.")
 	private String name;
-	private String description;
-	
+	private String description;	
 	private ArrayList<CarDTO> cars = new ArrayList<>();
-	private ArrayList<BranchOfficeDTO> branchOffices = new ArrayList<>();
-	
+	private ArrayList<BranchOfficeDTO> branchOffices = new ArrayList<>();	
 	@NotNull (message = "Location must be enetered.")
-	private Location location;
-	
+	private Location location;	
 	private Double averageRating;
-	
-	public RentACarCompanyDTO() {
 		
-	}
-	
 	public RentACarCompanyDTO(RentACarCompany company) {
 		this.id = company.getId();
 		this.name = company.getName();
@@ -48,61 +46,5 @@ public class RentACarCompanyDTO {
 				this.branchOffices.add(new BranchOfficeDTO(bo));
 			}
 		}
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public ArrayList<CarDTO> getCars() {
-		return cars;
-	}
-
-	public void setCars(ArrayList<CarDTO> cars) {
-		this.cars = cars;
-	}
-
-	public ArrayList<BranchOfficeDTO> getBranchOffices() {
-		return branchOffices;
-	}
-
-	public void setBranchOffices(ArrayList<BranchOfficeDTO> branchOffices) {
-		this.branchOffices = branchOffices;
-	}
-		
-	public Location getLocation() {
-		return location;
-	}
-
-	public void setLocation(Location location) {
-		this.location = location;
-	}
-
-	public Double getAverageRating() {
-		return averageRating;
-	}
-
-	public void setAverageRating(Double averageRating) {
-		this.averageRating = averageRating;
 	}	
 }

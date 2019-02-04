@@ -15,6 +15,13 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@NoArgsConstructor
+@Setter
+@Getter
 @Entity
 @Table(name = "single_room_reservation")
 public class SingleRoomReservation {
@@ -36,46 +43,10 @@ public class SingleRoomReservation {
 	@Column(name = "isRoomRated")
 	private Boolean isRoomRated;
 	
-	public SingleRoomReservation() {
-
-	}
-
 	public SingleRoomReservation(Room room, RoomReservation roomReservation) {
 		this.room = room;
 		this.roomReservation = roomReservation;
 		this.isRoomRated = false;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public Room getRoom() {
-		return room;
-	}
-
-	public void setRoom(Room room) {
-		this.room = room;
-	}
-
-	public RoomReservation getRoomReservation() {
-		return roomReservation;
-	}
-
-	public void setRoomReservation(RoomReservation roomReservation) {
-		this.roomReservation = roomReservation;
-	}
-
-	public Boolean getIsRoomRated() {
-		return isRoomRated;
-	}
-
-	public void setIsRoomRated(Boolean isRoomRated) {
-		this.isRoomRated = isRoomRated;
 	}
 
 	@Override

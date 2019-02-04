@@ -7,7 +7,13 @@ import javax.persistence.ManyToOne;
 
 import isa.project.dto.users.UserDTO;
 import isa.project.model.rentacar.RentACarCompany;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @DiscriminatorValue("RACA")
 public class RentACarAdmin extends User {
@@ -16,27 +22,9 @@ public class RentACarAdmin extends User {
 	@JoinColumn(name = "rent_a_car_company_id")
 	private RentACarCompany rentACarCompany;
 
-	public RentACarAdmin() {
-		super();
-	}
-	
-	/**
-	 * Create rent a car admin based on UserDTO object. Used when new rent a car admin is being
-	 * registered.
-	 * @param userDTO
-	 */
 	public RentACarAdmin(UserDTO userDTO) {
 		super(userDTO.getEmail(), userDTO.getPassword(), userDTO.getFirstName(), userDTO.getLastName(),
 				userDTO.getPhoneNumber(), userDTO.getAddress(), true);
 		this.setConfirmedMail(true);
 	}
-
-	public RentACarCompany getRentACarCompany() {
-		return rentACarCompany;
-	}
-
-	public void setRentACarCompany(RentACarCompany rentACarCompany) {
-		this.rentACarCompany = rentACarCompany;
-	}
-
 }

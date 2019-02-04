@@ -17,7 +17,13 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "car")
 public class Car implements Serializable {
@@ -66,10 +72,6 @@ public class Car implements Serializable {
 	@Column(name = "ratingCount")
 	private Integer ratingCount;
 	
-	public Car() {
-		//super();
-	}
-	
 	public Car(RentACarCompany rentACarCompany, String brand, String model, Integer yearOfProduction, Integer seatsNumber, Integer doorsNumber,
 			Double price, String type) {
 		super();
@@ -86,117 +88,13 @@ public class Car implements Serializable {
 		this.ratingCount = 1; // jedan glas
 	}
 
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getBrand() {
-		return brand;
-	}
-
-	public void setBrand(String brand) {
-		this.brand = brand;
-	}
-
-	public String getModel() {
-		return model;
-	}
-
-	public void setModel(String model) {
-		this.model = model;
-	}
-
-	public Integer getYearOfProduction() {
-		return yearOfProduction;
-	}
-
-	public void setYearOfProduction(Integer yearOfProduction) {
-		this.yearOfProduction = yearOfProduction;
-	}
-
-	public Integer getSeatsNumber() {
-		return seatsNumber;
-	}
-
-	public void setSeatsNumber(Integer seatsNumber) {
-		this.seatsNumber = seatsNumber;
-	}
-
-	public Integer getDoorsNumber() {
-		return doorsNumber;
-	}
-
-	public void setDoorsNumber(Integer doorsNumber) {
-		this.doorsNumber = doorsNumber;
-	}
-
-	public Double getPrice() {
-		return price;
-	}
-
-	public void setPrice(Double price) {
-		this.price = price;
-	}
-	
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public Boolean getActive() {
-		return active;
-	}
-
-	public void setActive(Boolean active) {
-		this.active = active;
-	}
-
-	public RentACarCompany getRentACarCompany() {
-		return rentACarCompany;
-	}
-
-	public void setRentACarCompany(RentACarCompany rentACarCompany) {
-		this.rentACarCompany = rentACarCompany;
-	}
-	
-	public Set<CarReservation> getCarReservations() {
-		return carReservations;
-	}
-
-	public void setCarReservations(Set<CarReservation> carReservations) {
-		this.carReservations = carReservations;
-	}
-
 	public void addToTotalRating(Integer x) {
 		this.totalRating += x;
-	}
-	
-	public Integer getTotalRating() {
-		return totalRating;
-	}
-
-	public void setTotalRating(Integer totalRating) {
-		this.totalRating = totalRating;
-	}
+	}	
 	
 	public void incrementRatingCount() {
 		this.ratingCount++;
-	}
-
-	public Integer getRatingCount() {
-		return ratingCount;
-	}
-
-	public void setRatingCount(Integer ratingCount) {
-		this.ratingCount = ratingCount;
-	}
+	}	
 
 	@Override
 	public int hashCode() {

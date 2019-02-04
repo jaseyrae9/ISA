@@ -7,7 +7,13 @@ import javax.persistence.ManyToOne;
 
 import isa.project.dto.users.UserDTO;
 import isa.project.model.hotel.Hotel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @DiscriminatorValue("HA")
 public class HotelAdmin extends User {
@@ -16,26 +22,9 @@ public class HotelAdmin extends User {
 	@JoinColumn(name = "hotel_id")
 	private Hotel hotel;
 
-	public HotelAdmin() {
-		super();
-	}
-
-	/**
-	 * Create hotel admin based on UserDTO object. Used when new hotel admin is being
-	 * registered.
-	 * @param userDTO
-	 */
 	public HotelAdmin(UserDTO userDTO) {
 		super(userDTO.getEmail(), userDTO.getPassword(), userDTO.getFirstName(), userDTO.getLastName(),
 				userDTO.getPhoneNumber(), userDTO.getAddress(), true);
 		this.setConfirmedMail(true);
-	}
-
-	public Hotel getHotel() {
-		return hotel;
-	}
-
-	public void setHotel(Hotel hotel) {
-		this.hotel = hotel;
 	}
 }

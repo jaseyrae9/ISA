@@ -34,9 +34,8 @@ export class TokenStorageService {
     this.isLoggedIn.next(false);
     this.roles.next(null);
     this.checkRoles();
-    const company = JSON.parse(sessionStorage.getItem(COMPANY_KEY));
-    if (company) {
-      this.companyId = company;
+    if (sessionStorage.getItem(COMPANY_KEY) !== 'undefined') {
+      this.companyId = JSON.parse(sessionStorage.getItem(COMPANY_KEY));
     }
   }
 

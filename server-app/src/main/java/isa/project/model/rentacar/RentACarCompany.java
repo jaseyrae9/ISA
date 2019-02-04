@@ -19,8 +19,13 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import isa.project.model.shared.Location;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "rent_a_car_company")
 public class RentACarCompany {
@@ -53,10 +58,6 @@ public class RentACarCompany {
 	@Column(name = "ratingCount")
 	private Integer ratingCount;
 	
-	public RentACarCompany() {
-		super();
-	}
-
 	public RentACarCompany(String name, String description) {
 		super();
 		this.name = name;
@@ -65,79 +66,23 @@ public class RentACarCompany {
 		this.ratingCount = 1; // jedan glas
 	}
 
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
 	public Set<Car> getCars() {
 		if(cars != null)
 			return cars.stream().filter(p -> p.getActive()).collect(Collectors.toSet()); // Da vraca samo aktivne automobile
 		else
 			return null;
-	}
-
-	public void setCars(Set<Car> cars) {
-		this.cars = cars;
-	}
+	}	
 
 	public Set<BranchOffice> getBranchOffices() {
 		if(branchOffices != null)
 			return branchOffices.stream().filter(p -> p.getActive()).collect(Collectors.toSet()); // Da vraca samo aktivne
 		return null;
 	}
-
-	public void setBranchOffices(Set<BranchOffice> branchOffices) {
-		this.branchOffices = branchOffices;
-	}
-	
-	public Location getLocation() {
-		return location;
-	}
-
-	public void setLocation(Location location) {
-		this.location = location;
-	}
-
-	public Integer getTotalRating() {
-		return totalRating;
-	}
-
-	public void setTotalRating(Integer totalRating) {
-		this.totalRating = totalRating;
-	}
 	
 	public void addToTotalRating(Integer x) {
 		this.totalRating += x;
 	}
-
-	public Integer getRatingCount() {
-		return ratingCount;
-	}
-
-	public void setRatingCount(Integer ratingCount) {
-		this.ratingCount = ratingCount;
-	}
-
+	
 	public void incrementRatingCount() {
 		this.ratingCount++;
 	}
