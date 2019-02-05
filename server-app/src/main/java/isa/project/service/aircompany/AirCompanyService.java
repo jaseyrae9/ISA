@@ -1,5 +1,9 @@
 package isa.project.service.aircompany;
 
+import static java.lang.Math.toIntExact;
+
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +11,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import isa.project.common.DateProvider;
 import isa.project.dto.aircompany.DestinationDTO;
+import isa.project.dto.shared.DailyReportDTO;
+import isa.project.dto.shared.MonthlyReportDTO;
+import isa.project.dto.shared.WeeklyReportDTO;
 import isa.project.exception_handlers.RequestDataException;
 import isa.project.exception_handlers.ResourceNotFoundException;
 import isa.project.model.aircompany.AirCompany;
@@ -25,21 +33,72 @@ public class AirCompanyService {
 	private DestinationRepository destinationRepository;
 	@Autowired
 	private AdditionalServiceRepository additionalServiceRepository;
+	@Autowired
+	private DateProvider dateProvider;
 
 	public Iterable<AirCompany> findAll() {
 		return airCompanyRepository.findAll();
 	}
 
-	public Page<AirCompany> findAll(Pageable page){
+	public Page<AirCompany> findAll(Pageable page) {
 		return airCompanyRepository.findAll(page);
 	}
-	
+
 	public Optional<AirCompany> findAircompany(Integer id) {
 		return airCompanyRepository.findById(id);
 	}
 
 	public AirCompany saveAirCompany(AirCompany company) {
 		return airCompanyRepository.save(company);
+	}
+
+	/**
+	 * Kreira godisnji izvestaj za aviompaniju.
+	 * @param id - oznaka aviokompanije
+	 * @return - godisnji izvestaj po mesecima
+	 */
+	public MonthlyReportDTO getSoldTicketsPerMonth(Integer id){	
+		MonthlyReportDTO report = new MonthlyReportDTO();
+		for(Object[] result: airCompanyRepository.getSoldTicketsPerMonth(id, dateProvider.getCurrentYear())) {
+			report.increaseMonthly((int)result[1] - 1, toIntExact((long)result[0]));
+		}
+		return report;
+	}
+	
+	/**
+	 * Generise mesecni izvestaj.
+	 * @param id
+	 * @return - mesecni izvestaj po sedmicama.
+	 */
+	public WeeklyReportDTO getSoldTicketsPerWeek(Integer id) {
+		WeeklyReportDTO report = new WeeklyReportDTO();
+		Date start = Date.from(dateProvider.getStartOfMonth().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+		Date end = Date.from(dateProvider.getEndOfMonth().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+		for(Object result: airCompanyRepository.getSoldTicketsInPeriod(id, start, end)) {
+			int week = dateProvider.getWeekOfMonth((Date)result);
+			report.increaseWeekly(week-1, 1);
+		}
+		return report;
+	}
+	
+	/**
+	 * Kreira sedmicni izvestaj.
+	 * @param id
+	 * @return - sedmicni izvestaj po danima
+	 */
+	public DailyReportDTO getSoldTicketsPerDay(Integer id) {
+		DailyReportDTO report = new DailyReportDTO();
+		Integer weekStart = dateProvider.getStartOfWeek().getDayOfMonth();
+		Date start = Date.from(dateProvider.getStartOfWeek().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+		Date end = Date.from(dateProvider.getEndOfWeek().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+		for(Object[] result: airCompanyRepository.getSoldTicketsPerDay(id, start, end)){
+			report.increaseDaily((int)result[1] - weekStart, toIntExact((long)result[0]));
+		}
+		return report;
+	}
+	
+	public Double getProfitInPeriod(Integer id, Date from, Date to) {
+		return airCompanyRepository.getProfitInPeriod(id, from, to);
 	}
 
 	/**
@@ -73,11 +132,12 @@ public class AirCompanyService {
 	 * @param airport       - oznaka aerodruma
 	 * @throws ResourceNotFoundException - ako nisu pronađeni aerodrum ili
 	 *                                   destinacija
-	 * @throws RequestDataException - ako je destinacija već izbrisana
+	 * @throws RequestDataException      - ako je destinacija već izbrisana
 	 */
-	public void deleteDestination(Long destinationId, Integer airport) throws ResourceNotFoundException, RequestDataException {
+	public void deleteDestination(Long destinationId, Integer airport)
+			throws ResourceNotFoundException, RequestDataException {
 		Destination destination = findDestination(destinationId, airport);
-		if(!destination.getActive())
+		if (!destination.getActive())
 			throw new RequestDataException("Destination already deleted.");
 		destination.setActive(false);
 		destinationRepository.save(destination);
@@ -92,7 +152,7 @@ public class AirCompanyService {
 	 * @param destinationDTO - informacije o destianciji
 	 * @throws ResourceNotFoundException - ako nisu pronađeni aerodrum ili
 	 *                                   destinacija
-	 * @throws RequestDataException - ako je destinacija izbrisana
+	 * @throws RequestDataException      - ako je destinacija izbrisana
 	 */
 	public Destination editDestination(Long destinationId, Integer airport, DestinationDTO destinationDTO)
 			throws ResourceNotFoundException, RequestDataException {
@@ -177,10 +237,11 @@ public class AirCompanyService {
 	 * Uređuje postojeću informaciju o prtljagu.
 	 * 
 	 * @param baggageInfo - podaci za informaciju o prtljagu
-	 * @param aircomapny - aviokompanija
+	 * @param aircomapny  - aviokompanija
 	 * @return - uređena informacija
-	 * @throws ResourceNotFoundException - ako nisu pronađeni aviokompanija ili informacija o prtljagu.
-	 * @throws RequestDataException - ako je informacija obrisana.
+	 * @throws ResourceNotFoundException - ako nisu pronađeni aviokompanija ili
+	 *                                   informacija o prtljagu.
+	 * @throws RequestDataException      - ako je informacija obrisana.
 	 */
 	public AdditionalService editBaggageInformation(AdditionalService baggageInfo, Integer aircomapny)
 			throws ResourceNotFoundException, RequestDataException {

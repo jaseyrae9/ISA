@@ -51,7 +51,7 @@ public class AirCompany {
 	private Set<Airplane> airplanes;
 	
 	@OneToMany(mappedBy = "airCompany", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-	private Set<Flight> flight;
+	private Set<Flight> flights;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<AdditionalService> baggageInformation;

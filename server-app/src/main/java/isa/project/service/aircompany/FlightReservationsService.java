@@ -3,6 +3,7 @@ package isa.project.service.aircompany;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -132,17 +133,15 @@ public class FlightReservationsService {
 	 * @throws ResourceNotFoundException 
 	 */
 	public void saveFriendInvites(Reservation reservation, ReservationRequestDTO request, Integer customerId) throws ResourceNotFoundException, RequestDataException {
-		if(reservation.getFlightReservation() != null) {
+		if(reservation.getFlightReservation() != null) {			
+			List<TicketReservationRequestDTO> requests = request.getFlightReservationRequest().getTicketReservations();
+			List<TicketReservationRequestDTO> friendInvites = requests.stream().filter(r -> r.getStatus().equals(2)).collect(Collectors.toList());
 			List<TicketReservation> ticketReservations = new ArrayList<TicketReservation>(reservation.getFlightReservation().getTicketReservations());
-			for(int i = 0; i < ticketReservations.size(); ++i) {
-				TicketReservationRequestDTO ticketDTO = request.getFlightReservationRequest().getTicketReservations().get(i);
-				int status = ticketDTO.getStatus();
-				if(status == 2) {
-					TicketReservation ticketReservation = ticketReservations.get(i);
-					Customer friend = findFriend(customerId, ticketDTO.getFriendId());
-					FriendInvite invite = new FriendInvite(ticketReservation,friend);
-					friendInvitesRepository.save(invite);
-				}				
+			for(TicketReservationRequestDTO fi:friendInvites) {
+				TicketReservation ticketReservation = ticketReservations.stream().filter(tr -> tr.getTicket().getId().equals(fi.getTicketId())).findFirst().get();			
+				Customer friend = findFriend(customerId, fi.getFriendId());
+				FriendInvite invite = new FriendInvite(ticketReservation,friend);
+				friendInvitesRepository.save(invite);
 			}
 		}
 	}

@@ -8,6 +8,7 @@ import { Chart } from 'chart.js';
 })
 export class DailyIncomeChartComponent implements OnInit, AfterViewInit {
   @Input() daily: any;
+  @Input() type = 'line';
 
   chartDaily: any;
 
@@ -19,7 +20,7 @@ export class DailyIncomeChartComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.chartDaily = new Chart('canvasDaily', {
       // The type of chart we want to create
-      type: 'line',
+      type:  this.type,
       data: {
         labels: ['Monday', 'Thuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
         datasets: [{

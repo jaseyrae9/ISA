@@ -28,11 +28,8 @@ public class TicketReservationRequestDTO {
 			//ako je za korisnika ne treba nista dodatno
 			return true;
 		}
-		else if(status == 1) {
-			if(firstName.trim().isEmpty() || lastName.trim().isEmpty() || passport.trim().isEmpty()) {
-				return false;
-			}
-			return true;
+		else if(status == 1 && (firstName.trim().isEmpty() || lastName.trim().isEmpty() || passport.trim().isEmpty())) {
+				return false;	
 		}
 		return true;
 	}

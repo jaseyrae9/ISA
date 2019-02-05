@@ -8,6 +8,7 @@ import { Chart } from 'chart.js';
 })
 export class MonthlyIncomeChartComponent implements OnInit, AfterViewInit {
   @Input() monthly: any;
+  @Input() type = 'line';
 
   chartMonthly: any;
 
@@ -19,7 +20,7 @@ export class MonthlyIncomeChartComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.chartMonthly = new Chart('canvasMonthly', {
       // The type of chart we want to create
-      type: 'line',
+      type: this.type,
 
       data: {
         labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],

@@ -1,6 +1,7 @@
 package isa.project.controller.aircompany;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import isa.project.aspects.AdminAccountActiveCheck;
@@ -245,5 +248,25 @@ public class AirCompanyController {
 	public ResponseEntity<?> editBaggageInformation(@PathVariable Integer id, @Valid @RequestBody AdditionalService baggageInfo) throws ResourceNotFoundException, RequestDataException{
 		AdditionalService baggageInfomation = airCompanyService.editBaggageInformation(baggageInfo,  id);
 		return new ResponseEntity<>(baggageInfomation, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/getSoldTicketsPerMonth/{id}", method = RequestMethod.GET)
+	public ResponseEntity<?> getSoldTicketsPerMonth(@PathVariable Integer id){
+		return new ResponseEntity<>(airCompanyService.getSoldTicketsPerMonth(id), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/getSoldTicketsPerDay/{id}", method = RequestMethod.GET)
+	public ResponseEntity<?> getSoldTicketsPerDay(@PathVariable Integer id){
+		return new ResponseEntity<>(airCompanyService.getSoldTicketsPerDay(id), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/getSoldTicketsPerWeek/{id}", method = RequestMethod.GET)
+	public ResponseEntity<?> getSoldTicketsPerWeek(@PathVariable Integer id){
+		return new ResponseEntity<>(airCompanyService.getSoldTicketsPerWeek(id), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/getProfitInPeriod/{id}", method = RequestMethod.GET)
+	public ResponseEntity<?> getProfitInPeriod(@PathVariable Integer id, @RequestParam @DateTimeFormat(pattern="MM-dd-yyyy") Date from, @RequestParam @DateTimeFormat(pattern="MM-dd-yyyy") Date to){
+		return new ResponseEntity<>(airCompanyService.getProfitInPeriod(id, from, to), HttpStatus.OK);
 	}
 }

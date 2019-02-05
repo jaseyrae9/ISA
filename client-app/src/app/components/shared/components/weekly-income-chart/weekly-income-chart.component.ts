@@ -9,6 +9,7 @@ import { Chart } from 'chart.js';
 export class WeeklyIncomeChartComponent implements OnInit, AfterViewInit {
   chartWeekly: any;
   @Input() weekly: any;
+  @Input() type = 'line';
 
   constructor(private cd: ChangeDetectorRef) { }
 
@@ -19,7 +20,7 @@ export class WeeklyIncomeChartComponent implements OnInit, AfterViewInit {
     console.log('Constructing chart');
     this.chartWeekly = new Chart('canvasWeekly', {
       // The type of chart we want to create
-      type: 'line',
+      type: this.type,
 
       data: {
         labels: ['Week 1.', 'Week 2.', 'Week 3.', 'Week 4.', 'Week 5.', 'Week 6.'],

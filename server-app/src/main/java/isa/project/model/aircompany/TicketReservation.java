@@ -1,5 +1,8 @@
 package isa.project.model.aircompany;
 
+
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -47,6 +52,11 @@ public class TicketReservation {
 	
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "ticketReservation")
 	private FriendInvite invitedFriend;
+	
+	@Setter
+	@CreationTimestamp
+	@Column(nullable = false)
+	private Date saleDate;
 
 	public TicketReservation(String firstName, String lastName, String passport, Ticket ticket) {
 		super();

@@ -59,7 +59,7 @@
     <div [attr.id]="'t' + flightReservation.id" class="collapse p-4" style="border: solid #ffffff;">
         <section class="pricing-table">
             <div class="row justify-content-md-left">
-                <div class="col-3 mb-0 ml" *ngFor="let item of flightReservation.ticketReservations">
+                <div class="col-3 mt-2 ml" *ngFor="let item of flightReservation.ticketReservations">
                     <div class="item py-2" align="center">
                         <i class="fas fa-couch"></i>
                         <br>
@@ -67,6 +67,7 @@
                         <br>
                         <small>Class: {{item.ticket.seat.seatClass}}</small>
                         <br>
+                        {{item.inviteStatus}}
                         <small class="text-muted">Row: {{item.ticket.seat.rowNum}}, Column: {{item.ticket.seat.colNum}}</small><br>
                         <small *ngIf="item.inviteStatus == null || item.inviteStatus == 'ACCEPTED'" ><i class="fas fa-check"></i> Comming</small>
                         <small *ngIf="item.inviteStatus == 'PENDING'" ><i class="fas fa-spinner"></i> Pending...</small>

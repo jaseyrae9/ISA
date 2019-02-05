@@ -139,4 +139,20 @@ export class AirCompanyService {
   fastReservation(id, passport) {
     return this.http.post<any>('http://localhost:8080/aircompanies/fastReservation/' + id, passport, httpOptions);
   }
+
+  getMonthly(id): Observable<any> {
+    return this.http.get<any>('http://localhost:8080/aircompanies/getSoldTicketsPerMonth/' + id);
+  }
+
+  getWeekly(id): Observable<any> {
+    return this.http.get<any>('http://localhost:8080/aircompanies/getSoldTicketsPerWeek/' + id);
+  }
+
+  getDaily(id): Observable<any> {
+    return this.http.get<any>('http://localhost:8080/aircompanies/getSoldTicketsPerDay/' + id);
+  }
+
+  getProfit(id, from, to): Observable<any> {
+    return this.http.get<any>('http://localhost:8080/aircompanies/getProfitInPeriod/' + id + '?from=' + from + '&to=' + to);
+  }
 }

@@ -1,3 +1,5 @@
+import { DatePipe } from '@angular/common';
+import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { TicketForFastReservation } from './../../../model/air-company/ticket-for-fast-reservation';
 import { AdditionalService } from 'src/app/model/additional-service';
 import { AirplaneFormComponent } from './../airplane/airplane-form/airplane-form.component';
@@ -14,6 +16,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AirCompanyService } from 'src/app/services/air-company/air-company.service';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { BaggageFormComponent } from '../baggage-form/baggage-form.component';
+import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-air-company-page',
@@ -27,11 +30,29 @@ export class AirCompanyPageComponent implements OnInit {
   airplanes: Airplane[] = [];
   fastResTickets: TicketForFastReservation[] = [];
 
+  monthly: any;
+  weekly: any;
+  daily: any;
+
+  form: FormGroup;
+  datePickerConfig: Partial<BsDatepickerConfig>;
+  income;
+
   constructor(private ngxNotificationService: NgxNotificationService,
     private modalService: BsModalService, private route: ActivatedRoute, private airCompanyService: AirCompanyService,
-    public tokenService: TokenStorageService) { }
+    public tokenService: TokenStorageService, private formBuilder: FormBuilder, private datePipe: DatePipe) {
+      this.datePickerConfig = Object.assign({},
+        {
+          containerClass: 'theme-default',
+          dateInputFormat: 'YYYY-MM-DD'
+        });
+
+     }
 
   ngOnInit() {
+    this.form = this.formBuilder.group({
+      dates: ['', [Validators.required]]
+    });
     this.id = this.route.snapshot.paramMap.get('id');
     this.airCompanyService.get(this.id).subscribe(
       (data) => {
@@ -39,8 +60,9 @@ export class AirCompanyPageComponent implements OnInit {
       }
     );
     this.loadAirplanes(this.id);
+    this.loadAdminInfo(this.id);
     this.tokenService.rolesEmitter.subscribe(
-      (data) => { if (data !== null) { this.loadAirplanes(this.airCompany.id); } }
+      (data) => { if (data !== null) { this.loadAirplanes(this.airCompany.id); this.loadAdminInfo(this.airCompany.id); } }
     );
     this.loadFastReservationTickets();
    }
@@ -75,6 +97,44 @@ export class AirCompanyPageComponent implements OnInit {
         }
       );
     }
+   }
+
+   loadAdminInfo(id) {
+      // tslint:disable-next-line:triple-equals
+      if (this.tokenService.isAirAdmin && this.tokenService.companyId == id) {
+        this.airCompanyService.getMonthly(id).subscribe(
+          (data) => {
+            this.monthly = data;
+          }
+        );
+      }
+      // tslint:disable-next-line:triple-equals
+      if (this.tokenService.isAirAdmin && this.tokenService.companyId == id) {
+        this.airCompanyService.getDaily(id).subscribe(
+          (data) => {
+            this.daily = data;
+          }
+        );
+      }
+      // tslint:disable-next-line:triple-equals
+      if (this.tokenService.isAirAdmin && this.tokenService.companyId == id) {
+        this.airCompanyService.getWeekly(id).subscribe(
+          (data) => {
+            this.weekly = data;
+          }
+        );
+      }
+   }
+
+   getIncome() {
+    const dates = this.form.value.dates;
+    const from = this.datePipe.transform(dates[0], 'MM-dd-yyyy');
+    const to = this.datePipe.transform(dates[1], 'MM-dd-yyyy');
+    this.airCompanyService.getProfit(this.airCompany.id, from, to ).subscribe(
+      (data) => {
+        this.income = data;
+      }
+    );
    }
 
    openAddDestinationModal() {
