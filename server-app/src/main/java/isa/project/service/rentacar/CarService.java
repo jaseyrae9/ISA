@@ -3,6 +3,7 @@ package isa.project.service.rentacar;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,10 @@ public class CarService {
 
 	public Optional<Car> findCar(Integer id) {
 		return carRepository.findById(id);
+	}
+	
+	public List<Car> findAll() {
+		return carRepository.findAll();
 	}
 	
 	public Car saveCar(Car car) {

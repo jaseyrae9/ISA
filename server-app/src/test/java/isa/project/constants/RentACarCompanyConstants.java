@@ -29,6 +29,10 @@ public class RentACarCompanyConstants {
 	public static final String LOCATION_COUNTRY = "Srbija";
 	public static final Double LOCATION_LON = 19.849669;
 	public static final Double LOCATION_LAT= 45.261406;
-
+	
+	public static final String DATE0 = "2019-05-30";
+	public static final String DATE1 = "2019-06-30";
+	
+	public static final Long CAR_ID = 100L; 
 	
 }

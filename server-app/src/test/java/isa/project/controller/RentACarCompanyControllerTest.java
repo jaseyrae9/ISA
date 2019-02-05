@@ -15,6 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static isa.project.constants.RentACarCompanyConstants.NEW_RENT_A_CAR_COMPANY_NAME;
 import static isa.project.constants.RentACarCompanyConstants.NEW_RENT_A_CAR_COMPANY_DESCRIPTION;
 import java.nio.charset.Charset;
+
 import static isa.project.constants.RentACarCompanyConstants.LOCATION_ADDRESS;
 import static isa.project.constants.RentACarCompanyConstants.LOCATION_CITY;
 import static isa.project.constants.RentACarCompanyConstants.LOCATION_COUNTRY;
@@ -166,6 +167,6 @@ public class RentACarCompanyControllerTest {
 		String json = TestUtil.json(company);
 		this.mockMvc.perform(put(URL_PREFIX + "/edit/" + RentACarCompanyConstants.RENT_A_CAR_COMPANY_ID.intValue()).header("Authorization", "Bearer " + accessTokenCarAdmin)
 				.contentType(contentType).content(json)).andExpect(status().isOk());
-	}
+	}	
 	
 }

@@ -1,5 +1,6 @@
 package isa.project.service.hotel;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.transaction.annotation.Propagation;
@@ -47,6 +48,10 @@ public class RoomService {
 
 	public Optional<Room> findRoom(Integer id) {
 		return roomRepository.findById(id);
+	}
+	
+	public List<Room> findAll() {
+		return roomRepository.findAll();
 	}
 
 	public Room saveRoom(Room room) {

@@ -4,10 +4,7 @@ public class HotelConstants {
 	public static final int HOTEL_COUNT = 2;
 	public static final int HOTEL_SIZE_COUNT = 1;
 	
-// (id, hotel_name, hotel_description, rating_count, total_rating, location_id) values (100, 'Hotel proba 1', 'Opis 1', 2, 8, 100);
-
 	public static final Long DB_ID = 100L;	
-	
 	public static final String HOTEL_NAME = "Hotel proba 1";
 	public static final String HOTEL_DESC = "Opis 1";
 	public static final Double AVERAGE_RATING = new Double(4);

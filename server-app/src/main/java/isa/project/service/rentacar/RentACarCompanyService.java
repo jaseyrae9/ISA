@@ -54,8 +54,8 @@ public class RentACarCompanyService {
 
 	public RentACarCompany saveRentACarCompany(RentACarCompany company) {
 		return rentACarRepository.save(company);
-	}
-
+	}	
+	
 	public Car addCar(Integer companyId, CarDTO carDTO) throws ResourceNotFoundException {
 		Optional<RentACarCompany> carCompany = rentACarRepository.findById(companyId);
 
