@@ -17,6 +17,7 @@ import javax.persistence.OneToOne;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import isa.project.model.aircompany.FriendInvite.FriendInviteStatus;
 import isa.project.model.users.Reservation;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,7 +41,7 @@ public class FlightReservation {
 	private Set<TicketReservation> ticketReservations;
 	
 	@JsonBackReference(value = "reservation-flight-reservation")
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "flightReservation", orphanRemoval = true)
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "flightReservation")
 	private Reservation reservation;
 	
 	public FlightReservation(Flight flight) {
@@ -52,5 +53,20 @@ public class FlightReservation {
 	public void addTicketReservation(TicketReservation reservation) {
 		this.ticketReservations.add(reservation);
 		reservation.setFlightReservation(this);
-	}		
+	}	
+	
+	public double getTotal() {
+		double total = 0;
+		for(TicketReservation reservation: this.ticketReservations) {
+			if(reservation.getInvitedFriend() == null) {
+				total += reservation.getTicket().getPrice();
+			}
+			else {
+				if(reservation.getInvitedFriend().getStatus() != FriendInviteStatus.REFUSED) {
+					total += reservation.getTicket().getPrice();
+				}
+			}
+		}
+		return total;
+	}
 }

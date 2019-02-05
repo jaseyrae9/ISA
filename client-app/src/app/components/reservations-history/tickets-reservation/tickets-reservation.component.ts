@@ -12,12 +12,4 @@ export class TicketsReservationComponent implements OnInit {
 
   ngOnInit() {
   }
-
-  getPrice(): number {
-    let total = 0;
-    for (const reservation of this.flightReservation.ticketReservations) {
-      total += reservation.ticket.price - reservation.ticket.discount;
-    }
-    return total;
-  }
 }

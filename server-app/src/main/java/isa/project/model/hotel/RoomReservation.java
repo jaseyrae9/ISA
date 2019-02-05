@@ -53,7 +53,7 @@ public class RoomReservation {
 	private Boolean active;
 
 	@JsonBackReference(value = "reservation-room-reservation")
-	@OneToOne(fetch = FetchType.EAGER, mappedBy = "roomReservation", orphanRemoval = true)
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "roomReservation")
 	private Reservation reservation;
 
 	@Column(name = "isHotelRated")

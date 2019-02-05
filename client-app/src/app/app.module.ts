@@ -1,3 +1,5 @@
+import { ReservationsService } from './services/reservations.service';
+import { ShoppingCartService } from './observables/shopping-cart.service';
 import { LocationService } from './services/location-service';
 import { ErrorInterceptor } from './auth/response-interceptor';
 import { BrowserModule } from '@angular/platform-browser';
@@ -231,7 +233,7 @@ import { FastReservationDisplayComponent } from './components/rent-a-car-company
   providers: [HotelService, AirCompanyService, UserService, DataService, RoleGuardService, LocationService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    DatePipe
+    DatePipe, ShoppingCartService, ReservationsService
   ],
   bootstrap: [AppComponent],
   entryComponents: [

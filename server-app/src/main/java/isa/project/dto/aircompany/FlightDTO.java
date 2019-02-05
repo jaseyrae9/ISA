@@ -31,7 +31,7 @@ public class FlightDTO {
 	@NotNull(message = "Departure time can not be empty.")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
 	private Date startDateAndTime;
-	
+		
 	@NotNull(message = "Arrival time can not be empty.")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
 	private Date endDateAndTime;

@@ -113,6 +113,7 @@ export class FlightPageComponent implements OnInit {
     this.flight.firstPrice = fligth.firstPrice;
     this.flight.bussinessPrice = fligth.bussinessPrice;
     this.flight.tickets = fligth.tickets;
+    this.flight.minPrice = fligth.minPrice;
   }
 
 }

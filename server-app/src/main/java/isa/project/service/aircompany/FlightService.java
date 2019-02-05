@@ -300,6 +300,7 @@ public class FlightService {
 		if(!ticket.getAirCompany().getId().equals(aircompanyId)) {
 			throw new RequestDataException("Ticket does not belong to your aircompany.");
 		}
+		
 		//oslobodi sediste
 		ticket.getTicket().setStatus(TicketStatus.AVAILABLE);
 		

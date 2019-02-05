@@ -43,17 +43,17 @@ public class Reservation {
 	private Customer customer;
 	
 	@JsonManagedReference(value = "reservation-flight-reservation")	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)	
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)	
 	@JoinColumn(name="flight_reservation_id", referencedColumnName="id")
 	private FlightReservation flightReservation;
 	
     @JsonManagedReference(value = "reservation-car-reservation")
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)	
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)	
 	@JoinColumn(name="car_reservation_id", referencedColumnName="id")
 	private CarReservation carReservation;
 	
 	@JsonManagedReference(value = "reservation-room-reservation")	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)	
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)	
 	@JoinColumn(name="room_reservation_id", referencedColumnName="id")
 	private RoomReservation roomReservation;
 	

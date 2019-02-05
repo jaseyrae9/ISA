@@ -23,4 +23,11 @@
 
 .row{
   overflow: hidden;
-  }
+}
+
+.btn-primary, .btn-primary:active {
+  color: #fff;
+  background: #33cabb;
+  vertical-align: middle;
+  border: none;
+}

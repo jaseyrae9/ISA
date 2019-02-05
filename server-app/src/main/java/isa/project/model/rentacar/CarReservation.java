@@ -53,7 +53,7 @@ public class CarReservation {
 	private Car car;	
 	
 	@JsonBackReference(value = "reservation-car-reservation")
-	@OneToOne(fetch = FetchType.EAGER, mappedBy = "carReservation", orphanRemoval = true)
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "carReservation")
 	private Reservation reservation;
 	
 	@Column(name = "isCarRated")

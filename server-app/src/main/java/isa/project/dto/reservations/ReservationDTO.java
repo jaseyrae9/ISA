@@ -1,4 +1,4 @@
-package isa.project.dto.shared;
+package isa.project.dto.reservations;
 
 import java.util.Date;
 import java.util.Set;

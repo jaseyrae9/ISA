@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 
-import isa.project.dto.shared.ReservationDTO;
+import isa.project.dto.reservations.ReservationDTO;
 import isa.project.dto.users.AuthenticationResponse;
 import isa.project.dto.users.UserDTO;
 import isa.project.exception_handlers.ResourceNotFoundException;

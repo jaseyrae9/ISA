@@ -7,4 +7,5 @@ export class TicketReservation {
   ticket: Ticket = new Ticket();
   status = -1;
   friend_id = -1;
+  inviteStatus: string = null;
 }

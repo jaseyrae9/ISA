@@ -11,7 +11,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import isa.project.model.aircompany.FriendInvite.FriendInviteStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -31,7 +33,7 @@ public class TicketReservation {
 	@Column(nullable = false)
 	private String lastName;
 	
-	@Column(nullable = false)
+	@Column
 	private String passport;
 	
 	@OneToOne(fetch = FetchType.EAGER)	
@@ -42,6 +44,9 @@ public class TicketReservation {
 	@ManyToOne(fetch = FetchType.LAZY)	
 	@JoinColumn(name="flightReservation", referencedColumnName="id")
 	private FlightReservation flightReservation;
+	
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "ticketReservation")
+	private FriendInvite invitedFriend;
 
 	public TicketReservation(String firstName, String lastName, String passport, Ticket ticket) {
 		super();
@@ -50,4 +55,16 @@ public class TicketReservation {
 		this.passport = passport;
 		this.ticket = ticket;
 	}	
+	
+	@JsonIgnore	
+	public FriendInvite getInvitedFriend() {
+		return this.invitedFriend;
+	}
+	
+	public FriendInviteStatus getInviteStatus() {
+		if(this.invitedFriend != null) {
+			return this.invitedFriend.getStatus();
+		}
+		return null;
+	}
 }

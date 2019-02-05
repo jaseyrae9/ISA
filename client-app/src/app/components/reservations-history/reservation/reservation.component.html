@@ -10,6 +10,13 @@
     </div>
     <!--Ovde obavezno kao id staviti id porduzbine-->
     <div [attr.id]="'r' + reservation.id" class="collapse m-2">
+      <div class="card" style="border: solid #ffffff;">
+        <table class="table table-bordered table-sm">
+          <tr> <th>Price: </th> <td align="right">{{reservation.flightReservation.total}}€</td> </tr>
+          <tr> <th>Discount: </th> <td></td> </tr>
+          <tr class="table-success"> <th>Total price: </th> <td align="right">{{reservation.flightReservation.total}}€</td> </tr>
+        </table>
+      </div>
       <!--Dodati ng if ove da se ne prikazuje ako nema auto u rezervaciji npr-->
       <app-tickets-reservation *ngIf="reservation.flightReservation" [flightReservation]="reservation.flightReservation"></app-tickets-reservation>
       <app-hotel-reservation *ngIf="reservation.roomReservation" [reservation]="reservation.roomReservation"></app-hotel-reservation>

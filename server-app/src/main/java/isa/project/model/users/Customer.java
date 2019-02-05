@@ -11,6 +11,7 @@ import javax.persistence.OneToMany;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import isa.project.dto.users.UserDTO;
+import isa.project.model.aircompany.FriendInvite;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,7 +25,11 @@ public class Customer extends User {
 
 	@JsonManagedReference(value = "customer-reservations")
 	@OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-	private Set<Reservation> reservations;
+	private Set<Reservation> reservations;	
+	
+	@JsonManagedReference(value = "customer-invites")
+	@OneToMany(mappedBy = "friend", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<FriendInvite> invites;
 	
 	public Customer(UserDTO userDTO) {
 		super(userDTO.getEmail(), userDTO.getPassword(), userDTO.getFirstName(), userDTO.getLastName(),

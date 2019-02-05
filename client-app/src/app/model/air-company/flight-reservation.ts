@@ -4,4 +4,5 @@ export class FlightReservation {
   id: number;
   flight: Flight = new Flight();
   ticketReservations: TicketReservation[] = [];
+  total = 0;
 }

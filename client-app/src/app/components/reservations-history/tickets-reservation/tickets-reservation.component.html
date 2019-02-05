@@ -48,7 +48,7 @@
                     <p>{{flightReservation.flight.endDateAndTime}}</p>
                 </div>
                 <div class="col-1 border-left px-1 py-5" align="center">
-                    <p class="py-6" style="font-size: 35px; color: #33cabb">{{getPrice()}}€</p>
+                    <p class="py-6" style="font-size: 35px; color: #33cabb">{{flightReservation.total}}€</p>
                 </div>
             </div>
         </div>
@@ -67,7 +67,10 @@
                         <br>
                         <small>Class: {{item.ticket.seat.seatClass}}</small>
                         <br>
-                        <small class="text-muted">Row: {{item.ticket.seat.rowNum}}, Column: {{item.ticket.seat.colNum}}</small>
+                        <small class="text-muted">Row: {{item.ticket.seat.rowNum}}, Column: {{item.ticket.seat.colNum}}</small><br>
+                        <small *ngIf="item.inviteStatus == null || item.inviteStatus == 'ACCEPTED'" ><i class="fas fa-check"></i> Comming</small>
+                        <small *ngIf="item.inviteStatus == 'PENDING'" ><i class="fas fa-spinner"></i> Pending...</small>
+                        <small *ngIf="item.inviteStatus == 'REFUSED'" ><i class="fas fa-times"></i> Canceled</small>
                     </div>
                 </div>
             </div>

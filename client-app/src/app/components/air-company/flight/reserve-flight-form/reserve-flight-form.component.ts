@@ -1,3 +1,5 @@
+import { ReservationsService } from './../../../../services/reservations.service';
+import { ShoppingCartService } from './../../../../observables/shopping-cart.service';
 import { Friendship } from 'src/app/model/users/friendship';
 import { InviteAFriendComponent } from './../invite-a-friend/invite-a-friend.component';
 import { TicketReservation } from './../../../../model/air-company/ticket-reservation';
@@ -11,6 +13,7 @@ import { AirCompanyService } from 'src/app/services/air-company/air-company.serv
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { TicketsDisplayComponent } from '../tickets-display/tickets-display.component';
+import { NgxNotificationService } from 'ngx-notification';
 
 @Component({
   selector: 'app-reserve-flight-form',
@@ -26,9 +29,14 @@ export class ReserveFlightFormComponent implements OnInit {
   @ViewChild('tickets') ticketsView: TicketsDisplayComponent;
 
   constructor(private router: Router, private route: ActivatedRoute, private airService: AirCompanyService,
-    private modalService: BsModalService) { }
+    private modalService: BsModalService, private shoppingCartService: ShoppingCartService,
+    private reservationsService: ReservationsService, private ngxNotificationService: NgxNotificationService) { }
 
   ngOnInit() {
+    this.loadFlight();
+  }
+
+  loadFlight() {
     const id = this.route.snapshot.paramMap.get('id');
     this.airService.getFlight(id).subscribe(
       (data) => {
@@ -38,6 +46,7 @@ export class ReserveFlightFormComponent implements OnInit {
   }
 
   pageOne() {
+    let total = 0;
     const tickets = this.ticketsView.checkedTickets;
     if (tickets.length === 0) {
       this.errorMessage = 'Please, select at least one ticket.';
@@ -47,7 +56,9 @@ export class ReserveFlightFormComponent implements OnInit {
       const ticketReservation = new TicketReservation();
       ticketReservation.ticket = ticket;
       this.reservation.ticketReservations.push(ticketReservation);
+      total += ticket.price;
     }
+    this.reservation.total = total;
     this.page = 1;
   }
 
@@ -97,6 +108,46 @@ export class ReserveFlightFormComponent implements OnInit {
       item.lastName = value.user2Lastname;
       item.friend_id = value.user2Id;
     });
+  }
+
+  yesClick() {
+    this.shoppingCartService.changeFlightReservation(this.reservation);
+    // TODO: Redirect
+  }
+
+  noClick() {
+    const reservationDTO = {
+      flightReservationRequest: this.createFlightReservationDTO(this.reservation)
+    };
+    this.reservationsService.reserve(reservationDTO).subscribe(
+      (data) => {
+        this.ngxNotificationService.sendMessage('Tickets reserved.', 'dark', 'bottom-right');
+        this.router.navigate(['/history']);
+      },
+      (error) => {
+        this.reservation = new FlightReservation();
+        this.loadFlight();
+        this.page = 0;
+        this.errorMessage = error.error.details;
+      }
+    );
+  }
+
+  createFlightReservationDTO(flightReservation: FlightReservation) {
+    const flightReservationDTO = {
+      flightId: flightReservation.flight.id,
+      ticketReservations: flightReservation.ticketReservations.map(
+                          function(ticket) {return {
+                          firstName: ticket.firstName,
+                          lastName: ticket.lastName,
+                          passport: ticket.passport,
+                          status: ticket.status,
+                          ticketId: ticket.ticket.id,
+                          friendId: ticket.friend_id
+                        };
+     })
+    };
+    return flightReservationDTO;
   }
 }
 

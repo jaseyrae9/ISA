@@ -1,6 +1,5 @@
 package isa.project.model.aircompany;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -30,8 +29,8 @@ public class Ticket {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;	
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true, mappedBy="ticket")
-	private TicketReservation reservation;
+	@OneToOne(fetch = FetchType.LAZY)
+	private TicketReservation activeReservation;
 	
 	@Getter
 	@JsonBackReference(value="flight")
@@ -87,7 +86,7 @@ public class Ticket {
 	
 	@JsonIgnore
 	public TicketReservation getReservation() {
-		return reservation;
+		return activeReservation;
 	}
 
 	@Override

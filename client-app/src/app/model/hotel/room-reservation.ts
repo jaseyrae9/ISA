@@ -8,10 +8,11 @@ export class RoomReservation {
     checkInDate: Date;
     checkOutDate: Date;
     additionalServices: AdditionalService[];
-    roomReservations: Room[]; // SingleRoomReservation
+    roomReservations: Room[]; // Lazne
     reservations: Room[];
     hotel: Hotel = new Hotel();
     isHotelRated: Boolean;
     ratingCount: number;
     totalRating: number;
+    isFastReservation: boolean;
 }

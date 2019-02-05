@@ -40,7 +40,7 @@ export class FightBasicInfoComponent implements OnInit {
     this.airService.activateFlight(this.flight.airCompanyBasicInfo.id, this.flight.id).subscribe(
       (data) => {
         this.ngxNotificationService.sendMessage('Flight activated.', 'dark', 'bottom-right');
-        this.flight = data;
+        this.setFlight(data);
       }
       // neuspesnu aktivaciju ce handlovati interceptori
     );
@@ -110,5 +110,6 @@ export class FightBasicInfoComponent implements OnInit {
     this.flight.firstPrice = fligth.firstPrice;
     this.flight.bussinessPrice = fligth.bussinessPrice;
     this.flight.tickets = fligth.tickets;
+    this.flight.minPrice = fligth.minPrice;
   }
 }

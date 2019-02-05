@@ -1,3 +1,4 @@
+import { Hotel } from './../../../model/hotel/hotel';
 import { Component, OnInit, Input } from '@angular/core';
 import { BsDatepickerConfig } from 'ngx-bootstrap';
 import { Options, LabelType } from 'ng5-slider';
@@ -10,6 +11,8 @@ import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { ReservationRequest } from 'src/app/model/hotel/reservation-request';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgxNotificationService } from 'ngx-notification';
+import { ShoppingCartService } from 'src/app/observables/shopping-cart.service';
+import { RoomReservation } from 'src/app/model/hotel/room-reservation';
 
 @Component({
   selector: 'app-book-form',
@@ -63,7 +66,8 @@ export class BookFormComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
     private hotelService: HotelService,
     private tokenService: TokenStorageService,
-    public ngxNotificationService: NgxNotificationService) {
+    public ngxNotificationService: NgxNotificationService,
+    private shoppingCartService: ShoppingCartService) {
 
     this.datePickerConfig = Object.assign({},
       {
@@ -139,15 +143,22 @@ export class BookFormComponent implements OnInit {
   }
 
   completeBooking() {
-    const roomReservation = new ReservationRequest();
+    if (this.bookedRooms.length === 0) {
+      this.ngxNotificationService.sendMessage('You must select a room!', 'danger', 'bottom-right' );
+    }
+    const roomReservation = new RoomReservation();
     roomReservation.checkInDate = this.bookForm.value.bsRangeValue[0];
     roomReservation.checkOutDate = this.bookForm.value.bsRangeValue[1];
     console.log('this.bookForm.value.bsRangeValue[1]', this.bookForm.value.bsRangeValue[1]);
     roomReservation.additionalServices = this.checkedAdditionalServices;
     roomReservation.reservations = this.bookedRooms;
+    // hotel
+
+
     console.log('salje se ', roomReservation);
 
-    this.hotelService.rentRoom(roomReservation, this.hotelId, this.tokenService.getUsername()).subscribe(
+    this.shoppingCartService.changeRoomReservation(roomReservation);
+    /*this.hotelService.rentRoom(roomReservation, this.hotelId, this.tokenService.getUsername()).subscribe(
       roomReservationData => {
         console.log('vraceno', roomReservationData);
         this.ngxNotificationService.sendMessage('Booking is completed!', 'dark', 'bottom-right' );
@@ -159,7 +170,7 @@ export class BookFormComponent implements OnInit {
         }
         this.errorMessage = err.error.details;
       }
-    );
+    );*/
   }
 
   onChange() {
