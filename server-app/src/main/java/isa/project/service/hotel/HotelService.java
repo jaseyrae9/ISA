@@ -3,10 +3,12 @@ package isa.project.service.hotel;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +61,19 @@ public class HotelService {
 	public AdditionalService saveService(AdditionalService as) {
 		return additionalServiceRepository.save(as);
 	}
+
+	public Set<AdditionalService> findAllAdditionalServices(Integer id) {
+		Optional<Hotel> h = findHotel(id);
+		
+		Set<AdditionalService> as = null;
+		
+		if(h.isPresent()) {
+			as = h.get().getAdditionalServices();
+		}
+		 
+		return as;
+	}
+
 	/**
 	 * Dodaje novu dodatnu uslugu u hotel.
 	 * 

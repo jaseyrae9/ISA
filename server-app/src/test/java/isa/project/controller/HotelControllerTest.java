@@ -163,5 +163,4 @@ public class HotelControllerTest {
 				.contentType(contentType).content(json)).andExpect(status().isOk());
 	
 	}
-	
 }

@@ -345,7 +345,7 @@ public class HotelController {
 		if (!as.isPresent()) {
 			throw new ResourceNotFoundException(serviceId.toString(), "Service is not found in that hotel");
 		}
-
+ 
 		as.get().setIsFast(true);
 
 		hotelService.saveService(as.get());
