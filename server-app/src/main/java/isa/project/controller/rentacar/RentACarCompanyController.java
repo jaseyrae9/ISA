@@ -375,6 +375,37 @@ public class RentACarCompanyController {
 		return new ResponseEntity<>(ret, HttpStatus.OK);
 	}
 
+	@RequestMapping(value = "/getFastCars/{city}/{date}", method = RequestMethod.GET, consumes = "application/json")
+	public ResponseEntity<List<CarDTO>> getFastCars(@PathVariable String city, @PathVariable String date)
+			throws ResourceNotFoundException, ParseException {
+
+		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+		Date start = sdf1.parse(date);
+
+		Iterable<RentACarCompany> companies = rentACarCompanyService.findAll();
+
+		// convert companies to DTO
+		List<CarDTO> ret = new ArrayList<>();
+		for (RentACarCompany company : companies) {
+
+			boolean has = false;
+			for (BranchOffice bo : company.getBranchOffices()) {
+				if (bo.getLocation().getCity().equals(city)) {
+					has = true;
+					break;
+				}
+			}
+			if (has) {
+				for (Car c : company.getCars()) {
+					if (c.getIsFast() && c.getBeginDate().compareTo(start) == 0) {
+						ret.add(new CarDTO(c));
+					}
+				}
+			}
+		}
+		return new ResponseEntity<>(ret, HttpStatus.OK);
+	}
+
 	@PreAuthorize("hasAnyRole('CARADMIN')")
 	@AdminAccountActiveCheck
 	@RentACarCompanyAdminCheck
@@ -411,7 +442,6 @@ public class RentACarCompanyController {
 		Car c = carService.saveCar(car.get());
 		return new ResponseEntity<>(c, HttpStatus.OK);
 	}
-	
 
 	@PreAuthorize("hasAnyRole('CARADMIN')")
 	@AdminAccountActiveCheck

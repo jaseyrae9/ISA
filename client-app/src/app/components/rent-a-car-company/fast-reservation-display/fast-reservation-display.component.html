@@ -24,8 +24,7 @@
         <p class="text-muted font-weight-light" style="font-size: 35px;  text-decoration: line-through;">€{{car.price}}</p>
           
         <hr>
-        <!---->
-        <button *ngIf="tokenService.isCarAdmin" class="btn btn-primary px-4 m-2" (click)="removeFromFastCar()" >Remove</button>
+        <button *ngIf="tokenService.isCarAdmin && isCarPage" class="btn btn-primary px-4 m-2" (click)="removeFromFastCar()" >Remove</button>
         
     </div>
 </div>

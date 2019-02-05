@@ -6,7 +6,8 @@
         <ng-template #services>
         <div class="row pt-4 justify-content-md-center" >
             <app-additional-service [isAdditionalServicesTab]='isAdditionalServicesTab' *ngFor="let additionalService of additionalServices" class="col-md-5 col-lg-4"
-            [additionalService]="additionalService" [companyId]="companyId"  (xEmitter)="clickX($event)" (checkEmitter)="clickCheck($event)" (editEmitter)="clickEdit($event)" (deleteEmitter)="clickDelete($event)"></app-additional-service>
+            [additionalService]="additionalService" [companyId]="companyId"  (xEmitter)="clickX($event)" (checkEmitter)="clickCheck($event)" (editEmitter)="clickEdit($event)" 
+            (deleteEmitter)="clickDelete($event)" (fastEmitter)="clickFast($event)" (fastRemoveEmitter)="clickFastRemove($event)"></app-additional-service>
         </div>
         </ng-template>
     </div>

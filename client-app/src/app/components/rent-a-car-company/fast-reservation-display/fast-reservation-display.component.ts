@@ -15,6 +15,7 @@ export class FastReservationDisplayComponent implements OnInit {
   @Input() carCompanyId: number;
   @Output() carRemovedFromFastReservations: EventEmitter<number> = new EventEmitter();
   errorMessage = '';
+  @Input() isCarPage = true;
 
   constructor(public tokenService: TokenStorageService,
     private rentACarCompanyService: RentACarCompanyService) { }

@@ -1,0 +1,26 @@
+<div class="row border rounded align-items-center p-2 mt-2">
+  <div class="col-sm-3 pt-2" align="center">
+    <img *ngIf="room.type == 'Regular'" src="assets/images/hotel/single1.png" class="rounded-circle">
+    <img *ngIf="room.type == 'Studio'" src="assets/images/hotel/king.png" class="rounded-circle">
+    <img *ngIf="room.type == 'Apartman'" src="assets/images/hotel/queen.png" class="rounded-circle">
+    <br><small class="text-muted">from <b><i>{{date0}}</i></b> to <b><i>{{date1}}</i></b></small>
+  </div>
+  <div class="col-sm-5 pt-2 border-left p-3" align="center">
+    <p style="font-size: 22px;"> {{room.type}} Room
+      <br><small class="text-muted">No. {{room.roomNumber}}</small>
+    </p>
+    <hr>
+    <div>
+      <i class="fa fa-hashtag" aria-hidden="true"></i>{{room.floor}} Floor
+      <br> <i class="fa fa-bed" aria-hidden="true" style="margin-right: 9px;"></i>{{room.numberOfBeds}} Beds
+    </div>
+  </div>
+
+  <div class="col border-left p-3" align="center">
+    <div class="ribbon">€{{newPrice}}</div>
+    <p class="text-muted font-weight-light" style="font-size: 35px;  text-decoration: line-through;">€{{room.price}}</p>
+    <hr>
+    <button *ngIf="tokenService.isCustomer" class="btn btn-primary px-4 m-2" (click)="addRoomToCart()">Book</button>
+    <button *ngIf="tokenService.isHotelAdmin && isHotelTab" class="btn btn-primary px-4 m-2" (click)="removeFromFastRooms()">Remove</button>
+  </div>
+</div>

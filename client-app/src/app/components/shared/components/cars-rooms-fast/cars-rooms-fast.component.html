@@ -1,0 +1,47 @@
+<div style="margin: 20px; padding: 20px">
+  <ul class="nav nav-tabs">
+    <li class="nav-item active">
+      <a href="#cars" role="tab" data-toggle="tab" class="nav-link active">
+        <i class="fa fa-car" aria-hidden="true"></i>Cars
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="#rooms" role="tab" data-toggle="tab" class="nav-link">
+        <i class="fa fa-hotel" aria-hidden="true"></i>Rooms
+      </a>
+    </li>
+  </ul>
+
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active p-3" id="cars" aria-labelledby="info-tab">
+      <div class="container">
+        <div *ngIf="cars.length == 0 else fastCarRentDiv" class="text-center">
+          <p>There are no cars for fast reservations.</p>
+        </div>
+        <ng-template #fastCarRentDiv>
+          <div class="row" *ngFor="let item of cars">
+            <app-fast-reservation-display class="col-12 mb-3" [isCarPage]="false" [car]="item"></app-fast-reservation-display>
+          </div>
+        </ng-template>
+      </div>
+
+    </div>
+
+    <div class="tab-pane fade" id="services" aria-labelledby="services-tab">
+      <div class="container">
+        <div *ngIf="rooms.length == 0 else fastResRoomsDiv" class="text-center">
+          <p>There are no rooms for fast reservations.</p>
+        </div>
+        <ng-template #fastResRoomsDiv>
+          <div class="row" *ngFor="let item of rooms">
+            <app-fast-room-display class="col-12 mb-3" [isHotelTab]="false" [room]="item"></app-fast-room-display>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+
+
+  </div>
+
+
+</div>

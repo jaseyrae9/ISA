@@ -25,6 +25,12 @@
         <i class="fa fa-info" aria-hidden="true"></i>Admin info
       </a>
     </li>
+    <li class="nav-item">
+      <a href="#fast-rooms" role="tab" data-toggle="tab" class="nav-link">
+        <i class="fa fa-business-time" aria-hidden="true"></i>Fast reservations
+      </a>
+    </li>
+
   </ul>
 
   <div class="tab-content" id="myTabContent">
@@ -59,8 +65,9 @@
           </button>
         </div>
       </div>
-      <app-additional-services-table [isAdditionalServicesTab]='true' [additionalServices]="hotel.additionalServices"
-        (editEmitter)='editClicked($event)' (deleteEmitter)='deleteClicked($event)'></app-additional-services-table>
+      <app-additional-services-table [companyId]="hotelId" [isAdditionalServicesTab]='true' [additionalServices]="hotel.additionalServices"
+        (editEmitter)='editClicked($event)' (deleteEmitter)='deleteClicked($event)' (fastEmitter)="fastAdd($event)"
+        (fastRemoveEmitter)="fastRemove($event)"></app-additional-services-table>
     </div>
 
 
@@ -78,7 +85,9 @@
 
       <div class="container">
         <div *ngFor="let room of hotel.rooms">
-          <app-room-basic-info [isRoomsTab]="true" [room]='room' (roomDeleted)="roomDeleted($event)"></app-room-basic-info>
+          <!-- Ako nije fast -->
+          <app-room-basic-info *ngIf="!room.isFast" [isRoomsTab]="true" [room]='room' (roomDeleted)="roomDeleted($event)"
+            (roomFasten)="roomFasten($event)"></app-room-basic-info>
         </div>
       </div>
     </div>
@@ -167,6 +176,23 @@
 
     <div class="tab-pane fade" id="book" aria-labelledby="book-tab">
       <app-book-form [hotelId]="hotelId" [rooms]='hotel.rooms' [additionalServices]='hotel.additionalServices'></app-book-form>
+    </div>
+
+    <!------------------------------------------------------------------------------->
+    <!-------------------------------FAST-------------------------------------------->
+    <!------------------------------------------------------------------------------->
+
+    <div class="tab-pane fade" id="fast-rooms" aria-labelledby="airplanes-tab">
+      <div class="container">
+        <div *ngIf="fastRooms.length == 0 else fastResRoomsDiv" class="text-center">
+          <p>There are no rooms for fast reservations.</p>
+        </div>
+        <ng-template #fastResRoomsDiv>
+          <div class="row" *ngFor="let item of fastRooms">
+            <app-fast-room-display [isHotelTab]="true" class="col-12 mb-3" [room]="item" (roomSlowed)="roomSlowed($event)" [hotelId]="hotelId"></app-fast-room-display>
+          </div>
+        </ng-template>
+      </div>
     </div>
 
   </div>
