@@ -8,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { HotelService } from 'src/app/services/hotel/hotel.service';
 import { NgxNotificationService } from 'ngx-notification';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MakeRoomFastComponent } from '../make-room-fast/make-room-fast.component';
 
 @Component({
   selector: 'app-room-basic-info',
@@ -18,6 +19,7 @@ export class RoomBasicInfoComponent implements OnInit {
   @Input() room: Room;
   @Input() bookedRooms: Room[] = [];
   @Output() roomDeleted: EventEmitter<number> = new EventEmitter();
+  @Output() roomFasten: EventEmitter<number> = new EventEmitter();
 
   modalRef: BsModalRef;
   hotelId: string;
@@ -52,6 +54,21 @@ export class RoomBasicInfoComponent implements OnInit {
     this.modalRef.content.onClose.subscribe(room => {
       this.room = room;
       this.ngxNotificationService.sendMessage('Room is changed!', 'dark', 'bottom-right' );
+    });
+  }
+
+  // Fast reservation
+  openFastModal() {
+    const initialState = {
+      room: this.room,
+      hotelId: this.hotelId
+    };
+    this.modalRef = this.modalService.show(MakeRoomFastComponent, { initialState });
+    this.modalRef.content.onClose.subscribe(room => {
+      this.room = room;
+      console.log('Fasten ', room);
+      this.roomFasten.emit(room.id);
+      this.ngxNotificationService.sendMessage('Room is added to fast!', 'dark', 'bottom-right' );
     });
   }
 

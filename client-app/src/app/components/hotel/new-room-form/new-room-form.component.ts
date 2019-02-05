@@ -20,8 +20,9 @@ export class NewRoomFormComponent implements OnInit {
   public onClose: Subject<Room>;
   newRoomForm: FormGroup;
 
-  constructor(public modalRef: BsModalRef, private formBuilder: FormBuilder,
-    private route: ActivatedRoute, private hotelService: HotelService) { }
+  constructor(public modalRef: BsModalRef,
+    private formBuilder: FormBuilder,
+    private hotelService: HotelService) { }
 
   ngOnInit() {
     this.room.type = 'Regular';
@@ -36,7 +37,7 @@ export class NewRoomFormComponent implements OnInit {
   }
 
   onRoomAdd() {
-        this.hotelService.addRoom(this.newRoomForm.value, this.hotelId).subscribe(
+    this.hotelService.addRoom(this.newRoomForm.value, this.hotelId).subscribe(
       data => {
         this.onClose.next(data);
         this.modalRef.hide();

@@ -113,6 +113,10 @@ export class RentACarCompanyService {
     return this.http.get<Car[]>('http://localhost:8080/rent_a_car_companies/getFastCars/' + companyId, httpOptions);
   }
 
+  getFastCarsSearch(city, date): Observable<Car[]> {
+    return this.http.get<Car[]>('http://localhost:8080/rent_a_car_companies/getFastCars/' + city + '/' + date, httpOptions);
+  }
+
   addCarToFastReservations(companyId, carId, discount, beginDate, endDate): Observable<any> {
     return this.http.put<any>('http://localhost:8080/rent_a_car_companies/addCarToFastReservation/' + companyId + '/' + carId
       + '/' + discount + '/' + beginDate + '/' + endDate, httpOptions);

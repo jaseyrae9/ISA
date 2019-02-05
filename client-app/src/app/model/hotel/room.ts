@@ -13,4 +13,8 @@ export class Room {
     reservations: SingleRoomReservation[];
     ratingCount: number;
     totalRating: number;
+    isFast: boolean;
+    startDate: Date;
+    endDate: Date;
+    discount: number;
 }

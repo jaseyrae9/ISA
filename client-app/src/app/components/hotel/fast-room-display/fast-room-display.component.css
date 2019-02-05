@@ -1,0 +1,27 @@
+.badge-primary{
+    background-color: #33cabb;
+  }
+  
+  .fa{
+    color: #33cabb;
+  }
+  
+  .ribbon {
+    width: 250px;
+    height: 70px;
+    font-size: 45px;
+    text-align: center;
+    color: #fff;
+    font-weight: bold;
+    box-shadow: 0px 2px 3px rgba(136, 136, 136, 0.25);
+    background: #4dbe3b;
+    transform: rotate(45deg);
+    position: absolute;
+    right: -77px;
+    top: 13px;
+  }
+  
+  .row{
+    overflow: hidden;
+    }
+  

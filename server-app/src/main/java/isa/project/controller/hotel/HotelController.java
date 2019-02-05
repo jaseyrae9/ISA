@@ -1,6 +1,7 @@
 package isa.project.controller.hotel;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -325,6 +326,167 @@ public class HotelController {
 			throws ResourceNotFoundException, RequestDataException {
 		RoomReservation roomReservation = roomService.addReservation(hotelId, customer, roomReservationDTO);
 		return new ResponseEntity<>(new RoomReservationDTO(roomReservation), HttpStatus.CREATED);
+	}
+
+	@PreAuthorize("hasAnyRole('HOTELADMIN')")
+	@AdminAccountActiveCheck
+	@HotelAdminCheck
+	@RequestMapping(value = "/addServiceToFast/{hotelId}/{serviceId}", method = RequestMethod.PUT, consumes = "application/json")
+	public ResponseEntity<?> rentRoom(@PathVariable Integer hotelId, @PathVariable Long serviceId)
+			throws ResourceNotFoundException {
+		Optional<Hotel> hotel = hotelService.findHotel(hotelId);
+
+		if (!hotel.isPresent()) {
+			throw new ResourceNotFoundException(hotelId.toString(), "Hotel not found");
+		}
+
+		Optional<AdditionalService> as = hotel.get().getAdditionalServices().stream()
+				.filter(o -> o.getId().equals(serviceId)).findFirst();
+		if (!as.isPresent()) {
+			throw new ResourceNotFoundException(serviceId.toString(), "Service is not found in that hotel");
+		}
+
+		as.get().setIsFast(true);
+
+		hotelService.saveService(as.get());
+
+		System.out.println("Servis dodat u brzih!");
+		return new ResponseEntity<>(as.get(), HttpStatus.OK);
+	}
+
+	@PreAuthorize("hasAnyRole('HOTELADMIN')")
+	@AdminAccountActiveCheck
+	@HotelAdminCheck
+	@RequestMapping(value = "/removeServiceFromFast/{hotelId}/{serviceId}", method = RequestMethod.PUT, consumes = "application/json")
+	public ResponseEntity<?> removeServiceFromFast(@PathVariable Integer hotelId, @PathVariable Long serviceId)
+			throws ResourceNotFoundException {
+		Optional<Hotel> hotel = hotelService.findHotel(hotelId);
+
+		if (!hotel.isPresent()) {
+			throw new ResourceNotFoundException(hotelId.toString(), "Hotel not found");
+		}
+
+		Optional<AdditionalService> as = hotel.get().getAdditionalServices().stream()
+				.filter(o -> o.getId().equals(serviceId)).findFirst();
+		if (!as.isPresent()) {
+			throw new ResourceNotFoundException(serviceId.toString(), "Service is not found in that hotel");
+		}
+
+		// postaviti polje fast u servisu na false
+		as.get().setIsFast(false);
+
+		hotelService.saveService(as.get());
+
+		System.out.println("Servis uklonjen iz brzih!");
+		return new ResponseEntity<>(as.get(), HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/getFastRooms/{hotelId}", method = RequestMethod.GET, consumes = "application/json")
+	public ResponseEntity<List<RoomDTO>> getFastRooms(@PathVariable Integer hotelId) throws ResourceNotFoundException {
+
+		Optional<Hotel> hotel = hotelService.findHotel(hotelId);
+
+		if (!hotel.isPresent()) {
+			throw new ResourceNotFoundException(hotelId.toString(), "Hotel not found");
+		}
+
+		Iterable<Room> rooms = roomService.findAllFast(hotelId);
+
+		// convert companies to DTO
+		List<RoomDTO> ret = new ArrayList<>();
+		for (Room r : rooms) {
+			ret.add(new RoomDTO(r));
+		}
+
+		return new ResponseEntity<>(ret, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/getFastRooms/{city}/{date}/{ticketCount}", method = RequestMethod.GET, consumes = "application/json")
+	public ResponseEntity<List<RoomDTO>> getFastRooms(@PathVariable String city, @PathVariable String date,
+			@PathVariable Integer ticketCount) throws ResourceNotFoundException, ParseException {
+		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+		Date start = sdf1.parse(date);
+
+		Iterable<Hotel> hotels = hotelService.findAll();
+
+		// convert companies to DTO
+		List<RoomDTO> ret = new ArrayList<>();
+		for (Hotel h : hotels) {
+
+			if (h.getLocation().getCity().equals(city)) {
+				for (Room r : h.getRooms()) {
+					if (r.getIsFast() && r.getBeginDate().compareTo(start) == 0 && r.getNumberOfBeds() <= ticketCount) {
+						ret.add(new RoomDTO(r));
+					}
+				}
+
+			}
+
+		}
+		return new ResponseEntity<>(ret, HttpStatus.OK);
+	}
+
+	@PreAuthorize("hasAnyRole('HOTELADMIN')")
+	@AdminAccountActiveCheck
+	@HotelAdminCheck
+	@RequestMapping(value = "/makeRoomFast/{hotelId}/{roomId}/{discount}/{startDate}/{endDate}", method = RequestMethod.PUT, consumes = "application/json")
+	public ResponseEntity<?> makeRoomFast(@PathVariable Integer hotelId, @PathVariable Integer roomId,
+			@PathVariable Double discount, @PathVariable String startDate, @PathVariable String endDate)
+			throws ResourceNotFoundException, ParseException {
+
+		Optional<Hotel> hotel = hotelService.findHotel(hotelId);
+
+		if (!hotel.isPresent()) {
+			throw new ResourceNotFoundException(hotelId.toString(), "Hotel not found");
+		}
+
+		Optional<Room> room = hotel.get().getRooms().stream().filter(o -> o.getId().equals(roomId)).findFirst();
+		if (!room.isPresent()) {
+			throw new ResourceNotFoundException(roomId.toString(), "Room not found in that hotel");
+		}
+
+		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+
+		Date inDate = sdf1.parse(startDate);
+		Date outDate = sdf1.parse(endDate);
+
+		room.get().setIsFast(true);
+		if (discount > room.get().getPrice()) {
+			room.get().setDiscount(room.get().getPrice());
+		} else {
+			room.get().setDiscount(discount);
+		}
+		room.get().setBeginDate(inDate);
+		room.get().setEndDate(outDate);
+
+		Room r = roomService.saveRoom(room.get());
+		System.out.println("Soba dodata u brze!");
+		return new ResponseEntity<>(r, HttpStatus.OK);
+	}
+
+	@PreAuthorize("hasAnyRole('HOTELADMIN')")
+	@AdminAccountActiveCheck
+	@HotelAdminCheck
+	@RequestMapping(value = "/makeRoomSlow/{hotelId}/{roomId}", method = RequestMethod.PUT, consumes = "application/json")
+	public ResponseEntity<?> makeRoomSlow(@PathVariable Integer hotelId, @PathVariable Integer roomId)
+			throws ResourceNotFoundException, ParseException {
+
+		Optional<Hotel> hotel = hotelService.findHotel(hotelId);
+
+		if (!hotel.isPresent()) {
+			throw new ResourceNotFoundException(hotelId.toString(), "Hotel not found");
+		}
+
+		Optional<Room> room = hotel.get().getRooms().stream().filter(o -> o.getId().equals(roomId)).findFirst();
+		if (!room.isPresent()) {
+			throw new ResourceNotFoundException(roomId.toString(), "Room not found in that hotel");
+		}
+
+		room.get().setIsFast(false);
+
+		Room r = roomService.saveRoom(room.get());
+		System.out.println("Soba uklonjena iz brzih!");
+		return new ResponseEntity<>(r, HttpStatus.OK);
 	}
 
 }

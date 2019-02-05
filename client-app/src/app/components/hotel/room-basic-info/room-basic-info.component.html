@@ -21,6 +21,7 @@
       <hr>
       <button *ngIf="tokenService.isHotelAdmin && isRoomsTab" class="btn btn-primary px-4 m-2" (click)="openEditModal()">Edit</button>
       <button *ngIf="tokenService.isHotelAdmin && isRoomsTab" class="btn btn-primary px-4 m-2" (click)="deleteRoom()">Delete</button>
+      <button *ngIf="tokenService.isHotelAdmin && isRoomsTab" class="btn btn-primary px-4 m-2" (click)="openFastModal()">Fast</button>
       <button *ngIf="!isBooked && !isRoomsTab && tokenService.isCustomer"  class="btn btn-primary px-4 m-2" (click)="bookRoom()">Book</button>
       <button *ngIf="isBooked && !isRoomsTab && tokenService.isCustomer"  class="btn btn-dark px-4 m-2" (click)="unbookRoom()">Unbook</button>
     </div>  

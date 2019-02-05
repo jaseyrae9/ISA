@@ -31,6 +31,9 @@ public class AdditionalService {
 	private String description;
 	
 	@Column
+	private Boolean isFast;
+	
+	@Column
 	private Boolean active;
 	
 	@NotNull(message = "Price must be entered.")

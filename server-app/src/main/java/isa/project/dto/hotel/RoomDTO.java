@@ -1,6 +1,7 @@
 package isa.project.dto.hotel;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -38,6 +39,11 @@ public class RoomDTO {
 	
 	private Double averageRating;	
 	
+	private Boolean isFast;
+	private Date startDate;
+	private Date endDate;
+	private Double discount;
+	
 	private ArrayList<SingleRoomReservationDTO> reservations = new ArrayList<>();
 	
 	public RoomDTO(Room room)
@@ -55,5 +61,9 @@ public class RoomDTO {
 				this.reservations.add(new SingleRoomReservationDTO(srr));
 			}
 		}
+		this.isFast = room.getIsFast();
+		this.startDate = room.getBeginDate();
+		this.endDate = room.getEndDate();
+		this.discount = room.getDiscount();
 	}
 }

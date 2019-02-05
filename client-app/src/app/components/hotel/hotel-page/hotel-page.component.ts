@@ -13,6 +13,7 @@ import { EditHotelFormComponent } from '../edit-hotel-form/edit-hotel-form.compo
 import { NewRoomFormComponent } from '../new-room-form/new-room-form.component';
 import { NewServiceFormComponent } from '../new-service-form/new-service-form.component';
 import { formatDate } from '@angular/common';
+import { Room } from 'src/app/model/hotel/room';
 
 @Component({
   selector: 'app-hotel-page',
@@ -38,6 +39,8 @@ export class HotelPageComponent implements OnInit {
   forEditing: Hotel = new Hotel();
   bsRangeValue: Date[];
 
+  fastRooms: Room[] = [];
+
   modalRef: BsModalRef;
 
   constructor(private route: ActivatedRoute,
@@ -57,12 +60,8 @@ export class HotelPageComponent implements OnInit {
   ngOnInit() {
     const hotelId = this.route.snapshot.paramMap.get('id');
     this.hotelId = hotelId;
-    this.hotelService.get(hotelId).subscribe(
-      (data) => {
-        this.hotel = data;
-        console.log('Otvoren je hotel: ', this.hotel);
-      }
-    );
+    this.loadHotel();
+
     if (this.tokenService.isHotelAdmin) {
       this.hotelService.getMonthlyVisitation(hotelId).subscribe(
         (data) => {
@@ -89,7 +88,26 @@ export class HotelPageComponent implements OnInit {
         }
       );
     }
+
+    this.loadFastReservationRooms();
   }
+
+  loadHotel() {
+    this.hotelService.get(this.hotelId).subscribe(
+      (data) => {
+        this.hotel = data;
+      }
+    );
+  }
+
+  loadFastReservationRooms() {
+    this.hotelService.getRoomsForFastReservation(this.hotelId).subscribe(
+      (data) => {
+        this.fastRooms = data;
+        console.log('Brze su nam sobe ', data);
+      }
+    );
+   }
 
   openNewRoomModal() {
     const initialState = {
@@ -108,6 +126,22 @@ export class HotelPageComponent implements OnInit {
       this.hotel.rooms.splice(i, 1);
       this.ngxNotificationService.sendMessage('Room is deleted!', 'dark', 'bottom-right');
     }
+  }
+
+  roomSlowed(roomId: number) {
+    const i = this.fastRooms.findIndex(e => e.id === roomId);
+    if (i !== -1) {
+      this.fastRooms.splice(i, 1);
+    }
+    this.loadHotel();
+  }
+
+  roomFasten(roomId: number) {
+    const i = this.hotel.rooms.findIndex(e => e.id === roomId);
+    if (i !== -1) {
+      this.hotel.rooms.splice(i, 1);
+    }
+    this.loadFastReservationRooms();
   }
 
   // dodavanje novih dodatnih usluga
@@ -166,6 +200,30 @@ export class HotelPageComponent implements OnInit {
       this.hotel = hotel;
       this.ngxNotificationService.sendMessage('Hotel is changed!', 'dark', 'bottom-right');
     });
+  }
+
+  fastAdd(as: AdditionalService) {
+    this.hotelService.addServiceToFast(this.hotelId, as.id).subscribe(
+      data => {
+        console.log('Data ', data);
+        this.ngxNotificationService.sendMessage('Service added to fast reservations!', 'dark', 'bottom-right');
+      },
+      error => {
+        console.log(error.error.message);
+      }
+    );
+  }
+
+  fastRemove(as: AdditionalService) {
+    this.hotelService.removeServiceFromFast(this.hotelId, as.id).subscribe(
+      data => {
+        console.log('Data ', data);
+        this.ngxNotificationService.sendMessage('Service removed from fast reservations!', 'dark', 'bottom-right');
+      },
+      error => {
+        console.log(error.error.message);
+      }
+    );
   }
 
   getIncome() {

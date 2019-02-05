@@ -33,3 +33,19 @@
 .x > .fa:hover{
   color:darkslategrey;
 }
+
+.fast{
+  margin-left: 5px;
+}
+
+.fast > .fa:hover{
+  color:darkslategrey;
+}
+
+.fast-remove{
+  margin-left: 5px;
+}
+
+.fast-remove > .fa:hover{
+  color:darkslategrey;
+}

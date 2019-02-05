@@ -108,4 +108,31 @@ export class HotelService {
   rateRoom(roomId, singleReservationId, rate): Observable<any> {
     return this.http.put<any>('http://localhost:8080/reservation/rateRoom/' + roomId + '/' + singleReservationId + '/' + rate, httpOptions);
   }
+
+  addServiceToFast(hotelId, serviceId) {
+    return this.http.put<any>('http://localhost:8080/hotels/addServiceToFast/' + hotelId + '/' + serviceId, httpOptions);
+  }
+
+  removeServiceFromFast(hotelId, serviceId) {
+    return this.http.put<any>('http://localhost:8080/hotels/removeServiceFromFast/' + hotelId + '/' + serviceId, httpOptions);
+  }
+
+  getRoomsForFastReservation(hotelId): Observable<Room[]> {
+    return this.http.get<any>('http://localhost:8080/hotels/getFastRooms/' + hotelId, httpOptions);
+  }
+
+  makeRoomFast(hotelId, roomId, startDate, endDate, discount): Observable<Room> {
+    return this.http.put<Room>('http://localhost:8080/hotels/makeRoomFast/'
+     + hotelId + '/' + roomId + '/' + discount + '/' + startDate + '/' + endDate, httpOptions);
+  }
+
+  makeRoomSlow(hotelId, roomId): Observable<Room> {
+    return this.http.put<Room>('http://localhost:8080/hotels/makeRoomSlow/'
+     + hotelId + '/' + roomId, httpOptions);
+  }
+
+  getFastRoomsSearch(city, date, tikcetCount): Observable<Room[]> {
+    return this.http.get<Room[]>('http://localhost:8080/hotels/getFastRooms/' + city + '/' + date + '/' + tikcetCount, httpOptions);
+  }
+
 }

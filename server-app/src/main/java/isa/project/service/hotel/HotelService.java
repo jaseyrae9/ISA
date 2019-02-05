@@ -56,6 +56,9 @@ public class HotelService {
 		return hotelRepository.save(hotel);
 	}
 
+	public AdditionalService saveService(AdditionalService as) {
+		return additionalServiceRepository.save(as);
+	}
 	/**
 	 * Dodaje novu dodatnu uslugu u hotel.
 	 * 

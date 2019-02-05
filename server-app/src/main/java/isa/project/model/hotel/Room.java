@@ -1,6 +1,7 @@
 package isa.project.model.hotel;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -67,6 +68,18 @@ public class Room implements Serializable{
 	@Column(name = "ratingCount")
 	private Integer ratingCount;
 	
+	@Column(name = "isFast")
+	private Boolean isFast;
+	
+	@Column(name ="beginDate")
+	private Date beginDate;
+	
+	@Column(name ="endDate")
+	private Date endDate;
+	
+	@Column(name ="discount")
+	private Double discount;
+	
 	@Version
 	private Long version;
 	
@@ -81,6 +94,8 @@ public class Room implements Serializable{
 		this.active = true;
 		this.totalRating = 5; // na pocetku je ocena 5
 		this.ratingCount = 1; // jedan glas
+		this.isFast = false;
+		this.discount = new Double(0);
 	}
 
 	public Room(Room room) {
@@ -94,7 +109,9 @@ public class Room implements Serializable{
 		this.type = room.type;
 		this.active = room.active;
 		this.totalRating = room.totalRating; 
-		this.ratingCount = room.ratingCount; 
+		this.ratingCount = room.ratingCount;
+		this.isFast = room.isFast;
+		this.discount = room.discount;
 	}
 	
 	public void increaseVersion() {

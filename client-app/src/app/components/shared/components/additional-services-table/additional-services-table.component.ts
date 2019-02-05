@@ -12,6 +12,8 @@ export class AdditionalServicesTableComponent implements OnInit {
 
   @Output() editEmitter: EventEmitter<AdditionalService> = new EventEmitter();
   @Output() deleteEmitter: EventEmitter<AdditionalService> = new EventEmitter();
+  @Output() fastEmitter: EventEmitter<AdditionalService> = new EventEmitter();
+  @Output() fastRemoveEmitter: EventEmitter<AdditionalService> = new EventEmitter();
 
   @Output() checkEmitter: EventEmitter<AdditionalService> = new EventEmitter();
   @Output() xEmitter: EventEmitter<AdditionalService> = new EventEmitter();
@@ -39,5 +41,15 @@ export class AdditionalServicesTableComponent implements OnInit {
   clickX(data) {
     this.xEmitter.emit(data);
     console.log('x ', data);
+  }
+
+  clickFast(data) {
+    this.fastEmitter.emit(data);
+    console.log('fast ', data);
+  }
+
+  clickFastRemove(data) {
+    this.fastRemoveEmitter.emit(data);
+    console.log('fast remove ', data);
   }
 }

@@ -3,9 +3,10 @@
         <section style="text-align:right">
             <a placement="bottom" tooltip="Edit" (click)="clickEdit()" *ngIf="isAdditionalServicesTab && !tokenService.isVistor && !tokenService.isCustomer && tokenService.companyId==companyId"  class="edit"><i class="fa fa-edit"></i></a>
             <a placement="bottom" tooltip="Delete" class="delete" *ngIf="isAdditionalServicesTab && !tokenService.isVistor && !tokenService.isCustomer && tokenService.companyId==companyId"  (click)="clickDelete()"><i class="fa fa-trash"></i></a>
+            <a placement="bottom" tooltip="Add to fast reservation" class="fast" *ngIf="isAdditionalServicesTab && !tokenService.isVistor && !tokenService.isCustomer && tokenService.companyId==companyId && tokenService.isHotelAdmin && !isInFast"  (click)="clickAddToFastReservation()"><i class="fa fa-clock"></i></a>
+            <a placement="bottom" tooltip="Remove from fast reservation" class="fast-remove" *ngIf="isAdditionalServicesTab && !tokenService.isVistor && !tokenService.isCustomer && tokenService.companyId==companyId && tokenService.isHotelAdmin && isInFast"  (click)="clickRemoveFromFast()"><i class="fa fa-calendar-times"></i></a>
             <a placement="bottom" tooltip="Add to reservation" class="check" (click)="clickCheck()" *ngIf="!isAdditionalServicesTab && !isChecked"  ><i class="fa fa-check"></i></a>
             <a placement="bottom" tooltip="Remove from reservation" class="x" (click)="clickX()" *ngIf="!isAdditionalServicesTab && isChecked"  ><i class="fa fa-times"></i></a>
-
         </section>
         <h3>{{additionalService.name}}</h3>
     </div>
