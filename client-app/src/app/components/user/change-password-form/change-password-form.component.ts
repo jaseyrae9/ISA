@@ -41,12 +41,12 @@ export class ChangePasswordFormComponent implements OnInit {
     });
   }
 
-  checkPasswords(group: FormGroup) { // here we have the 'passwords' group
-  const pass = group.controls.newPassword.value;
-  const confirmPass = group.controls.confirmNewPassword.value;
+  checkPasswords() { // here we have the 'passwords' group
+    const pass =  this.editForm.controls.newPassword.value;
+    const confirmPass =  this.editForm.controls.confirmNewPassword.value;
 
-  return pass === confirmPass ? null : { notSame: true };
-}
+    return pass === confirmPass ? true : false;
+  }
 
   openModal() {
     this.modalRef = this.modalService.show(this.changePasswordModal, this.config);
@@ -62,6 +62,11 @@ export class ChangePasswordFormComponent implements OnInit {
   }
 
   onChangePassword() {
+    if (!this.checkPasswords()) {
+      this.errorMessage = 'Passwords do not match.';
+      return;
+    }
+
     this.userService.changePassword(this.editForm.value, this.jwtToken).subscribe(
       (data: JwtResponse)  => {
         this.tokenService.saveToken(data.token);

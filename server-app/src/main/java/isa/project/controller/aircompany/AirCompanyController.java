@@ -250,21 +250,33 @@ public class AirCompanyController {
 		return new ResponseEntity<>(baggageInfomation, HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasAnyRole('AIRADMIN')")
+	@AdminAccountActiveCheck
+	@AirCompanyAdminCheck
 	@RequestMapping(value = "/getSoldTicketsPerMonth/{id}", method = RequestMethod.GET)
 	public ResponseEntity<?> getSoldTicketsPerMonth(@PathVariable Integer id){
 		return new ResponseEntity<>(airCompanyService.getSoldTicketsPerMonth(id), HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasAnyRole('AIRADMIN')")
+	@AdminAccountActiveCheck
+	@AirCompanyAdminCheck
 	@RequestMapping(value = "/getSoldTicketsPerDay/{id}", method = RequestMethod.GET)
 	public ResponseEntity<?> getSoldTicketsPerDay(@PathVariable Integer id){
 		return new ResponseEntity<>(airCompanyService.getSoldTicketsPerDay(id), HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasAnyRole('AIRADMIN')")
+	@AdminAccountActiveCheck
+	@AirCompanyAdminCheck
 	@RequestMapping(value = "/getSoldTicketsPerWeek/{id}", method = RequestMethod.GET)
 	public ResponseEntity<?> getSoldTicketsPerWeek(@PathVariable Integer id){
 		return new ResponseEntity<>(airCompanyService.getSoldTicketsPerWeek(id), HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasAnyRole('AIRADMIN')")
+	@AdminAccountActiveCheck
+	@AirCompanyAdminCheck
 	@RequestMapping(value = "/getProfitInPeriod/{id}", method = RequestMethod.GET)
 	public ResponseEntity<?> getProfitInPeriod(@PathVariable Integer id, @RequestParam @DateTimeFormat(pattern="MM-dd-yyyy") Date from, @RequestParam @DateTimeFormat(pattern="MM-dd-yyyy") Date to){
 		return new ResponseEntity<>(airCompanyService.getProfitInPeriod(id, from, to), HttpStatus.OK);

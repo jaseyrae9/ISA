@@ -3,7 +3,7 @@
     <hr>
 
     <!--search-->
-    <form name="form" [formGroup]="searchForm">
+    <form name="form" [formGroup]="searchForm" (validSubmit)="search()">
         <div class="row">
             <div class="col-3 input-group form-group">
                     <div class="input-group-prepend">
@@ -74,7 +74,7 @@
           <div class="container-fluid">
               <div class="col-sm-12 text-center">
                   <input type="submit" class="btn btn-primary btn-space" value="Search" />
-                  <input type="submit" class="btn btn-primary btn-space" value="Cancel" />
+                  <button type="button" class="btn btn-primary btn-space" (click)="cancelSearch()"> Cancel </button>
               </div>
           </div>
         </div>
@@ -98,7 +98,7 @@
                             <div class="col-sm-6">
                                 <div class="input-group form-group">
                                     <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck" name="example1" [(ngModel)]="additionalServicesNeeded">
                                         <label class="custom-control-label" for="customCheck">Additional services?</label>
                                     </div>
                                 </div>
@@ -120,8 +120,8 @@
 
                             <div class="container-fluid">
                                 <div class="col-sm-12 text-center">
-                                    <input type="submit" class="btn btn-primary btn-space" value="Filter"/>
-                                    <input type="submit" class="btn btn-primary btn-space" value="Cancel" />
+                                    <button type="submit" class="btn btn-primary btn-space" (click)="filter()"> Filter </button>
+                                    <button type="button" class="btn btn-primary btn-space" (click)="cancelFilter()"> Cancel </button>
                                 </div>
                             </div>
                         </div>
@@ -131,5 +131,17 @@
         </div>
 
 
-        <!--ubaciti za poruku rezultata pretrage i prikaz pretraga-->
+        <!--Prikaz letova-->
+        <div class="text-center mt-3" *ngIf="!isSearchActive" >
+          <p>Try searching something! </p>
+        </div>
+        <div class="text-center mt-3" *ngIf="isSearchActive && isFilterActive">
+          <p>Showing filtered results.</p>
+        </div>
+        <div class="text-center mt-3" *ngIf="isSearchActive">
+          <p>{{filteredFlights.length}} matches found.</p>
+        </div>
+        <div class="container mt-3" *ngIf="isSearchActive">
+          <app-fight-basic-info *ngFor="let item of filteredFlights" [flight]="item"></app-fight-basic-info>
+        </div>
     </div>

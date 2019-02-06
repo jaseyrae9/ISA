@@ -1,3 +1,6 @@
+import { DatePipe } from '@angular/common';
+import { AirCompanyService } from 'src/app/services/air-company/air-company.service';
+import { Flight } from './../../model/air-company/flight';
 import { Component, OnInit } from '@angular/core';
 import { BsDatepickerConfig } from 'ngx-bootstrap';
 import { Options, LabelType } from 'ng5-slider';
@@ -9,6 +12,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./flight-search-page.component.css', '../../shared/css/inputField.css']
 })
 export class FlightSearchPageComponent implements OnInit {
+  isSearchActive = false;
+  flights: Flight[] = [];
+
+  isFilterActive = false;
+  filteredFlights: Flight[] = [];
+
   searchForm: FormGroup;
   datePickerConfig: Partial<BsDatepickerConfig>;
   errorMessage: String = '';
@@ -17,6 +26,7 @@ export class FlightSearchPageComponent implements OnInit {
   minCarryOnBags = 0;
   minCheckInBaggage = 0;
   maxStops = 0;
+  additionalServicesNeeded = false;
 
   optionsCarryOnBags: Options = {
     floor: 0,
@@ -88,7 +98,7 @@ export class FlightSearchPageComponent implements OnInit {
   };
 
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private airCompanyService: AirCompanyService, public datePipe: DatePipe) {
     this.datePickerConfig = Object.assign({},
       {
         containerClass: 'theme-default',
@@ -107,4 +117,59 @@ export class FlightSearchPageComponent implements OnInit {
     });
   }
 
+  cancelSearch() {
+    this.isSearchActive = false;
+    this.filteredFlights = [];
+    this.flights = [];
+  }
+
+  cancelFilter() {
+    this.isFilterActive = false;
+    this.filteredFlights = this.flights;
+  }
+
+  search() {
+    const value = this.searchForm.value;
+    const searchData = {
+      departureAirport: value.departureAirport,
+      arrivalAirport: value.arrivalAirport,
+      start: this.datePipe.transform(value.dates[0], 'yyyy-MM-dd'),
+      end: this.datePipe.transform(value.dates[1], 'yyyy-MM-dd'),
+      numberOfPeople: value.numberOfPeople,
+      maxPrice: value.maxPrice,
+      minPrice: value.minPrice
+    };
+    this.airCompanyService.searchFlights(searchData).subscribe(
+      (data) => {
+        this.isSearchActive = true;
+        this.isFilterActive = false;
+        this.flights = data;
+        this.filteredFlights = data;
+      },
+      (error) => {
+        this.errorMessage = error.error.details;
+      }
+    );
+  }
+
+  filter() {
+    this.isFilterActive = true;
+    this.filteredFlights = this.flights.filter(flight => this.matchFilter(flight) );
+  }
+
+  matchFilter(flight: Flight) {
+    if ( flight.maxCarryOnBags < this.minCarryOnBags ) {
+      return false;
+    }
+    if (flight.maxCheckedBags < this.minCheckInBaggage) {
+      return false;
+    }
+    if (flight.destinations.length - 2 > this.maxStops) {
+      return false;
+    }
+    if (this.additionalServicesNeeded && !flight.additionalServicesAvailable) {
+      return false;
+    }
+    return true;
+  }
 }

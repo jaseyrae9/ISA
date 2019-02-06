@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import isa.project.aspects.AdminAccountActiveCheck;
 import isa.project.aspects.AirCompanyAdminCheck;
 import isa.project.dto.aircompany.FlightDTO;
+import isa.project.dto.aircompany.FlightSearchDTO;
 import isa.project.dto.aircompany.FlightTicketsPriceChangeDTO;
 import isa.project.dto.aircompany.TicketForFastReservationDTO;
 import isa.project.dto.aircompany.CreateFastReservationTicketsDTO;
@@ -37,6 +38,11 @@ public class FlightController {
 	private TokenUtils tokenUtils;
 	@Autowired
 	private FlightService flightService;
+	
+	@RequestMapping(value = "/searchFlights", method = RequestMethod.POST)
+	public ResponseEntity<?> searchFlights(@Valid @RequestBody FlightSearchDTO searchData){
+		return new ResponseEntity<>(flightService.findFlights(searchData), HttpStatus.OK);
+	}
 
 	/**
 	 * Vraća informacije o letu. Admin aviokompanije moze da dobije informacije o
@@ -221,7 +227,7 @@ public class FlightController {
 	@PreAuthorize("hasAnyRole('AIRADMIN')")
 	@AdminAccountActiveCheck
 	@AirCompanyAdminCheck
-	public ResponseEntity<?> disableTicketForFastReservation(@PathVariable Integer aircomapanyId, @PathVariable Integer flightId ,@RequestBody List<Long> ticketsIds) throws RequestDataException, ResourceNotFoundException{
+	public ResponseEntity<?> disableTicketForReservation(@PathVariable Integer aircomapanyId, @PathVariable Integer flightId ,@RequestBody List<Long> ticketsIds) throws RequestDataException, ResourceNotFoundException{
 		return new ResponseEntity<>(flightService.disableSeats(aircomapanyId, flightId, ticketsIds) ,HttpStatus.OK);
 	}
 	

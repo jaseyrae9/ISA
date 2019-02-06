@@ -3,6 +3,7 @@ package isa.project.service.aircompany;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import isa.project.dto.aircompany.FlightDTO;
+import isa.project.dto.aircompany.FlightSearchDTO;
 import isa.project.dto.aircompany.FlightTicketsPriceChangeDTO;
 import isa.project.exception_handlers.RequestDataException;
 import isa.project.exception_handlers.ResourceNotFoundException;
@@ -44,7 +46,35 @@ public class FlightService {
 
 	@Autowired
 	private UserRepository userRepository;
-
+	
+	/**
+	 * Pronalazi sve letove koji odgovaraju kriterijumu pretrage.
+	 * @param searchData
+	 * @return
+	 */
+	public List<Flight> findFlights(FlightSearchDTO searchData) {
+		String departure = searchData.getDepartureAirport().toLowerCase();
+		String arrival = searchData.getArrivalAirport().toLowerCase();
+		List<Flight> flights = flightRepository.getFlights(
+				searchData.getStart(), searchData.getEnd(),
+				searchData.getNumberOfPeople(), 
+				searchData.getMinPrice(), searchData.getMaxPrice());
+		return flights.stream().filter(f -> checkFlight(f, departure, arrival)).collect(Collectors.toList());
+	}
+	
+	private boolean checkFlight(Flight flight, String departureAirport, String arrivalAirport) {
+		boolean checkDeparture = checkDestination(flight.getDestinations().get(0).getDestination(), departureAirport);
+		boolean checkArrival = checkDestination(flight.getDestinations().get(flight.getDestinations().size()-1).getDestination(), arrivalAirport);
+		if(checkDeparture && checkArrival) {
+			return true;
+		}
+		return false;
+	}
+	
+	private boolean checkDestination(Destination destination, String airportName) {
+		return destination.getAirportName().toLowerCase().contains(airportName);
+	}
+	
 	/**
 	 * Vraća informacije o letu. Admin aviokompanije moze da dobije informacije o
 	 * in_progress letu svoje aviokompanije, svi ostali samo aktivni let.

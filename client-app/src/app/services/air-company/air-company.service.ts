@@ -91,6 +91,10 @@ export class AirCompanyService {
     return this.http.put<Airplane>('http://localhost:8080/aircompanies/editAirplane/' + company, airplane, httpOptions);
   }
 
+  searchFlights(data): Observable<Flight[]> {
+    return this.http.post<Flight[]>('http://localhost:8080/aircompanies/searchFlights', data, httpOptions);
+  }
+
   getFlights(company, page): Observable<Flight[]> {
     return this.http.get<Flight[]>('http://localhost:8080/aircompanies/getFlights/' + company + '?page=' + page + '&size=' + 2);
   }
