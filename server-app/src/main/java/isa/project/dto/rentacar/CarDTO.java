@@ -42,7 +42,7 @@ public class CarDTO {
 	
 	@NotNull(message = "Price must be entered.")
 	@Min(value = 0, message = "Price can not be less than zero.")
-	@Max(value = 200, message = "Price can not be greater than 500.")
+	@Max(value = 500, message = "Price can not be greater than 500.")
 	private Double price;	
 	
 	private Boolean active;	

@@ -12,6 +12,8 @@ public class SingleRoomReservationDTO {
 	private RoomReservationDTO roomReservation;
 
 	private Boolean isRoomRated;
+	
+	private Boolean active;
 
 	public SingleRoomReservationDTO() {
 		
@@ -21,6 +23,7 @@ public class SingleRoomReservationDTO {
 		this.id = reservation.getId();
 		this.roomReservation = new RoomReservationDTO(reservation.getRoomReservation());
 		this.isRoomRated = reservation.getIsRoomRated();
+		this.active = reservation.getActive();
 	}
 
 	public Integer getId() {
@@ -53,5 +56,13 @@ public class SingleRoomReservationDTO {
 
 	public void setIsRoomRated(Boolean isRoomRated) {
 		this.isRoomRated = isRoomRated;
+	}
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
 	}
 }

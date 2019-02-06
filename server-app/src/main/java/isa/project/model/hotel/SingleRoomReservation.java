@@ -2,6 +2,7 @@ package isa.project.model.hotel;
 
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -35,17 +36,20 @@ public class SingleRoomReservation {
 	private Room room;
 
 	@JsonBackReference(value = "single-room-reservations")
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	@JoinColumn(name = "room_reservation_id", referencedColumnName = "id")
 	private RoomReservation roomReservation;
 
 	@Column(name = "isRoomRated")
 	private Boolean isRoomRated;
 	
+	private Boolean active;
+	
 	public SingleRoomReservation(Room room, RoomReservation roomReservation) {
 		this.room = room;
 		this.roomReservation = roomReservation;
 		this.isRoomRated = false;
+		this.active = true;
 	}
 
 	@Override

@@ -70,6 +70,8 @@ public class AirCompany {
 		super();
 		this.name = name;
 		this.description = description;
+		this.totalRating = 5;
+		this.ratingCount = 1;
 	}
 	
 	public Set<Destination> getDestinations() {

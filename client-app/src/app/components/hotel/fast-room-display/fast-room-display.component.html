@@ -21,6 +21,6 @@
     <p class="text-muted font-weight-light" style="font-size: 35px;  text-decoration: line-through;">€{{room.price}}</p>
     <hr>
     <button *ngIf="tokenService.isCustomer" class="btn btn-primary px-4 m-2" (click)="addRoomToCart()">Book</button>
-    <button *ngIf="tokenService.isHotelAdmin && isHotelTab" class="btn btn-primary px-4 m-2" (click)="removeFromFastRooms()">Remove</button>
+    <button *ngIf="tokenService.isHotelAdmin && isHotelTab && tokenService.companyId == hotel.id" class="btn btn-primary px-4 m-2" (click)="removeFromFastRooms()">Remove</button>
   </div>
 </div>

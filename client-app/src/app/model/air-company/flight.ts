@@ -21,7 +21,8 @@ export class Flight {
     firstPrice = 0;
     minPrice = 0;
     tickets: Ticket[][];
-    averageRating: number;
+    totalRating: number;
+    ratingCount: number;
 }
 
 export class FlightDestination {

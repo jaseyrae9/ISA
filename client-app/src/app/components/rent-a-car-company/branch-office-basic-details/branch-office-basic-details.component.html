@@ -7,9 +7,9 @@
         {{branchOffice.location.country}}</p>
       <hr>
       <!--dugmici-->
-      <button *ngIf="tokenService.isCarAdmin" class="btn btn-primary px-4 m-2 float-right" (click)="openEditModal()"><i
+      <button *ngIf="tokenService.isCarAdmin  && tokenService.companyId == companyId" class="btn btn-primary px-4 m-2 float-right" (click)="openEditModal()"><i
           class="fa fa-edit" aria-hidden="true"></i>Edit</button>
-      <button *ngIf="tokenService.isCarAdmin" class="btn btn-primary px-4 m-2 float-right" (click)="deleteBranchOffice()">
+      <button *ngIf="tokenService.isCarAdmin && tokenService.companyId == companyId" class="btn btn-primary px-4 m-2 float-right" (click)="deleteBranchOffice()">
         <i class="fa fa-trash-alt" aria-hidden="true"></i>Delete</button>
     </div>
   </div>

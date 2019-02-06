@@ -12,10 +12,13 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class TicketsReservationComponent implements OnInit {
   @Input() flightReservation: FlightReservation = new FlightReservation();
 
+  flightAverage = 0;
+
   constructor(private airService: AirCompanyService,
     private ngxNotificationService: NgxNotificationService) { }
 
   ngOnInit() {
+    this.flightAverage = this.flightReservation.flight.totalRating / this.flightReservation.flight.ratingCount;
   }
 
   rateAirCompany() {
@@ -31,7 +34,7 @@ export class TicketsReservationComponent implements OnInit {
           this.ngxNotificationService.sendMessage('You have rated a air company!', 'dark', 'bottom-right' );
         },
         (err: HttpErrorResponse) => {
-          this.ngxNotificationService.sendMessage('Error!', 'danger', 'bottom-right' );
+          this.ngxNotificationService.sendMessage(err.error.details, 'danger', 'bottom-right' );
         }
       );
     }
@@ -40,17 +43,17 @@ export class TicketsReservationComponent implements OnInit {
   rateFlight() {
     console.log('Rate flight');
     if (this.flightReservation.isFlightRated !== true) {
-      console.log('Ocenjivanje leta', this.flightReservation.flight.averageRating);
+      console.log('Ocenjivanje leta', this.flightAverage);
 
       this.airService.rateFlight(this.flightReservation.flight.id,
-        this.flightReservation.id, this.flightReservation.flight.averageRating).subscribe(
+        this.flightReservation.id, this.flightAverage).subscribe(
        newRate => {
          console.log('vraceno', newRate);
          this.flightReservation.isFlightRated = true;
          this.ngxNotificationService.sendMessage('You have rated a flight!', 'dark', 'bottom-right' );
        },
        (err: HttpErrorResponse) => {
-         this.ngxNotificationService.sendMessage('Error!', 'danger', 'bottom-right' );
+         this.ngxNotificationService.sendMessage(err.error.details, 'danger', 'bottom-right' );
        }
      );
     }

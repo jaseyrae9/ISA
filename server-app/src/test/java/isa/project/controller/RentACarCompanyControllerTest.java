@@ -6,6 +6,7 @@ import static isa.project.constants.RentACarCompanyConstants.RENT_A_CAR_COMPANY_
 import static isa.project.constants.RentACarCompanyConstants.RENT_A_CAR_COMPANY_NAME;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -48,6 +49,7 @@ import isa.project.dto.users.AuthenticationResponse;
 import isa.project.model.rentacar.RentACarCompany;
 import isa.project.model.shared.Location;
 import isa.project.security.auth.JwtAuthenticationRequest;
+
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.security.web.FilterChainProxy;
 
@@ -169,4 +171,13 @@ public class RentACarCompanyControllerTest {
 				.contentType(contentType).content(json)).andExpect(status().isOk());
 	}	
 	
+//			this.mockMvc.perform(delete(URL_PREFIX + "/" + DB_ID).header("Authorization", "Bearer " + accessTokenAdmin)).andExpect(status().isOk());
+
+	@Test
+	@Transactional
+	@Rollback(true)
+	public void testDeleteBranchOffice() throws Exception {
+		this.mockMvc.perform(delete(URL_PREFIX + "/deleteBranchOffice/" + RentACarCompanyConstants.RENT_A_CAR_COMPANY_ID + "/" + RentACarCompanyConstants.BRANCH_OFFICE_ID).header("Authorization", "Bearer " + accessTokenCarAdmin))
+		.andExpect(status().isOk()); 
+	}
 }

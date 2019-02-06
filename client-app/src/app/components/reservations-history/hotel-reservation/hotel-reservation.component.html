@@ -35,6 +35,8 @@
                 </div>
                 <div class="col-1 border-left px-1 py-5" align="center">
                     <p class="py-6" style="font-size: 35px; color: #33cabb">€{{totalPrice}}</p>
+                    <button class="btn btn-primary" *ngIf="reservation.active" (click)="cancelRoomReservation()">Cancel</button>
+                    <p class="py-6" *ngIf="!reservation.active" style="color: gray">Canceled</p>
                 </div>
             </div>
         </div>

@@ -29,7 +29,7 @@ export class HotelPageComponent implements OnInit {
 
   datePickerConfig: Partial<BsDatepickerConfig>;
 
-  hotelId: string;
+  hotelId: number;
 
   max = 5;
   rate = 3;
@@ -59,10 +59,10 @@ export class HotelPageComponent implements OnInit {
 
   ngOnInit() {
     const hotelId = this.route.snapshot.paramMap.get('id');
-    this.hotelId = hotelId;
+    this.hotelId = +hotelId;
     this.loadHotel();
 
-    if (this.tokenService.isHotelAdmin) {
+    if (this.tokenService.isHotelAdmin && this.tokenService.companyId === this.hotelId) {
       this.hotelService.getMonthlyVisitation(hotelId).subscribe(
         (data) => {
           console.log('Prihod mesecni', data);
@@ -71,7 +71,7 @@ export class HotelPageComponent implements OnInit {
       );
     }
 
-    if (this.tokenService.isHotelAdmin) {
+    if (this.tokenService.isHotelAdmin && this.tokenService.companyId === this.hotelId) {
       this.hotelService.getWeeklyVisitation(hotelId).subscribe(
         (data) => {
           console.log('Prihod nedeljni', data);
@@ -80,7 +80,7 @@ export class HotelPageComponent implements OnInit {
       );
     }
 
-    if (this.tokenService.isHotelAdmin) {
+    if (this.tokenService.isHotelAdmin && this.tokenService.companyId === this.hotelId) {
       this.hotelService.getDailyVisitation(hotelId).subscribe(
         (data) => {
           console.log('Prihod dnevni', data);

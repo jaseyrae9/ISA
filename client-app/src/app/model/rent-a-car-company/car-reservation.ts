@@ -4,8 +4,8 @@ import { RentACarCompany } from './rent-a-car-company';
 
 export class CarReservation {
     id: number;
-    pickUpDate: Date;
-    dropOffDate: Date;
+    pickUpDate: Date = new Date();
+    dropOffDate: Date = new Date();
     pickUpBranchOffice: BranchOffice = new BranchOffice();
     dropOffBranchOffice: BranchOffice = new BranchOffice();
     car: Car = new Car();
@@ -15,4 +15,5 @@ export class CarReservation {
     isFastReservation: boolean;
     price: number;
     total: number;
+    active: boolean;
 }

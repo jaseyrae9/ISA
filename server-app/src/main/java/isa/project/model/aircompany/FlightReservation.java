@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -44,10 +45,21 @@ public class FlightReservation {
 	@OneToOne(fetch = FetchType.EAGER, mappedBy = "flightReservation")
 	private Reservation reservation;
 	
+	@Column(name = "isCompanyRated")
+	private Boolean isCompanyRated;
+	
+	@Column(name = "isFlightRated")
+	private Boolean isFlightRated;
+	
+	private Boolean active;
+	
 	public FlightReservation(Flight flight) {
 		super();
 		this.ticketReservations = new HashSet<>();
 		this.flight = flight;
+		this.active = true;
+		this.isCompanyRated = false;
+		this.isFlightRated = false;
 	}
 	
 	public void addTicketReservation(TicketReservation reservation) {

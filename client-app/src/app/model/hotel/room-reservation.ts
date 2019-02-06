@@ -17,4 +17,5 @@ export class RoomReservation {
     isFastReservation: boolean;
     price: number;
     total: number;
+    active: boolean;
 }

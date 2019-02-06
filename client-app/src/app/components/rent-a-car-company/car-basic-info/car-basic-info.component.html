@@ -1,12 +1,18 @@
 <div class="row border rounded align-items-center p-2 mt-2">
-    <div class="col-sm-3 pt-2" align="center">
-        
-        <img *ngIf="car.type == 'Sedan'" src="assets/images/car/sedan.png" class="rounded-circle">
-        <img *ngIf="car.type == 'SUV'" src="assets/images/car/suv.png" class="rounded-circle">
-        <img *ngIf="car.type == 'People Carrier/MPV'" src="assets/images/car/mpv.png">
-        <img *ngIf="car.type == 'Convertible'" src="assets/images/car/convertible.png" class="rounded-circle">
-
+    <div class="col-sm-3 pt-2" align="center">      
+        <div class="d-flex flex-column bd-highlight mb-3">
+            <div class="p-2 bd-highlight">
+                <img *ngIf="car.type == 'Sedan'" src="assets/images/car/sedan.png" class="rounded-circle">
+                <img *ngIf="car.type == 'SUV'" src="assets/images/car/suv.png" class="rounded-circle">
+                <img *ngIf="car.type == 'People Carrier/MPV'" src="assets/images/car/mpv.png">
+                <img *ngIf="car.type == 'Convertible'" src="assets/images/car/convertible.png" class="rounded-circle">
+            </div>
+            <div class="p-2 bd-highlight">      
+                <rating [(ngModel)]="car.averageRating" [max]="5" [readonly]="true"></rating>
+            </div>       
+        </div>
     </div>
+
     <div class="col-sm-5 pt-2 border-left p-3" align="center">
         <p style="font-size: 22px;">{{car.brand}} {{car.model}}
             <br><small class="text-muted">Type: {{car.type}}</small>
@@ -21,12 +27,13 @@
 
     <div class="col border-left p-3" align="center">
         <p style="font-size: 45px; color:  #33cabb;">€{{car.price}}</p>
-        <hr>
-        <button *ngIf="tokenService.isCarAdmin && isCarsTab" class="btn btn-primary px-4 m-2"
+        <hr *ngIf="!tokenService.isCustomer && isCarsTab && tokenService.isVistor ">
+        <hr *ngIf="tokenService.isCustomer && !isCarsTab ">
+        <button *ngIf="tokenService.isCarAdmin && isCarsTab && tokenService.companyId == carCompany.id" class="btn btn-primary px-4 m-2"
             (click)="openEditModal()">Edit</button>
-        <button *ngIf="tokenService.isCarAdmin && isCarsTab" class="btn btn-primary px-4 m-2" (click)="deleteCar()">Delete</button>
-        <button *ngIf="tokenService.isCarAdmin && isCarsTab" class="btn btn-primary px-4 m-2" (click)="openFastReservationModal()">Fast</button>
-        <button *ngIf="!isCarsTab" class="btn btn-primary px-4 m-2" (click)="onRent()">Rent</button>
+        <button *ngIf="tokenService.isCarAdmin && isCarsTab && tokenService.companyId == carCompany.id" class="btn btn-primary px-4 m-2" (click)="deleteCar()">Delete</button>
+        <button *ngIf="tokenService.isCarAdmin && isCarsTab && tokenService.companyId == carCompany.id" class="btn btn-primary px-4 m-2" (click)="openFastReservationModal()">Fast</button>
+        <button *ngIf="!isCarsTab && tokenService.isCustomer" class="btn btn-primary px-4 m-2" (click)="onRent()">Rent</button>
         
     </div>
 </div>

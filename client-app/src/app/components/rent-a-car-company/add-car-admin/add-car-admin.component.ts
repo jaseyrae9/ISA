@@ -36,7 +36,7 @@ export class AddCarAdminComponent implements OnInit {
     });
 
     this.newCarCompanyAdminForm = this.formBuilder.group({
-      email: [this.user.email, [Validators.required]],
+      email: [this.user.email, [Validators.required, Validators.email]],
       firstName: [this.user.firstName, [Validators.required]],
       lastName: [this.user.lastName, [Validators.required]],
       address: [this.user.address, [Validators.required]],

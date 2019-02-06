@@ -71,7 +71,7 @@ export class HotelReservationComponent implements OnInit {
               if (err.status === 401 || err.status === 403 || err.status === 404) {
                 // refresh
               }
-              this.ngxNotificationService.sendMessage('Error!', 'danger', 'bottom-right' );
+              this.ngxNotificationService.sendMessage(err.error.details, 'danger', 'bottom-right' );
               // this.errorMessage = err.error.details;
             }
           );
@@ -96,10 +96,27 @@ export class HotelReservationComponent implements OnInit {
           if (err.status === 401 || err.status === 403 || err.status === 404) {
             // refresh
           }
-          this.ngxNotificationService.sendMessage('Error!', 'danger', 'bottom-right' );
+          this.ngxNotificationService.sendMessage(err.error.details, 'danger', 'bottom-right' );
           // this.errorMessage = err.error.details;
         }
       );
     }
+  }
+
+  cancelRoomReservation() {
+    this.hotelService.cancelRoomReservation(this.reservation.id).subscribe(
+      data => {
+        this.reservation.active = false;
+        this.ngxNotificationService.sendMessage('You have canceled car reservation!', 'dark', 'bottom-right' );
+      },
+      (err: HttpErrorResponse) => {
+        // interceptor je hendlovao ove zahteve
+        if (err.status === 401 || err.status === 403 || err.status === 404) {
+          // refresh
+        }
+        this.ngxNotificationService.sendMessage(err.error.details, 'danger', 'bottom-right' );
+        // this.errorMessage = err.error.details;
+      }
+    );
   }
 }

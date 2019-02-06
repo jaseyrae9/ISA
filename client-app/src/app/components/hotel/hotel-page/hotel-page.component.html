@@ -20,7 +20,7 @@
         <i class="fa fa-book" aria-hidden="true"></i>Book
       </a>
     </li>
-    <li *ngIf="tokenService.isHotelAdmin" class="nav-item">
+    <li *ngIf="tokenService.isHotelAdmin && tokenService.companyId == hotelId" class="nav-item">
       <a href="#admin-info" role="tab" data-toggle="tab" class="nav-link">
         <i class="fa fa-info" aria-hidden="true"></i>Admin info
       </a>
@@ -42,14 +42,14 @@
             <div class="d-flex">
                 <div class="p-2"><h3 class="display-4" align="left">{{hotel.name}}</h3></div>
                 <div class="ml-auto p-2"><rating  [(ngModel)]="hotel.averageRating" [max]="5" [readonly]="true"></rating></div>
-              </div>
+            </div>
        
           <p class="text-muted" align="left">{{hotel.location.address}}, {{hotel.location.city}},
             {{hotel.location.country}}</p>
           <hr>
           <p>{{hotel.description}}</p>
           <div align="right">
-            <button *ngIf="tokenService.isHotelAdmin" class="btn btn-primary float-right" (click)="openEditModal()"><i
+            <button *ngIf="tokenService.isHotelAdmin && tokenService.companyId == hotel.id" class="btn btn-primary float-right" (click)="openEditModal()"><i
                 class="fa fa-edit" aria-hidden="true"></i>Edit</button>
           </div>
         </div>
@@ -62,7 +62,7 @@
     <!------------------------------------------------------------------------------->
 
     <div class="tab-pane fade" id="services" aria-labelledby="services-tab">
-      <div *ngIf="tokenService.isHotelAdmin" style="align-content: center" div class="row">
+      <div *ngIf="tokenService.isHotelAdmin && tokenService.companyId == hotel.id" style="align-content: center" div class="row">
         <div class="col-12 text-center">
           <button type="button" class="btn btn-primary" (click)="openNewServiceModal()">
             Add new service
@@ -79,7 +79,7 @@
     <!---------------------------ROOMS----------------------------------------------->
     <!------------------------------------------------------------------------------->
     <div class="tab-pane fade" id="rooms" aria-labelledby="rooms-tab">
-      <div *ngIf="tokenService.isHotelAdmin" style="align-content: center" div class="row">
+      <div *ngIf="tokenService.isHotelAdmin && tokenService.companyId == hotel.id" style="align-content: center" div class="row">
         <div class="col-12 text-center">
           <button type="button" class="btn btn-primary" (click)="openNewRoomModal()">
             Add new room
@@ -99,7 +99,7 @@
     <!------------------------------------------------------------------------------->
     <!---------------------------INFO FOR ADMIN-------------------------------------->
     <!------------------------------------------------------------------------------->
-    <div *ngIf="tokenService.isHotelAdmin" class="tab-pane fade" id="admin-info" aria-labelledby="admin-info-tab">
+    <div *ngIf="tokenService.isHotelAdmin && tokenService.companyId == hotel.id" class="tab-pane fade" id="admin-info" aria-labelledby="admin-info-tab">
       <!--rating [(ngModel)]="rate" [max]="max" [readonly]="isReadonly"></rating-->
 
 

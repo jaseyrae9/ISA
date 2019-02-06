@@ -17,12 +17,12 @@ import { NgxNotificationService } from 'ngx-notification';
 
 export class BranchOfficeBasicDetailsComponent implements OnInit {
   @Input() branchOffice: BranchOffice;
-  @Output() branchOfficeDeleted: EventEmitter<BranchOffice> = new EventEmitter();
+  @Output() branchOfficeDeleted: EventEmitter<number> = new EventEmitter();
 
   carCompany: RentACarCompany = new RentACarCompany();
 
   modalRef: BsModalRef;
-  companyId: string;
+  companyId: number;
 
   constructor(private route: ActivatedRoute, private carCompanyService: RentACarCompanyService,
      public tokenService: TokenStorageService, private modalService: BsModalService,
@@ -30,14 +30,14 @@ export class BranchOfficeBasicDetailsComponent implements OnInit {
 
   ngOnInit() {
     const companyId = this.route.snapshot.paramMap.get('id');
-    this.companyId = companyId;
+    this.companyId = +companyId; // plus je da bi se konvertovao string u broj
   }
 
   deleteBranchOffice() {
     this.carCompanyService.deleteBranchOffice(this.branchOffice.id, this.companyId).subscribe(
       data => {
         console.log('deleteBranchOffice', this.branchOffice);
-        this.branchOfficeDeleted.emit(this.branchOffice);
+        this.branchOfficeDeleted.emit(this.branchOffice.id);
       },
       error => {
         console.log(error);

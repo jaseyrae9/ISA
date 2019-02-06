@@ -26,7 +26,7 @@
     </li>
 
     <!--ADMIN-->
-    <li class="nav-item"  *ngIf="tokenService.isCarAdmin" >
+    <li class="nav-item"  *ngIf="tokenService.isCarAdmin && tokenService.companyId == companyId" >
       <a href="#admin-info" role="tab" data-toggle="tab" class="nav-link">
         <i class="fa fa-info" aria-hidden="true"></i>Admin info
       </a>
@@ -59,7 +59,7 @@
           <hr>
           <p>{{carCompany.description}}</p>
           <div align="right">
-            <button *ngIf="tokenService.isCarAdmin" class="btn btn-primary float-right" (click)="openEditModal()"><i
+            <button *ngIf="tokenService.isCarAdmin && tokenService.companyId == companyId" class="btn btn-primary float-right" (click)="openEditModal()"><i
                 class="fa fa-edit" aria-hidden="true"></i>Edit</button>
           </div>
         </div>
@@ -70,7 +70,7 @@
     <!--CARS-->
     <div class="tab-pane fade" id="cars" aria-labelledby="cars-tab">
       <!-- Button trigger modal -->
-      <div *ngIf="tokenService.isCarAdmin" style="align-content: center" div class="row">
+      <div *ngIf="tokenService.isCarAdmin && tokenService.companyId == companyId" style="align-content: center" div class="row">
         <div class="col-12 text-center">
           <button type="button" class="btn btn-primary" (click)="openNewCarModal()">
             Add new car
@@ -87,7 +87,7 @@
     <!--BRANCH OFFICES-->
     <div class="tab-pane fade" id="branchOffices" aria-labelledby="branches-tab">
       <!-- Button trigger modal -->
-      <div *ngIf="tokenService.isCarAdmin" style="align-content: center" div class="row">
+      <div *ngIf="tokenService.isCarAdmin && tokenService.companyId == companyId" style="align-content: center" div class="row">
         <div class="col-12 text-center">
           <button type="button" class="btn btn-primary" (click)="openNewBranchOfficeModal()">
             Add new branch office
@@ -111,7 +111,7 @@
 
 
     <!--ADMIN INFO-->
-    <div *ngIf="tokenService.isCarAdmin" class="tab-pane fade" id="admin-info" aria-labelledby="admin-info-tab">
+    <div *ngIf="tokenService.isCarAdmin && tokenService.companyId == companyId" class="tab-pane fade" id="admin-info" aria-labelledby="admin-info-tab">
       <div id="accordion">
         <div class="card">
           <div class="card-header">

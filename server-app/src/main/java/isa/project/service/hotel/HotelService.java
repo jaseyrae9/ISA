@@ -111,7 +111,6 @@ public class HotelService {
 
 		Room room = new Room(hotel.get(), roomDTO.getFloor(), roomDTO.getRoomNumber(), roomDTO.getNumberOfBeds(),
 				roomDTO.getPrice(), roomDTO.getType());
-		room.setVersion(new Long(0));
 		return roomRepository.save(room);
 	}
 

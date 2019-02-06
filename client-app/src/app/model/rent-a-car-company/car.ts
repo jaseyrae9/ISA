@@ -15,8 +15,8 @@ export class Car {
     rentACarCompany: RentACarCompany;
     averageRating: number;
     isFast: Boolean;
-    beginDate: Date;
-    endDate: Date;
+    beginDate: Date = new Date();
+    endDate: Date = new Date();
     fastPickUpBranchOffice: BranchOffice;
     fastDropOffBranchOffice: BranchOffice;
     discount: number;

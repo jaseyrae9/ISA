@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -35,6 +36,9 @@ import isa.project.model.rentacar.BranchOffice;
 import isa.project.model.rentacar.Car;
 import isa.project.model.rentacar.CarReservation;
 import isa.project.model.rentacar.RentACarCompany;
+import isa.project.model.users.Customer;
+import isa.project.security.TokenUtils;
+import isa.project.service.rentacar.CarReservationService;
 import isa.project.service.rentacar.CarService;
 import isa.project.service.rentacar.RentACarCompanyService;
 
@@ -47,6 +51,12 @@ public class RentACarCompanyController {
 
 	@Autowired
 	private CarService carService;
+	
+	@Autowired
+	private TokenUtils tokenUtils;
+	
+	@Autowired
+	private CarReservationService carReservationService;
 
 	/**
 	 * Returns DTO objects for rent a car companies. Objects contain id, name,
@@ -271,7 +281,7 @@ public class RentACarCompanyController {
 	@PreAuthorize("hasAnyRole('CARADMIN')")
 	@AdminAccountActiveCheck
 	@RentACarCompanyAdminCheck
-	@RequestMapping(value = "/deleteBranchOffice/{carCompanyId}/{branchOfficeId}", method = RequestMethod.DELETE, consumes = "application/json")
+	@RequestMapping(value = "/deleteBranchOffice/{carCompanyId}/{branchOfficeId}", method = RequestMethod.DELETE)
 	public ResponseEntity<?> deleteBranchOffice(@PathVariable Integer carCompanyId,
 			@PathVariable Integer branchOfficeId) throws ResourceNotFoundException {
 		Optional<RentACarCompany> rentACarCompany = rentACarCompanyService.findRentACarCompany(carCompanyId);
@@ -325,20 +335,7 @@ public class RentACarCompanyController {
 		return new ResponseEntity<>(branchOfficeDTO, HttpStatus.OK);
 	}
 
-	/*@PreAuthorize("hasAnyRole('CUSTOMER')")
-	@RequestMapping(value = "/rentCar/{carCompanyId}/{pickUpBranchOfficeId}/{dropOffBranchOfficeId}/{pickUpDate}/{dropOffDate}/{carId}/{customer}", method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<CarReservationDTO> rentCar(@PathVariable Integer carCompanyId,
-			@PathVariable Integer pickUpBranchOfficeId, @PathVariable Integer dropOffBranchOfficeId,
-			@PathVariable String pickUpDate, @PathVariable String dropOffDate, @PathVariable Integer carId,
-			@PathVariable String customer) throws ResourceNotFoundException, ParseException, RequestDataException {
-
-		CarReservation carReservation = carService.addReservation(carCompanyId, carId, customer, pickUpBranchOfficeId,
-				dropOffBranchOfficeId, pickUpDate, dropOffDate);
-
-		return new ResponseEntity<>(new CarReservationDTO(carReservation), HttpStatus.CREATED);
-	}*/
-
-	@RequestMapping(value = "/search", method = RequestMethod.GET, consumes = "application/json")
+	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	public ResponseEntity<?> getAllSearchedCompanies(@RequestParam(defaultValue = "") String name,
 			@RequestParam(defaultValue = "") String address, @RequestParam(defaultValue = "") String pickUp,
 			@RequestParam(defaultValue = "") String dropOff) throws ParseException {
@@ -478,5 +475,36 @@ public class RentACarCompanyController {
 
 		Car c = carService.saveCar(car.get());
 		return new ResponseEntity<>(c, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAnyRole('CUSTOMER')")
+	@RequestMapping(value = "/cancelCarReservation/{reservationId}", method = RequestMethod.DELETE, consumes = "application/json")
+	public ResponseEntity<?> cancelCarReservation(@PathVariable Integer reservationId, HttpServletRequest request) throws ResourceNotFoundException, RequestDataException {
+		String email = tokenUtils.getEmailFromToken(tokenUtils.getToken(request));
+		
+		Optional<CarReservation> carReservation = carReservationService.findCarReservation(reservationId);
+		
+		if(!carReservation.isPresent()) {
+			throw new ResourceNotFoundException(reservationId.toString(), "Car reservation not found.");
+		}		
+		
+		Customer c = carReservation.get().getReservation().getCustomer();
+		
+		if(!c.getEmail().equals(email)) {
+			throw new ResourceNotFoundException(email.toString(), "You don't have this reservation.");
+		}
+		
+		Date today = new Date();
+		long diff = carReservation.get().getPickUpDate().getTime() - today.getTime();
+		long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) + 1;
+		if(days < 2 ) {
+			throw new RequestDataException("You can't cancel your reservation 3 days before pick up day.");
+		}
+		
+		carReservation.get().setActive(false);
+		
+		CarReservation cr = carReservationService.saveCarReservation(carReservation.get());
+		System.err.println("Rezervcija automobila je otkazanaaaa");
+		return new ResponseEntity<>(cr.getId(), HttpStatus.OK);
 	}
 }
