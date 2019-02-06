@@ -1,10 +1,12 @@
 package isa.project.dto.hotel;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import javax.validation.constraints.NotNull;
+
 import isa.project.model.hotel.Room;
 import isa.project.model.hotel.RoomReservation;
 import isa.project.model.hotel.SingleRoomReservation;
@@ -142,5 +144,17 @@ public class RoomReservationDTO {
 		this.isHotelRated = isHotelRated;
 	}
 	
+	public double getTotal() {
+		double total = 0;
+		long diff = this.checkOutDate.getTime() - this.checkInDate.getTime();
+		long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) + 1;
+		for(Room r: this.reservations) {
+			total += days * r.getPrice();
+		}
+		for(AdditionalService as : this.additionalServices) {
+			total += as.getPrice();
+		}
+		return total;
+	}
 	
 }

@@ -1,6 +1,6 @@
 package isa.project.model.hotel;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;

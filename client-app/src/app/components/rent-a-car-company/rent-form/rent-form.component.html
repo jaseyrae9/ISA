@@ -9,8 +9,8 @@
             <i class="fa fa-calendar-alt" aria-hidden="true"></i>
           </span>
         </div>
-        <input placeholder="Pick up and drop off date" class="form-control" #drp="bsDaterangepicker" [bsConfig]='datePickerConfig' bsDaterangepicker
-          formControlName="bsRangeValue" (ngModelChange)="onChange($event)">
+        <input placeholder="Pick up and drop off date" class="form-control" #drp="bsDaterangepicker" [bsConfig]='datePickerConfig'
+          bsDaterangepicker formControlName="bsRangeValue" (ngModelChange)="onChange($event)">
       </div>
 
       <div class="input-group form-group">
@@ -70,7 +70,7 @@
         </select>
       </div>
 
-      <div class="input-group form-group">          
+      <div class="input-group form-group">
         <ng5-slider formControlName="priceRange" [(value)]="minValue" [(highValue)]="maxValue" [options]="options" #ng5></ng5-slider>
       </div>
 

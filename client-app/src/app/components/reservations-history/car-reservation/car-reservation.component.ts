@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CarReservation } from 'src/app/model/rent-a-car-company/car-reservation';
-import { formatDate } from '@angular/common';
+import { formatDate, DatePipe } from '@angular/common';
 import { RentACarCompanyService } from 'src/app/services/rent-a-car-company/rent-a-car-company.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgxNotificationService } from 'ngx-notification';
@@ -22,7 +22,8 @@ export class CarReservationComponent implements OnInit {
   date0 = new Date();
   date1 = new Date();
   constructor(private carService: RentACarCompanyService,
-    private ngxNotificationService: NgxNotificationService) { }
+    private ngxNotificationService: NgxNotificationService,
+    public datePipe: DatePipe) { }
 
   ngOnInit() {
     this.pickUp = formatDate(this.reservation.pickUpDate, 'yyyy-MM-dd hh:mm:ss', 'en');

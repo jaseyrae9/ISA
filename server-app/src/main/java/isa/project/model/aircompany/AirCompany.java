@@ -59,6 +59,12 @@ public class AirCompany {
 	@OrderBy("creationDate DESC")
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<TicketForFastReservation> ticketForFastReservations;
+	
+	@Column(name = "totalRating")
+	private Integer totalRating;
+	
+	@Column(name = "ratingCount")
+	private Integer ratingCount;
 
 	public AirCompany(String name, String description) {
 		super();
@@ -91,6 +97,14 @@ public class AirCompany {
 	public void removeTicket(TicketForFastReservation ticket) {
 		ticket.setAirCompany(null);
 		this.ticketForFastReservations.remove(ticket);
+	}
+	
+	public void incrementRatingCount() {
+		this.ratingCount++;
+	}
+	
+	public void addToTotalRating(Integer x) {
+		this.totalRating += x;
 	}
 
 	@Override

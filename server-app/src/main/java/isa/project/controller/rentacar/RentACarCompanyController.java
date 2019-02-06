@@ -28,7 +28,6 @@ import isa.project.aspects.AdminAccountActiveCheck;
 import isa.project.aspects.RentACarCompanyAdminCheck;
 import isa.project.dto.rentacar.BranchOfficeDTO;
 import isa.project.dto.rentacar.CarDTO;
-import isa.project.dto.rentacar.CarReservationDTO;
 import isa.project.dto.rentacar.RentACarCompanyDTO;
 import isa.project.exception_handlers.RequestDataException;
 import isa.project.exception_handlers.ResourceNotFoundException;
@@ -326,7 +325,7 @@ public class RentACarCompanyController {
 		return new ResponseEntity<>(branchOfficeDTO, HttpStatus.OK);
 	}
 
-	@PreAuthorize("hasAnyRole('CUSTOMER')")
+	/*@PreAuthorize("hasAnyRole('CUSTOMER')")
 	@RequestMapping(value = "/rentCar/{carCompanyId}/{pickUpBranchOfficeId}/{dropOffBranchOfficeId}/{pickUpDate}/{dropOffDate}/{carId}/{customer}", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<CarReservationDTO> rentCar(@PathVariable Integer carCompanyId,
 			@PathVariable Integer pickUpBranchOfficeId, @PathVariable Integer dropOffBranchOfficeId,
@@ -337,7 +336,7 @@ public class RentACarCompanyController {
 				dropOffBranchOfficeId, pickUpDate, dropOffDate);
 
 		return new ResponseEntity<>(new CarReservationDTO(carReservation), HttpStatus.CREATED);
-	}
+	}*/
 
 	@RequestMapping(value = "/search", method = RequestMethod.GET, consumes = "application/json")
 	public ResponseEntity<?> getAllSearchedCompanies(@RequestParam(defaultValue = "") String name,
@@ -409,9 +408,9 @@ public class RentACarCompanyController {
 	@PreAuthorize("hasAnyRole('CARADMIN')")
 	@AdminAccountActiveCheck
 	@RentACarCompanyAdminCheck
-	@RequestMapping(value = "/addCarToFastReservation/{companyId}/{carId}/{discount}/{beginDate}/{endDate}", method = RequestMethod.PUT, consumes = "application/json")
+	@RequestMapping(value = "/addCarToFastReservation/{companyId}/{carId}/{discount}/{beginDate}/{endDate}/{puBoId}/{doBoId}", method = RequestMethod.PUT, consumes = "application/json")
 	public ResponseEntity<?> addCarToFastReservation(@PathVariable Integer companyId, @PathVariable Integer carId,
-			@PathVariable Double discount, @PathVariable String beginDate, @PathVariable String endDate)
+			@PathVariable Double discount, @PathVariable String beginDate, @PathVariable String endDate, @PathVariable Integer puBoId, @PathVariable Integer doBoId)
 			throws ResourceNotFoundException, ParseException {
 
 		Optional<RentACarCompany> carCompany = rentACarCompanyService.findRentACarCompany(companyId);
@@ -424,7 +423,18 @@ public class RentACarCompanyController {
 		if (!car.isPresent()) {
 			throw new ResourceNotFoundException(carId.toString(), "Car not found in that rent a car company.");
 		}
+		
+		Optional<BranchOffice> boPu = carCompany.get().getBranchOffices().stream().filter(o -> o.getId().equals(puBoId)).findFirst();
+		if (!boPu.isPresent()) {
+			throw new ResourceNotFoundException(puBoId.toString(), "Pick up branch office is not found in that rent a car company.");
+		}
+		
+		Optional<BranchOffice> boDo = carCompany.get().getBranchOffices().stream().filter(o -> o.getId().equals(doBoId)).findFirst();
 
+		if (!boDo.isPresent()) {
+			throw new ResourceNotFoundException(doBoId.toString(), "Drop off branch office is not found in that rent a car company.");
+		}
+		
 		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
 
 		Date start = sdf1.parse(beginDate);
@@ -439,6 +449,9 @@ public class RentACarCompanyController {
 		car.get().setBeginDate(start);
 		car.get().setEndDate(end);
 
+		car.get().setFastPickUpBranchOffice(boPu.get().getId());
+		car.get().setFastDropOffBranchOffice(boDo.get().getId());
+		
 		Car c = carService.saveCar(car.get());
 		return new ResponseEntity<>(c, HttpStatus.OK);
 	}

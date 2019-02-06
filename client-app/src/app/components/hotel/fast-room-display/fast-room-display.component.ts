@@ -5,6 +5,8 @@ import { formatDate } from '@angular/common';
 import { HotelService } from 'src/app/services/hotel/hotel.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgxNotificationService } from 'ngx-notification';
+import { RoomReservation } from 'src/app/model/hotel/room-reservation';
+import { ShoppingCartService } from 'src/app/observables/shopping-cart.service';
 
 @Component({
   selector: 'app-fast-room-display',
@@ -13,7 +15,7 @@ import { NgxNotificationService } from 'ngx-notification';
 })
 export class FastRoomDisplayComponent implements OnInit {
   @Input() room: Room;
-  @Input() hotelId;
+  @Input() hotel;
   @Input() isHotelTab;
 
   @Output() roomSlowed: EventEmitter<number> = new EventEmitter();
@@ -24,7 +26,8 @@ export class FastRoomDisplayComponent implements OnInit {
 
   constructor(public tokenService: TokenStorageService,
     private hotelService: HotelService,
-    private ngxNotificationService: NgxNotificationService) { }
+    private ngxNotificationService: NgxNotificationService,
+    private shoppingCartService: ShoppingCartService) { }
 
 
   ngOnInit() {
@@ -34,7 +37,7 @@ export class FastRoomDisplayComponent implements OnInit {
   }
 
   removeFromFastRooms() {
-    this.hotelService.makeRoomSlow(this.hotelId, this.room.id).subscribe(
+    this.hotelService.makeRoomSlow(this.hotel.id, this.room.id).subscribe(
      data => {
        this.roomSlowed.emit(this.room.id);
        this.ngxNotificationService.sendMessage('Room removed from fast reservations!', 'dark', 'bottom-right');
@@ -50,7 +53,28 @@ export class FastRoomDisplayComponent implements OnInit {
   }
 
   addRoomToCart() {
-    
+    const roomReservation = new RoomReservation();
+    roomReservation.checkInDate = this.room.startDate;
+    roomReservation.checkOutDate = this.room.endDate;
+    roomReservation.additionalServices = [];
+    roomReservation.reservations = [this.room];
+    roomReservation.hotel = this.hotel;
+    roomReservation.isFastReservation = true;
+
+    // set the price
+    const ciDate = formatDate(roomReservation.checkInDate, 'yyyy-MM-dd hh:mm:ss', 'en');
+    const coDate = formatDate(roomReservation.checkOutDate, 'yyyy-MM-dd hh:mm:ss', 'en');
+    const date0 = new Date(ciDate);
+    const date1 = new Date(coDate);
+    const diff =  (date1.getTime() - date0.getTime()) / (1000 * 60 * 60 * 24) + 1 ;
+
+    const totalPrice = this.room.price * diff;
+
+
+    roomReservation.price = totalPrice;
+
+    console.log('salje se u korpu ', roomReservation);
+    this.shoppingCartService.changeRoomReservation(roomReservation);
   }
 
 }

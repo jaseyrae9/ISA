@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import isa.project.exception_handlers.ResourceNotFoundException;
+import isa.project.model.aircompany.AirCompany;
 import isa.project.model.hotel.Hotel;
 import isa.project.model.hotel.Room;
 import isa.project.model.hotel.RoomReservation;
@@ -18,6 +19,7 @@ import isa.project.model.hotel.SingleRoomReservation;
 import isa.project.model.rentacar.Car;
 import isa.project.model.rentacar.CarReservation;
 import isa.project.model.rentacar.RentACarCompany;
+import isa.project.service.aircompany.AirCompanyService;
 import isa.project.service.hotel.HotelService;
 import isa.project.service.hotel.RoomReservationService;
 import isa.project.service.hotel.RoomService;
@@ -34,7 +36,7 @@ public class ReservationController {
 	
 	@Autowired
 	private RoomReservationService roomReservationService;
-	
+		
 	@Autowired
 	private RoomService roomService;
 	
@@ -43,9 +45,15 @@ public class ReservationController {
 	
 	@Autowired
 	private CarReservationService carReservationService;
-	
+		
 	@Autowired
 	private CarService carService;
+	
+	@Autowired
+	private AirCompanyService airService;
+	
+//	@Autowired
+//	private FlightReservationsService flightReservationsService;
 	
 	@RequestMapping(value="/rateHotel/{hotelId}/{reservationId}/{rate}",method=RequestMethod.PUT, consumes="application/json")
 	public ResponseEntity<Double> rateHotel(@PathVariable Integer hotelId, @PathVariable Integer reservationId, @PathVariable Integer rate) throws ResourceNotFoundException{
@@ -150,4 +158,33 @@ public class ReservationController {
 		
 		return new ResponseEntity<>((car.get().getTotalRating() / (double) car.get().getRatingCount()), HttpStatus.OK);	
 	}
+	
+	@RequestMapping(value="/rateAirCompany/{comapanyId}/{reservationId}/{rate}",method=RequestMethod.PUT, consumes="application/json")
+	public ResponseEntity<?> rateAirCompany(@PathVariable Integer comapanyId, @PathVariable Integer reservationId, @PathVariable Integer rate) throws ResourceNotFoundException{
+		System.out.println("Ocenjivanje air comapany: " + comapanyId);
+		
+		Optional<AirCompany> company = airService.findAircompany(comapanyId);
+		
+		if (!company.isPresent()) {
+			throw new ResourceNotFoundException(comapanyId.toString(), "Air company not found");
+		}
+		
+		company.get().incrementRatingCount();
+		company.get().addToTotalRating(rate);
+		airService.saveAirCompany(company.get());
+		
+//		Optional<FlightReservation> flightReservation = flightReservationsService.
+//
+//		if (!flightReservation.isPresent()) {
+//			throw new ResourceNotFoundException(reservationId.toString(), "Reservation not found");
+//		}
+		
+		//flightReservation.get().setIsCompanyRated(true);  
+		//carReservationService.saveCarReservation(carReservation.get()); 
+		
+		//return new ResponseEntity<>((company.get().getTotalRating() / (double) company.get().getRatingCount()), HttpStatus.OK);	
+		return null;
+	}
+	
+	
 }

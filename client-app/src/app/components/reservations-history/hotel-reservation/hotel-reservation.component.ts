@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { RoomReservation } from 'src/app/model/hotel/room-reservation';
-import { formatDate } from '@angular/common';
+import { formatDate, DatePipe } from '@angular/common';
 import { HotelService } from 'src/app/services/hotel/hotel.service';
 import { NgxNotificationService } from 'ngx-notification';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -26,7 +26,8 @@ export class HotelReservationComponent implements OnInit {
   date1 = new Date();
 
   constructor(private hotelService: HotelService,
-    private ngxNotificationService: NgxNotificationService) { }
+    private ngxNotificationService: NgxNotificationService,
+    public datePipe: DatePipe) { }
 
   ngOnInit() {
     this.checkIn = formatDate(this.reservation.checkInDate, 'yyyy-MM-dd hh:mm:ss', 'en');
@@ -42,6 +43,9 @@ export class HotelReservationComponent implements OnInit {
 
       reservation.rating = reservation.totalRating / reservation.ratingCount;
 
+    }
+    for (const as of this.reservation.additionalServices) {
+      this.totalPrice += as.price;
     }
 
     this.hotelRate = this.reservation.hotel.averageRating;

@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Reservation } from 'src/app/model/users/reservation';
 import { formatDate } from '@angular/common';
 
-
 @Component({
   selector: 'app-reservation',
   templateUrl: './reservation.component.html',
@@ -12,6 +11,7 @@ export class ReservationComponent implements OnInit {
   @Input() reservation: Reservation;
   date: String = '';
 
+  totalPrice = 0;
 
   constructor() { }
 
@@ -19,6 +19,16 @@ export class ReservationComponent implements OnInit {
     console.log(this.reservation.id);
 
     this.date = formatDate(this.reservation.creationDate, 'yyyy-MM-dd', 'en');
+
+    if (this.reservation.flightReservation !== null) {
+      this.totalPrice += this.reservation.flightReservation.total;
+    }
+    if (this.reservation.roomReservation !== null) {
+      this.totalPrice += this.reservation.roomReservation.total;
+    }
+    if (this.reservation.carReservation !== null) {
+      this.totalPrice += this.reservation.carReservation.total;
+    }
   }
 
 }

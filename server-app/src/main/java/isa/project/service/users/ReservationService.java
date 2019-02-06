@@ -11,15 +11,25 @@ import isa.project.exception_handlers.ReservationNotAvailable;
 import isa.project.exception_handlers.ResourceNotFoundException;
 import isa.project.model.aircompany.FlightReservation;
 import isa.project.model.aircompany.TicketReservation;
+import isa.project.model.hotel.RoomReservation;
+import isa.project.model.rentacar.CarReservation;
 import isa.project.model.users.Customer;
 import isa.project.model.users.Reservation;
 import isa.project.repository.users.ReservationRepository;
 import isa.project.service.aircompany.FlightReservationsService;
+import isa.project.service.hotel.RoomReservationService;
+import isa.project.service.rentacar.CarReservationService;
 
 @Service
 public class ReservationService {
 	@Autowired
 	private FlightReservationsService flightReservationsService;
+	
+	@Autowired
+	private RoomReservationService roomReservationService;
+	
+	@Autowired
+	private CarReservationService carReservationService;
 	
 	@Autowired
 	private CustomerService customerService;	
@@ -54,12 +64,25 @@ public class ReservationService {
 			atLeastOneReservation = true;
 		}
 		
-		//TODO: Dodati ostale dve rezervacije
+		if(reservationRequest.getCarReservationRequest() != null) {
+			CarReservation carReservation = carReservationService.reseve(reservationRequest.getCarReservationRequest());
+			reservation.setCarReservation(carReservation);
+			atLeastOneReservation = true;
+		}
+		
+		if(reservationRequest.getHotelReservationRequest() != null) {
+			RoomReservation roomReservation = roomReservationService.reserve(reservationRequest.getHotelReservationRequest());
+			System.out.println("Cuvamo room rezervaciju");
+			reservation.setRoomReservation(roomReservation);
+			System.out.println("Sacuvana");
+			atLeastOneReservation = true;
+		}
 		
 		if(!atLeastOneReservation) {
 			throw new RequestDataException("There must be at least one sub reservation.");
 		}			
 		
+		System.out.println("aaa");
 		Reservation saved = reservationRepository.save(reservation);
 		flightReservationsService.saveActiveTickets(saved);
 		flightReservationsService.saveFriendInvites(saved, reservationRequest, customer.getId());

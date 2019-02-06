@@ -155,4 +155,14 @@ export class AirCompanyService {
   getProfit(id, from, to): Observable<any> {
     return this.http.get<any>('http://localhost:8080/aircompanies/getProfitInPeriod/' + id + '?from=' + from + '&to=' + to);
   }
+
+  rateAirCompany(airCompanyId, reservationId, rate): Observable<any> {
+    return this.http.put<any>('http://localhost:8080/reservation/rateAirCompany/'
+    + airCompanyId + '/' + reservationId + '/' + rate, httpOptions);
+  }
+
+  rateFlight(flightId, reservationId, rate): Observable<any> {
+    return this.http.put<any>('http://localhost:8080/reservation/rateFlight/'
+    + flightId + '/' + reservationId + '/' + rate, httpOptions);
+  }
 }

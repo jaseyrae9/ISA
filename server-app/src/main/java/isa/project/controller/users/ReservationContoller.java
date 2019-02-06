@@ -40,6 +40,7 @@ public class ReservationContoller {
 	public ResponseEntity<?> reserve(@Valid @RequestBody ReservationRequestDTO reservationRequest, HttpServletRequest request) throws ResourceNotFoundException, ReservationNotAvailable, RequestDataException{
 		String email = tokenUtils.getEmailFromToken(tokenUtils.getToken(request));
 		Reservation reservation = reservationService.reserve(reservationRequest, email);
+		System.out.println("Kreirana");
 		reservationService.sendFriendInvites(reservation);
 		return ResponseEntity.ok(reservation);
 	}

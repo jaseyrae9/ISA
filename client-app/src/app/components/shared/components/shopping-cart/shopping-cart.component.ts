@@ -57,13 +57,13 @@ export class ShoppingCartComponent implements OnInit {
     );
 
     this.shoppingCartService.currentFlightReservation.subscribe(data => {
-      if ( data ) {
+      if (data) {
         if (this.flightReservation !== null) {
-          this.ngxNotificationService.sendMessage('You already have a ticket reservation!', 'danger', 'bottom-right' );
+          this.ngxNotificationService.sendMessage('You already have a ticket reservation!', 'danger', 'bottom-right');
           return;
         }
         this.flightReservation = data;
-        this.ngxNotificationService.sendMessage('Flight reservation added to cart!', 'dark', 'bottom-right' );
+        this.ngxNotificationService.sendMessage('Flight reservation added to cart!', 'dark', 'bottom-right');
         window.sessionStorage.setItem(FLIGHT_KEY, JSON.stringify(data));
       }
     });
@@ -71,23 +71,23 @@ export class ShoppingCartComponent implements OnInit {
     this.shoppingCartService.currentRoomReservation.subscribe(data => {
       if (data) {
         if (this.roomReservation !== null) {
-          this.ngxNotificationService.sendMessage('You already have a hotel reservation!', 'danger', 'bottom-right' );
+          this.ngxNotificationService.sendMessage('You already have a hotel reservation!', 'danger', 'bottom-right');
           return;
         }
         this.roomReservation = data;
-        this.ngxNotificationService.sendMessage('Hotel reservation added to cart!', 'dark', 'bottom-right' );
+        this.ngxNotificationService.sendMessage('Hotel reservation added to cart!', 'dark', 'bottom-right');
         window.sessionStorage.setItem(HOTEL_KEY, JSON.stringify(data));
       }
     });
 
     this.shoppingCartService.currentCarReservation.subscribe(data => {
-      if ( data ) {
+      if (data) {
         if (this.carReservation !== null) {
-          this.ngxNotificationService.sendMessage('You already have a car reservation!', 'danger', 'bottom-right' );
+          this.ngxNotificationService.sendMessage('You already have a car reservation!', 'danger', 'bottom-right');
           return;
         }
         this.carReservation = data;
-        this.ngxNotificationService.sendMessage('Car reservation added to cart!', 'dark', 'bottom-right' );
+        this.ngxNotificationService.sendMessage('Car reservation added to cart!', 'dark', 'bottom-right');
         window.sessionStorage.setItem(CAR_KEY, JSON.stringify(data));
       }
     });
@@ -115,9 +115,10 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   buy() {
-    // TODO: Dodati auta i hotel
     const reservationDTO = {
-      flightReservationRequest: this.createFlightReservationDTO(this.flightReservation)
+      flightReservationRequest: this.createFlightReservationDTO(this.flightReservation),
+      carReservationRequest: this.createCarReservationDTO(this.carReservation),
+      hotelReservationRequest: this.createRoomReservationDTO(this.roomReservation)
     };
     this.reservationsService.reserve(reservationDTO).subscribe(
       (data) => {
@@ -133,19 +134,60 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   createFlightReservationDTO(flightReservation: FlightReservation) {
-    const flightReservationDTO = {
-      flightId: flightReservation.flight.id,
-      ticketReservations: flightReservation.ticketReservations.map(
-                          function(ticket) {return {
-                          firstName: ticket.firstName,
-                          lastName: ticket.lastName,
-                          passport: ticket.passport,
-                          status: ticket.status,
-                          ticketId: ticket.ticket.id,
-                          friendId: ticket.friend_id
-                        };
-     })
-    };
-    return flightReservationDTO;
+    if (flightReservation !== null) {
+      const flightReservationDTO = {
+        flightId: flightReservation.flight.id,
+        ticketReservations: flightReservation.ticketReservations.map(
+          function (ticket) {
+            return {
+              firstName: ticket.firstName,
+              lastName: ticket.lastName,
+              passport: ticket.passport,
+              status: ticket.status,
+              ticketId: ticket.ticket.id,
+              friendId: ticket.friend_id
+            };
+          })
+      };
+      return flightReservationDTO;
+    }
+  }
+
+  createCarReservationDTO(carReservation: CarReservation) {
+    if (carReservation !== null) {
+      const carReservationDTO = {
+        carId: carReservation.car.id,
+        pickUpBranchOffice: carReservation.pickUpBranchOffice.id,
+        dropOffBranchOffice: carReservation.dropOffBranchOffice.id,
+        pickUpDate: carReservation.pickUpDate,
+        dropOffDate: carReservation.dropOffDate,
+        isFastReservation: carReservation.isFastReservation
+      };
+      return carReservationDTO;
+    }
+  }
+
+  createRoomReservationDTO(roomReservation: RoomReservation) {
+    if (roomReservation !== null) {
+      const roomReservationDTO = {
+        hotelId: roomReservation.hotel.id,
+        checkInDate: roomReservation.checkInDate,
+        checkOutDate: roomReservation.checkOutDate,
+        rooms: [],
+        additionalServices: [],
+        isFastReservation: roomReservation.isFastReservation
+      };
+
+
+      for (const room of roomReservation.reservations) {
+        roomReservationDTO.rooms.push(room.id);
+      }
+
+      for (const as of roomReservation.additionalServices) {
+        roomReservationDTO.additionalServices.push(as.id);
+      }
+
+      return roomReservationDTO;
+    }
   }
 }

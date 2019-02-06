@@ -2,6 +2,7 @@ package isa.project.dto.reservations;
 
 import java.util.Date;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import isa.project.dto.hotel.HotelDTO;
 import isa.project.dto.hotel.RoomReservationDTO;
@@ -34,6 +35,11 @@ public class ReservationDTO {
 			CarDTO carDTO = new CarDTO(reservation.getCarReservation().getCar());
 			carDTO.setRentACarCompany(new RentACarCompanyDTO(reservation.getCarReservation().getCar().getRentACarCompany()));
 			this.carReservation.setCar(carDTO);
+			
+			long diff = reservation.getCarReservation().getDropOffDate().getTime() - reservation.getCarReservation().getPickUpDate().getTime();
+			long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) + 1;
+			this.carReservation.setTotal(days * carDTO.getPrice());
+			
 		}
 		if(reservation.getRoomReservation() != null) {
 			this.roomReservation = new RoomReservationDTO(reservation.getRoomReservation());

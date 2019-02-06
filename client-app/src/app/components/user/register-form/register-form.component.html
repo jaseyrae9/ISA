@@ -3,7 +3,7 @@
 </div>
 
 <ng-template #signupForm>
-<form (ngSubmit)="onSignup()" name="form" #f="ngForm">
+<form [formGroup]="registerForm" (validSubmit)="onSignup()" name="form" >
   <p class="hint-text">Fill in this form to create your account!
 
   </p>
@@ -13,7 +13,7 @@
         <i class="fa fa-envelope" aria-hidden="true"></i>
       </span>
     </div>
-    <input type="email" class="form-control" id="email" name="email" placeholder="email@email.com" required="required" [(ngModel)]="form.email" >
+    <input type="email" class="form-control" id="email" name="email" placeholder="email@email.com" required="required" formControlName="email" >
   </div>
   <div class="input-group form-group">
     <div class="input-group-prepend">
@@ -21,7 +21,7 @@
         <i class="fa fa-address-book" aria-hidden="true"></i>
       </span>
     </div>
-    <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name" required="required" [(ngModel)]="form.firstName">
+    <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name" required="required" formControlName="firstName">
   </div>
   <div class="input-group form-group">
     <div class="input-group-prepend">
@@ -29,7 +29,7 @@
         <i class="fa fa-address-book" aria-hidden="true"></i>
       </span>
     </div>
-    <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last Name" required="required" [(ngModel)]="form.lastName">
+    <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last Name" required="required" formControlName="lastName">
   </div>
   <div class="input-group form-group">
     <div class="input-group-prepend">
@@ -37,7 +37,7 @@
         <i class="fa fa-map-marker" aria-hidden="true"></i>
       </span>
     </div>
-    <input type="text" class="form-control" id="address" name="address" placeholder="Address" required="required" [(ngModel)]="form.address">
+    <input type="text" class="form-control" id="address" name="address" placeholder="Address" required="required" formControlName="address">
   </div>
   <div class="input-group form-group">
     <div class="input-group-prepend">
@@ -45,7 +45,7 @@
         <i class="fa fa-phone" aria-hidden="true"></i>
       </span>
     </div>
-    <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="Phone Number" required="required" [(ngModel)]="form.phoneNumber">
+    <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="Phone Number" required="required" formControlName="phoneNumber">
   </div>
   <div class="input-group form-group">
     <div class="input-group-prepend">
@@ -53,7 +53,7 @@
         <i class="fa fa-lock" aria-hidden="true"></i>
       </span>
     </div>
-    <input type="password" class="form-control" id="password" name="password" placeholder="Password" required="required" [(ngModel)]="form.password" >
+    <input type="password" class="form-control" id="password" name="password" placeholder="Password" required="required" formControlName="password" >
   </div>
   <div class="input-group form-group">
     <div class="input-group-prepend">
@@ -61,7 +61,7 @@
         <i class="fa fa-lock" aria-hidden="true"></i>
       </span>
     </div>
-    <input type="password" class="form-control" id="matchingPassword" name="matchingPassword" placeholder="Confirm Password" required="required">
+    <input type="password" class="form-control" id="matchingPassword" name="matchingPassword" placeholder="Confirm Password" required="required" formControlName="matchingPassword">
   </div>
   <input type="submit" class="btn btn-primary btn-block" value="Sign Up">
 </form>

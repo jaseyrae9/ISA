@@ -32,17 +32,17 @@
 
         <div *ngIf="roomReservation" class="row border rounded align-items-center p-0 mb-3" style="background-color:#ffffff;">
             <div class="col-auto p-2  border-right" style="min-width:104px; max-width:190px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" align="center">
-                Hotel
+                {{roomReservation.hotel.name}}
             </div>
             <div class="col-2 py-1 px-2" align="center">
-                <p class="border-bottom mb-0 pb-0"><small>1/1/19</small></p>
-                <small>1/1/19</small>
+                <p class="border-bottom mb-0 pb-0"><small>{{datePipe.transform(roomReservation.checkInDate, 'd/M/yy')}}</small></p>
+                <small>{{datePipe.transform(roomReservation.checkOutDate, 'd/M/yy')}}</small>
             </div>
             <div class="col-auto p-2 border-left" align="center">
-                <small class="text-muted">{{roomReservation.reservations.length}} rooms</small>
+                <small class="text-muted">{{roomReservation.reservations.length}} room/s</small>
             </div>
             <div class="col p-2 pr-3" align="right">
-                <small style="font-size: 20px; color: #33cabb; padding:0;">€150</small>
+                <small style="font-size: 20px; color: #33cabb; padding:0;">€{{roomReservation.price}}</small>
             </div>
             <div class="col-auto py-2 px-0 border-left rounded-right" style="height:59px; background-color: #E1E1E1;">
                 <button type="button" class="btn btn-link btn-small" (click)="removeRoomReservation()"><i class="fas fa-times delete"></i></button>
@@ -51,17 +51,17 @@
 
         <div *ngIf="carReservation" class="row border rounded align-items-center p-0 mb-3" style="background-color:#ffffff;">
             <div class="col-auto p-2  border-right" style="min-width:104px; max-width:130px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" align="center">
-                Company
+                {{carReservation.rentACarCompany.name}}
             </div>
             <div class="col-2 py-1 px-2" align="center">
-                <p class="border-bottom mb-0 pb-0"><small>1/1/19</small></p>
-                <small>1/1/19</small>
+                <p class="border-bottom mb-0 pb-0"><small>{{datePipe.transform(carReservation.pickUpDate, 'd/M/yy')}}</small></p>
+                <small>{{datePipe.transform(carReservation.dropOffDate, 'd/M/yy')}}</small>
             </div>
             <div class="col-auto p-2 border-left" align="center">
-                <small class="text-muted">People Carrier/MPV</small>
+                <small class="text-muted">{{carReservation.car.type}}</small>
             </div>
             <div class="col p-2 pr-3" align="right">
-                <small style="font-size: 20px; color: #33cabb; padding:0;">€150</small>
+                <small style="font-size: 20px; color: #33cabb; padding:0;">€{{carReservation.price}}</small>
             </div>
             <div class="col-auto py-2 px-0 border-left rounded-right" style="height:59px; background-color: #E1E1E1;">
                 <button type="button" class="btn btn-link btn-small" (click)="removeCarReservation()"><i class="fas fa-times"></i></button>

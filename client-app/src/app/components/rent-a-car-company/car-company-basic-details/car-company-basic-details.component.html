@@ -2,11 +2,20 @@
       <div class="media">
             <app-map [location]="carCompany.location" class="align-self-start mr-4 pt-2"></app-map>
             <div class="media-body pr-3">
-                  <h3 class="display-4" align="left">{{carCompany.name}}</h3>
+                  <div class="d-flex">
+                        <div class="p-2">
+                              <h3 class="display-4" align="left">{{carCompany.name}}</h3>
+                        </div>
+                        <div class="ml-auto p-2">
+                              <rating [(ngModel)]="carCompany.averageRating" [max]="5" [readonly]="true"></rating>
+                        </div>
+                  </div>
+
                   <p class="text-muted" align="left">{{carCompany.location.address}}, {{carCompany.location.city}},
                         {{carCompany.location.country}}</p>
                   <hr>
-                  <a routerLink="/rent-a-car-company/{{carCompany.id}}">Details...</a>
+                  <div class="d-flex justify-content-start"> <a routerLink="/rent-a-car-company/{{carCompany.id}}">Details...</a></div>
+
             </div>
       </div>
 </div>

@@ -15,4 +15,6 @@ export class RoomReservation {
     ratingCount: number;
     totalRating: number;
     isFastReservation: boolean;
+    price: number;
+    total: number;
 }

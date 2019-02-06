@@ -47,7 +47,14 @@
       <div class="media">
         <app-map [location]="carCompany.location" class="align-self-start mr-4 pt-2"></app-map>
         <div class="media-body pr-3">
-          <h3 class="display-4" align="left">{{carCompany.name}}</h3>
+         
+    
+    
+              <div class="d-flex">
+                  <div class="p-2"><h3 class="display-4" align="left">{{carCompany.name}}</h3></div>
+                  <div class="ml-auto p-2"><rating  [(ngModel)]="carCompany.averageRating" [max]="5" [readonly]="true"></rating></div>
+                </div>
+         
           <p class="text-muted" align="left">{{carCompany.location.address}}, {{carCompany.location.city}}, {{carCompany.location.country}}</p>
           <hr>
           <p>{{carCompany.description}}</p>
@@ -72,7 +79,7 @@
       </div>
       <div class="container">
         <div *ngFor="let car of carCompany.cars">
-          <app-car-basic-info  *ngIf="!car.isFast" [isCarsTab]="true" (carDeleted)="carDeleted($event)" [car]='car' (carFasten)="carFasten($event)"></app-car-basic-info>
+          <app-car-basic-info  *ngIf="!car.isFast" [carCompany]="carCompany" [isCarsTab]="true" (carDeleted)="carDeleted($event)" [car]='car' (carFasten)="carFasten($event)"></app-car-basic-info>
         </div>
       </div>
     </div>
@@ -99,7 +106,7 @@
 
     <!--RENT TAB-->
     <div class="tab-pane fade" id="rent" aria-labelledby="rent-tab">
-      <app-rent-form [carCompanyId]='companyId' [branchOffices]='carCompany.branchOffices' [cars]='carCompany.cars'></app-rent-form>
+      <app-rent-form [carCompany]='carCompany' [branchOffices]='carCompany.branchOffices' [cars]='carCompany.cars'></app-rent-form>
     </div>
 
 
@@ -185,7 +192,7 @@
         </div>
         <ng-template #fastCarRentDiv> 
         <div class ="row" *ngFor="let item of fastCarRent">
-          <app-fast-reservation-display class="col-12 mb-3" [carCompanyId]='companyId' [car]="item" (carRemovedFromFastReservations)="onTicketDeleted($event)"></app-fast-reservation-display>
+          <app-fast-reservation-display class="col-12 mb-3" [carCompany]='carCompany' [car]="item" (carRemovedFromFastReservations)="onTicketDeleted($event)"></app-fast-reservation-display>
         </div>
         </ng-template>
       </div>

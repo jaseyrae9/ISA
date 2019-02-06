@@ -5,4 +5,6 @@ export class FlightReservation {
   flight: Flight = new Flight();
   ticketReservations: TicketReservation[] = [];
   total = 0;
+  isCompanyRated: boolean;
+  isFlightRated: boolean;
 }

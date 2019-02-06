@@ -2,7 +2,6 @@ package isa.project.model.hotel;
 
 import java.util.Objects;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -31,12 +30,12 @@ public class SingleRoomReservation {
 	private Integer id;
 
 	@JsonBackReference(value="single-room-reservation")
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "room_id", referencedColumnName = "id")
 	private Room room;
 
 	@JsonBackReference(value = "single-room-reservations")
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "room_reservation_id", referencedColumnName = "id")
 	private RoomReservation roomReservation;
 

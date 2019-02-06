@@ -12,4 +12,7 @@ export class CarReservation {
     isCarRated: Boolean;
     isCompanyRated: Boolean;
     rentACarCompany: RentACarCompany;
+    isFastReservation: boolean;
+    price: number;
+    total: number;
 }

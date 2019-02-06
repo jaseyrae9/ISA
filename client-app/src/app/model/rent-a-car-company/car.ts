@@ -1,5 +1,6 @@
 import { CarReservation } from './car-reservation';
 import { RentACarCompany } from './rent-a-car-company';
+import { BranchOffice } from './branch-offfice';
 
 export class Car {
     id: number;
@@ -16,5 +17,7 @@ export class Car {
     isFast: Boolean;
     beginDate: Date;
     endDate: Date;
+    fastPickUpBranchOffice: BranchOffice;
+    fastDropOffBranchOffice: BranchOffice;
     discount: number;
 }

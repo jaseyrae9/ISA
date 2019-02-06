@@ -53,11 +53,11 @@ INSERT INTO friendships (from_id, to_id, active) VALUES (2002, 2000, false);
 INSERT INTO friendships (from_id, to_id, active) VALUES (2003, 2000, false);
 INSERT INTO friendships (from_id, to_id, active) VALUES (2004, 2000, false);
 
-INSERT INTO services (id, active, description, name, price) VALUES (100, true, 'Opis usluge', 'WiFi', 5);
-INSERT INTO services (id, active, description, name, price) VALUES (101, true, 'Opis usluge', 'Parking lot',  10);
-INSERT INTO services (id, active, description, name, price) VALUES (102, true, 'Opis usluge', 'Air conditioning', 5);
-INSERT INTO services (id, active, description, name, price) VALUES (103, true, 'Opis usluge', 'Welness', 15);
-INSERT INTO services (id, active, description, name, price) VALUES (104, true, 'Opis usluge', 'Room service', 10);
+INSERT INTO services (id, active, description, is_fast, name, price) VALUES (100, true, 'Opis usluge', false, 'WiFi', 5);
+INSERT INTO services (id, active, description, is_fast, name, price) VALUES (101, true, 'Opis usluge', false, 'Parking lot',  10);
+INSERT INTO services (id, active, description, is_fast, name, price) VALUES (102, true, 'Opis usluge', false, 'Air conditioning', 5);
+INSERT INTO services (id, active, description, is_fast, name, price) VALUES (103, true, 'Opis usluge', false, 'Welness', 15);
+INSERT INTO services (id, active, description, is_fast, name, price) VALUES (104, true, 'Opis usluge', false, 'Room service', 10);
 
 insert into hotel_additional_services (hotel_id, additional_services_id) values (100, 100);
 insert into hotel_additional_services (hotel_id, additional_services_id) values (100, 101);
@@ -69,10 +69,15 @@ INSERT into branch_office (id, active, branch_office_name, location_id, rentacar
 INSERT into branch_office (id, active, branch_office_name, location_id, rentacar_company_id) VALUES (101, true, 'Branch office name 2', 101, 100);
 INSERT into branch_office (id, active, branch_office_name, location_id, rentacar_company_id) VALUES (102, true, 'Branch office name 3', 102, 100);
 
-INSERT INTO room (id, active, floor, number_of_beds, price, rating_count, room_number, total_rating, type, version, hotel_id) VALUES (600, true, 4, 2, 20, 2, 20, 9, 'Regular', 0, 100);
-INSERT INTO room (id, active, floor, number_of_beds, price, rating_count, room_number, total_rating, type, version, hotel_id) VALUES (601, true, 4, 2, 20, 3, 20, 15, 'Regular', 0, 100);
-INSERT INTO room (id, active, floor, number_of_beds, price, rating_count, room_number, total_rating, type, version, hotel_id) VALUES (602, true, 4, 4, 25, 3, 20, 12, 'Studio', 0, 100);
-INSERT INTO room (id, active, floor, number_of_beds, price, rating_count, room_number, total_rating, type, version, hotel_id) VALUES (603, true, 4, 7, 35, 2, 20, 10, 'Apartman', 0, 100);
+	
+INSERT INTO room (id, active, begin_date, discount, end_date, floor, is_fast, number_of_beds, price, rating_count, room_number, total_rating, type, version, hotel_id) 
+VALUES (600, true, null, 0, null, 4, false, 2, 20, 2, 20, 9, 'Regular', 0, 100);
+INSERT INTO room (id, active, begin_date, discount, end_date, floor, is_fast, number_of_beds, price, rating_count, room_number, total_rating, type, version, hotel_id) 
+VALUES (601, true, null, 0, null, 4, false, 2, 20, 3, 20, 15, 'Regular', 0, 100);
+INSERT INTO room (id, active, begin_date, discount, end_date, floor, is_fast, number_of_beds, price, rating_count, room_number, total_rating, type, version, hotel_id) 
+VALUES (602, true, null, 0, null, 4, false, 4, 25, 3, 20, 12, 'Studio', 0, 100);
+INSERT INTO room (id, active, begin_date, discount, end_date, floor, is_fast, number_of_beds, price, rating_count, room_number, total_rating, type, version, hotel_id) 
+VALUES (603, true, null, 0, null, 4, false, 7, 35, 2, 20, 10, 'Apartman', 0, 100);
 
 insert into car (id, active, begin_date, brand, discount, doors_number, end_date, is_fast, model, price, rating_count, seats_number, total_rating, type, year_of_production, rentacar_company_id) values (500, true, null, 'Fiat', 0.0, 5, null, false, 'Punto 1.2', 20, 2, 5, 9, 'Sedan', 2010, 100);
 insert into car (id, active, begin_date, brand, discount, doors_number, end_date, is_fast, model, price, rating_count, seats_number, total_rating, type, year_of_production, rentacar_company_id) values (501, true, null, 'BMW', 0.0, 2, null, false, 'Z4', 39, 2, 5, 8, 'Convertible', 2017, 100);

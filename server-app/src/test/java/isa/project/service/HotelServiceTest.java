@@ -128,7 +128,7 @@ public class HotelServiceTest {
 
 		when(roomRepository.findAll()).thenReturn(Arrays.asList(new Room(hotel, 4, 4, 4, 15.0, "Studio"), room));
 		List<Room> rooms = roomService.findAll();
-
+ 
 		assertThat(rooms).hasSize(dbSizeBeforeAdd + 1);
 		dbRoom = rooms.get(rooms.size() - 1); // uzima poslednjeg, tj. dodatog
 

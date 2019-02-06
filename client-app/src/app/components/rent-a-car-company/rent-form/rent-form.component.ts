@@ -10,6 +10,8 @@ import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { RentACarCompanyService } from 'src/app/services/rent-a-car-company/rent-a-car-company.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgxNotificationService } from 'ngx-notification';
+import { ShoppingCartService } from 'src/app/observables/shopping-cart.service';
+import { RentACarCompany } from 'src/app/model/rent-a-car-company/rent-a-car-company';
 
 @Component({
   selector: 'app-rent-form',
@@ -23,7 +25,7 @@ export class RentFormComponent implements OnInit {
   errorMessage: String = '';
   @Input() branchOffices: BranchOffice[];
   @Input() cars: Car[] = [];
-  @Input() carCompanyId: number;
+  @Input() carCompany: RentACarCompany;
 
   visibleCars: Car[] = []; // kola koja ce se prikazati posle search-a
 
@@ -63,7 +65,8 @@ export class RentFormComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
     public tokenStorageService: TokenStorageService,
     private companyService: RentACarCompanyService,
-    public ngxNotificationService: NgxNotificationService) {
+    public ngxNotificationService: NgxNotificationService,
+    private shoppingCartService: ShoppingCartService) {
     this.datePickerConfig = Object.assign({},
       {
         containerClass: 'theme-default',
@@ -77,8 +80,8 @@ export class RentFormComponent implements OnInit {
       type: ['Sedan'],
       bsRangeValue: [this.bsRangeValue],
       priceRange: [this.priceRange],
-      dropOffBranchOffice: [],
-      pickUpBranchOffice: []
+      dropOffBranchOffice: [''],
+      pickUpBranchOffice: ['']
     });
   }
 
@@ -111,11 +114,18 @@ export class RentFormComponent implements OnInit {
         datum1 <= r.dropOffDate.toString()) {
         return false;
       }
+      if (datum0 <= r.pickUpDate.toString() &&
+        datum1 >= r.dropOffDate.toString()) {
+        return false;
+      }
     }
     return true;
   }
 
   carRented(data) {
+    console.log('form value ', this.rentForm.value);
+    console.log('Rentano auto: ', data);
+
     const cr: CarReservation = new CarReservation();
     cr.pickUpBranchOffice.id = this.rentForm.value.pickUpBranchOffice;
     cr.dropOffBranchOffice.id = this.rentForm.value.dropOffBranchOffice;
@@ -123,9 +133,27 @@ export class RentFormComponent implements OnInit {
     const date1 = new Date(this.rentForm.value.bsRangeValue[1]);
     cr.pickUpDate = date0;
     cr.dropOffDate =  date1;
-    this.companyService.rentCar(cr, this.carCompanyId, data.id, this.tokenStorageService.getUsername()).subscribe(
+    cr.rentACarCompany = this.carCompany;
+    cr.car = data;
+    cr.isFastReservation = false;
+
+    // set the price
+    const ciDate = formatDate(date0, 'yyyy-MM-dd hh:mm:ss', 'en');
+    const coDate = formatDate(date1, 'yyyy-MM-dd hh:mm:ss', 'en');
+    const dateCi = new Date(ciDate);
+    const dateCo = new Date(coDate);
+    const diff =  (dateCo.getTime() - dateCi.getTime()) / (1000 * 60 * 60 * 24) + 1 ;
+
+    const totalPrice = diff * cr.car.price;
+
+    cr.price = totalPrice;
+    cr.rentACarCompany = this.carCompany;
+
+    this.shoppingCartService.changeCarReservation(cr);
+
+    /*this.companyService.rentCar(cr, this.carCompanyId, data.id, this.tokenStorageService.getUsername()).subscribe(
       carReservation => {
-        this.ngxNotificationService.sendMessage(data.model + ' ' + data.brand + ' is rented!', 'dark', 'bottom-right' );
+
         console.log('vraceno', carReservation);
       },
       (err: HttpErrorResponse) => {
@@ -135,7 +163,7 @@ export class RentFormComponent implements OnInit {
         }
         this.errorMessage = err.error.details;
       }
-    );
+    );*/
   }
 
   onChange() {

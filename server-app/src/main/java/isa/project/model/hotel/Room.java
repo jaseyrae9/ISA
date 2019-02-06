@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -41,7 +40,7 @@ public class Room implements Serializable{
 	private Hotel hotel;
 
 	@JsonManagedReference(value="single-room-reservation")
-	@OneToMany(mappedBy = "room", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, orphanRemoval = true)
+	@OneToMany(mappedBy = "room", fetch = FetchType.LAZY, orphanRemoval = true)
 	private Set<SingleRoomReservation> singleRoomReservations;
 	
 	@Column(name = "floor", nullable = false)
@@ -154,8 +153,13 @@ public class Room implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Room [id=" + id + ", hotel=" + hotel + ", floor=" + floor + ", roomNumber=" + roomNumber
-				+ ", numberOfBeds=" + numberOfBeds + ", price=" + price + ", type=" + type + ", active=" + active + "]";
+		return "Room [id=" + id + ", hotel=" + hotel + ", singleRoomReservations=" + singleRoomReservations + ", floor="
+				+ floor + ", roomNumber=" + roomNumber + ", numberOfBeds=" + numberOfBeds + ", price=" + price
+				+ ", type=" + type + ", active=" + active + ", totalRating=" + totalRating + ", ratingCount="
+				+ ratingCount + ", isFast=" + isFast + ", beginDate=" + beginDate + ", endDate=" + endDate
+				+ ", discount=" + discount + ", version=" + version + "]";
 	}
+
+	
 	
 }

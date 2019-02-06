@@ -1,6 +1,6 @@
 package isa.project.model.rentacar;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;

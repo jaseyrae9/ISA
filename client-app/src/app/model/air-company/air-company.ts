@@ -9,4 +9,5 @@ export class AirCompany {
     destinations: Destination[] = [];
     location: Location = new Location();
     baggageInformation: AdditionalService[] = [];
+    averageRating: number;
 }

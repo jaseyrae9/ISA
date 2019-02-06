@@ -1,6 +1,6 @@
 package isa.project.dto.rentacar;
 
-import java.sql.Date;
+import java.util.Date;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -29,6 +29,7 @@ public class CarReservationDTO {
 	private Boolean isCarRated;	
 	private Boolean isCompanyRated;	
 	private CarDTO car;
+	private Double total;
 	
 	public CarReservationDTO(CarReservation reservation) {
 		this.id = reservation.getId();

@@ -7,6 +7,7 @@ import { Car } from 'src/app/model/rent-a-car-company/car';
 import { BsDatepickerConfig } from 'ngx-bootstrap';
 import { RentACarCompanyService } from 'src/app/services/rent-a-car-company/rent-a-car-company.service';
 import { formatDate } from '@angular/common';
+import { RentACarCompany } from 'src/app/model/rent-a-car-company/rent-a-car-company';
 
 @Component({
   selector: 'app-fast-ticket-form',
@@ -20,7 +21,7 @@ export class FastTicketFormComponent implements OnInit {
   makeFastForm: FormGroup;
   datePickerConfig: Partial<BsDatepickerConfig>;
   bsRangeValue: Date[];
-  @Input() carCompanyId: number;
+  @Input() carCompany: RentACarCompany;
 
   constructor(public modalRef: BsModalRef,
     private formBuilder: FormBuilder,
@@ -38,6 +39,8 @@ export class FastTicketFormComponent implements OnInit {
       numberOfPassengers: ['', [Validators.min(0)]],
       dicount: ['', [Validators.min(0)]],
       bsRangeValue: [this.bsRangeValue],
+      pickUpBranchOffice: ['', [Validators.required]],
+      dropOffBranchOffice: ['', [Validators.required]]
     });
     console.log('UNDEF CHECK ', this.car);
   }
@@ -50,9 +53,11 @@ export class FastTicketFormComponent implements OnInit {
     const date1 = new Date(this.makeFastForm.value.bsRangeValue[1]);
     const datum1 = formatDate(date1, 'yyyy-MM-dd', 'en');
 
+    const bo1 = this.makeFastForm.value.pickUpBranchOffice;
+    const bo2 = this.makeFastForm.value.dropOffBranchOffice;
 
-    this.rentACarCompanyService.addCarToFastReservations(this.carCompanyId, this.car.id, this.makeFastForm.value.dicount,
-      datum0, datum1).subscribe(
+    this.rentACarCompanyService.addCarToFastReservations(this.carCompany.id, this.car.id, this.makeFastForm.value.dicount,
+      datum0, datum1, bo1, bo2).subscribe(
       data => {
         this.onClose.next(data);
         this.modalRef.hide();

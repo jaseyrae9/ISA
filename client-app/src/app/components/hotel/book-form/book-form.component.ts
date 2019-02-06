@@ -23,7 +23,7 @@ export class BookFormComponent implements OnInit {
   @Input() rooms: Room[] = [];
   @Input() additionalServices: AdditionalService[] = [];
   visibleRooms: Room[] = []; // sobe koje ce se prikazati posle search-a
-  @Input() hotelId: number;
+  @Input() hotel: Hotel;
 
   checkedAdditionalServices: AdditionalService[] = [];
   bookedRooms: Room[] = [];
@@ -100,6 +100,10 @@ export class BookFormComponent implements OnInit {
   }
 
   isAvailable(room: Room) {
+    if (this.bookForm.value.bsRangeValue === null) {
+      this.ngxNotificationService.sendMessage('Please select a date!', 'danger', 'bottom-right' );
+      return false;
+    }
     const date0 = new Date(this.bookForm.value.bsRangeValue[0]);
     const datum0 = formatDate(date0, 'yyyy-MM-dd', 'en');
     const date1 = new Date(this.bookForm.value.bsRangeValue[1]);
@@ -112,6 +116,10 @@ export class BookFormComponent implements OnInit {
       }
       if (datum1 >= r.roomReservation.checkInDate.toString() &&
         datum1 <= r.roomReservation.checkOutDate.toString()) {
+        return false;
+      }
+      if (datum0 <= r.roomReservation.checkInDate.toString() &&
+        datum1 >= r.roomReservation.checkOutDate.toString()) {
         return false;
       }
     }
@@ -145,19 +153,43 @@ export class BookFormComponent implements OnInit {
   completeBooking() {
     if (this.bookedRooms.length === 0) {
       this.ngxNotificationService.sendMessage('You must select a room!', 'danger', 'bottom-right' );
+      return;
     }
+
+    if (this.bookForm.value.bsRangeValue === null) {
+      this.ngxNotificationService.sendMessage('You must select a date!', 'danger', 'bottom-right' );
+      return;
+    }
+
     const roomReservation = new RoomReservation();
     roomReservation.checkInDate = this.bookForm.value.bsRangeValue[0];
     roomReservation.checkOutDate = this.bookForm.value.bsRangeValue[1];
     console.log('this.bookForm.value.bsRangeValue[1]', this.bookForm.value.bsRangeValue[1]);
     roomReservation.additionalServices = this.checkedAdditionalServices;
     roomReservation.reservations = this.bookedRooms;
-    // hotel
+    roomReservation.hotel = this.hotel;
+    roomReservation.isFastReservation = false;
 
+    // set the price
+    const ciDate = formatDate(roomReservation.checkInDate, 'yyyy-MM-dd hh:mm:ss', 'en');
+    const coDate = formatDate(roomReservation.checkOutDate, 'yyyy-MM-dd hh:mm:ss', 'en');
+    const date0 = new Date(ciDate);
+    const date1 = new Date(coDate);
+    const diff =  (date1.getTime() - date0.getTime()) / (1000 * 60 * 60 * 24) + 1 ;
 
-    console.log('salje se ', roomReservation);
+    let totalPrice = 0;
 
-    this.shoppingCartService.changeRoomReservation(roomReservation);
+    for (const res of roomReservation.reservations) {
+      totalPrice += diff * res.price;
+    }
+    for (const as of roomReservation.additionalServices) {
+      totalPrice += as.price;
+    }
+
+    roomReservation.price = totalPrice;
+
+    console.log('salje se u korpu ', roomReservation);
+    this.shoppingCartService.changeRoomReservation(roomReservation); // Ubaci u korpu
     /*this.hotelService.rentRoom(roomReservation, this.hotelId, this.tokenService.getUsername()).subscribe(
       roomReservationData => {
         console.log('vraceno', roomReservationData);

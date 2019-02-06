@@ -9,6 +9,7 @@ import { RentACarCompanyService } from 'src/app/services/rent-a-car-company/rent
 import { NgxNotificationService } from 'ngx-notification';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FastTicketFormComponent } from '../fast-ticket-form/fast-ticket-form.component';
+import { RentACarCompany } from 'src/app/model/rent-a-car-company/rent-a-car-company';
 
 @Component({
   selector: 'app-car-basic-info',
@@ -17,6 +18,7 @@ import { FastTicketFormComponent } from '../fast-ticket-form/fast-ticket-form.co
 })
 export class CarBasicInfoComponent implements OnInit {
   @Input() car: Car;
+  @Input() carCompany: RentACarCompany;
 
   @Output() carDeleted: EventEmitter<number> = new EventEmitter();
   @Output() carFasten: EventEmitter<number> = new EventEmitter();
@@ -25,21 +27,18 @@ export class CarBasicInfoComponent implements OnInit {
   @Input() isCarsTab = true;
 
   modalRef: BsModalRef;
-  companyId: string;
 
-  constructor(private route: ActivatedRoute, public tokenService: TokenStorageService,
+  constructor(public tokenService: TokenStorageService,
     private modalService: BsModalService, public carCompanyService: RentACarCompanyService,
     public ngxNotificationService: NgxNotificationService) { }
 
   ngOnInit() {
-    const companyId = this.route.snapshot.paramMap.get('id');
-    this.companyId = companyId;
   }
 
   openFastReservationModal() {
     const initialState = {
       car: this.car,
-      carCompanyId: this.companyId
+      carCompany: this.carCompany
     };
     this.modalRef = this.modalService.show(FastTicketFormComponent, { initialState });
      this.modalRef.content.onClose.subscribe(car => {
@@ -54,7 +53,7 @@ export class CarBasicInfoComponent implements OnInit {
   openEditModal() {
     const initialState = {
       car: this.car,
-      companyId: this.companyId
+      companyId: this.carCompany.id
     };
     this.modalRef = this.modalService.show(EditCarFormComponent, { initialState });
     this.modalRef.content.onClose.subscribe(car => {
@@ -64,7 +63,7 @@ export class CarBasicInfoComponent implements OnInit {
   }
 
   deleteCar() {
-    this.carCompanyService.delete(this.car.id, this.companyId).subscribe(
+    this.carCompanyService.delete(this.car.id, this.carCompany.id).subscribe(
       data => {
         console.log('Brisanje automobila', this.car);
         this.carDeleted.emit(this.car.id);

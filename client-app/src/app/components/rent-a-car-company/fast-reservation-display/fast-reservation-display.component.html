@@ -25,6 +25,7 @@
           
         <hr>
         <button *ngIf="tokenService.isCarAdmin && isCarPage" class="btn btn-primary px-4 m-2" (click)="removeFromFastCar()" >Remove</button>
-        
+        <button *ngIf="tokenService.isCustomer && isCarPage" class="btn btn-primary px-4 m-2" (click)="addToCart()" >Rent</button>
+
     </div>
 </div>

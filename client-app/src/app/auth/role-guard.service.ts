@@ -14,7 +14,7 @@ export class RoleGuardService implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot): boolean {
     if (!this.tokenStorageService.checkIsLoggedIn()) {
       this.router.navigate(['']);
-      console.log('Ne moze');
+      // console.log('Ne moze');
       return false;
     }
     // this will be passed from the route config
@@ -30,12 +30,12 @@ export class RoleGuardService implements CanActivate {
 
     console.log(tokenPayload.roles);
 
-    console.log('expectedRoles' + expectedRoles);
+    // console.log('expectedRoles' + expectedRoles);
     for (const role of tokenPayload.roles) {
       for (const expectedRole of expectedRoles) {
         if (role.authority === 'ROLE_' + expectedRole) {
           canAccess = true;
-          console.log('Moze');
+          // console.log('Moze');
           break;
         }
       }

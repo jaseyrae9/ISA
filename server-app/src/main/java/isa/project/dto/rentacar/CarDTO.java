@@ -60,6 +60,9 @@ public class CarDTO {
 	private ArrayList<CarReservationDTO> reservations = new ArrayList<>();
 	private RentACarCompanyDTO rentACarCompany;
 	
+	private BranchOfficeDTO fastPickUpBranchOffice;
+	private BranchOfficeDTO fastDropOffBranchOffice;
+	
 	public CarDTO(Car car) {
 		this.id = car.getId();
 		this.brand = car.getBrand();
@@ -81,5 +84,10 @@ public class CarDTO {
 				this.reservations.add(new CarReservationDTO(cr));
 			}
 		}
+		this.fastPickUpBranchOffice = new BranchOfficeDTO();
+		this.fastPickUpBranchOffice.setId(car.getFastPickUpBranchOffice());
+		
+		this.fastDropOffBranchOffice = new BranchOfficeDTO();
+		this.fastDropOffBranchOffice.setId(car.getFastDropOffBranchOffice());
 	}
 }

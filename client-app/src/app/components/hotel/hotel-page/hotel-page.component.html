@@ -20,7 +20,7 @@
         <i class="fa fa-book" aria-hidden="true"></i>Book
       </a>
     </li>
-    <li class="nav-item">
+    <li *ngIf="tokenService.isHotelAdmin" class="nav-item">
       <a href="#admin-info" role="tab" data-toggle="tab" class="nav-link">
         <i class="fa fa-info" aria-hidden="true"></i>Admin info
       </a>
@@ -39,7 +39,11 @@
       <div class="media">
         <app-map [location]="hotel.location" class="align-self-start mr-4 pt-2"></app-map>
         <div class="media-body pr-3">
-          <h3 class="display-4" align="left">{{hotel.name}}</h3>
+            <div class="d-flex">
+                <div class="p-2"><h3 class="display-4" align="left">{{hotel.name}}</h3></div>
+                <div class="ml-auto p-2"><rating  [(ngModel)]="hotel.averageRating" [max]="5" [readonly]="true"></rating></div>
+              </div>
+       
           <p class="text-muted" align="left">{{hotel.location.address}}, {{hotel.location.city}},
             {{hotel.location.country}}</p>
           <hr>
@@ -175,7 +179,7 @@
     <!------------------------------------------------------------------------------->
 
     <div class="tab-pane fade" id="book" aria-labelledby="book-tab">
-      <app-book-form [hotelId]="hotelId" [rooms]='hotel.rooms' [additionalServices]='hotel.additionalServices'></app-book-form>
+      <app-book-form [hotel]="hotel" [rooms]='hotel.rooms' [additionalServices]='hotel.additionalServices'></app-book-form>
     </div>
 
     <!------------------------------------------------------------------------------->
@@ -189,7 +193,7 @@
         </div>
         <ng-template #fastResRoomsDiv>
           <div class="row" *ngFor="let item of fastRooms">
-            <app-fast-room-display [isHotelTab]="true" class="col-12 mb-3" [room]="item" (roomSlowed)="roomSlowed($event)" [hotelId]="hotelId"></app-fast-room-display>
+            <app-fast-room-display [isHotelTab]="true" class="col-12 mb-3" [room]="item" (roomSlowed)="roomSlowed($event)" [hotel]="hotel"></app-fast-room-display>
           </div>
         </ng-template>
       </div>

@@ -85,6 +85,12 @@ public class Car implements Serializable {
 	@Column(name = "discount")
 	private Double discount;
 	
+	@Column(name = "fastPickUpBranchOffice")
+	private Integer fastPickUpBranchOffice;
+	
+	@Column(name = "fastDropOffBranchOffice")
+	private Integer fastDropOffBranchOffice;
+	
 	
 	public Car(RentACarCompany rentACarCompany, String brand, String model, Integer yearOfProduction, Integer seatsNumber, Integer doorsNumber,
 			Double price, String type) {

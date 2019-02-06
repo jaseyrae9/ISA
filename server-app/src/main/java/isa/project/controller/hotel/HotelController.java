@@ -28,7 +28,6 @@ import isa.project.aspects.AdminAccountActiveCheck;
 import isa.project.aspects.HotelAdminCheck;
 import isa.project.dto.hotel.HotelDTO;
 import isa.project.dto.hotel.RoomDTO;
-import isa.project.dto.hotel.RoomReservationDTO;
 import isa.project.exception_handlers.RequestDataException;
 import isa.project.exception_handlers.ResourceNotFoundException;
 import isa.project.model.hotel.Hotel;
@@ -319,14 +318,14 @@ public class HotelController {
 		return new ResponseEntity<>(additionalService, HttpStatus.OK);
 	}
 
-	@PreAuthorize("hasAnyRole('CUSTOMER')")
+	/*@PreAuthorize("hasAnyRole('CUSTOMER')")
 	@RequestMapping(value = "/rentRoom/{hotelId}/{customer}", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<RoomReservationDTO> rentRoom(@PathVariable Integer hotelId, @PathVariable String customer,
 			@Valid @RequestBody RoomReservationDTO roomReservationDTO)
 			throws ResourceNotFoundException, RequestDataException {
 		RoomReservation roomReservation = roomService.addReservation(hotelId, customer, roomReservationDTO);
 		return new ResponseEntity<>(new RoomReservationDTO(roomReservation), HttpStatus.CREATED);
-	}
+	}*/
 
 	@PreAuthorize("hasAnyRole('HOTELADMIN')")
 	@AdminAccountActiveCheck
