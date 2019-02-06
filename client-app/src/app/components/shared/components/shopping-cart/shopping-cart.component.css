@@ -1,7 +1,7 @@
 .slideout {
   z-index: 1000000000;
   position: fixed;
-  top: 55px;
+  top: 65px;
   left: 0px;
   width: 35px;
   padding: 20px 0;
@@ -18,7 +18,7 @@
 
 .slideout .slideout_inner {
   z-index: 100000000;
-  top: 55px;
+  top: 65px;
   position: fixed;
   left: -500px;
   width: 500px;
@@ -35,7 +35,7 @@
 
 .slideout .slideout_footer {
   z-index: 100000000;
-  top: 335px;
+  top: 345px;
   left:-500px;
   position: fixed;
   width: 500px;

@@ -17,8 +17,8 @@ import javax.persistence.OneToOne;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import isa.project.model.aircompany.FriendInvite.FriendInviteStatus;
 import isa.project.model.users.Reservation;
+import isa.project.model.users.FriendInvite.FriendInviteStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -41,7 +41,7 @@ public class FlightReservation {
 	private Set<TicketReservation> ticketReservations;
 	
 	@JsonBackReference(value = "reservation-flight-reservation")
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "flightReservation")
+	@OneToOne(fetch = FetchType.EAGER, mappedBy = "flightReservation")
 	private Reservation reservation;
 	
 	public FlightReservation(Flight flight) {

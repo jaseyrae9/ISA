@@ -57,7 +57,6 @@
                         <br>
                         <small>Class: {{item.ticket.seat.seatClass}}</small>
                         <br>
-                        {{item.inviteStatus}}
                         <small class="text-muted">Row: {{item.ticket.seat.rowNum}}, Column: {{item.ticket.seat.colNum}}</small><br>
                         <small *ngIf="item.inviteStatus == null || item.inviteStatus == 'ACCEPTED'" ><i class="fas fa-check"></i> Comming</small>
                         <small *ngIf="item.inviteStatus == 'PENDING'" ><i class="fas fa-spinner"></i> Pending...</small>

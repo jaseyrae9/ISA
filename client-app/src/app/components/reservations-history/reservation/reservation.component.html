@@ -2,6 +2,22 @@
 <div class="card">
     <div class="card-header">
       <h2 class="mb-0">
+        <div  *ngIf="inviteId" class="mx-2 my-2 row">
+          <div class="col-9 mt-3">
+            <h3 class="display-4" align="left" style="font-size: 14px">{{invitedBy}} invited you on a trip.</h3>
+          </div>
+          <div class="col-3" align="right" *ngIf="status == 'PENDING'" >
+            <button class="mr-2 btn btn-primary" (click)="acceptInvite()">Accept</button>
+            <button class="btn btn-primary">Refuse</button>
+          </div>
+          <div class="col-3 mt-3" align="right" *ngIf="status == 'ACCEPTED'" >
+              <h3 class="display-4" align="right" style="font-size: 14px"> <i class="fas fa-check mr-3"></i>Offer accepted.</h3>
+          </div>
+          <div class="col-3 mt-3" align="right" *ngIf="status == 'REFUSED'" >
+              <h3 class="display-4" align="right" style="font-size: 14px"> <i class="fas fa-times mr-3"></i> Offer refused.</h3>
+          </div>
+        </div>
+        <hr *ngIf="inviteId">
         <!--Ovde kao data target obavezno staviti id porduzbine-->
         <button class="btn btn-link collapsed" type="button" data-toggle="collapse" [attr.data-target]="'#r' + reservation.id">
          Date of reservation: {{date}}

@@ -123,6 +123,7 @@ import { FastReservationDisplayComponent } from './components/rent-a-car-company
 import { CarsRoomsFastComponent } from './components/shared/components/cars-rooms-fast/cars-rooms-fast.component';
 import { FastRoomDisplayComponent } from './components/hotel/fast-room-display/fast-room-display.component';
 import { MakeRoomFastComponent } from './components/hotel/make-room-fast/make-room-fast.component';
+import { TripInvitesComponent } from './components/reservations-history/trip-invites/trip-invites.component';
 
 @NgModule({
   declarations: [
@@ -215,7 +216,8 @@ import { MakeRoomFastComponent } from './components/hotel/make-room-fast/make-ro
     FastReservationDisplayComponent,
     CarsRoomsFastComponent,
     FastRoomDisplayComponent,
-    MakeRoomFastComponent
+    MakeRoomFastComponent,
+    TripInvitesComponent
   ],
   imports: [
     BrowserModule,

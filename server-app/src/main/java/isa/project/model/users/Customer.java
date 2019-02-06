@@ -11,7 +11,6 @@ import javax.persistence.OneToMany;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import isa.project.dto.users.UserDTO;
-import isa.project.model.aircompany.FriendInvite;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

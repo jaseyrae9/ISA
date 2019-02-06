@@ -1,3 +1,4 @@
+import { TripInvitesComponent } from './components/reservations-history/trip-invites/trip-invites.component';
 import { ReserveFlightFormComponent } from './components/air-company/flight/reserve-flight-form/reserve-flight-form.component';
 import { AllReservationsComponent } from './components/reservations-history/all-reservations/all-reservations.component';
 import { FlightPageComponent } from './components/air-company/flight/flight-page/flight-page.component';
@@ -39,6 +40,12 @@ const routes: Routes = [
     }
   },
   { path: 'history', component: AllReservationsComponent  ,
+    canActivate: [RoleGuardService],
+    data: {
+      expectedRoles: ['CUSTOMER']
+    }
+  },
+  { path: 'invites', component: TripInvitesComponent  ,
     canActivate: [RoleGuardService],
     data: {
       expectedRoles: ['CUSTOMER']

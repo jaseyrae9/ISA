@@ -1,19 +1,25 @@
+import { Invite } from 'src/app/model/users/invite';
+import { UserService } from './../../../services/user/user.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { Reservation } from 'src/app/model/users/reservation';
 import { formatDate } from '@angular/common';
+import { NgxNotificationService } from 'ngx-notification';
 
 @Component({
   selector: 'app-reservation',
   templateUrl: './reservation.component.html',
-  styleUrls: ['./reservation.component.css']
+  styleUrls: ['./reservation.component.css', '../../../shared/css/inputField.css']
 })
 export class ReservationComponent implements OnInit {
   @Input() reservation: Reservation;
+  @Input() inviteId: number;
+  @Input() status = 'PENDING';
+  @Input() invitedBy = '';
   date: String = '';
 
   totalPrice = 0;
 
-  constructor() { }
+  constructor(private userService: UserService, private ngxNotificationService: NgxNotificationService) { }
 
   ngOnInit() {
     console.log(this.reservation.id);
@@ -29,6 +35,19 @@ export class ReservationComponent implements OnInit {
     if (this.reservation.carReservation !== null) {
       this.totalPrice += this.reservation.carReservation.total;
     }
+  }
+
+  acceptInvite() {
+    this.userService.accpetInvite(this.inviteId).subscribe(
+      (data: Invite) => {
+        this.reservation = data.reservationDTO;
+        this.status = data.status;
+        this.ngxNotificationService.sendMessage('Yay, you accepted a trip invite from ' + this.invitedBy, 'dark', 'bottom-right');
+      },
+      (error) => {
+        this.ngxNotificationService.sendMessage('Error occured.', 'dark', 'bottom-right');
+      }
+    );
   }
 
 }

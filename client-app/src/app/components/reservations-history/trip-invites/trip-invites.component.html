@@ -1,0 +1,7 @@
+<div class="container my-3">
+    <div *ngIf="invites.length == 0" class="text-center">
+        <p>You don't have any trip invites.</p>
+    </div>
+  <app-reservation *ngFor="let item of invites" [reservation]="item.reservationDTO" [inviteId]="item.id" [invitedBy]="item.invitedBy" [status]="item.status"></app-reservation>
+</div>
+

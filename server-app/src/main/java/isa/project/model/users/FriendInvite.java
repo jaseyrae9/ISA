@@ -1,4 +1,4 @@
-package isa.project.model.aircompany;
+package isa.project.model.users;
 
 import java.util.Date;
 
@@ -15,7 +15,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import isa.project.model.users.Customer;
+import isa.project.model.aircompany.TicketReservation;
 import lombok.Getter;
 import lombok.Setter;
 

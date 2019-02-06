@@ -18,7 +18,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import isa.project.model.aircompany.FriendInvite.FriendInviteStatus;
+import isa.project.model.users.FriendInvite;
+import isa.project.model.users.FriendInvite.FriendInviteStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -46,7 +47,7 @@ public class TicketReservation {
 	private Ticket ticket;
 	
 	@JsonBackReference(value="tickets")
-	@ManyToOne(fetch = FetchType.LAZY)	
+	@ManyToOne(fetch = FetchType.EAGER)	
 	@JoinColumn(name="flightReservation", referencedColumnName="id")
 	private FlightReservation flightReservation;
 	

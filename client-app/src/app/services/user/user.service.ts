@@ -6,6 +6,7 @@ import { ChangePasswordData } from 'src/app/model/users/changePassword';
 import { Observable } from 'rxjs/Observable';
 import { map, catchError } from 'rxjs/operators';
 import { User } from 'src/app/model/users/user';
+import { Invite } from 'src/app/model/users/invite';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -69,6 +70,14 @@ export class UserService {
   }
   getReservations(): Observable<any> {
     return this.http.get('//localhost:8080/customers/getAllReservations');
+  }
+
+  getInvites(): Observable<any> {
+    return this.http.get('//localhost:8080/customers/getInvites');
+  }
+
+  accpetInvite(id): Observable<any> {
+    return this.http.post('http://localhost:8080/customers/acceptInvite/' + id, httpOptions);
   }
 
   addSysAdmin(user): Observable<User> {
