@@ -20,6 +20,7 @@ public class AirCompanyFullDetails {
 	private Location location;
 	private ArrayList<DestinationDTO> destinations = new ArrayList<>();
 	private ArrayList<AdditionalService> baggageInformation = new ArrayList<>();
+	private Double averageRating;
 
 	public AirCompanyFullDetails(AirCompany company) {
 		this.id = company.getId();
@@ -32,5 +33,6 @@ public class AirCompanyFullDetails {
 			}
 		}
 		this.baggageInformation.addAll(company.getBaggageInformation());
+		this.averageRating = (company.getTotalRating() / (double) company.getRatingCount());
 	}
 }

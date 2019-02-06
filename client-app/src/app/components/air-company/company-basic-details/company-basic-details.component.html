@@ -2,7 +2,14 @@
   <div class="media">
       <app-map [location]="company.location" class="align-self-start mr-4 pt-2"></app-map>
   <div class="media-body pr-3">
-        <h3 class="display-4" align="left">{{company.name}}</h3>
+      <div class="d-flex">
+          <div class="p-2">
+                <h3 class="display-4" align="left">{{company.name}}</h3>
+          </div>
+          <div class="ml-auto p-2">
+                <rating [(ngModel)]="company.averageRating" [max]="5" [readonly]="true"></rating>
+          </div>
+        </div>
         <p class="text-muted" align="left">{{company.location.address}}, {{company.location.city}}, {{company.location.country}}</p>
         <hr>
         <a routerLink="/aircompany/{{company.id}}">Details...</a>

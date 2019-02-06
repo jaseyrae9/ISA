@@ -10,4 +10,5 @@ export class SingleRoomReservation {
     duration: string;
     length = 0;
     isRoomRated: Boolean;
+    active: Boolean;
 }

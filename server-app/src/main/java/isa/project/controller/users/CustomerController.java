@@ -115,18 +115,18 @@ public class CustomerController {
 	 * @return
 	 */
 	@RequestMapping(value = "/confirmRegistration", method = RequestMethod.GET)
-	public ResponseEntity<?> confirmRegistration(@RequestParam("token") String token) {
+	public ResponseEntity<?> confirmRegistration(@RequestParam("token") String token, HttpServletResponse httpServletResponse) {
 		Optional<VerificationToken> verificationToken = tokenService.findByToken(token);
 
 		if (!verificationToken.isPresent()) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).header(HttpHeaders.LOCATION, "/api/").build();
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).header(HttpHeaders.LOCATION, "http://localhost:4200").build();
 		}
 
 		Customer customer = (Customer) verificationToken.get().getUser();
 		customer.setConfirmedMail(true);
 		customerService.saveCustomer(customer);
 		// redirekcija gde zelimo
-		return ResponseEntity.status(HttpStatus.FOUND).header(HttpHeaders.LOCATION, "/api/").build();
+		return ResponseEntity.status(HttpStatus.FOUND).header(HttpHeaders.LOCATION, "http://localhost:4200").build();
 	}
 
 	/**

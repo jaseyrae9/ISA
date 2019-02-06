@@ -17,4 +17,6 @@ export class Room {
     startDate: Date;
     endDate: Date;
     discount: number;
+    averageRating: number;
+
 }

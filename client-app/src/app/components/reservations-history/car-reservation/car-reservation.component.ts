@@ -8,7 +8,7 @@ import { NgxNotificationService } from 'ngx-notification';
 @Component({
   selector: 'app-car-reservation',
   templateUrl: './car-reservation.component.html',
-  styleUrls: ['./car-reservation.component.css']
+  styleUrls: ['./car-reservation.component.css', '../../../shared/css/inputField.css']
 })
 export class CarReservationComponent implements OnInit {
   @Input() reservation: CarReservation;
@@ -51,7 +51,7 @@ export class CarReservationComponent implements OnInit {
           if (err.status === 401 || err.status === 403 || err.status === 404) {
             // refresh
           }
-          this.ngxNotificationService.sendMessage('Error!', 'danger', 'bottom-right' );
+          this.ngxNotificationService.sendMessage(err.error.details, 'danger', 'bottom-right' );
           // this.errorMessage = err.error.details;
         }
       );
@@ -74,10 +74,29 @@ export class CarReservationComponent implements OnInit {
          if (err.status === 401 || err.status === 403 || err.status === 404) {
            // refresh
          }
-         this.ngxNotificationService.sendMessage('Error!', 'danger', 'bottom-right' );
+         this.ngxNotificationService.sendMessage(err.error.details, 'danger', 'bottom-right' );
          // this.errorMessage = err.error.details;
        }
      );
     }
+  }
+
+
+  cancelCarReservation() {
+    this.carService.cancelCarReservation(this.reservation.id).subscribe(
+     (data) => {
+       console.log('Otkazana rezervacija id: ', data);
+       this.reservation.active = false;
+       this.ngxNotificationService.sendMessage('You have canceled car reservation!', 'dark', 'bottom-right' );
+     },
+     (err: HttpErrorResponse) => {
+       // interceptor je hendlovao ove zahteve
+       if (err.status === 401 || err.status === 403 || err.status === 404) {
+         // refresh
+       }
+       this.ngxNotificationService.sendMessage(err.error.details, 'danger', 'bottom-right' );
+       // this.errorMessage = err.error.details;
+     }
+   );
   }
 }

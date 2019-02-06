@@ -131,10 +131,22 @@ public class Flight implements Serializable {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "flight", orphanRemoval = true)
 	private List<Ticket> tickets;
 
+	@Getter
+	@Setter
+	@Column(name = "totalRating")
+	private Integer totalRating;
+	
+	@Getter
+	@Setter
+	@Column(name = "ratingCount")
+	private Integer ratingCount;
+	
 	public Flight() {
 		tickets = new ArrayList<>();
 		destinations = new ArrayList<>();
 		status = FlightStatus.IN_PROGRESS;
+		this.totalRating = 5;
+		this.ratingCount = 1;
 	}
 
 	public Flight(FlightDTO flightInfo) {
@@ -142,6 +154,8 @@ public class Flight implements Serializable {
 		destinations = new ArrayList<>();
 		status = FlightStatus.IN_PROGRESS;
 		setData(flightInfo);
+		this.totalRating = 5;
+		this.ratingCount = 1;
 	}
 
 	public void setData(FlightDTO flightInfo) {
@@ -230,6 +244,14 @@ public class Flight implements Serializable {
 
 	public Double getMinPrice() {
 		return Math.min(Math.min(economyPrice, premiumEconomyPrice), Math.min(bussinessPrice, firstPrice));
+	}
+	
+	public void incrementRatingCount() {
+		this.ratingCount++;
+	}
+	
+	public void addToTotalRating(Integer x) {
+		this.totalRating += x;
 	}
 
 	@Override

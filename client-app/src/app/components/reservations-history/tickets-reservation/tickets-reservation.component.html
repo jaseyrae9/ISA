@@ -25,7 +25,7 @@
                 <div class="col-2 pt-4" align="center">
                     <button class="btn btn-primary collapsed dropdown-toggle" data-toggle="collapse" [attr.data-target]="'#t' + flightReservation.id">Seats</button>
                     <br>
-                    <rating [(ngModel)]="flightReservation.flight.averageRating" [max]="5" (click)="rateFlight()" [readonly]="flightReservation.isFlightRated"></rating>
+                    <rating [(ngModel)]="flightAverage" [max]="5" (click)="rateFlight()" [readonly]="flightReservation.isFlightRated"></rating>
                 </div>
                 <div class="col-auto pl-0">
                     <i class="fas fa-arrow-right"></i>

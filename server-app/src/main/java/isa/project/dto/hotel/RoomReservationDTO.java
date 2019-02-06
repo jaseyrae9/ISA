@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
 
 import isa.project.model.hotel.Room;
@@ -16,9 +17,11 @@ public class RoomReservationDTO {
 
 	private Integer id;
 	
+	@FutureOrPresent(message = "Check in day can not be in the past.")
 	@NotNull (message = "Check in date can not be blank.")
 	private Date checkInDate;
 	
+	@FutureOrPresent(message = "Check out day can not be in the past.")
 	@NotNull (message = "Check out date can not be blank.")
 	private Date checkOutDate;
 	

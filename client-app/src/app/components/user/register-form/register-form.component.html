@@ -63,6 +63,9 @@
     </div>
     <input type="password" class="form-control" id="matchingPassword" name="matchingPassword" placeholder="Confirm Password" required="required" formControlName="matchingPassword">
   </div>
+  <div class="alert alert-danger" role="alert" *ngIf="errorMessage.length != 0">
+      {{errorMessage}}
+  </div>
   <input type="submit" class="btn btn-primary btn-block" value="Sign Up">
 </form>
 </ng-template>

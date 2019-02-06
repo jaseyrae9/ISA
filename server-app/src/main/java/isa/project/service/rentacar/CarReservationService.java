@@ -2,8 +2,13 @@ package isa.project.service.rentacar;
 
 import java.util.Optional;
 
+import javax.persistence.LockModeType;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import isa.project.dto.reservations.CarReservationRequestDTO;
 import isa.project.exception_handlers.RequestDataException;
@@ -35,6 +40,8 @@ public class CarReservationService {
 		return carReservationRepository.save(carReservation);
 	}
 
+	@Transactional(readOnly = false, propagation = Propagation.MANDATORY, rollbackFor = Exception.class)
+	@Lock(LockModeType.PESSIMISTIC_READ)
 	public CarReservation reseve(CarReservationRequestDTO carReservationRequest) throws RequestDataException, ResourceNotFoundException {
 		if (carReservationRequest.getPickUpDate().compareTo(carReservationRequest.getDropOffDate()) > 0) {
 			throw new RequestDataException("Pick up date can not be after drop off date.");
@@ -67,16 +74,19 @@ public class CarReservationService {
 		
 		boolean free = true;
 		for (CarReservation cr : car.get().getCarReservations()) {
-			if (carReservationRequest.getPickUpDate().compareTo(cr.getPickUpDate()) >= 0 
-					&& carReservationRequest.getPickUpDate().compareTo(cr.getDropOffDate()) <= 0) {
-				free = false;
-				break;
+			if (cr.getActive()) {
+				if (carReservationRequest.getPickUpDate().compareTo(cr.getPickUpDate()) >= 0 
+						&& carReservationRequest.getPickUpDate().compareTo(cr.getDropOffDate()) <= 0) {
+					free = false;
+					break;
+				}
+				if (carReservationRequest.getDropOffDate().compareTo(cr.getPickUpDate()) >= 0 
+						&& carReservationRequest.getDropOffDate().compareTo(cr.getDropOffDate()) <= 0) {
+					free = false;
+					break;
+				}
 			}
-			if (carReservationRequest.getDropOffDate().compareTo(cr.getPickUpDate()) >= 0 
-					&& carReservationRequest.getDropOffDate().compareTo(cr.getDropOffDate()) <= 0) {
-				free = false;
-				break;
-			}
+			
 		}
 		if(!free) {
 			throw new RequestDataException("Car is rented in that period.");
@@ -100,5 +110,6 @@ public class CarReservationService {
 		System.out.println("carReservation" + carReservation);
 		return carReservationRepository.save(carReservation);
 	}
+	
 
 }

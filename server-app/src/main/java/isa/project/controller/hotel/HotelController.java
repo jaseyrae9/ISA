@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -35,7 +36,10 @@ import isa.project.model.hotel.Room;
 import isa.project.model.hotel.RoomReservation;
 import isa.project.model.hotel.SingleRoomReservation;
 import isa.project.model.shared.AdditionalService;
+import isa.project.model.users.Customer;
+import isa.project.security.TokenUtils;
 import isa.project.service.hotel.HotelService;
+import isa.project.service.hotel.RoomReservationService;
 import isa.project.service.hotel.RoomService;
 
 @RestController
@@ -47,6 +51,12 @@ public class HotelController {
 
 	@Autowired
 	private RoomService roomService;
+	
+	@Autowired
+	private TokenUtils tokenUtils;
+	
+	@Autowired
+	private RoomReservationService roomReservationService;
 
 	@RequestMapping(value = "/allHotels", method = RequestMethod.GET)
 	public ResponseEntity<List<HotelDTO>> getAllHotels() {
@@ -207,7 +217,6 @@ public class HotelController {
 					r.setNumberOfBeds(roomDTO.getNumberOfBeds());
 					r.setPrice(roomDTO.getPrice());
 					r.setType(roomDTO.getType());
-					r.increaseVersion();
 				} else
 					throw new RequestDataException("Can't edit reserved room!");
 			}
@@ -235,7 +244,6 @@ public class HotelController {
 			if (r.getId().equals(roomId)) {
 				if (notReserved(r)) {
 					r.setActive(false);
-					r.increaseVersion();
 					roomService.saveRoom(r);
 					System.out.println("r");
 					break;
@@ -488,4 +496,39 @@ public class HotelController {
 		return new ResponseEntity<>(r, HttpStatus.OK);
 	}
 
+	
+	@PreAuthorize("hasAnyRole('CUSTOMER')")
+	@RequestMapping(value = "/cancelRoomReservation/{reservationId}", method = RequestMethod.DELETE, consumes = "application/json")
+	public ResponseEntity<?> cancelRoomReservation(@PathVariable Integer reservationId, HttpServletRequest request) throws ResourceNotFoundException, RequestDataException {
+		String email = tokenUtils.getEmailFromToken(tokenUtils.getToken(request));
+		
+		Optional<RoomReservation> roomReservation = roomReservationService.findRoomReservation(reservationId);
+		
+		if(!roomReservation.isPresent()) {
+			throw new ResourceNotFoundException(reservationId.toString(), "Room reservation not found.");
+		}
+		
+		Customer c = roomReservation.get().getReservation().getCustomer();
+		
+		if(!c.getEmail().equals(email)) {
+			throw new ResourceNotFoundException(email.toString(), "You don't have this reservation.");
+		}
+		
+		Date today = new Date();
+		long diff = roomReservation.get().getCheckInDate().getTime() - today.getTime();
+		long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) + 1;
+
+		if(days < 2 ) {
+			throw new RequestDataException("You can't cancel your reservation 3 days before check in day.");
+		}
+		
+		roomReservation.get().setActive(false);
+		for(SingleRoomReservation srr : roomReservation.get().getSingleRoomReservations()) {
+			srr.setActive(false);
+		}
+		
+		RoomReservation rr = roomReservationService.saveRoomReservation(roomReservation.get());
+		System.err.println("Rezervcija sobaa je otkazanaaaa");
+		return new ResponseEntity<>(rr.getId(), HttpStatus.OK);
+	}
 }

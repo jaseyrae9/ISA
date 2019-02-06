@@ -57,6 +57,7 @@ export class AirCompanyPageComponent implements OnInit {
     this.airCompanyService.get(this.id).subscribe(
       (data) => {
         this.airCompany = data;
+        console.log(this.airCompany);
       }
     );
     this.loadAirplanes(this.id);

@@ -17,35 +17,31 @@ export class RegisterFormComponent implements OnInit {
   errorMessage = '';
   registerForm: FormGroup;
 
+
   constructor(private authService: AuthService,
     private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
-      email: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
       address: ['', [Validators.required]],
       phoneNumber: ['', [Validators.required]],
       password: ['', [Validators.required]],
       matchingPassword: ['', [Validators.required]]
-    }, { validator: this.checkPasswords });
+    });
 
-  }
-
-  checkPasswords(group: FormGroup) {
-    const pass = group.controls.password.value;
-    const confirmPass = group.controls.matchingPassword.value;
-
-    if (pass === confirmPass) {
-      return null;
-    } else {
-      console.log('match passwords!');
-      return { notSame: true };
-    }
   }
 
   onSignup() {
+    const pass = this.registerForm.value.password;
+    const confirmPass = this.registerForm.value.matchingPassword;
+    if (pass !== confirmPass) {
+      this.errorMessage = 'Your password does not match';
+      return;
+    }
+
     console.log(this.registerForm.value);
     this.signupInfo = new SignUpInfo(
       this.registerForm.value.email,

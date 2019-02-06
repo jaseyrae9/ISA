@@ -1,10 +1,21 @@
 <div class="row border rounded align-items-center p-2 mt-2">
   <div class="col-sm-3 pt-2" align="center">
-        <img *ngIf="room.type == 'Regular'" src="assets/images/hotel/single1.png" class="rounded-circle">
-        <img *ngIf="room.type == 'Studio'" src="assets/images/hotel/king.png" class="rounded-circle">
-        <img *ngIf="room.type == 'Apartman'" src="assets/images/hotel/queen.png" class="rounded-circle">
-       
+        <div class="d-flex flex-column bd-highlight mb-3">
+                <div class="p-2 bd-highlight">
+                        <img *ngIf="room.type == 'Regular'" src="assets/images/hotel/single1.png" class="rounded-circle">
+                        <img *ngIf="room.type == 'Studio'" src="assets/images/hotel/king.png" class="rounded-circle">
+                        <img *ngIf="room.type == 'Apartman'" src="assets/images/hotel/queen.png" class="rounded-circle">
+                       
+                </div>
+                <div class="p-2 bd-highlight">      
+                    <rating [(ngModel)]="room.averageRating" [max]="5" [readonly]="true"></rating>
+                </div>       
+            </div>
   </div>
+
+  
+
+
   <div class="col-sm-5 pt-2 border-left p-3" align="center">
       <p style="font-size: 22px;"> {{room.type}} Room
           <br><small class="text-muted">No. {{room.roomNumber}}</small>
@@ -18,10 +29,12 @@
   
   <div class="col border-left p-3" align="center">
       <p style="font-size: 45px; color:  #33cabb;">€{{room.price}}</p>
-      <hr>
-      <button *ngIf="tokenService.isHotelAdmin && isRoomsTab" class="btn btn-primary px-4 m-2" (click)="openEditModal()">Edit</button>
-      <button *ngIf="tokenService.isHotelAdmin && isRoomsTab" class="btn btn-primary px-4 m-2" (click)="deleteRoom()">Delete</button>
-      <button *ngIf="tokenService.isHotelAdmin && isRoomsTab" class="btn btn-primary px-4 m-2" (click)="openFastModal()">Fast</button>
+      <hr *ngIf="!tokenService.isCustomer && isRoomsTab && tokenService.isVistor ">
+      <hr *ngIf="tokenService.isCustomer && !isRoomsTab ">
+
+      <button *ngIf="tokenService.isHotelAdmin && isRoomsTab && tokenService.companyId == hotelId" class="btn btn-primary px-4 m-2" (click)="openEditModal()">Edit</button>
+      <button *ngIf="tokenService.isHotelAdmin && isRoomsTab && tokenService.companyId == hotelId" class="btn btn-primary px-4 m-2" (click)="deleteRoom()">Delete</button>
+      <button *ngIf="tokenService.isHotelAdmin && isRoomsTab && tokenService.companyId == hotelId" class="btn btn-primary px-4 m-2" (click)="openFastModal()">Fast</button>
       <button *ngIf="!isBooked && !isRoomsTab && tokenService.isCustomer"  class="btn btn-primary px-4 m-2" (click)="bookRoom()">Book</button>
       <button *ngIf="isBooked && !isRoomsTab && tokenService.isCustomer"  class="btn btn-dark px-4 m-2" (click)="unbookRoom()">Unbook</button>
     </div>  

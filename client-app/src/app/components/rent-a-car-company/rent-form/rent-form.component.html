@@ -39,7 +39,7 @@
           </span>
         </div>
         <select class="form-control" placeholder="Pick up location" required="required" formControlName="pickUpBranchOffice">
-          <option hidden [ngValue]="null">Select pick up location</option>
+            <option value="" disabled selected hidden>Select pick up location</option>
           <option *ngFor="let branchOffice of branchOffices" value="{{branchOffice.id}}">{{branchOffice.location.address}}</option>
         </select>
       </div>
@@ -65,7 +65,7 @@
           </span>
         </div>
         <select class="form-control" placeholder="Drop off location" required="required" formControlName="dropOffBranchOffice">
-          <option hidden [ngValue]="null">Select drop off location</option>
+            <option value="" disabled selected hidden>Select drop of location</option>
           <option *ngFor="let branchOffice of branchOffices" value="{{branchOffice.id}}">{{branchOffice.location.address}}</option>
         </select>
       </div>

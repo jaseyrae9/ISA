@@ -26,7 +26,7 @@ export class RentACarCompanyService {
   getAllCompanies(): Observable<any> {
     return this.http.get('//localhost:8080/rent_a_car_companies/allCompanies');
   }
-  get(id: string): Observable<any> {
+  get(id): Observable<any> {
     return this.http.get('//localhost:8080/rent_a_car_companies/get/' + id);
   }
 
@@ -66,7 +66,7 @@ export class RentACarCompanyService {
   }
 
 
-  deleteBranchOffice(branchOfficeId: number, carCompanyId: String): Observable<number> {
+  deleteBranchOffice(branchOfficeId: number, carCompanyId): Observable<number> {
     return this.http.delete<number>('http://localhost:8080/rent_a_car_companies/deleteBranchOffice/' + carCompanyId
     + '/' + branchOfficeId, httpOptions);
   }
@@ -129,4 +129,8 @@ export class RentACarCompanyService {
     + carId, httpOptions);
   }
 
+  cancelCarReservation(id): Observable<number> {
+    console.log('pokusaj otkazivanja car reservation');
+    return this.http.delete<number>('http://localhost:8080/rent_a_car_companies/cancelCarReservation/' + id, httpOptions);
+  }
 }

@@ -60,7 +60,7 @@ public class ReservationService {
 	 * @throws ReservationNotAvailable - zauzeto neko od mesta u avionu
 	 * @throws RequestDataException - ne postoji barem jedna rezervacija, nije poslana oznaka prijatelja, a oznaceno je da se poziva prijetelj
 	 */
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
 	public Reservation reserve(ReservationRequestDTO reservationRequest, String email) throws ResourceNotFoundException, ReservationNotAvailable, RequestDataException {
 		// preuzmi kupca
 		Customer customer = customerService.findCustomerByEmail(email);

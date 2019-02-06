@@ -53,7 +53,7 @@ public class Reservation {
 	private CarReservation carReservation;
 	
 	@JsonManagedReference(value = "reservation-room-reservation")	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)	
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE, orphanRemoval = true)	
 	@JoinColumn(name="room_reservation_id", referencedColumnName="id")
 	private RoomReservation roomReservation;
 	

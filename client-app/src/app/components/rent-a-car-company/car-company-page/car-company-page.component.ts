@@ -24,7 +24,7 @@ export class CarCompanyPageComponent implements OnInit {
 
   modalRef: BsModalRef;
   carCompany: RentACarCompany = new RentACarCompany();
-  companyId: string;
+  companyId: number;
   maxValue = 0;
 
   monthlyCarReservation: any;
@@ -49,12 +49,12 @@ export class CarCompanyPageComponent implements OnInit {
 
   ngOnInit() {
     const companyId = this.route.snapshot.paramMap.get('id');
-    this.companyId = companyId;
+    this.companyId = +companyId; // + -> string u int
 
     this.getCompanie();
     this.getFastCars();
 
-    if (this.tokenService.isCarAdmin) {
+    if (this.tokenService.isCarAdmin && this.tokenService.companyId === this.companyId) {
       this.carService.getMonthlyResevations(companyId).subscribe(
         (data) => {
           console.log('Mesecne rezervacije: ', data);
@@ -62,7 +62,7 @@ export class CarCompanyPageComponent implements OnInit {
         }
       );
     }
-    if (this.tokenService.isCarAdmin) {
+    if (this.tokenService.isCarAdmin && this.tokenService.companyId === this.companyId) {
       this.carService.getWeeklyResevations(companyId).subscribe(
         (data) => {
           console.log('Nedeljne rezervacije: ', data);
@@ -70,7 +70,7 @@ export class CarCompanyPageComponent implements OnInit {
         }
       );
     }
-    if (this.tokenService.isCarAdmin) {
+    if (this.tokenService.isCarAdmin && this.tokenService.companyId === this.companyId) {
       this.carService.getDailyResevations(companyId).subscribe(
         (data) => {
           console.log('Dnevne rezervacije: ', data);
@@ -122,11 +122,11 @@ export class CarCompanyPageComponent implements OnInit {
     }
   }
 
-  branchOfficeDeleted(branchOffice: BranchOffice) {
-    const index: number = this.carCompany.branchOffices.indexOf(branchOffice);
+  branchOfficeDeleted(branchOfficeId: number) {
+    const index: number = this.carCompany.branchOffices.findIndex(e => e.id === branchOfficeId);
     if (index !== -1) {
       this.carCompany.branchOffices.splice(index, 1);
-      this.ngxNotificationService.sendMessage(branchOffice.name + ' is deleted!', 'dark', 'bottom-right' );
+      this.ngxNotificationService.sendMessage('Branch office is deleted!', 'dark', 'bottom-right' );
     }
   }
 

@@ -25,10 +25,13 @@ public class AirCompanyDTO {
 	@Valid
 	private Location location;
 	
+	private Double averageRating;	
+	
 	public AirCompanyDTO(AirCompany company) {
 		this.id = company.getId();
 		this.name = company.getName();
 		this.location = company.getLocation();
-		this.description = company.getDescription();		
+		this.description = company.getDescription();	
+		this.averageRating = (company.getTotalRating() / (double) company.getRatingCount());
 	}
 }

@@ -8,7 +8,6 @@ import { Options, LabelType } from 'ng5-slider';
 import { CarReservation } from 'src/app/model/rent-a-car-company/car-reservation';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { RentACarCompanyService } from 'src/app/services/rent-a-car-company/rent-a-car-company.service';
-import { HttpErrorResponse } from '@angular/common/http';
 import { NgxNotificationService } from 'ngx-notification';
 import { ShoppingCartService } from 'src/app/observables/shopping-cart.service';
 import { RentACarCompany } from 'src/app/model/rent-a-car-company/rent-a-car-company';
@@ -35,11 +34,11 @@ export class RentFormComponent implements OnInit {
   bsRangeValue: Date[];
 
   minValue = 0;
-  maxValue = 200;
+  maxValue = 500;
 
   options: Options = {
     floor: 0,
-    ceil: 200,
+    ceil: 500,
     showSelectionBar: true,
     selectionBarGradient: {
       from: 'white',
@@ -53,11 +52,11 @@ export class RentFormComponent implements OnInit {
     translate: (value: number, label: LabelType): string => {
       switch (label) {
         case LabelType.Low:
-          return '<b>Min price:</b> $' + value;
+          return '<b>Min price:</b> €' + value;
         case LabelType.High:
-          return '<b>Max price:</b> $' + value;
+          return '<b>Max price:</b> €' + value;
         default:
-          return '$' + value;
+          return '€' + value;
       }
     }
   };
@@ -78,10 +77,10 @@ export class RentFormComponent implements OnInit {
     this.rentForm = this.formBuilder.group({
       numberOfPassengers: ['', [Validators.min(0)]],
       type: ['Sedan'],
-      bsRangeValue: [this.bsRangeValue],
+      bsRangeValue: [this.bsRangeValue, [Validators.required]],
       priceRange: [this.priceRange],
-      dropOffBranchOffice: [''],
-      pickUpBranchOffice: ['']
+      dropOffBranchOffice: ['', [Validators.required]],
+      pickUpBranchOffice: ['', [Validators.required]]
     });
   }
 
@@ -106,17 +105,19 @@ export class RentFormComponent implements OnInit {
     const datum1 = formatDate(date1, 'yyyy-MM-dd', 'en');
 
     for (const r of car.reservations) {
-      if (datum0 >= r.pickUpDate.toString() &&
-        datum0 <= r.dropOffDate.toString()) {
+      if (r.active) {
+        if (datum0 >= r.pickUpDate.toString() &&
+            datum0 <= r.dropOffDate.toString()) {
         return false;
       }
-      if (datum1 >= r.pickUpDate.toString() &&
-        datum1 <= r.dropOffDate.toString()) {
-        return false;
-      }
-      if (datum0 <= r.pickUpDate.toString() &&
-        datum1 >= r.dropOffDate.toString()) {
-        return false;
+        if (datum1 >= r.pickUpDate.toString() &&
+          datum1 <= r.dropOffDate.toString()) {
+          return false;
+        }
+        if (datum0 <= r.pickUpDate.toString() &&
+          datum1 >= r.dropOffDate.toString()) {
+          return false;
+        }
       }
     }
     return true;

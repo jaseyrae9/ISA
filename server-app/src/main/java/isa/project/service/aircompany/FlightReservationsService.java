@@ -72,7 +72,7 @@ public class FlightReservationsService {
 	 * @throws ReservationNotAvailable - neko od mesta je zauzeto
 	 * @throws RequestDataException - nije poslana oznaka prijatelja, a oznaceno je da se poziva prijetelj
 	 */
-	@Transactional(readOnly = false, propagation = Propagation.MANDATORY)
+	@Transactional(readOnly = false, propagation = Propagation.MANDATORY, rollbackFor = Exception.class)
 	public FlightReservation reserve(FlightReservationRequestDTO reservationRequest, Customer customer) throws ResourceNotFoundException, ReservationNotAvailable, RequestDataException {
 		//pronadji let
 		Flight flight = getFlight(reservationRequest.getFlightId());

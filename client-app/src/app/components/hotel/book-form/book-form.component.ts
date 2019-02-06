@@ -54,11 +54,11 @@ export class BookFormComponent implements OnInit {
     translate: (value: number, label: LabelType): string => {
       switch (label) {
         case LabelType.Low:
-          return '<b>Min price:</b> $' + value;
+          return '<b>Min price:</b> €' + value;
         case LabelType.High:
-          return '<b>Max price:</b> $' + value;
+          return '<b>Max price:</b> €' + value;
         default:
-          return '$' + value;
+          return '€' + value;
       }
     }
   };
@@ -81,7 +81,7 @@ export class BookFormComponent implements OnInit {
     this.bookForm = this.formBuilder.group({
       numberOfGuests: ['', [Validators.min(0)]],
       type: ['Regular'],
-      bsRangeValue: [this.bsRangeValue],
+      bsRangeValue: [this.bsRangeValue, [Validators.required]],
       priceRange: [this.priceRange]
     });
   }
@@ -110,17 +110,19 @@ export class BookFormComponent implements OnInit {
     const datum1 = formatDate(date1, 'yyyy-MM-dd', 'en');
 
     for (const r of room.reservations) {
-      if (datum0 >= r.roomReservation.checkInDate.toString() &&
-        datum0 <= r.roomReservation.checkOutDate.toString()) {
-        return false;
-      }
-      if (datum1 >= r.roomReservation.checkInDate.toString() &&
-        datum1 <= r.roomReservation.checkOutDate.toString()) {
-        return false;
-      }
-      if (datum0 <= r.roomReservation.checkInDate.toString() &&
-        datum1 >= r.roomReservation.checkOutDate.toString()) {
-        return false;
+      if (r.active) {
+        if (datum0 >= r.roomReservation.checkInDate.toString() &&
+          datum0 <= r.roomReservation.checkOutDate.toString()) {
+          return false;
+        }
+        if (datum1 >= r.roomReservation.checkInDate.toString() &&
+          datum1 <= r.roomReservation.checkOutDate.toString()) {
+          return false;
+        }
+        if (datum0 <= r.roomReservation.checkInDate.toString() &&
+          datum1 >= r.roomReservation.checkOutDate.toString()) {
+          return false;
+        }
       }
     }
     return true;

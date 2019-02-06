@@ -22,7 +22,7 @@ export class RoomBasicInfoComponent implements OnInit {
   @Output() roomFasten: EventEmitter<number> = new EventEmitter();
 
   modalRef: BsModalRef;
-  hotelId: string;
+  hotelId: number;
 
   @Input() isRoomsTab = true;
 
@@ -36,7 +36,7 @@ export class RoomBasicInfoComponent implements OnInit {
      public ngxNotificationService: NgxNotificationService) { }
 
   ngOnInit() {
-    this.hotelId = this.route.snapshot.paramMap.get('id');
+    this.hotelId = +this.route.snapshot.paramMap.get('id');
     console.log('Init component for room' + this.room.id);
     const index: number = this.bookedRooms.indexOf(this.room);
     if (index !== -1) {

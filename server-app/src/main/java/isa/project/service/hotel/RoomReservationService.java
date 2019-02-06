@@ -2,7 +2,10 @@ package isa.project.service.hotel;
 
 import java.util.Optional;
 
+import javax.persistence.LockModeType;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,7 +50,8 @@ public class RoomReservationService {
 		return singleRoomReservationRepository.save(srr);
 	}
 
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(readOnly = false, propagation = Propagation.MANDATORY, rollbackFor = Exception.class)
+	@Lock(LockModeType.PESSIMISTIC_READ)
 	public RoomReservation reserve(HotelReservationRequestDTO hotelReservationRequest) throws RequestDataException, ResourceNotFoundException {
 		System.out.println("CheckInDate: " + hotelReservationRequest.getCheckInDate());
 		System.out.println("CheckOutDate: " + hotelReservationRequest.getCheckInDate());
@@ -64,7 +68,8 @@ public class RoomReservationService {
 
 
 		RoomReservation roomReservation = new RoomReservation(hotelReservationRequest.getCheckInDate(), hotelReservationRequest.getCheckOutDate());
-
+		roomReservation = roomReservationRepository.save(roomReservation);
+		
 		if(hotelReservationRequest.getIsFastReservation()) {
 			// Pronadji predefinisane servise i dodaj ih
 			for(AdditionalService as : hotel.get().getAdditionalServices()) {
@@ -89,6 +94,7 @@ public class RoomReservationService {
 		}
 		
 		for (Integer room_index : hotelReservationRequest.getRooms()) {
+			System.out.println("sobaid: " + room_index);
 			Optional<Room> room = hotel.get().getRooms().stream().filter(o -> o.getId().equals(room_index)).findFirst();
 
 			if (!room.isPresent()) {
@@ -99,15 +105,17 @@ public class RoomReservationService {
 			
 			
 			for (SingleRoomReservation srr : room.get().getSingleRoomReservations()) {
-				if (hotelReservationRequest.getCheckInDate().compareTo(srr.getRoomReservation().getCheckInDate()) >= 0
-						&& hotelReservationRequest.getCheckInDate().compareTo(srr.getRoomReservation().getCheckOutDate()) <= 0) {
-					free = false;
-					break;
-				}
-				if (hotelReservationRequest.getCheckOutDate().compareTo(srr.getRoomReservation().getCheckInDate()) >= 0
-						&& hotelReservationRequest.getCheckOutDate().compareTo(srr.getRoomReservation().getCheckOutDate()) <= 0) {
-					free = false;
-					break;
+				if(srr.getActive()) {
+					if (hotelReservationRequest.getCheckInDate().compareTo(srr.getRoomReservation().getCheckInDate()) >= 0
+							&& hotelReservationRequest.getCheckInDate().compareTo(srr.getRoomReservation().getCheckOutDate()) <= 0) {
+						free = false;
+						break;
+					}
+					if (hotelReservationRequest.getCheckOutDate().compareTo(srr.getRoomReservation().getCheckInDate()) >= 0
+							&& hotelReservationRequest.getCheckOutDate().compareTo(srr.getRoomReservation().getCheckOutDate()) <= 0) {
+						free = false;
+						break;
+					}
 				}
 			}
 			if (!free) {
@@ -130,9 +138,11 @@ public class RoomReservationService {
 			
 			
 			SingleRoomReservation newSingleRoomReservation = new SingleRoomReservation(room.get(), roomReservation);
+			System.err.println("new single room reservation "  + room.get().getId());
 			roomReservation.addSingleRoomReservation(newSingleRoomReservation); //singleRoomReservationRepository.save(
+			roomReservationRepository.save(roomReservation);
 		}
-		System.out.println("Gotova room rezervacija");
-		return roomReservation; //roomReservationRepository
+		System.out.println("Gotova room rezervacija" + roomReservation.getSingleRoomReservations().size());
+		return roomReservation; //
 	}
 }

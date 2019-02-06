@@ -27,7 +27,7 @@ export class HotelService {
     return this.http.get('http://localhost:8080/hotels/all?page=' + page + '&size=2&sort=' + sort);
   }
 
-  get(id: string): Observable<any> {
+  get(id): Observable<any> {
     return this.http.get('//localhost:8080/hotels/get/' + id);
   }
 
@@ -56,7 +56,7 @@ export class HotelService {
      return this.http.put<Room>('http://localhost:8080/hotels/editRoom/' + hotelId, room, httpOptions);
    }
 
-  delete(roomId: number, hotelId: String): Observable<number> {
+  delete(roomId: number, hotelId): Observable<number> {
     return this.http.delete<number>('http://localhost:8080/hotels/deleteRoom/' + hotelId + '/' + roomId, httpOptions);
   }
 
@@ -133,6 +133,11 @@ export class HotelService {
 
   getFastRoomsSearch(city, date, tikcetCount): Observable<Room[]> {
     return this.http.get<Room[]>('http://localhost:8080/hotels/getFastRooms/' + city + '/' + date + '/' + tikcetCount, httpOptions);
+  }
+
+  cancelRoomReservation(id): Observable<number> {
+    console.log('pokusaj otkazivanja room reservation');
+    return this.http.delete<number>('http://localhost:8080/hotels/cancelRoomReservation/' + id, httpOptions);
   }
 
 }
