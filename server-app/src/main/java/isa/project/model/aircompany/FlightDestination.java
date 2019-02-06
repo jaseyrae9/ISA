@@ -68,4 +68,11 @@ public class FlightDestination implements Serializable{
 			return false;
 		return true;
 	}
+
+
+
+	@Override
+	public String toString() {
+		return destination.toString();
+	}
 }

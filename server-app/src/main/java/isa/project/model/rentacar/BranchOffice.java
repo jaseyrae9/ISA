@@ -84,7 +84,7 @@ public class BranchOffice {
 
 	@Override
 	public String toString() {
-		return "BranchOffice [id=" + id + ", rentACarCompany=" + rentACarCompany + ", name=" + name + "]";
+		return name + ", " + location.toString();
 	}
 	
 }

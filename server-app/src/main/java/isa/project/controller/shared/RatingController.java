@@ -29,7 +29,7 @@ import isa.project.service.rentacar.RentACarCompanyService;
 
 @RestController
 @RequestMapping(value="reservation")
-public class ReservationController {
+public class RatingController {
 
 	@Autowired
 	private HotelService hotelService;

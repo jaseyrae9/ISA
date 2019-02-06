@@ -48,8 +48,8 @@ INSERT INTO user_authority ( user_id, authority_id ) VALUES (2004, 1);
 INSERT INTO user_authority ( user_id, authority_id ) VALUES (3000, 3);
 INSERT INTO user_authority ( user_id, authority_id ) VALUES (3001, 5);
 
-INSERT INTO friendships (from_id, to_id, active) VALUES (2001, 2000, false);
-INSERT INTO friendships (from_id, to_id, active) VALUES (2002, 2000, false);
+INSERT INTO friendships (from_id, to_id, active) VALUES (2001, 2000, true);
+INSERT INTO friendships (from_id, to_id, active) VALUES (2002, 2000, true);
 INSERT INTO friendships (from_id, to_id, active) VALUES (2003, 2000, false);
 INSERT INTO friendships (from_id, to_id, active) VALUES (2004, 2000, false);
 

@@ -1,10 +1,12 @@
-package isa.project.controller.users;
+package isa.project.controller.shared;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,13 +37,16 @@ public class ReservationContoller {
 	 * @throws ResourceNotFoundException
 	 * @throws ReservationNotAvailable
 	 * @throws RequestDataException
+	 * @throws MessagingException 
+	 * @throws InterruptedException 
+	 * @throws MailException 
 	 */
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
-	public ResponseEntity<?> reserve(@Valid @RequestBody ReservationRequestDTO reservationRequest, HttpServletRequest request) throws ResourceNotFoundException, ReservationNotAvailable, RequestDataException{
+	public ResponseEntity<?> reserve(@Valid @RequestBody ReservationRequestDTO reservationRequest, HttpServletRequest request) throws ResourceNotFoundException, ReservationNotAvailable, RequestDataException, MailException, InterruptedException, MessagingException{
 		String email = tokenUtils.getEmailFromToken(tokenUtils.getToken(request));
 		Reservation reservation = reservationService.reserve(reservationRequest, email);
-		System.out.println("Kreirana");
 		reservationService.sendFriendInvites(reservation);
+		reservationService.sendMailToUser(reservation);
 		return ResponseEntity.ok(reservation);
 	}
 }
