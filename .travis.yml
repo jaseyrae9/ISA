@@ -6,6 +6,7 @@ matrix:
       node_js: stable      
       before_install:
         - cd client-app 
+        - npm install -g @angular/cli
       install:
         - npm install
       script:
