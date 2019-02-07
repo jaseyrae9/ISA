@@ -1,9 +1,3 @@
 sudo: required
 language: java
 jdk: oraclejdk8
-
-before_install:
-  - chmod +x mvnw
-
-script:
-  - ./mvnw clean install -DskipTests=false -B
