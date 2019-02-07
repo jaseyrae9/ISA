@@ -88,8 +88,9 @@
 		</dependency>
 		
 		<dependency>
-		    <groupId>org.apache.commons</groupId>
-		    <artifactId>commons-lang3</artifactId>
+		    <groupId>org.jacoco</groupId>
+		    <artifactId>jacoco-maven-plugin</artifactId>
+		    <version>0.8.3</version>
 		</dependency>
 
 		<dependency>
