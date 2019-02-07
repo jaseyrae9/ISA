@@ -4,7 +4,7 @@ jdk:
   - oraclejdk8
   
 install:
-  - chmod +x ./mvnw
-  - ./mvnw install -DskipTests=false -Dmaven.javadoc.skip=true -B -V
+  - chmod +x ./mvn
+  - ./mvn install -DskipTests=false -Dmaven.javadoc.skip=true -B -V
 script:
-  - ./mvnw clean compile
+  - ./mvn clean compile
