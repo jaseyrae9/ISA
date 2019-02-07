@@ -5,8 +5,6 @@ jdk: oraclejdk8
 before_install:
   - cd server-app 
   - CODECOV_TOKEN="1de6a879-f36f-4085-a69a-8c7247acd44c"
-  
- script:
   - mvn -N io.takari:maven:wrapper
   - ./mvnw clean install -DskipTests=true -Dmaven.javadoc.skip=true -B -V  
   - bash <(curl -s https://codecov.io/bash)
