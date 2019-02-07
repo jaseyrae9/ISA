@@ -4,8 +4,8 @@ jdk: oraclejdk8
 
 before_install:
   - cd server-app  
-  - export CODACY_PROJECT_TOKEN=%lpfcu2z1ObDQljn3APCU%
-  - sudo apt-get install jq  
+  - export CODACY_PROJECT_TOKEN=lpfcu2z1ObDQljn3APCU
+  - apt-get install jq  
   - wget -O ~/codacy-coverage-reporter-assembly-latest.jar $(curl https://api.github.com/repos/codacy/codacy-coverage-reporter/releases/latest | jq -r .assets[0].browser_download_url)
   - mvn -N io.takari:maven:wrapper
   - ./mvnw clean install -DskipTests=true -Dmaven.javadoc.skip=true -B -V    
