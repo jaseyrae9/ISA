@@ -3,7 +3,7 @@ language: java
 jdk: oraclejdk8
 
 before_install:
-  - cd server-app  
+  - cd server-app 
   - CODECOV_TOKEN="1de6a879-f36f-4085-a69a-8c7247acd44c"
   
  script:
