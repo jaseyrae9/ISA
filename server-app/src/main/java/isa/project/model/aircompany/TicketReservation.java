@@ -17,7 +17,6 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import isa.project.model.users.FriendInvite;
 import isa.project.model.users.FriendInvite.FriendInviteStatus;
@@ -51,9 +50,8 @@ public class TicketReservation {
 	@JsonBackReference(value="tickets")
 	@ManyToOne(fetch = FetchType.EAGER)	
 	@JoinColumn(name="flightReservation", referencedColumnName="id")
-	private FlightReservation flightReservation;
+	private FlightReservation flightReservation;	
 	
-	@JsonManagedReference(value="friend")
 	@OneToOne(fetch = FetchType.EAGER, mappedBy = "ticketReservation")
 	private FriendInvite invitedFriend;
 	

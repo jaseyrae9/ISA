@@ -114,7 +114,7 @@ public class RentACarCompanyServiceTest {
 		Car car = new Car(rentacar, "brand", "model", 2015, 4, 5, 15.0, "Sedan");
 		when(carRepository.save(car)).thenReturn(car);   
 		int dbSizeBeforeAdd = carService.findAll().size();
-				
+		System.out.println("size" + dbSizeBeforeAdd);		
 		Car dbCar = rentACarCompanyService.addCar(2, new CarDTO(car));
 		assertThat(dbCar).isNotNull();
 

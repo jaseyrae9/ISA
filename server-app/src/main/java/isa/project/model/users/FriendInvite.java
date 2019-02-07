@@ -28,8 +28,7 @@ public class FriendInvite {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
-	@JsonBackReference(value="ticket")
+		
 	@OneToOne(fetch = FetchType.EAGER)	
 	@JoinColumn(name="ticket_reservation_id", referencedColumnName="id", nullable = false)
 	private TicketReservation ticketReservation;

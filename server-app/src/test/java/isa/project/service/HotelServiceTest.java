@@ -7,6 +7,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
+import java.text.ParseException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -43,48 +44,49 @@ public class HotelServiceTest {
 
 	@Mock
 	private HotelRepository hotelRepository;
-	
+
 	@Mock
 	private AdditionalServiceRepository additionalServiceRepository;
-	
+
 	@InjectMocks
 	private HotelService hotelService;
 
 	@Mock
 	private Hotel hotel;
-	
+
 	@InjectMocks
-	private RoomService roomService;	
+	private RoomService roomService;
 
 	@Mock
 	private RoomRepository roomRepository;
-	
+
 	@Test
-	public void testFindAll() {	
+	public void testFindAll() {
 		when(hotelRepository.findAll()).thenReturn(Arrays.asList(new Hotel("HotelName", "HotelDesc")));
 		Iterable<Hotel> hotels = hotelService.findAll();
 		assertThat(hotels).hasSize(1);
-		
+
 		verify(hotelRepository, times(1)).findAll();
-        verifyNoMoreInteractions(hotelRepository);
-	}	
-	
+		verifyNoMoreInteractions(hotelRepository);
+	}
+
 	@Test
 	public void testAddAdditionalService() throws ResourceNotFoundException {
 		Hotel h = new Hotel("HotelName", "HotelDesc");
 		h.setAdditionalServices(new HashSet<>());
 		when(hotelRepository.findById(2)).thenReturn(Optional.of(h));
 		AdditionalService as = new AdditionalService("AsName", "AsDesc", 2.5);
-		
+
 		when(additionalServiceRepository.save(as)).thenReturn(as);
-		// long dbSizeBeforeAdd = hotelService.findAll().spliterator().getExactSizeIfKnown();
-	
+		// long dbSizeBeforeAdd =
+		// hotelService.findAll().spliterator().getExactSizeIfKnown();
+
 		AdditionalService dbAs = hotelService.addAdditionalService(as, 2);
 		assertThat(dbAs).isNotNull();
 		Assert.assertTrue(dbAs.getName().equals("AsName"));
 		Assert.assertTrue(dbAs.getDescription().equals("AsDesc"));
 		Assert.assertTrue(dbAs.getPrice().equals(new Double(2.5)));
-	}	
+	}
 
 	@SuppressWarnings("deprecation")
 	@Test
@@ -96,8 +98,8 @@ public class HotelServiceTest {
 		assertThat(hotels).hasSize(1);
 		verify(hotelRepository, times(1)).findAll(pageRequest);
 		verifyNoMoreInteractions(hotelRepository);
-	}	
-	
+	}
+
 	@Test
 	public void testFindHotel() {
 		when(hotelRepository.findById(HotelConstants.DB_ID.intValue())).thenReturn(Optional.of(hotel));
@@ -107,7 +109,7 @@ public class HotelServiceTest {
 		verify(hotelRepository, times(1)).findById(HotelConstants.DB_ID.intValue());
 		verifyNoMoreInteractions(hotelRepository);
 	}
-	
+
 	@Test
 	@Transactional
 	@Rollback(true)
@@ -128,7 +130,7 @@ public class HotelServiceTest {
 
 		when(roomRepository.findAll()).thenReturn(Arrays.asList(new Room(hotel, 4, 4, 4, 15.0, "Studio"), room));
 		List<Room> rooms = roomService.findAll();
- 
+
 		assertThat(rooms).hasSize(dbSizeBeforeAdd + 1);
 		dbRoom = rooms.get(rooms.size() - 1); // uzima poslednjeg, tj. dodatog
 
@@ -141,8 +143,30 @@ public class HotelServiceTest {
 		verify(roomRepository, times(2)).findAll();
 		verify(roomRepository, times(1)).save(room);
 		verify(hotelRepository, times(1)).findById(2);
-       verifyNoMoreInteractions(roomRepository);
-       verifyNoMoreInteractions(hotelRepository);
-	}	
+		verifyNoMoreInteractions(roomRepository);
+		verifyNoMoreInteractions(hotelRepository);
+	}
 
+	@Test
+	@Transactional
+	@Rollback(true)
+	public void testFindSearchAll() throws ResourceNotFoundException, ParseException {
+		
+		Hotel h = new Hotel(HotelConstants.HOTEL_NAME, HotelConstants.HOTEL_ADDRESS);
+		h.setId(666); // Hotel Transilvanija
+		h.setRooms(new HashSet<>());
+		when(hotelRepository.findSearchAll(HotelConstants.HOTEL_NAME.toLowerCase(), HotelConstants.HOTEL_ADDRESS.toLowerCase())).thenReturn(Arrays.asList(h));
+		
+		Room room = new Room(h, 4, 4, 4, 15.0, "Apartman");
+		h.getRooms().add(room);
+		when(hotelRepository.findById(666)).thenReturn(Optional.of(h));
+		
+		Iterable<Hotel> list = hotelService.findSearchAll(HotelConstants.HOTEL_NAME, HotelConstants.HOTEL_ADDRESS, "", "");
+		System.out.println(list);
+		
+		Assert.assertEquals(list.iterator().next().getName(), HotelConstants.HOTEL_NAME);
+		
+		
+	}
+	
 }

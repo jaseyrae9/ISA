@@ -24,5 +24,7 @@ public class AirCompanyConstants {
 	public static final String NEW_AIR_COMPANY_NAME = "Kompanija 1";
 	public static final String NEW_AIR_DESCRIPTION = "Opis 1";
 	public static final Long NEW_AIR_LOCATION_ID = 102L;
+	
+	public static final Long DESTINATION_ID = 1100L;
 
 }
