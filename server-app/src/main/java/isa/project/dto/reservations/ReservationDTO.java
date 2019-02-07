@@ -26,8 +26,10 @@ public class ReservationDTO {
 	private CarReservationDTO carReservation;	
 	private RoomReservationDTO roomReservation;
 	private FlightReservation flightReservation;
+	private Double discount;
 
 	public ReservationDTO(Reservation reservation) {
+		this.discount = reservation.getDiscount();
 		this.id = reservation.getId();
 		this.creationDate = reservation.getCreationDate();
 		if(reservation.getCarReservation() != null) {
@@ -49,7 +51,6 @@ public class ReservationDTO {
 			}
 			
 		}
-		
 		this.flightReservation = reservation.getFlightReservation();
 	}	
 }

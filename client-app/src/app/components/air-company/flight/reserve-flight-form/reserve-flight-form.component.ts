@@ -112,7 +112,10 @@ export class ReserveFlightFormComponent implements OnInit {
 
   yesClick() {
     this.shoppingCartService.changeFlightReservation(this.reservation);
-    // TODO: Redirect
+    const city = this.reservation.flight.destinations[this.reservation.flight.destinations.length - 1].destination.city;
+    // tslint:disable-next-line:max-line-length
+    const route = '/cars-and-hotels/' + city + '/' + this.reservation.flight.endDateAndTime + '/' + this.reservation.ticketReservations.length;
+    this.router.navigate([route]);
   }
 
   noClick() {

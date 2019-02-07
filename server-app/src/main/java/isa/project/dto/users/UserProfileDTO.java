@@ -3,6 +3,7 @@ package isa.project.dto.users;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+import isa.project.model.users.Customer;
 import isa.project.model.users.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,6 +32,8 @@ public class UserProfileDTO {
 	private String address;
 
 	private Boolean confirmedMail;
+	
+	private Double lengthTravelled;
 
 
 	public UserProfileDTO(User user) {
@@ -41,5 +44,9 @@ public class UserProfileDTO {
 		this.phoneNumber = user.getPhoneNumber();
 		this.address = user.getAddress();
 		this.confirmedMail = user.getConfirmedMail();
+		if(user instanceof Customer) {
+			Customer customer = (Customer) user;
+			this.lengthTravelled = customer.getLengthTravelled();
+		}
 	}
 }

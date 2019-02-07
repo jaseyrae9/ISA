@@ -2,7 +2,7 @@ package isa.project.model.rentacar;
 
 import java.util.Date;
 import java.util.Objects;
-import javax.persistence.CascadeType;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -38,17 +38,17 @@ public class CarReservation {
 	@Column(name = "drop_off_date", nullable = false)
 	private Date dropOffDate;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)	
+	@ManyToOne(fetch = FetchType.EAGER)	
 	private BranchOffice pickUpBranchOffice;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)	
+	@ManyToOne(fetch = FetchType.EAGER)	
 	private BranchOffice dropOffBranchOffice;
 	
 	@Column(name = "active")
 	private Boolean active;
 	
 	@JsonBackReference(value="car-reservations")
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)	
+	@ManyToOne(fetch = FetchType.EAGER)	
 	@JoinColumn(name="car_id", referencedColumnName="id")
 	private Car car;	
 	

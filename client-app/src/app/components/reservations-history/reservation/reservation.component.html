@@ -29,8 +29,8 @@
       <div class="card" style="border: solid #ffffff;">
         <table class="table table-bordered table-sm">
           <tr> <th>Price: </th> <td align="right">{{totalPrice}}€</td> </tr>
-          <tr> <th>Discount: </th> <td></td> </tr>
-          <tr class="table-success"> <th>Total price: </th> <td align="right">{{totalPrice}}€</td> </tr>
+          <tr> <th>Discount: </th> <td align="right">{{reservation.discount*100}}%</td> </tr>
+          <tr class="table-success"> <th>Total price: </th> <td align="right">{{this.totalPrice - this.reservation.discount * this.totalPrice}}€</td> </tr>
         </table>
       </div>
       <!--Dodati ng if ove da se ne prikazuje ako nema auto u rezervaciji npr-->

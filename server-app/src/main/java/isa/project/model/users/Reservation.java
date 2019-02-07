@@ -23,10 +23,8 @@ import isa.project.model.aircompany.FlightReservation;
 import isa.project.model.hotel.RoomReservation;
 import isa.project.model.rentacar.CarReservation;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
 @Getter
 @Entity
 @Table(name = "reservation")
@@ -61,12 +59,14 @@ public class Reservation {
 	@CreationTimestamp
 	@Column(nullable = false)
 	private Date creationDate;
-
-	public Reservation(Customer customer, CarReservation carReservation, RoomReservation roomReservation) {
-		super();
-		this.customer = customer;
-		this.carReservation = carReservation;
-		this.roomReservation = roomReservation;
+	
+	@Setter
+	@Getter
+	@Column(nullable = false)
+	private Double discount;
+	
+	public Reservation() {
+		this.discount = 0.0;
 	}
 
 	public void setCarReservation(CarReservation carReservation) {

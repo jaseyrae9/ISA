@@ -35,8 +35,8 @@
         <hr>
         <p>{{flight.endDateAndTime}}</p>
     </div>
-    <div class="col border-left p-3" align="center">
-        <p style="font-size: 45px; color:  #33cabb;">€{{flight.minPrice}}+</p>
+    <div class="col border-left p-2" align="center">
+        <p style="font-size: 45px; color:  #33cabb;" class="pt-3 pb-1">€{{flight.minPrice}}+</p>
         <hr>
         <a class="btn btn-primary px-4 m-2" routerLink="/flight/{{flight.id}}">Details</a>
         <a class="edit btn btn-primary px-4 m-2" routerLink="/reserve-flight/{{flight.id}}" *ngIf="tokenService.isCustomer" >Reserve</a>

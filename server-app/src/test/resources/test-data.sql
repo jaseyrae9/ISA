@@ -24,19 +24,19 @@ values ('SYS', 1000, 'FTN, Novi Sad', true, 'admin@admin.com', 'Admin', 'Admin',
 INSERT INTO users (type, id, address, confirmed_mail, email, first_name, last_name, last_password_reset_date, password, needs_password_change, phone_number, air_company_id, hotel_id, rent_a_car_company_id)
 values ('ACA', 1001, 'FTN, Novi Sad', true, 'airadmin@admin.com', 'Air', 'Admin', '2018-12-26 23:09:42','$2a$10$QQxHVraAtUHQqf266vLzfuNLsF5XVS7W4AnJatRZR2gtQpk1LMD0K', false, 'air admin phone', 100, NULL, NULL);
 INSERT INTO users (type, id, address, confirmed_mail, email, first_name, last_name, last_password_reset_date, password, needs_password_change, phone_number, air_company_id, hotel_id, rent_a_car_company_id)
-values ('CUST', 2000, 'Marka Miljanova 7b, Novi Sad', true, 'milicat228@gmail.com', 'Milica', 'Todorovic', '2018-12-26 23:09:42','$2a$10$QHSpHaeAyVOiqKEf5WnaK.tME9/IuK6RTwMicLrrdqCc9i1zDrX3y', false, '0601322175', NULL, NULL, NULL);
-INSERT INTO users (type, id, address, confirmed_mail, email, first_name, last_name, last_password_reset_date, password, needs_password_change, phone_number, air_company_id, hotel_id, rent_a_car_company_id)
-values ('CUST', 2001, 'Dom A, Novi Sad', true, 'majak96@gmail.com', 'Marijana', 'Kolosnjaji', '2018-12-26 23:09:42','$2a$10$QHSpHaeAyVOiqKEf5WnaK.tME9/IuK6RTwMicLrrdqCc9i1zDrX3y', false,'0601344575', NULL, NULL, NULL);
-INSERT INTO users (type, id, address, confirmed_mail, email, first_name, last_name, last_password_reset_date, password, needs_password_change, phone_number, air_company_id, hotel_id, rent_a_car_company_id)
-values ('CUST', 2002, 'Jozefa Marcoka, Novi Sad', true, 'jaseyrea9@gmail.com', 'Jelena', 'Surlan', '2018-12-26 23:09:42', '$2a$10$QQxHVraAtUHQqf266vLzfuNLsF5XVS7W4AnJatRZR2gtQpk1LMD0K', false, '0605642175', NULL, NULL, NULL);
-INSERT INTO users (type, id, address, confirmed_mail, email, first_name, last_name, last_password_reset_date, password, needs_password_change, phone_number, air_company_id, hotel_id, rent_a_car_company_id)
-values ('CUST', 2003, 'Dom A, Novi Sad', true, 'miloskrstic@gmail.com', 'Milos', 'Krstic', '2018-12-26 23:09:42','$2a$10$QHSpHaeAyVOiqKEf5WnaK.tME9/IuK6RTwMicLrrdqCc9i1zDrX3y', false,'0601342565', NULL, NULL, NULL);
-INSERT INTO users (type, id, address, confirmed_mail, email, first_name, last_name, last_password_reset_date, password, needs_password_change, phone_number, air_company_id, hotel_id, rent_a_car_company_id)
-values ('CUST', 2004, 'Marka Miljanova 7b', true, 'lanat98@gmail.com', 'Milana', 'Todorovic', '2018-12-26 23:09:42','$2a$10$QHSpHaeAyVOiqKEf5WnaK.tME9/IuK6RTwMicLrrdqCc9i1zDrX3y', false, '060134565', NULL, NULL, NULL);
-INSERT INTO users (type, id, address, confirmed_mail, email, first_name, last_name, last_password_reset_date, password, needs_password_change, phone_number, air_company_id, hotel_id, rent_a_car_company_id)
 values ('HA', 3000, 'FTN, Novi Sad', true, 'krstic@admin.com', 'Admin', 'Admin', '2018-12-26 23:09:42','$2a$10$QQxHVraAtUHQqf266vLzfuNLsF5XVS7W4AnJatRZR2gtQpk1LMD0K', false, 'admin phone1', NULL, 100, NULL);
 INSERT INTO users (type, id, address, confirmed_mail, email, first_name, last_name, last_password_reset_date, password, needs_password_change, phone_number, air_company_id, hotel_id, rent_a_car_company_id)
 values ('RACA', 3001, 'FTN, Novi Sad', true, 'jelena@admin.com', 'Admin', 'Admin', '2018-12-26 23:09:42','$2a$10$QQxHVraAtUHQqf266vLzfuNLsF5XVS7W4AnJatRZR2gtQpk1LMD0K', false, 'admin phone2', NULL, NULL, 100);
+INSERT INTO users (type, id, address, confirmed_mail, email, first_name, last_name, last_password_reset_date, password, needs_password_change, phone_number, air_company_id, hotel_id, rent_a_car_company_id, length_travelled)
+values ('CUST', 2000, 'Marka Miljanova 7b, Novi Sad', true, 'milicat228@gmail.com', 'Milica', 'Todorovic', '2018-12-26 23:09:42','$2a$10$QHSpHaeAyVOiqKEf5WnaK.tME9/IuK6RTwMicLrrdqCc9i1zDrX3y', false, '0601322175', NULL, NULL, NULL, 0);
+INSERT INTO users (type, id, address, confirmed_mail, email, first_name, last_name, last_password_reset_date, password, needs_password_change, phone_number, air_company_id, hotel_id, rent_a_car_company_id, length_travelled)
+values ('CUST', 2001, 'Dom A, Novi Sad', true, 'majak96@gmail.com', 'Marijana', 'Kolosnjaji', '2018-12-26 23:09:42','$2a$10$QHSpHaeAyVOiqKEf5WnaK.tME9/IuK6RTwMicLrrdqCc9i1zDrX3y', false,'0601344575', NULL, NULL, NULL, 0);
+INSERT INTO users (type, id, address, confirmed_mail, email, first_name, last_name, last_password_reset_date, password, needs_password_change, phone_number, air_company_id, hotel_id, rent_a_car_company_id, length_travelled)
+values ('CUST', 2002, 'Jozefa Marcoka, Novi Sad', true, 'jaseyrea9@gmail.com', 'Jelena', 'Surlan', '2018-12-26 23:09:42', '$2a$10$QQxHVraAtUHQqf266vLzfuNLsF5XVS7W4AnJatRZR2gtQpk1LMD0K', false, '0605642175', NULL, NULL, NULL, 0);
+INSERT INTO users (type, id, address, confirmed_mail, email, first_name, last_name, last_password_reset_date, password, needs_password_change, phone_number, air_company_id, hotel_id, rent_a_car_company_id, length_travelled)
+values ('CUST', 2003, 'Dom A, Novi Sad', true, 'miloskrstic@gmail.com', 'Milos', 'Krstic', '2018-12-26 23:09:42','$2a$10$QHSpHaeAyVOiqKEf5WnaK.tME9/IuK6RTwMicLrrdqCc9i1zDrX3y', false,'0601342565', NULL, NULL, NULL, 0);
+INSERT INTO users (type, id, address, confirmed_mail, email, first_name, last_name, last_password_reset_date, password, needs_password_change, phone_number, air_company_id, hotel_id, rent_a_car_company_id, length_travelled)
+values ('CUST', 2004, 'Marka Miljanova 7b', true, 'lanat98@gmail.com', 'Milana', 'Todorovic', '2018-12-26 23:09:42','$2a$10$QHSpHaeAyVOiqKEf5WnaK.tME9/IuK6RTwMicLrrdqCc9i1zDrX3y', false, '060134565', NULL, NULL, NULL, 0);
 
 INSERT INTO user_authority ( user_id, authority_id ) VALUES (1000, 2);
 INSERT INTO user_authority ( user_id, authority_id ) VALUES (1001, 4);
@@ -86,8 +86,8 @@ insert into car (id, active, begin_date, brand, discount, doors_number, end_date
 INSERT INTO car_reservation(id, active, drop_off_date, is_car_rated, is_company_rated, pick_up_date, car_id, drop_off_branch_office_id, pick_up_branch_office_id)
 VALUES (300, true, '2019-02-25', true, true, '2019-01-30', 500, 100, 101);
 
-INSERT INTO reservation(id, creation_date, car_reservation_id, customer_id, flight_reservation_id, room_reservation_id) 
-VALUES (100, '2018-11-21', 300, 2002, null, null);
+INSERT INTO reservation(id, creation_date, car_reservation_id, customer_id, flight_reservation_id, room_reservation_id, discount) 
+VALUES (100, '2018-11-21', 300, 2002, null, null, 0);
 
 
 --INSERT INTO room_reservation(id, active, check_in_date, check_out_date, is_hotel_rated, reservation_id) VALUES (180, true, '2019-01-30', '2019-02-05', true, 102);

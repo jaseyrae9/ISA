@@ -17,6 +17,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import isa.project.model.users.FriendInvite;
 import isa.project.model.users.FriendInvite.FriendInviteStatus;
@@ -29,6 +30,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 public class TicketReservation {	
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -51,7 +53,8 @@ public class TicketReservation {
 	@JoinColumn(name="flightReservation", referencedColumnName="id")
 	private FlightReservation flightReservation;
 	
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "ticketReservation")
+	@JsonManagedReference(value="friend")
+	@OneToOne(fetch = FetchType.EAGER, mappedBy = "ticketReservation")
 	private FriendInvite invitedFriend;
 	
 	@Setter

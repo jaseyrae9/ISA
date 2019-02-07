@@ -94,7 +94,23 @@ public class ReservationService {
 		
 		if(!atLeastOneReservation) {
 			throw new RequestDataException("There must be at least one sub reservation.");
-		}			
+		}
+		
+		//postavi 5% popusta na rezervacije koje imaju sva tri dela
+		if(reservation.getFlightReservation()!=null && reservation.getRoomReservation()!=null && reservation.getCarReservation()!=null) {
+			reservation.setDiscount(reservation.getDiscount() + 0.05);
+		}
+		
+		//dodaj 10% popusta ako je onaj ko porucuje presao preko 10000 pre ova rezervacije
+		if(customer.getLengthTravelled() >= 10000.0) {
+			reservation.setDiscount(reservation.getDiscount() + 0.1);
+		}
+		
+		//sacuvaj nove predjene kilometre kupcu
+		if(reservation.getFlightReservation() != null) {
+			customer.setLengthTravelled(customer.getLengthTravelled() + reservation.getFlightReservation().getFlight().getLength());
+			customerService.saveCustomer(customer);
+		}
 		
 		System.out.println("aaa");
 		Reservation saved = reservationRepository.save(reservation);

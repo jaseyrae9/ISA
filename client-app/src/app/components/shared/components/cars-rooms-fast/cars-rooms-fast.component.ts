@@ -20,13 +20,9 @@ export class CarsRoomsFastComponent implements OnInit {
     private route: ActivatedRoute) { }
 
   ngOnInit() {
-    // const city = this.route.snapshot.paramMap.get('city');
-    // const date = this.route.snapshot.paramMap.get('date');
-    // const ticketCount = this.route.snapshot.paramMap.get('ticketCount');
-
-    const city = 'Beograd';
-    const date = '2019-02-17';
-    const ticketCount = 2;
+    const city = this.route.snapshot.paramMap.get('city');
+    const date = this.route.snapshot.paramMap.get('date');
+    const ticketCount = this.route.snapshot.paramMap.get('ticketCount');
 
     this.carService.getFastCarsSearch(city, date).subscribe(
       (data) => {

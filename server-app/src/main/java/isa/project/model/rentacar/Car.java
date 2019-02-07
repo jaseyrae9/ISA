@@ -35,7 +35,7 @@ public class Car implements Serializable {
 	private Integer id;
 	
 	@JsonBackReference(value="rent-a-car")
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)	
+	@ManyToOne(fetch = FetchType.EAGER)	
 	@JoinColumn(name="rentacar_company_id", referencedColumnName="id")
 	private RentACarCompany rentACarCompany;
 

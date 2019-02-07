@@ -1,3 +1,4 @@
+import { CarsRoomsFastComponent } from './components/shared/components/cars-rooms-fast/cars-rooms-fast.component';
 import { TripInvitesComponent } from './components/reservations-history/trip-invites/trip-invites.component';
 import { ReserveFlightFormComponent } from './components/air-company/flight/reserve-flight-form/reserve-flight-form.component';
 import { AllReservationsComponent } from './components/reservations-history/all-reservations/all-reservations.component';
@@ -33,6 +34,7 @@ const routes: Routes = [
   { path: 'rent-a-car-companies', component: AllCarsCompaniesPageComponent },
   { path: 'rent-a-car-company/:id', component: CarCompanyPageComponent },
   { path: 'find-car', component: CarSearchPageComponent },
+  { path: 'cars-and-hotels/:city/:date/:ticketCount', component: CarsRoomsFastComponent},
   { path: 'reserve-flight/:id', component: ReserveFlightFormComponent ,
     canActivate: [RoleGuardService],
     data: {

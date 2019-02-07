@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import isa.project.dto.reservations.FriendInviteDTO;
 import isa.project.exception_handlers.RequestDataException;
 import isa.project.exception_handlers.ResourceNotFoundException;
+import isa.project.model.aircompany.Flight;
+import isa.project.model.users.Customer;
 import isa.project.model.users.FriendInvite;
 import isa.project.model.users.FriendInvite.FriendInviteStatus;
 import isa.project.repository.users.FriendInvitesRepository;
@@ -18,6 +20,9 @@ import isa.project.repository.users.FriendInvitesRepository;
 public class FriendInvitesService {
 	@Autowired
 	private FriendInvitesRepository friendInvitesRepository;
+	@Autowired
+	private CustomerService customerService;
+	
 	
 	/**
 	 * Pronalazi sve pozivnice za putovanja korisnika sa prosleđenim mejlom.
@@ -47,6 +52,13 @@ public class FriendInvitesService {
 			throw new RequestDataException("Stop trying to mess with other's people invites.");
 		}
 		invite.setStatus(FriendInviteStatus.ACCEPTED);
+		
+		//dodaj dodatne poene prijatelju koji je prihvatio zahtev
+		Customer friend = invite.getFriend();
+		Flight flight = invite.getTicketReservation().getFlightReservation().getFlight();
+		friend.setLengthTravelled(friend.getLengthTravelled() + flight.getLength());
+		customerService.saveCustomer(friend);		
+		
 		return friendInvitesRepository.save(invite);
 	}
 	

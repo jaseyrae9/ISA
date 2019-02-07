@@ -18,6 +18,7 @@
           </h3>
           <small class="text-muted">{{flight.airCompanyBasicInfo.location.city}}, {{flight.airCompanyBasicInfo.location.country}}</small><br>
           <a class="edit btn btn-primary px-4 m-2" routerLink="/reserve-flight/{{flight.id}}" *ngIf="tokenService.isCustomer">Reserve</a>
+          <div class="ml-auto p-2"><rating  [(ngModel)]="flight.airCompanyBasicInfo.averageRating" [max]="5" [readonly]="true"></rating></div>
       </div>
 
        <div class="col-4 pt-2" align="center" *ngIf="flight.destinations.length > 0" >
@@ -46,6 +47,11 @@
               <hr>
               <p>{{flight.endDateAndTime}}</p>
       </div>
+  </div>
+
+  <div class="row border rounded m-1">
+      <div class="col-2 mt-3">Flight rating:</div>
+      <div><rating  [(ngModel)]="flight.totalRating/flight.ratingCount" [max]="5" [readonly]="true"></rating></div>
   </div>
 
   <div class="accordion" id="accordionExample">
@@ -100,8 +106,7 @@
             <br>
             <i class="fa fa-concierge-bell" aria-hidden="true"></i> Additional services available:
             <i class="fa fa-check-circle" aria-hidden="true" *ngIf="flight.additionalServicesAvailable" ></i>
-            <i class="fa fa-times-circle" aria-hidden="true" *ngIf="!flight.additionalServicesAvailable"></i>
-        </div>
+            <i class="fa fa-times-circle" aria-hidden="true" *ngIf="!flight.additionalServicesAvailable"></i> <br>
       </div>
     </div>
   </div>

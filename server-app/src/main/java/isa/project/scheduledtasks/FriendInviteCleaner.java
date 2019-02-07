@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class FriendInviteCleaner {
 
-	@Scheduled(cron = "* 1/15 * * * ?")
+	@Scheduled(cron = "* * 1/15 * * ?")
 	public void cleanFriendInvites() {
 		System.out.println("Cleaning friend invites.");
 	}

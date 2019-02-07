@@ -8,4 +8,5 @@ export class Reservation {
     roomReservation: RoomReservation;
     flightReservation: FlightReservation;
     creationDate: Date = new Date();
+    discount: 0;
 }

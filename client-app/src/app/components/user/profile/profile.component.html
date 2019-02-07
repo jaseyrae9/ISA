@@ -8,6 +8,7 @@
           <i class="fa fa-envelope" aria-hidden="true"></i><b>Email: </b>{{user.email}} <br/>
           <i class="fa fa-phone" aria-hidden="true"></i><b>Phone number: </b>{{user.phoneNumber}}<br/>
           <i class="fa fa-map-marker" aria-hidden="true"></i><b>Address: </b>{{user.address}}<br/>
+          <span *ngIf="user.lengthTravelled != null" ><i class="fa fa-plane" aria-hidden="true"></i><b>You have travelled </b>{{user.lengthTravelled}} kilometers.<br/></span>
 
          <div class="btn-toolbar pull-right " role="toolbar" style="position: absolute; right: 10px; bottom:10px">
             <div class="btn-group mr-2" role="group">

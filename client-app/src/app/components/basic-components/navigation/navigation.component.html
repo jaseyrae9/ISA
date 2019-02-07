@@ -46,7 +46,7 @@
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" routerLink="/profile">Profile</a>
                                 <a class="dropdown-item" routerLink="/friends" *ngIf="tokenService.isCustomer" >Friends</a>
-                                <div class="dropdown-divider"></div>
+                                <div class="dropdown-divider" *ngIf="tokenService.isCustomer || tokenService.isSysAdmin" ></div>
                                 <a class="dropdown-item" routerLink="/history" *ngIf="tokenService.isCustomer" >History</a>
                                 <a class="dropdown-item" routerLink="/invites" *ngIf="tokenService.isCustomer" >Trip invites</a>
                                 <a *ngIf="tokenService.isSysAdmin" class="dropdown-item" href="#" (click)="openSysAdminModal()">Add system admin</a>
