@@ -125,6 +125,7 @@ import { FastRoomDisplayComponent } from './components/hotel/fast-room-display/f
 import { MakeRoomFastComponent } from './components/hotel/make-room-fast/make-room-fast.component';
 import { TripInvitesComponent } from './components/reservations-history/trip-invites/trip-invites.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
