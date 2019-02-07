@@ -492,7 +492,7 @@ public class RentACarCompanyController {
 		Customer c = carReservation.get().getReservation().getCustomer();
 		
 		if(!c.getEmail().equals(email)) {
-			throw new ResourceNotFoundException(email.toString(), "You don't have this reservation.");
+			throw new ResourceNotFoundException(email, "You don't have this reservation.");
 		}
 		
 		Date today = new Date();

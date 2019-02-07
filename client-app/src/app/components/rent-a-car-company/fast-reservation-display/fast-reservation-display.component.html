@@ -23,8 +23,9 @@
         <div class="ribbon">€{{newPrice}}</div>
         <p class="text-muted font-weight-light" style="font-size: 35px;  text-decoration: line-through;">€{{car.price}}</p>
           
-        <hr *ngIf="!tokenService.isHotelAdmin && !tokenService.isAirAdmin && !tokenService.isSysAdmin && !tokenService.isVistor">
-
+        <hr *ngIf="tokenService.isCustomer">
+        <hr *ngIf="tokenService.isCarAdmin && tokenService.companyId == carCompany.id">
+        
         <button *ngIf="tokenService.isCarAdmin && tokenService.companyId == carCompany.id && isCarPage" class="btn btn-primary px-4 m-2" (click)="removeFromFastCar()" >Remove</button>
         <button *ngIf="tokenService.isCustomer" class="btn btn-primary px-4 m-2" (click)="addToCart()" >Rent</button>
 

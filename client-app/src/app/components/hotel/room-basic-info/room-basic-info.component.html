@@ -13,9 +13,6 @@
             </div>
   </div>
 
-  
-
-
   <div class="col-sm-5 pt-2 border-left p-3" align="center">
       <p style="font-size: 22px;"> {{room.type}} Room
           <br><small class="text-muted">No. {{room.roomNumber}}</small>
@@ -29,8 +26,9 @@
   
   <div class="col border-left p-3" align="center">
       <p style="font-size: 45px; color:  #33cabb;">€{{room.price}}</p>
-      <hr *ngIf="!tokenService.isCustomer && isRoomsTab && tokenService.isVistor ">
-      <hr *ngIf="tokenService.isCustomer && !isRoomsTab ">
+      <hr *ngIf="tokenService.isCustomer && !isRoomsTab">
+    <hr *ngIf="tokenService.isHotelAdmin && isRoomsTab && tokenService.companyId == hotelId">
+       
 
       <button *ngIf="tokenService.isHotelAdmin && isRoomsTab && tokenService.companyId == hotelId" class="btn btn-primary px-4 m-2" (click)="openEditModal()">Edit</button>
       <button *ngIf="tokenService.isHotelAdmin && isRoomsTab && tokenService.companyId == hotelId" class="btn btn-primary px-4 m-2" (click)="deleteRoom()">Delete</button>

@@ -94,7 +94,7 @@ public class RatingController {
 		Customer c = roomReservation.get().getReservation().getCustomer();
 		
 		if(!c.getEmail().equals(email)) {
-			throw new ResourceNotFoundException(email.toString(), "You don't have this reservation.");
+			throw new ResourceNotFoundException(email, "You don't have this reservation.");
 		}
 
 		Date today = new Date();
@@ -141,7 +141,7 @@ public class RatingController {
 		Customer c = singleRoomReservation.get().getRoomReservation().getReservation().getCustomer();
 		
 		if(!c.getEmail().equals(email)) {
-			throw new ResourceNotFoundException(email.toString(), "You don't have this reservation.");
+			throw new ResourceNotFoundException(email, "You don't have this reservation.");
 		}
 
 		Date today = new Date();
@@ -183,7 +183,7 @@ public class RatingController {
 		Customer c = carReservation.get().getReservation().getCustomer();
 		
 		if(!c.getEmail().equals(email)) {
-			throw new ResourceNotFoundException(email.toString(), "You don't have this reservation.");
+			throw new ResourceNotFoundException(email, "You don't have this reservation.");
 		}
 
 		if (!carReservation.get().getActive()) {
@@ -228,7 +228,7 @@ public class RatingController {
 		Customer c = carReservation.get().getReservation().getCustomer();
 		
 		if(!c.getEmail().equals(email)) {
-			throw new ResourceNotFoundException(email.toString(), "You don't have this reservation.");
+			throw new ResourceNotFoundException(email, "You don't have this reservation.");
 		}
 		
 		if (!carReservation.get().getActive()) {
@@ -272,7 +272,7 @@ public class RatingController {
 		Customer c = flightReservation.get().getReservation().getCustomer();
 		
 		if(!c.getEmail().equals(email)) {
-			throw new ResourceNotFoundException(email.toString(), "You don't have this reservation.");
+			throw new ResourceNotFoundException(email, "You don't have this reservation.");
 		}
 
 		if (!flightReservation.get().getActive()) {
@@ -310,7 +310,7 @@ public class RatingController {
 		Customer c = flightReservation.get().getReservation().getCustomer();
 		
 		if(!c.getEmail().equals(email)) {
-			throw new ResourceNotFoundException(email.toString(), "You don't have this reservation.");
+			throw new ResourceNotFoundException(email, "You don't have this reservation.");
 		}
 
 		if (!flightReservation.get().getActive()) {
