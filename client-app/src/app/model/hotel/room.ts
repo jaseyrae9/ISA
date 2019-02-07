@@ -1,4 +1,5 @@
 import { SingleRoomReservation } from './single-room-reservation';
+import { Hotel } from './hotel';
 
 export class Room {
     id: number;
@@ -18,5 +19,6 @@ export class Room {
     endDate: Date;
     discount: number;
     averageRating: number;
+    hotel: Hotel;
 
 }

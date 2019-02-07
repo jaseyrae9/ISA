@@ -26,6 +26,7 @@ export class CarsRoomsFastComponent implements OnInit {
 
     this.carService.getFastCarsSearch(city, date).subscribe(
       (data) => {
+        console.log('AUTO MO BILI: ', data);
         this.cars = data;
       }
     );

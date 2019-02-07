@@ -201,6 +201,7 @@ public class RentACarCompanyController {
 			throw new ResourceNotFoundException(companyId.toString(), "Rent a car company not found");
 		}
 
+		CarDTO newCarDTO = null;
 		for (Car c : carCompany.get().getCars()) {
 			if (c.getId().equals(carDTO.getId())) {
 
@@ -212,6 +213,7 @@ public class RentACarCompanyController {
 					c.setSeatsNumber(carDTO.getSeatsNumber());
 					c.setDoorsNumber(carDTO.getDoorsNumber());
 					c.setPrice(carDTO.getPrice());
+					newCarDTO = new CarDTO(c);
 					break;
 				} else {
 					throw new RequestDataException("Can't edit reserved car!");
@@ -220,7 +222,7 @@ public class RentACarCompanyController {
 		}
 
 		rentACarCompanyService.saveRentACarCompany(carCompany.get());
-		return new ResponseEntity<>(carDTO, HttpStatus.OK);
+		return new ResponseEntity<>(newCarDTO, HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasAnyRole('CARADMIN')")
@@ -394,7 +396,10 @@ public class RentACarCompanyController {
 			if (has) {
 				for (Car c : company.getCars()) {
 					if (c.getIsFast() && c.getBeginDate().compareTo(start) == 0) {
-						ret.add(new CarDTO(c));
+						CarDTO carDto = new CarDTO(c);
+						carDto.setRentACarCompany(new RentACarCompanyDTO(c.getRentACarCompany()));
+						ret.add(carDto);
+						
 					}
 				}
 			}

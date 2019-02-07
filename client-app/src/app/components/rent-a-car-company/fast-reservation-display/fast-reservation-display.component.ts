@@ -54,7 +54,11 @@ export class FastReservationDisplayComponent implements OnInit {
     cr.dropOffBranchOffice.id = this.car.fastDropOffBranchOffice.id;
     cr.pickUpDate = this.car.beginDate;
     cr.dropOffDate =  this.car.endDate;
-    cr.rentACarCompany = this.carCompany;
+    if (this.carCompany !== undefined) {
+      cr.rentACarCompany = this.carCompany;
+    } else {
+      cr.rentACarCompany = this.car.rentACarCompany;
+    }
     cr.car = this.car;
     cr.isFastReservation = true;
 

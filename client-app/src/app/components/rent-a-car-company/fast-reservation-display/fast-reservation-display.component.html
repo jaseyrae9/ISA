@@ -26,7 +26,7 @@
         <hr *ngIf="!tokenService.isHotelAdmin && !tokenService.isAirAdmin && !tokenService.isSysAdmin && !tokenService.isVistor">
 
         <button *ngIf="tokenService.isCarAdmin && tokenService.companyId == carCompany.id && isCarPage" class="btn btn-primary px-4 m-2" (click)="removeFromFastCar()" >Remove</button>
-        <button *ngIf="tokenService.isCustomer && isCarPage" class="btn btn-primary px-4 m-2" (click)="addToCart()" >Rent</button>
+        <button *ngIf="tokenService.isCustomer" class="btn btn-primary px-4 m-2" (click)="addToCart()" >Rent</button>
 
     </div>
 </div>

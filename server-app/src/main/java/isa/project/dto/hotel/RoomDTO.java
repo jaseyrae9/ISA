@@ -44,6 +44,8 @@ public class RoomDTO {
 	private Date endDate;
 	private Double discount;
 	
+	private HotelDTO hotel;
+	
 	private ArrayList<SingleRoomReservationDTO> reservations = new ArrayList<>();
 	
 	public RoomDTO(Room room)

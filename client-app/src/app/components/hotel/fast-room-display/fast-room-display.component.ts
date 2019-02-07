@@ -58,7 +58,12 @@ export class FastRoomDisplayComponent implements OnInit {
     roomReservation.checkOutDate = this.room.endDate;
     roomReservation.additionalServices = [];
     roomReservation.reservations = [this.room];
-    roomReservation.hotel = this.hotel;
+    if (this.hotel !== undefined) {
+      roomReservation.hotel = this.hotel;
+    } else {
+      roomReservation.hotel = this.room.hotel;
+    }
+
     roomReservation.isFastReservation = true;
 
     // set the price

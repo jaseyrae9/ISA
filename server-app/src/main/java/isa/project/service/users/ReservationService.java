@@ -212,7 +212,9 @@ public class ReservationService {
 		if(reservation.getFlightReservation() !=null ) {
 			flightReservationsService.cancelReservation(reservation.getFlightReservation());
 		}
-		//TODO: Ovde dodati da se otkazu hotel i rent-a-car
+		if(reservation.getRoomReservation() != null) {
+			roomReservationService.cancelRoomReservation(reservation.getRoomReservation());
+		}
 		return reservation;
 	}
 	

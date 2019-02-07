@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -77,6 +78,10 @@ public class Room implements Serializable{
 	
 	@Column(name ="discount")
 	private Double discount;
+	
+	@Version
+	@Column(nullable = false)
+	private Long version;
 		
 	public Room(Hotel hotel, Integer floor, Integer roomNumber, Integer numberOfBeds, Double price, String type) {
 		super();
@@ -91,6 +96,7 @@ public class Room implements Serializable{
 		this.ratingCount = 1; // jedan glas
 		this.isFast = false;
 		this.discount = new Double(0);
+		this.version = new Long(0);
 	}
 
 	public Room(Room room) {
@@ -107,6 +113,7 @@ public class Room implements Serializable{
 		this.ratingCount = room.ratingCount;
 		this.isFast = room.isFast;
 		this.discount = room.discount;
+		this.version = room.version;
 	}
 			
 	public void incrementRatingCount() {

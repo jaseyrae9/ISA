@@ -208,22 +208,17 @@ public class HotelController {
 		if (!hotel.isPresent()) {
 			throw new ResourceNotFoundException(hotelId.toString(), "Hotel not found");
 		}
-
-		for (Room r : hotel.get().getRooms()) {
-			if (r.getId().equals(roomDTO.getId())) {
-				if (notReserved(r)) {
-					r.setRoomNumber(roomDTO.getRoomNumber());
-					r.setFloor(roomDTO.getFloor());
-					r.setNumberOfBeds(roomDTO.getNumberOfBeds());
-					r.setPrice(roomDTO.getPrice());
-					r.setType(roomDTO.getType());
-				} else
-					throw new RequestDataException("Can't edit reserved room!");
-			}
+		
+		Optional<Room> room = hotel.get().getRooms().stream().filter(o -> o.getId().equals(roomDTO.getId())).findFirst();
+		if(!room.isPresent()) {
+			throw new ResourceNotFoundException(roomDTO.getId().toString(), "Room not found in that hotel");
 		}
 
+		Room r = roomService.editRoom(hotel.get(), roomDTO);
+		RoomDTO newRoomDTO = new RoomDTO(r);
+		
 		hotelService.saveHotel(hotel.get());
-		return new ResponseEntity<>(roomDTO, HttpStatus.OK);
+		return new ResponseEntity<>(newRoomDTO, HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasAnyRole('HOTELADMIN')")
@@ -251,9 +246,6 @@ public class HotelController {
 					throw new RequestDataException("Can't delete reserved room!");
 			}
 		}
-		System.out.println("Brisanje");
-		System.out.println("hotel.get" + h.getId());
-
 		return new ResponseEntity<>(roomId, HttpStatus.OK);
 	}
 
@@ -281,7 +273,7 @@ public class HotelController {
 	@PreAuthorize("hasAnyRole('HOTELADMIN')")
 	@AdminAccountActiveCheck
 	@HotelAdminCheck
-	@RequestMapping(value = "/deleteAdditionalService/{hotelId}/{serviceId}", method = RequestMethod.DELETE, consumes = "application/json")
+	@RequestMapping(value = "/deleteAdditionalService/{hotelId}/{serviceId}", method = RequestMethod.DELETE)
 	public ResponseEntity<?> deleteService(@PathVariable Integer hotelId, @PathVariable Long serviceId)
 			throws ResourceNotFoundException {
 		Optional<Hotel> hotel = hotelService.findHotel(hotelId);
@@ -326,19 +318,10 @@ public class HotelController {
 		return new ResponseEntity<>(additionalService, HttpStatus.OK);
 	}
 
-	/*@PreAuthorize("hasAnyRole('CUSTOMER')")
-	@RequestMapping(value = "/rentRoom/{hotelId}/{customer}", method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<RoomReservationDTO> rentRoom(@PathVariable Integer hotelId, @PathVariable String customer,
-			@Valid @RequestBody RoomReservationDTO roomReservationDTO)
-			throws ResourceNotFoundException, RequestDataException {
-		RoomReservation roomReservation = roomService.addReservation(hotelId, customer, roomReservationDTO);
-		return new ResponseEntity<>(new RoomReservationDTO(roomReservation), HttpStatus.CREATED);
-	}*/
-
 	@PreAuthorize("hasAnyRole('HOTELADMIN')")
 	@AdminAccountActiveCheck
 	@HotelAdminCheck
-	@RequestMapping(value = "/addServiceToFast/{hotelId}/{serviceId}", method = RequestMethod.PUT, consumes = "application/json")
+	@RequestMapping(value = "/addServiceToFast/{hotelId}/{serviceId}", method = RequestMethod.PUT)
 	public ResponseEntity<?> rentRoom(@PathVariable Integer hotelId, @PathVariable Long serviceId)
 			throws ResourceNotFoundException {
 		Optional<Hotel> hotel = hotelService.findHotel(hotelId);
@@ -356,15 +339,13 @@ public class HotelController {
 		as.get().setIsFast(true);
 
 		hotelService.saveService(as.get());
-
-		System.out.println("Servis dodat u brzih!");
 		return new ResponseEntity<>(as.get(), HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasAnyRole('HOTELADMIN')")
 	@AdminAccountActiveCheck
 	@HotelAdminCheck
-	@RequestMapping(value = "/removeServiceFromFast/{hotelId}/{serviceId}", method = RequestMethod.PUT, consumes = "application/json")
+	@RequestMapping(value = "/removeServiceFromFast/{hotelId}/{serviceId}", method = RequestMethod.PUT)
 	public ResponseEntity<?> removeServiceFromFast(@PathVariable Integer hotelId, @PathVariable Long serviceId)
 			throws ResourceNotFoundException {
 		Optional<Hotel> hotel = hotelService.findHotel(hotelId);
@@ -383,12 +364,10 @@ public class HotelController {
 		as.get().setIsFast(false);
 
 		hotelService.saveService(as.get());
-
-		System.out.println("Servis uklonjen iz brzih!");
 		return new ResponseEntity<>(as.get(), HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/getFastRooms/{hotelId}", method = RequestMethod.GET, consumes = "application/json")
+	@RequestMapping(value = "/getFastRooms/{hotelId}", method = RequestMethod.GET)
 	public ResponseEntity<List<RoomDTO>> getFastRooms(@PathVariable Integer hotelId) throws ResourceNotFoundException {
 
 		Optional<Hotel> hotel = hotelService.findHotel(hotelId);
@@ -408,7 +387,7 @@ public class HotelController {
 		return new ResponseEntity<>(ret, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/getFastRooms/{city}/{date}/{ticketCount}", method = RequestMethod.GET, consumes = "application/json")
+	@RequestMapping(value = "/getFastRooms/{city}/{date}/{ticketCount}", method = RequestMethod.GET)
 	public ResponseEntity<List<RoomDTO>> getFastRooms(@PathVariable String city, @PathVariable String date,
 			@PathVariable Integer ticketCount) throws ResourceNotFoundException, ParseException {
 		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
@@ -423,7 +402,9 @@ public class HotelController {
 			if (h.getLocation().getCity().equals(city)) {
 				for (Room r : h.getRooms()) {
 					if (r.getIsFast() && r.getBeginDate().compareTo(start) == 0 && r.getNumberOfBeds() <= ticketCount) {
-						ret.add(new RoomDTO(r));
+						RoomDTO roomDTO = new RoomDTO(r);
+						roomDTO.setHotel(new HotelDTO(r.getHotel()));
+						ret.add(roomDTO);
 					}
 				}
 
@@ -436,7 +417,7 @@ public class HotelController {
 	@PreAuthorize("hasAnyRole('HOTELADMIN')")
 	@AdminAccountActiveCheck
 	@HotelAdminCheck
-	@RequestMapping(value = "/makeRoomFast/{hotelId}/{roomId}/{discount}/{startDate}/{endDate}", method = RequestMethod.PUT, consumes = "application/json")
+	@RequestMapping(value = "/makeRoomFast/{hotelId}/{roomId}/{discount}/{startDate}/{endDate}", method = RequestMethod.PUT)
 	public ResponseEntity<?> makeRoomFast(@PathVariable Integer hotelId, @PathVariable Integer roomId,
 			@PathVariable Double discount, @PathVariable String startDate, @PathVariable String endDate)
 			throws ResourceNotFoundException, ParseException {
@@ -467,14 +448,13 @@ public class HotelController {
 		room.get().setEndDate(outDate);
 
 		Room r = roomService.saveRoom(room.get());
-		System.out.println("Soba dodata u brze!");
 		return new ResponseEntity<>(r, HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasAnyRole('HOTELADMIN')")
 	@AdminAccountActiveCheck
 	@HotelAdminCheck
-	@RequestMapping(value = "/makeRoomSlow/{hotelId}/{roomId}", method = RequestMethod.PUT, consumes = "application/json")
+	@RequestMapping(value = "/makeRoomSlow/{hotelId}/{roomId}", method = RequestMethod.PUT)
 	public ResponseEntity<?> makeRoomSlow(@PathVariable Integer hotelId, @PathVariable Integer roomId)
 			throws ResourceNotFoundException, ParseException {
 
@@ -492,13 +472,12 @@ public class HotelController {
 		room.get().setIsFast(false);
 
 		Room r = roomService.saveRoom(room.get());
-		System.out.println("Soba uklonjena iz brzih!");
 		return new ResponseEntity<>(r, HttpStatus.OK);
 	}
 
 	
 	@PreAuthorize("hasAnyRole('CUSTOMER')")
-	@RequestMapping(value = "/cancelRoomReservation/{reservationId}", method = RequestMethod.DELETE, consumes = "application/json")
+	@RequestMapping(value = "/cancelRoomReservation/{reservationId}", method = RequestMethod.DELETE)
 	public ResponseEntity<?> cancelRoomReservation(@PathVariable Integer reservationId, HttpServletRequest request) throws ResourceNotFoundException, RequestDataException {
 		String email = tokenUtils.getEmailFromToken(tokenUtils.getToken(request));
 		
@@ -522,13 +501,7 @@ public class HotelController {
 			throw new RequestDataException("You can't cancel your reservation 3 days before check in day.");
 		}
 		
-		roomReservation.get().setActive(false);
-		for(SingleRoomReservation srr : roomReservation.get().getSingleRoomReservations()) {
-			srr.setActive(false);
-		}
-		
-		RoomReservation rr = roomReservationService.saveRoomReservation(roomReservation.get());
-		System.err.println("Rezervcija sobaa je otkazanaaaa");
+		RoomReservation rr = roomReservationService.cancelRoomReservation(roomReservation.get());
 		return new ResponseEntity<>(rr.getId(), HttpStatus.OK);
 	}
 }

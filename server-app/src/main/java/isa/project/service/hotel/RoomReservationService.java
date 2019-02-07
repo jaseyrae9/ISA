@@ -145,4 +145,12 @@ public class RoomReservationService {
 		System.out.println("Gotova room rezervacija" + roomReservation.getSingleRoomReservations().size());
 		return roomReservation; //
 	}
+	
+	public RoomReservation cancelRoomReservation(RoomReservation roomReservation) {
+		roomReservation.setActive(false);
+		for(SingleRoomReservation srr : roomReservation.getSingleRoomReservations()) {
+			srr.setActive(false);
+		}
+		return saveRoomReservation(roomReservation);
+	}
 }

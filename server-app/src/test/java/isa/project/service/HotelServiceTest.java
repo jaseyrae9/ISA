@@ -162,11 +162,9 @@ public class HotelServiceTest {
 		when(hotelRepository.findById(666)).thenReturn(Optional.of(h));
 		
 		Iterable<Hotel> list = hotelService.findSearchAll(HotelConstants.HOTEL_NAME, HotelConstants.HOTEL_ADDRESS, "", "");
-		System.out.println(list);
 		
 		Assert.assertEquals(list.iterator().next().getName(), HotelConstants.HOTEL_NAME);
-		
-		
+		assertThat(list).hasSize(1);
 	}
 	
 }
