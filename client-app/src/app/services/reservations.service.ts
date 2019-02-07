@@ -17,7 +17,10 @@ export class ReservationsService {
   constructor(private http: HttpClient) { }
 
   reserve(reservationDTO): Observable<any> {
-    console.log('Rezervcija je sledeca:', reservationDTO);
     return this.http.post<AirCompany>('http://localhost:8080/reservation/create', reservationDTO, httpOptions);
+  }
+
+  cancel(id): Observable<any> {
+    return this.http.put<AirCompany>('http://localhost:8080/reservation/cancle/' + id, httpOptions);
   }
 }

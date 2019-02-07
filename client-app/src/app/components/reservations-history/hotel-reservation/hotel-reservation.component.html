@@ -12,6 +12,8 @@
                     <p class="pb-2 pt-1">
                         <rating [(ngModel)]="hotelRate" [max]="max" (click)="rateHotel()" [readonly]="reservation.isHotelRated"></rating>
                     </p>
+                    <button class="btn btn-primary" *ngIf="reservation.active && useCancel" (click)="cancelRoomReservation()">Cancel</button>
+                    <p class="py-1" *ngIf="!reservation.active" style="color: gray">Canceled</p>
                 </div>
                 <div class="col-3 pt-4" style="padding-top:34px;" align="center">
                     <p>Check in date: <br> <i class="fas fa-calendar-check"></i></p>
@@ -34,9 +36,7 @@
                     </p>
                 </div>
                 <div class="col-1 border-left px-1 py-5" align="center">
-                    <p class="py-6" style="font-size: 35px; color: #33cabb">€{{totalPrice}}</p>
-                    <button class="btn btn-primary" *ngIf="reservation.active" (click)="cancelRoomReservation()">Cancel</button>
-                    <p class="py-6" *ngIf="!reservation.active" style="color: gray">Canceled</p>
+                    <p class="py-6" style="font-size: 35px; color: #33cabb">€{{reservation.total}}</p>
                 </div>
             </div>
         </div>

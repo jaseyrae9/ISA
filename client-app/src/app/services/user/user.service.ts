@@ -77,7 +77,11 @@ export class UserService {
   }
 
   accpetInvite(id): Observable<any> {
-    return this.http.post('http://localhost:8080/customers/acceptInvite/' + id, httpOptions);
+    return this.http.put('http://localhost:8080/customers/acceptInvite/' + id, httpOptions);
+  }
+
+  refuseInvite(id): Observable<any> {
+    return this.http.put('http://localhost:8080/customers/refuseInvite/' + id, httpOptions);
   }
 
   addSysAdmin(user): Observable<User> {

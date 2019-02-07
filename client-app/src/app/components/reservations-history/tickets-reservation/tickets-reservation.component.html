@@ -11,6 +11,8 @@
                     <p class="pb-2 pt-1">
                         <rating [(ngModel)]="flightReservation.flight.airCompanyBasicInfo.averageRating" [max]="5" (click)="rateAirCompany()" [readonly]="flightReservation.isCompanyRated"></rating>
                     </p>
+                    <button class="btn btn-primary" *ngIf="flightReservation.active && reservationId && useCancel" (click)="cancelReservation()">Cancel</button>
+                    <p class="py-1" *ngIf="!flightReservation.active" style="color: gray" >Canceled</p>
                  </div>
                 <div class="col-3 pt-4" align="center">
                     <p>{{flightReservation.flight.destinations[0].destination.label}}
@@ -58,7 +60,7 @@
                         <small>Class: {{item.ticket.seat.seatClass}}</small>
                         <br>
                         <small class="text-muted">Row: {{item.ticket.seat.rowNum}}, Column: {{item.ticket.seat.colNum}}</small><br>
-                        <small *ngIf="item.inviteStatus == null || item.inviteStatus == 'ACCEPTED'" ><i class="fas fa-check"></i> Comming</small>
+                        <small *ngIf="(item.inviteStatus == null || item.inviteStatus == 'ACCEPTED') && flightReservation.active" ><i class="fas fa-check"></i> Comming</small>
                         <small *ngIf="item.inviteStatus == 'PENDING'" ><i class="fas fa-spinner"></i> Pending...</small>
                         <small *ngIf="item.inviteStatus == 'REFUSED'" ><i class="fas fa-times"></i> Canceled</small>
                     </div>

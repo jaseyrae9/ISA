@@ -11,9 +11,12 @@ import isa.project.dto.reservations.FriendInviteDTO;
 import isa.project.exception_handlers.RequestDataException;
 import isa.project.exception_handlers.ResourceNotFoundException;
 import isa.project.model.aircompany.Flight;
+import isa.project.model.aircompany.Ticket;
+import isa.project.model.aircompany.Ticket.TicketStatus;
 import isa.project.model.users.Customer;
 import isa.project.model.users.FriendInvite;
 import isa.project.model.users.FriendInvite.FriendInviteStatus;
+import isa.project.repository.aircompany.TicketRespository;
 import isa.project.repository.users.FriendInvitesRepository;
 
 @Service
@@ -22,6 +25,12 @@ public class FriendInvitesService {
 	private FriendInvitesRepository friendInvitesRepository;
 	@Autowired
 	private CustomerService customerService;
+	@Autowired
+	private TicketRespository ticketRespository;
+	
+	public List<FriendInvite> getAllPendingInvites(){
+		return friendInvitesRepository.getAllPendingInvites();
+	}
 	
 	
 	/**
@@ -44,13 +53,17 @@ public class FriendInvitesService {
 	 * @param email - email korisnika koji je poslao zahtev za prihvatanje poziva.
 	 * @return - prihvaceni poziv
 	 * @throws ResourceNotFoundException - nije pronadjen poziv
-	 * @throws RequestDataException - poziv nije namenjen osobi koja pokusava da ga prihvati
+	 * @throws RequestDataException - poziv nije namenjen osobi koja pokusava da ga prihvati, karta nije pending
 	 */
 	public FriendInvite acceptInvite(Integer inviteId, String email) throws ResourceNotFoundException, RequestDataException {
 		FriendInvite invite = findFriendInvite(inviteId);
 		if(!invite.getFriend().getEmail().equals(email)) {
-			throw new RequestDataException("Stop trying to mess with other's people invites.");
+			throw new RequestDataException("Stop trying to mess with other people's invites.");
 		}
+		if(!invite.getStatus().equals(FriendInviteStatus.PENDING)) {
+			throw new RequestDataException("Ticket is not pending. You can not accept it.");
+		}
+				
 		invite.setStatus(FriendInviteStatus.ACCEPTED);
 		
 		//dodaj dodatne poene prijatelju koji je prihvatio zahtev
@@ -59,6 +72,43 @@ public class FriendInvitesService {
 		friend.setLengthTravelled(friend.getLengthTravelled() + flight.getLength());
 		customerService.saveCustomer(friend);		
 		
+		return friendInvitesRepository.save(invite);
+	}
+	
+	/**
+	 * Odbija pozivnicu za putovanje i oslobadja mesto.
+	 * @param inviteId - oznaka pozivnice.
+	 * @param email - email korisnika koji odbija pozivnicu
+	 * @return - odbijena pozivnica
+	 * @throws ResourceNotFoundException - nije pronadjena pozivnica
+	 * @throws RequestDataException - pozivnica nije namenjena za datog korisnika, karta nije pending
+	 */
+	public FriendInvite refuseInviteWithId(Integer inviteId, String email) throws ResourceNotFoundException, RequestDataException {
+		FriendInvite invite = findFriendInvite(inviteId);
+		if(!invite.getFriend().getEmail().equals(email)) {
+			throw new RequestDataException("Stop trying to mess with other people's invites.");
+		}
+
+		if(!invite.getStatus().equals(FriendInviteStatus.PENDING)) {
+			throw new RequestDataException("Ticket is not pending. You can not accept it.");
+		}
+		return refuseInvite(invite);
+	}
+	
+	/**
+	 * Oznacava kartu kao odbijenu.
+	 * @param invite
+	 * @return
+	 * @throws RequestDataException
+	 */
+	public FriendInvite refuseInvite(FriendInvite invite){		
+		//oslobodi mesto u avionu
+		Ticket ticket = invite.getTicketReservation().getTicket();
+		ticket.setStatus(TicketStatus.AVAILABLE);
+		ticket.setActiveReservation(null);
+		ticketRespository.save(ticket);		
+		
+		invite.setStatus(FriendInviteStatus.REFUSED);
 		return friendInvitesRepository.save(invite);
 	}
 	

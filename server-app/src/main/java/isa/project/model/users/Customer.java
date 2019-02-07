@@ -26,7 +26,7 @@ public class Customer extends User {
 	@Column
 	private Double lengthTravelled;
 
-	@OrderColumn(name = "creationDate")
+	@OrderColumn(name = "creationDate, DESC")
 	@JsonManagedReference(value = "customer-reservations")
 	@OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, orphanRemoval = true)
 	private Set<Reservation> reservations;	

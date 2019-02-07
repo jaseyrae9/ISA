@@ -11,4 +11,7 @@ public interface FriendInvitesRepository extends JpaRepository<FriendInvite, Int
 	
 	@Query("SELECT f FROM FriendInvite f WHERE f.friend.email = :email ORDER BY f.sent DESC")
 	List<FriendInvite> getFriendInvites(String email);
+	
+	@Query("SELECT f FROM FriendInvite f WHERE f.status = 0")
+	List<FriendInvite> getAllPendingInvites();
 }

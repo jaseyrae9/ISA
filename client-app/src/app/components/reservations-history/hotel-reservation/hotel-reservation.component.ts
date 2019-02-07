@@ -12,6 +12,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class HotelReservationComponent implements OnInit {
   @Input() reservation: RoomReservation;
+  @Input() useCancel = false;
 
 
   max = 5;

@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import isa.project.dto.aircompany.FlightDTO;
 import isa.project.dto.aircompany.FlightSearchDTO;
@@ -238,6 +240,7 @@ public class FlightService {
 	 * @throws RequestDataException - sedište nije slobodno
 	 * @throws ResourceNotFoundException - ako resurs nije pronađen
 	 */
+	@Transactional(readOnly = false, propagation = Propagation.NESTED, rollbackFor = Exception.class)
 	public Flight disableSeats(Integer aircompanyId, Integer flightId, List<Long> tickets) throws RequestDataException, ResourceNotFoundException {
 				
 		Flight flight = findFlight(flightId);
@@ -280,6 +283,7 @@ public class FlightService {
 	 * @throws ResourceNotFoundException - resursi nisu pronadjeni
 	 * @throws RequestDataException - let nije aktivan
 	 */
+	@Transactional(readOnly = false, propagation = Propagation.NESTED, rollbackFor = Exception.class)
 	public Flight createTicketsForFastReservations(Integer aircompanyId, Integer flightId, List<Long> tickets, Double discount) throws ResourceNotFoundException, RequestDataException {
 		//pronadji let
 		Flight flight = findFlight(flightId);

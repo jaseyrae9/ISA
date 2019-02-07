@@ -23,13 +23,12 @@ import lombok.Setter;
 @Getter
 @Entity
 public class FriendInvite {
-	public enum FriendInviteStatus {PENDING, ACCEPTED, REFUSED};	
+	public enum FriendInviteStatus {PENDING, ACCEPTED, REFUSED, TRIP_CANCELED};	
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
-	
-	@JsonBackReference(value="ticket")
+	private Integer id;	
+
 	@OneToOne(fetch = FetchType.EAGER)	
 	@JoinColumn(name="ticket_reservation_id", referencedColumnName="id", nullable = false)
 	private TicketReservation ticketReservation;

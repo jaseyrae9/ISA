@@ -12,6 +12,8 @@
                   <rating [(ngModel)]="reservation.car.rentACarCompany.averageRating" [max]="max" (click)="rateCarCompany()"
                      [readonly]="reservation.isCompanyRated"></rating>
                </p>
+               <button class="btn btn-primary" *ngIf="reservation.active" (click)="cancelCarReservation()">Cancel</button>
+               <p class="py-1" *ngIf="!reservation.active && useCancel" style="color: gray">Canceled</p>
             </div>
 
 
@@ -46,11 +48,7 @@
                </p>
             </div>
             <div class="col-1 border-left px-1 py-5" align="center">
-               <p class="py-6" style="font-size: 35px; color: #33cabb">€{{totalPrice}}</p>
-               
-               <button class="btn btn-primary" *ngIf="reservation.active" (click)="cancelCarReservation()">Cancel</button>
-               <p class="py-6" *ngIf="!reservation.active" style="color: gray">Canceled</p>
-
+               <p class="py-6" style="font-size: 35px; color: #33cabb">€{{reservation.total}}</p>
             </div>
          </div>
       </div>

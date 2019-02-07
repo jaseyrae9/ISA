@@ -1,5 +1,7 @@
+import { ReservationsService } from 'src/app/services/reservations.service';
+import { UserService } from 'src/app/services/user/user.service';
 import { FlightReservation } from './../../../model/air-company/flight-reservation';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AirCompanyService } from 'src/app/services/air-company/air-company.service';
 import { NgxNotificationService } from 'ngx-notification';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -11,14 +13,29 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class TicketsReservationComponent implements OnInit {
   @Input() flightReservation: FlightReservation = new FlightReservation();
+  @Input() reservationId: number = null;
+  @Input() useCancel = true;
+  @Output() cancelEvent: EventEmitter<Object> = new EventEmitter();
 
   flightAverage = 0;
 
   constructor(private airService: AirCompanyService,
-    private ngxNotificationService: NgxNotificationService) { }
+    private ngxNotificationService: NgxNotificationService, private reservationService: ReservationsService) { }
 
   ngOnInit() {
     this.flightAverage = this.flightReservation.flight.totalRating / this.flightReservation.flight.ratingCount;
+  }
+
+  cancelReservation() {
+    this.reservationService.cancel(this.reservationId).subscribe(
+      (data) => {
+        this.cancelEvent.emit(data);
+        this.ngxNotificationService.sendMessage('Trip canceled.', 'dark', 'bottom-right');
+      },
+      (error) => {
+        this.ngxNotificationService.sendMessage('Error occured.', 'dark', 'bottom-right');
+      }
+    );
   }
 
   rateAirCompany() {

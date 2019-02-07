@@ -1,7 +1,9 @@
-<div class="container">
+<div class="container mt-5">
+  <div *ngIf="reservations.length == 0" class="text-center">
+      <p>There are no reservations.</p>
+  </div>
 
-  <div class="row mt-3" *ngIf="reservations.length == 0"> There are no reservations. </div>
-  <div class="accordion" id="accordionExample" class="mt-5 mb-5">
+  <div class="accordion" id="accordionExample" class="mb-5">
     <app-reservation *ngFor="let reservation of reservations" [reservation]="reservation"></app-reservation>
   </div>
 

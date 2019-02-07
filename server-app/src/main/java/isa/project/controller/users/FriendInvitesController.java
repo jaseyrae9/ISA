@@ -45,9 +45,24 @@ public class FriendInvitesController {
 	 * @throws RequestDataException
 	 */
 	@PreAuthorize("hasAnyRole('CUSTOMER')")
-	@RequestMapping(value = "/acceptInvite/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/acceptInvite/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<?> acceptInvite(HttpServletRequest request, @PathVariable Integer id) throws ResourceNotFoundException, RequestDataException{
 		String email = tokenUtils.getEmailFromToken(tokenUtils.getToken(request));
 		return ResponseEntity.ok(new FriendInviteDTO(friendInvitesService.acceptInvite(id, email)));
+	}
+	
+	/**
+	 * Odbija pozivnicu.
+	 * @param request
+	 * @param id
+	 * @return
+	 * @throws ResourceNotFoundException
+	 * @throws RequestDataException
+	 */
+	@PreAuthorize("hasAnyRole('CUSTOMER')")
+	@RequestMapping(value = "/refuseInvite/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<?> refuseInvite(HttpServletRequest request, @PathVariable Integer id) throws ResourceNotFoundException, RequestDataException{
+		String email = tokenUtils.getEmailFromToken(tokenUtils.getToken(request));
+		return ResponseEntity.ok(new FriendInviteDTO(friendInvitesService.refuseInviteWithId(id, email)));
 	}
 }

@@ -1,6 +1,7 @@
 package isa.project.service.users;
 
 import java.text.SimpleDateFormat;
+import java.util.Optional;
 
 import javax.mail.MessagingException;
 
@@ -194,5 +195,32 @@ public class ReservationService {
 		message += "<p>For more details click <a href=\"" + ourPageUrl + "\"> here</a>.</p>";
 		message += "<p>Thank you for using our site. </p>";
 		emailService.sendNotificaitionAsync(customer.getEmail(), "Trip reservation", message);
+	}
+	
+	/**
+	 * Otkazivanje leta, koje otkazuje i rezervaciju hotela i rent-a-car-a.
+	 * @param id - oznaka rezervacije.
+	 * @return
+	 * @throws ResourceNotFoundException
+	 * @throws RequestDataException
+	 */
+	public Reservation cancelReservation(Integer id, String email) throws ResourceNotFoundException, RequestDataException {
+		Reservation reservation = findReservation(id);
+		if(!reservation.getCustomer().getEmail().equals(email)) {
+			throw new RequestDataException("You don't have reservation with this id.");
+		}
+		if(reservation.getFlightReservation() !=null ) {
+			flightReservationsService.cancelReservation(reservation.getFlightReservation());
+		}
+		//TODO: Ovde dodati da se otkazu hotel i rent-a-car
+		return reservation;
+	}
+	
+	private Reservation findReservation(Integer id) throws ResourceNotFoundException {
+		Optional<Reservation> reservationOpt = reservationRepository.findById(id);
+		if(!reservationOpt.isPresent()) {
+			throw new ResourceNotFoundException(id.toString(), "Reservation not found");
+		}
+		return reservationOpt.get();
 	}
 }

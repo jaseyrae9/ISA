@@ -7,4 +7,5 @@ export class FlightReservation {
   total = 0;
   isCompanyRated: boolean;
   isFlightRated: boolean;
+  active: boolean;
 }

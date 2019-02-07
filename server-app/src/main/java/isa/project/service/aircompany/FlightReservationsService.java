@@ -1,10 +1,12 @@
 package isa.project.service.aircompany;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -26,10 +28,12 @@ import isa.project.model.aircompany.TicketForFastReservation;
 import isa.project.model.aircompany.TicketReservation;
 import isa.project.model.users.Customer;
 import isa.project.model.users.FriendInvite;
+import isa.project.model.users.FriendInvite.FriendInviteStatus;
 import isa.project.model.users.Reservation;
 import isa.project.model.users.friendship.Friendship;
 import isa.project.repository.aircompany.AirCompanyRepository;
 import isa.project.repository.aircompany.FlightRepository;
+import isa.project.repository.aircompany.FlightReservationRepository;
 import isa.project.repository.aircompany.TicketForFastReservationRepository;
 import isa.project.repository.aircompany.TicketRespository;
 import isa.project.repository.users.FriendInvitesRepository;
@@ -59,6 +63,9 @@ public class FlightReservationsService {
 	
 	@Autowired
 	private ReservationRepository reservationRepository;
+	
+	@Autowired
+	private FlightReservationRepository flightReservationRepository;
 	
 	@Autowired
 	private FriendInvitesRepository friendInvitesRepository;
@@ -142,6 +149,46 @@ public class FlightReservationsService {
 				Customer friend = findFriend(customerId, fi.getFriendId());
 				FriendInvite invite = new FriendInvite(ticketReservation,friend);
 				friendInvitesRepository.save(invite);
+			}
+		}
+	}
+	
+	/**
+	 * Otkazuje rezervaciju leta.
+	 * @param reservation - rezervacija leta
+	 * @throws RequestDataException - let pocinje za manje od 3 sata
+	 */
+	public void cancelReservation(FlightReservation reservation) throws RequestDataException {
+		Date now = new Date();
+		Date threeHoursLater = DateUtils.addHours(now, 3);
+		if(!threeHoursLater.before(reservation.getFlight().getStartDateAndTime())) {
+			throw new RequestDataException("Flight take off if in less than three hours. Flight can not be canceled.");
+		}
+		//otkazi putovanje
+		reservation.setActive(false);
+		flightReservationRepository.save(reservation);
+		//oduzmi korisniku bodove
+		Customer customer = reservation.getReservation().getCustomer();
+		customer.setLengthTravelled(customer.getLengthTravelled() - reservation.getFlight().getLength());
+		customerService.saveCustomer(customer);
+		
+		for(TicketReservation ticketReservation:reservation.getTicketReservations()) {
+			//oslobodi sve karte
+			Ticket ticket = ticketReservation.getTicket();
+			ticket.setActiveReservation(null);
+			ticket.setStatus(TicketStatus.AVAILABLE);
+			ticketRespository.save(ticket);
+			//ako je bio pozvan prijatelj otkazi pozivnicu
+			if(ticketReservation.getInvitedFriend()!=null) {
+				FriendInvite invite = ticketReservation.getInvitedFriend();
+				//oduzmi prijatelju bodove ako je bio prihvatio
+				if(invite.getStatus().equals(FriendInviteStatus.ACCEPTED)) {
+					Customer friend = invite.getFriend();
+					friend.setLengthTravelled(friend.getLengthTravelled() - reservation.getFlight().getLength());
+					customerService.saveCustomer(friend);
+				}
+				invite.setStatus(FriendInviteStatus.TRIP_CANCELED);
+				friendInvitesRepository.save(invite);				
 			}
 		}
 	}

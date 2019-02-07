@@ -16,10 +16,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import isa.project.model.users.Reservation;
 import isa.project.model.users.FriendInvite.FriendInviteStatus;
+import isa.project.model.users.Reservation;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,16 +27,15 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @Entity
-public class FlightReservation {
+public class FlightReservation {	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;	
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "flight_id", referencedColumnName = "id", nullable = false)
-	private Flight flight;
+	private Flight flight;	
 	
-	@JsonManagedReference(value="tickets")
 	@OneToMany(mappedBy = "flightReservation", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<TicketReservation> ticketReservations;
 	

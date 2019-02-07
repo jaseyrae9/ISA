@@ -12,6 +12,7 @@ import { NgxNotificationService } from 'ngx-notification';
 })
 export class CarReservationComponent implements OnInit {
   @Input() reservation: CarReservation;
+  @Input() useCancel = false;
 
   max = 5;
 

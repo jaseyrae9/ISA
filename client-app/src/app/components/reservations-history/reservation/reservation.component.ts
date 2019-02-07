@@ -22,19 +22,8 @@ export class ReservationComponent implements OnInit {
   constructor(private userService: UserService, private ngxNotificationService: NgxNotificationService) { }
 
   ngOnInit() {
-    console.log(this.reservation.id);
-
     this.date = formatDate(this.reservation.creationDate, 'yyyy-MM-dd', 'en');
-
-    if (this.reservation.flightReservation !== null) {
-      this.totalPrice += this.reservation.flightReservation.total;
-    }
-    if (this.reservation.roomReservation !== null) {
-      this.totalPrice += this.reservation.roomReservation.total;
-    }
-    if (this.reservation.carReservation !== null) {
-      this.totalPrice += this.reservation.carReservation.total;
-    }
+    this.calculatePrice();
   }
 
   acceptInvite() {
@@ -48,6 +37,37 @@ export class ReservationComponent implements OnInit {
         this.ngxNotificationService.sendMessage('Error occured.', 'dark', 'bottom-right');
       }
     );
+  }
+
+  refuseInvite() {
+    this.userService.refuseInvite(this.inviteId).subscribe(
+      (data: Invite) => {
+        this.reservation = data.reservationDTO;
+        this.status = data.status;
+        this.ngxNotificationService.sendMessage('You refused to travel with ' + this.invitedBy, 'dark', 'bottom-right');
+        this.calculatePrice();
+      },
+      (error) => {
+        this.ngxNotificationService.sendMessage('Error occured.', 'dark', 'bottom-right');
+      }
+    );
+  }
+
+  calculatePrice() {
+    this.totalPrice = 0;
+    if (this.reservation.flightReservation !== null) {
+      this.totalPrice += this.reservation.flightReservation.total;
+    }
+    if (this.reservation.roomReservation !== null) {
+      this.totalPrice += this.reservation.roomReservation.total;
+    }
+    if (this.reservation.carReservation !== null) {
+      this.totalPrice += this.reservation.carReservation.total;
+    }
+  }
+
+  onTripCanceled(data) {
+    this.reservation = data;
   }
 
 }
