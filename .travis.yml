@@ -11,8 +11,6 @@ matrix:
         - npm install
       script:
         - npm run build
-      after_script:
-        - chmod +x publish-gh-pages.sh && ./publish-gh-pages.sh
       deploy:
         provider: heroku
         api_key: f838c383-9036-40c7-a634-86d0c0f4c408
