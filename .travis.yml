@@ -6,7 +6,6 @@ matrix:
       node_js: stable      
       before_install:
         - cd client-app 
-        - npm install -g @angular/cli
       install:
         - npm install
       script:
@@ -14,7 +13,7 @@ matrix:
       deploy:
         provider: heroku
         api_key: f838c383-9036-40c7-a634-86d0c0f4c408 
-        app: ticket-reservation21      
+        app: ticket-reservation21         
      
     - language: java
       jdk: oraclejdk8
