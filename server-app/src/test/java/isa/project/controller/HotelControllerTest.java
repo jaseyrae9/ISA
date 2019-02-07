@@ -2,6 +2,7 @@ package isa.project.controller;
 
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -58,22 +59,22 @@ import isa.project.security.auth.JwtAuthenticationRequest;
 public class HotelControllerTest {
 
 	private static final String URL_PREFIX = "/hotels";
-	
+
 	private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
 			MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
-	
+
 	private MockMvc mockMvc;
-	
+
 	private String accessTokenSysAdmin;
 
 	private String accessTokenHotelAdmin;
-	
+
 	@Autowired
 	private WebApplicationContext webApplicationContext;
 
 	@Autowired
 	private FilterChainProxy springSecurityFilterChain;
-	
+
 	@Autowired
 	private TestRestTemplate restTemplate;
 
@@ -81,7 +82,7 @@ public class HotelControllerTest {
 	public void setup() {
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).addFilters(springSecurityFilterChain)
 				.build();
-	
+
 		ResponseEntity<AuthenticationResponse> responseEntitySys = restTemplate.postForEntity("/customers/login",
 				new JwtAuthenticationRequest(SYS_ADMIN_EMAIL, SYS_ADMIN_PASSWORD), AuthenticationResponse.class);
 		accessTokenSysAdmin = responseEntitySys.getBody().getToken();
@@ -89,38 +90,38 @@ public class HotelControllerTest {
 		ResponseEntity<AuthenticationResponse> responseEntityHotel = restTemplate.postForEntity("/customers/login",
 				new JwtAuthenticationRequest(HOTEL_ADMIN_EMAIL, HOTEL_ADMIN_PASSWORD), AuthenticationResponse.class);
 		accessTokenHotelAdmin = responseEntityHotel.getBody().getToken();
-	
+
 	}
-	
+
 	@Test
 	public void testGetAllHotels() throws Exception {
 		mockMvc.perform(get(URL_PREFIX + "/allHotels")).andExpect(status().isOk())
-		.andExpect(content().contentType(contentType)).andExpect(jsonPath("$", hasSize(HOTEL_COUNT)))
-		.andExpect(jsonPath("$.[*].id").value(hasItem(HotelConstants.DB_ID.intValue())))
-		.andExpect(jsonPath("$.[*].name").value(hasItem(HOTEL_NAME)))
-		.andExpect(jsonPath("$.[*].description").value(hasItem(HOTEL_DESC)))
-		.andExpect(jsonPath("$.[*].averageRating").value(hasItem(AVERAGE_RATING)));
+				.andExpect(content().contentType(contentType)).andExpect(jsonPath("$", hasSize(HOTEL_COUNT)))
+				.andExpect(jsonPath("$.[*].id").value(hasItem(HotelConstants.DB_ID.intValue())))
+				.andExpect(jsonPath("$.[*].name").value(hasItem(HOTEL_NAME)))
+				.andExpect(jsonPath("$.[*].description").value(hasItem(HOTEL_DESC)))
+				.andExpect(jsonPath("$.[*].averageRating").value(hasItem(AVERAGE_RATING)));
 	}
-	
+
 	@Test
 	public void testGetHotelsPage() throws Exception {
 		mockMvc.perform(get(URL_PREFIX + "/all?page=0&size=1")).andExpect(status().isOk())
-		.andExpect(content().contentType(contentType)).andExpect(jsonPath("$.content",hasSize(HOTEL_SIZE_COUNT)))
-		.andExpect(jsonPath("$.content.[*].id").value(hasItem(HotelConstants.DB_ID.intValue())))
-		.andExpect(jsonPath("$.content.[*].name").value(hasItem(HOTEL_NAME)))
-		.andExpect(jsonPath("$.content.[*].description").value(hasItem(HOTEL_DESC)))
-		.andExpect(jsonPath("$.content.[*].averageRating").value(hasItem(AVERAGE_RATING)));
+				.andExpect(content().contentType(contentType))
+				.andExpect(jsonPath("$.content", hasSize(HOTEL_SIZE_COUNT)))
+				.andExpect(jsonPath("$.content.[*].id").value(hasItem(HotelConstants.DB_ID.intValue())))
+				.andExpect(jsonPath("$.content.[*].name").value(hasItem(HOTEL_NAME)))
+				.andExpect(jsonPath("$.content.[*].description").value(hasItem(HOTEL_DESC)))
+				.andExpect(jsonPath("$.content.[*].averageRating").value(hasItem(AVERAGE_RATING)));
 	}
-	
+
 	@Test
 	public void testGetHotel() throws Exception {
 		mockMvc.perform(get(URL_PREFIX + "/get/" + HotelConstants.DB_ID.intValue())).andExpect(status().isOk())
-		.andExpect(content().contentType(contentType))
-		.andExpect(jsonPath("$.name").value(HOTEL_NAME))
-		.andExpect(jsonPath("$.description").value(HOTEL_DESC))
-		.andExpect(jsonPath("$.averageRating").value(AVERAGE_RATING));
+				.andExpect(content().contentType(contentType)).andExpect(jsonPath("$.name").value(HOTEL_NAME))
+				.andExpect(jsonPath("$.description").value(HOTEL_DESC))
+				.andExpect(jsonPath("$.averageRating").value(AVERAGE_RATING));
 	}
-	
+
 	@Test
 	@Transactional
 	@Rollback(true)
@@ -138,9 +139,9 @@ public class HotelControllerTest {
 		hotel.setLocation(location);
 		String json = TestUtil.json(hotel);
 		this.mockMvc.perform(post(URL_PREFIX + "/add").header("Authorization", "Bearer " + accessTokenSysAdmin)
-				.contentType(contentType).content(json)).andExpect(status().isCreated());
+				.contentType(MediaType.APPLICATION_JSON).content(json)).andExpect(status().isCreated());
 	}
-	
+
 	@Test
 	@Transactional
 	@Rollback(true)
@@ -152,15 +153,33 @@ public class HotelControllerTest {
 		location.setCountry(LOCATION_COUNTRY);
 		location.setLon(LOCATION_LON);
 		location.setLat(LOCATION_LAT);
-		
+
 		hotel.setId(HotelConstants.DB_ID.intValue());
 		hotel.setName(NEW_HOTEL_NAME);
 		hotel.setDescription(NEW_HOTEL_DESCRIPTION);
 		hotel.setLocation(location);
-		
+
 		String json = TestUtil.json(hotel);
-		this.mockMvc.perform(put(URL_PREFIX + "/edit/" + HotelConstants.DB_ID.intValue()).header("Authorization", "Bearer " + accessTokenHotelAdmin)
-				.contentType(contentType).content(json)).andExpect(status().isOk());
-	
+		this.mockMvc.perform(put(URL_PREFIX + "/edit/" + HotelConstants.DB_ID.intValue())
+				.header("Authorization", "Bearer " + accessTokenHotelAdmin).contentType(contentType).content(json))
+				.andExpect(status().isOk());
+
 	}
+
+	@Test
+	@Transactional
+	@Rollback(true)
+	public void testSearchHotel() throws Exception {
+		mockMvc.perform(get(URL_PREFIX + "/search?name=" + HOTEL_NAME + "&address=&checkInDay=&checkOutDate="))
+				.andExpect(status().isOk()).andExpect(content().contentType(contentType));
+	}
+	
+	@Test
+	@Transactional
+	@Rollback(true)
+	public void testDeleteRoom() throws Exception {
+		this.mockMvc.perform(delete(URL_PREFIX + "/deleteRoom/" + HotelConstants.DB_ID + "/" + HotelConstants.ROOM_ID).header("Authorization", "Bearer " + accessTokenHotelAdmin))
+		.andExpect(status().isOk()); 
+	}
+	
 }

@@ -229,7 +229,7 @@ public class HotelController {
 	@PreAuthorize("hasAnyRole('HOTELADMIN')")
 	@AdminAccountActiveCheck
 	@HotelAdminCheck
-	@RequestMapping(value = "/deleteRoom/{hotelId}/{roomId}", method = RequestMethod.DELETE, consumes = "application/json")
+	@RequestMapping(value = "/deleteRoom/{hotelId}/{roomId}", method = RequestMethod.DELETE)
 	public ResponseEntity<?> deleteRoom(@PathVariable Integer hotelId, @PathVariable Integer roomId)
 			throws ResourceNotFoundException, RequestDataException {
 		Optional<Hotel> hotel = hotelService.findHotel(hotelId);

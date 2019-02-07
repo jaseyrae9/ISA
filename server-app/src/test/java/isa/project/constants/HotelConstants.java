@@ -7,6 +7,7 @@ public class HotelConstants {
 	public static final Long DB_ID = 100L;	
 	public static final String HOTEL_NAME = "Hotel proba 1";
 	public static final String HOTEL_DESC = "Opis 1";
+	public static final String HOTEL_ADDRESS = "Neka adresa";
 	public static final Double AVERAGE_RATING = new Double(4);
 	public static final Long HOTEL_LOCATION_ID = 100L;
 
@@ -25,4 +26,6 @@ public class HotelConstants {
 	public static final String LOCATION_COUNTRY = "Srbija";
 	public static final Double LOCATION_LON = 19.849669;
 	public static final Double LOCATION_LAT= 45.261406;
+	
+	public static final Long ROOM_ID = 600L;
 }
