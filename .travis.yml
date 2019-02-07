@@ -3,8 +3,6 @@ language: java
 jdk: oraclejdk8
 
 before_install:
-  cd server-app
-  - chmod +x mvnw
-  
-script:
-  - ./mvnw clean install -DskipTests=false -B
+  - cd server-app
+  - mvn -N io.takari:maven:wrapper
+  - ./mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
