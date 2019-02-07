@@ -15,11 +15,17 @@ matrix:
         - bash <(curl -s https://codecov.io/bash)
         
     - language: node_js
-      node_js: stable
-      install:
-        - npm install
+      node_js: stable      
       before_install:
         - cd client-app 
+        - npm install -g @angular/cli
+      install:
+        - npm install
       script:
         - npm run build
+      deploy:
+        provider: HEROKU
+        api_key:
+          secure: c705175d-406f-42cc-8ac5-3d2aaa838c87 
+        app: ticketreservation
 
