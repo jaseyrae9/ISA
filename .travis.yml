@@ -1,4 +1,10 @@
-before_install: cd server-app
+sudo: required
 language: java
-jdk:
-  - oraclejdk8
+jdk: oraclejdk8
+
+before_install:
+  cd server-app
+  - chmod +x mvnw
+  
+script:
+  - ./mvnw clean install -DskipTests=false -B
