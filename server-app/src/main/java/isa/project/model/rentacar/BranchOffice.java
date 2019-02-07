@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -44,11 +45,16 @@ public class BranchOffice {
 	@JoinColumn(name="location_id", nullable = false)
 	private Location location;	
 	
+	@Version
+	@Column(nullable = false)
+	private Long version;
+	
 	public BranchOffice(RentACarCompany rentACarCompany, String name) {
 		super();
 		this.rentACarCompany = rentACarCompany;
 		this.name = name;
 		this.active = true;
+		this.version = new Long(0);
 	}
 
 	@Override

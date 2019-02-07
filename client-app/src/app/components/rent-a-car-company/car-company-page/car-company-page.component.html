@@ -46,15 +46,11 @@
     <div class="tab-pane fade show active p-3" id="info" aria-labelledby="info-tab">
       <div class="media">
         <app-map [location]="carCompany.location" class="align-self-start mr-4 pt-2"></app-map>
-        <div class="media-body pr-3">
-         
-    
-    
+        <div class="media-body pr-3">        
               <div class="d-flex">
                   <div class="p-2"><h3 class="display-4" align="left">{{carCompany.name}}</h3></div>
                   <div class="ml-auto p-2"><rating  [(ngModel)]="carCompany.averageRating" [max]="5" [readonly]="true"></rating></div>
-                </div>
-         
+                </div>         
           <p class="text-muted" align="left">{{carCompany.location.address}}, {{carCompany.location.city}}, {{carCompany.location.country}}</p>
           <hr>
           <p>{{carCompany.description}}</p>
@@ -78,6 +74,8 @@
         </div>
       </div>
       <div class="container">
+          <p *ngIf='carCompany.cars.length == 0' align="center" style="color:#33cabb;">There are no cars.</p>
+
         <div *ngFor="let car of carCompany.cars">
           <app-car-basic-info  *ngIf="!car.isFast" [carCompany]="carCompany" [isCarsTab]="true" (carDeleted)="carDeleted($event)" [car]='car' (carFasten)="carFasten($event)"></app-car-basic-info>
         </div>
@@ -97,7 +95,10 @@
         </div>
       </div>
       <div class="container">
+          <p *ngIf='carCompany.branchOffices.length == 0' align="center" style="color:#33cabb;">There are no branch offices.</p>
+
         <div *ngFor="let branchOffice of carCompany.branchOffices">
+          
           <app-branch-office-basic-details (branchOfficeDeleted)="branchOfficeDeleted($event)"
             [branchOffice]='branchOffice'></app-branch-office-basic-details>
         </div>
@@ -188,7 +189,7 @@
     <div class="tab-pane fade" id="fastreservations" aria-labelledby="airplanes-tab">
       <div class = "container">
         <div *ngIf="fastCarRent.length == 0 else fastCarRentDiv" class="text-center">
-            <p>There are no cars for fast reservations.</p>
+            <p style="color:#33cabb;">There are no cars for fast reservations.</p>
         </div>
         <ng-template #fastCarRentDiv> 
         <div class ="row" *ngFor="let item of fastCarRent">

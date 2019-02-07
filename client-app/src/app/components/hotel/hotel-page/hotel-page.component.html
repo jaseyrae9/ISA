@@ -88,6 +88,8 @@
       </div>
 
       <div class="container">
+          <p *ngIf='hotel.rooms.length == 0' align="center">There are no rooms.</p>
+
         <div *ngFor="let room of hotel.rooms">
           <!-- Ako nije fast -->
           <app-room-basic-info *ngIf="!room.isFast" [isRoomsTab]="true" [room]='room' (roomDeleted)="roomDeleted($event)"

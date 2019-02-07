@@ -215,6 +215,9 @@ public class ReservationService {
 		if(reservation.getRoomReservation() != null) {
 			roomReservationService.cancelRoomReservation(reservation.getRoomReservation());
 		}
+		if(reservation.getCarReservation() != null) {
+			carReservationService.cancelCarReservation(reservation.getCarReservation());
+		}
 		return reservation;
 	}
 	

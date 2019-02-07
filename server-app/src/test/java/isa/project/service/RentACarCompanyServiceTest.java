@@ -5,6 +5,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
+
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -137,5 +139,30 @@ public class RentACarCompanyServiceTest {
         verifyNoMoreInteractions(carRepository);
         verifyNoMoreInteractions(rentACarRepository);
 	}
+	
+	@Test
+	@Transactional
+    @Rollback(true)
+	public void testSearchAll() throws ParseException {
+		RentACarCompany company = new RentACarCompany(NEW_RENT_A_CAR_COMPANY_NAME, NEW_RENT_A_CAR_COMPANY_DESCRIPTION);
+		company.setId(2);
+		company.setCars(new HashSet<>());
+
+		when(rentACarRepository.searchNameAndAddress(NEW_RENT_A_CAR_COMPANY_NAME.toLowerCase(), NEW_RENT_A_CAR_COMPANY_DESCRIPTION.toLowerCase())).thenReturn(Arrays.asList(company));
+
+		Car car = new Car(company, "brand", "model", 2015, 4, 5, 15.0, "Sedan");
+		company.getCars().add(car);
+		when(rentACarRepository.findById(2)).thenReturn(Optional.of(company));
+		
+		Iterable<RentACarCompany> list = rentACarCompanyService.searchAll(NEW_RENT_A_CAR_COMPANY_NAME, NEW_RENT_A_CAR_COMPANY_DESCRIPTION, "", "");
+		System.out.println("listaa: " + list);
+		
+		Assert.assertEquals(list.iterator().next().getName(), NEW_RENT_A_CAR_COMPANY_NAME);
+		assertThat(list).hasSize(1);
+        verify(rentACarRepository, times(1)).searchNameAndAddress(NEW_RENT_A_CAR_COMPANY_NAME.toLowerCase(), NEW_RENT_A_CAR_COMPANY_DESCRIPTION.toLowerCase());
+		verify(rentACarRepository, times(1)).findById(2);
+        verifyNoMoreInteractions(rentACarRepository);
+	}
+
 	
 }

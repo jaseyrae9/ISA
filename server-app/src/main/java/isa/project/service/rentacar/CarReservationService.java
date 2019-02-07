@@ -111,5 +111,11 @@ public class CarReservationService {
 		return carReservationRepository.save(carReservation);
 	}
 	
-
+	public CarReservation cancelCarReservation(CarReservation reservation) {
+		reservation.setActive(false);		
+		return saveCarReservation(reservation);
+	}
+	
+	
+	
 }

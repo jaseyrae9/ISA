@@ -65,9 +65,12 @@ insert into hotel_additional_services (hotel_id, additional_services_id) values 
 insert into hotel_additional_services (hotel_id, additional_services_id) values (100, 103);
 insert into hotel_additional_services (hotel_id, additional_services_id) values (100, 104);
 
-INSERT into branch_office (id, active, branch_office_name, location_id, rentacar_company_id) VALUES (100, true, 'Branch office name 1', 100, 100);
-INSERT into branch_office (id, active, branch_office_name, location_id, rentacar_company_id) VALUES (101, true, 'Branch office name 2', 101, 100);
-INSERT into branch_office (id, active, branch_office_name, location_id, rentacar_company_id) VALUES (102, true, 'Branch office name 3', 102, 100);
+INSERT into branch_office (id, active, branch_office_name, version, location_id, rentacar_company_id) 
+VALUES (100, true, 'Branch office name 1', 0, 100, 100);
+INSERT into branch_office (id, active, branch_office_name, version, location_id, rentacar_company_id) 
+VALUES (101, true, 'Branch office name 2', 0, 101, 100);
+INSERT into branch_office (id, active, branch_office_name, version, location_id, rentacar_company_id) 
+VALUES (102, true, 'Branch office name 3', 0, 102, 100);
 
 	
 INSERT INTO room (id, active, begin_date, discount, end_date, floor, is_fast, number_of_beds, price, rating_count, room_number, total_rating, type, version, hotel_id) 

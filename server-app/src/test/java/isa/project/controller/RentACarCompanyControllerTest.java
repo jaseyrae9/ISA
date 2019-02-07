@@ -171,13 +171,17 @@ public class RentACarCompanyControllerTest {
 				.contentType(contentType).content(json)).andExpect(status().isOk());
 	}	
 	
-//			this.mockMvc.perform(delete(URL_PREFIX + "/" + DB_ID).header("Authorization", "Bearer " + accessTokenAdmin)).andExpect(status().isOk());
-
 	@Test
 	@Transactional
 	@Rollback(true)
 	public void testDeleteBranchOffice() throws Exception {
 		this.mockMvc.perform(delete(URL_PREFIX + "/deleteBranchOffice/" + RentACarCompanyConstants.RENT_A_CAR_COMPANY_ID + "/" + RentACarCompanyConstants.BRANCH_OFFICE_ID).header("Authorization", "Bearer " + accessTokenCarAdmin))
 		.andExpect(status().isOk()); 
+	}
+	
+	@Test
+	public void testSearchRentACarCompany() throws Exception {
+		mockMvc.perform(get(URL_PREFIX + "/search?name=" + RENT_A_CAR_COMPANY_NAME + "&address=&pickUpDay=&dropOffDate="))
+		.andExpect(status().isOk()).andExpect(content().contentType(contentType));
 	}
 }

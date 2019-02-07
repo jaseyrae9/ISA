@@ -3,9 +3,12 @@ package isa.project.controller.shared;
 import java.util.Date;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,7 +26,9 @@ import isa.project.model.hotel.SingleRoomReservation;
 import isa.project.model.rentacar.Car;
 import isa.project.model.rentacar.CarReservation;
 import isa.project.model.rentacar.RentACarCompany;
+import isa.project.model.users.Customer;
 import isa.project.repository.aircompany.FlightReservationRepository;
+import isa.project.security.TokenUtils;
 import isa.project.service.aircompany.AirCompanyService;
 import isa.project.service.hotel.HotelService;
 import isa.project.service.hotel.RoomReservationService;
@@ -59,10 +64,14 @@ public class RatingController {
 
 	@Autowired
 	private FlightReservationRepository flightReservationRepository;
+	
+	@Autowired
+	private TokenUtils tokenUtils;
 
-	@RequestMapping(value = "/rateHotel/{hotelId}/{reservationId}/{rate}", method = RequestMethod.PUT, consumes = "application/json")
+	@PreAuthorize("hasAnyRole('CUSTOMER')")
+	@RequestMapping(value = "/rateHotel/{hotelId}/{reservationId}/{rate}", method = RequestMethod.PUT)
 	public ResponseEntity<Double> rateHotel(@PathVariable Integer hotelId, @PathVariable Integer reservationId,
-			@PathVariable Integer rate) throws ResourceNotFoundException, RequestDataException {
+			@PathVariable Integer rate, HttpServletRequest request) throws ResourceNotFoundException, RequestDataException {
 
 		Optional<Hotel> hotel = hotelService.findHotel(hotelId);
 
@@ -79,10 +88,18 @@ public class RatingController {
 		if (!roomReservation.get().getActive()) {
 			throw new RequestDataException("You can't rate reservation you canceled.");
 		}
+		
+		String email = tokenUtils.getEmailFromToken(tokenUtils.getToken(request));
+
+		Customer c = roomReservation.get().getReservation().getCustomer();
+		
+		if(!c.getEmail().equals(email)) {
+			throw new ResourceNotFoundException(email.toString(), "You don't have this reservation.");
+		}
 
 		Date today = new Date();
 		if (roomReservation.get().getCheckOutDate().compareTo(today) > 0) {
-			throw new RequestDataException("You can't rate until your reservation hasn't finished.");
+			throw new RequestDataException("You can't rate until your reservation has finished.");
 
 		}
 
@@ -96,11 +113,11 @@ public class RatingController {
 		return new ResponseEntity<>((hotel.get().getTotalRating() / (double) hotel.get().getRatingCount()),
 				HttpStatus.OK);
 	}
-
-	@RequestMapping(value = "/rateRoom/{roomId}/{singleRoomReservationId}/{rate}", method = RequestMethod.PUT, consumes = "application/json")
+	
+	@PreAuthorize("hasAnyRole('CUSTOMER')")
+	@RequestMapping(value = "/rateRoom/{roomId}/{singleRoomReservationId}/{rate}", method = RequestMethod.PUT)
 	public ResponseEntity<Double> rateRoom(@PathVariable Integer roomId, @PathVariable Integer singleRoomReservationId,
-			@PathVariable Integer rate) throws ResourceNotFoundException, RequestDataException {
-		System.out.println("Ocenjivanje sobe: " + roomId);
+			@PathVariable Integer rate, HttpServletRequest request) throws ResourceNotFoundException, RequestDataException {
 
 		Optional<Room> room = roomService.findRoom(roomId);
 
@@ -118,10 +135,18 @@ public class RatingController {
 		if (!singleRoomReservation.get().getActive()) {
 			throw new RequestDataException("You can't rate reservation you canceled.");
 		}
+		
+		String email = tokenUtils.getEmailFromToken(tokenUtils.getToken(request));
+
+		Customer c = singleRoomReservation.get().getRoomReservation().getReservation().getCustomer();
+		
+		if(!c.getEmail().equals(email)) {
+			throw new ResourceNotFoundException(email.toString(), "You don't have this reservation.");
+		}
 
 		Date today = new Date();
 		if (singleRoomReservation.get().getRoomReservation().getCheckOutDate().compareTo(today) > 0) {
-			throw new RequestDataException("You can't rate until your reservation hasn't finished.");
+			throw new RequestDataException("You can't rate until your reservation has finished.");
 
 		}
 
@@ -136,13 +161,15 @@ public class RatingController {
 				HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/rateCarCompany/{comapnyId}/{reservationId}/{rate}", method = RequestMethod.PUT, consumes = "application/json")
+	@PreAuthorize("hasAnyRole('CUSTOMER')")
+	@RequestMapping(value = "/rateCarCompany/{comapnyId}/{reservationId}/{rate}", method = RequestMethod.PUT)
 	public ResponseEntity<?> rateCarCompany(@PathVariable Integer comapnyId, @PathVariable Integer reservationId,
-			@PathVariable Integer rate) throws ResourceNotFoundException, RequestDataException {
-		System.out.println("Ocenjivanje car comapany: " + comapnyId);
+			@PathVariable Integer rate, HttpServletRequest request) throws ResourceNotFoundException, RequestDataException {
 
 		Optional<RentACarCompany> carCompany = rentACarCompanyService.findRentACarCompany(comapnyId);
 
+		String email = tokenUtils.getEmailFromToken(tokenUtils.getToken(request));
+		
 		if (!carCompany.isPresent()) {
 			throw new ResourceNotFoundException(comapnyId.toString(), "Car company not found");
 		}
@@ -152,6 +179,12 @@ public class RatingController {
 		if (!carReservation.isPresent()) {
 			throw new ResourceNotFoundException(reservationId.toString(), "Reservation not found");
 		}
+		
+		Customer c = carReservation.get().getReservation().getCustomer();
+		
+		if(!c.getEmail().equals(email)) {
+			throw new ResourceNotFoundException(email.toString(), "You don't have this reservation.");
+		}
 
 		if (!carReservation.get().getActive()) {
 			throw new RequestDataException("You can't rate reservation you canceled.");
@@ -159,7 +192,7 @@ public class RatingController {
 
 		Date today = new Date();
 		if (carReservation.get().getDropOffDate().compareTo(today) > 0) {
-			throw new RequestDataException("You can't rate until your reservation hasn't finished.");
+			throw new RequestDataException("You can't rate until your reservation has finished.");
 		}
 
 		carCompany.get().incrementRatingCount();
@@ -173,13 +206,15 @@ public class RatingController {
 				HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/rateCar/{carId}/{reservationId}/{rate}", method = RequestMethod.PUT, consumes = "application/json")
+	@PreAuthorize("hasAnyRole('CUSTOMER')")
+	@RequestMapping(value = "/rateCar/{carId}/{reservationId}/{rate}", method = RequestMethod.PUT)
 	public ResponseEntity<?> rateCar(@PathVariable Integer carId, @PathVariable Integer reservationId,
-			@PathVariable Integer rate) throws ResourceNotFoundException, RequestDataException {
-		System.out.println("Ocenjivanje automobila: " + carId);
+			@PathVariable Integer rate, HttpServletRequest request) throws ResourceNotFoundException, RequestDataException {
 
 		Optional<Car> car = carService.findCar(carId);
 
+		String email = tokenUtils.getEmailFromToken(tokenUtils.getToken(request));
+		
 		if (!car.isPresent()) {
 			throw new ResourceNotFoundException(carId.toString(), "Car not found");
 		}
@@ -187,16 +222,22 @@ public class RatingController {
 		Optional<CarReservation> carReservation = carReservationService.findCarReservation(reservationId);
 
 		if (!carReservation.isPresent()) {
-			throw new RequestDataException("You can't rate reservation you canceled.");
+			throw new ResourceNotFoundException(reservationId.toString(), "Reservation not found");
 		}
 
+		Customer c = carReservation.get().getReservation().getCustomer();
+		
+		if(!c.getEmail().equals(email)) {
+			throw new ResourceNotFoundException(email.toString(), "You don't have this reservation.");
+		}
+		
 		if (!carReservation.get().getActive()) {
-			throw new RequestDataException("You can't rate until your reservation hasn't finished.");
+			throw new RequestDataException("You can't rate reservation you canceled.");
 		}
 
 		Date today = new Date();
 		if (carReservation.get().getDropOffDate().compareTo(today) > 0) {
-			throw new RequestDataException("You can't rate until your reservation hasn't finished.");
+			throw new RequestDataException("You can't rate until your reservation has finished.");
 		}
 
 		car.get().incrementRatingCount();
@@ -209,13 +250,15 @@ public class RatingController {
 		return new ResponseEntity<>((car.get().getTotalRating() / (double) car.get().getRatingCount()), HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/rateAirCompany/{comapanyId}/{reservationId}/{rate}", method = RequestMethod.PUT, consumes = "application/json")
+	@PreAuthorize("hasAnyRole('CUSTOMER')")
+	@RequestMapping(value = "/rateAirCompany/{comapanyId}/{reservationId}/{rate}", method = RequestMethod.PUT)
 	public ResponseEntity<?> rateAirCompany(@PathVariable Integer comapanyId, @PathVariable Long reservationId,
-			@PathVariable Integer rate) throws ResourceNotFoundException, RequestDataException {
-		System.out.println("Ocenjivanje air comapany: " + comapanyId);
+			@PathVariable Integer rate, HttpServletRequest request) throws ResourceNotFoundException, RequestDataException {
 
 		Optional<AirCompany> company = airService.findAircompany(comapanyId);
-
+		
+		String email = tokenUtils.getEmailFromToken(tokenUtils.getToken(request));
+		
 		if (!company.isPresent()) {
 			throw new ResourceNotFoundException(comapanyId.toString(), "Air company not found");
 		}
@@ -225,6 +268,12 @@ public class RatingController {
 		if (!flightReservation.isPresent()) {
 			throw new ResourceNotFoundException(reservationId.toString(), "Reservation not found");
 		}
+		
+		Customer c = flightReservation.get().getReservation().getCustomer();
+		
+		if(!c.getEmail().equals(email)) {
+			throw new ResourceNotFoundException(email.toString(), "You don't have this reservation.");
+		}
 
 		if (!flightReservation.get().getActive()) {
 			throw new RequestDataException("You can't rate reservation you canceled.");
@@ -232,7 +281,7 @@ public class RatingController {
 		
 		Date today = new Date();
 		if (flightReservation.get().getFlight().getEndDateAndTime().compareTo(today) > 0) {
-			throw new RequestDataException("You can't rate until your reservation hasn't finished.");
+			throw new RequestDataException("You can't rate until your reservation has finished.");
 		}
 		
 		company.get().incrementRatingCount();
@@ -245,14 +294,23 @@ public class RatingController {
 		return new ResponseEntity<>((company.get().getTotalRating() / (double) company.get().getRatingCount()), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/rateFlight/{flightId}/{reservationId}/{rate}", method = RequestMethod.PUT, consumes = "application/json")
+	@PreAuthorize("hasAnyRole('CUSTOMER')")
+	@RequestMapping(value = "/rateFlight/{flightId}/{reservationId}/{rate}", method = RequestMethod.PUT)
 	public ResponseEntity<?> rateFlight(@PathVariable Integer flightId, @PathVariable Long reservationId,
-			@PathVariable Integer rate) throws ResourceNotFoundException, RequestDataException {
-		System.out.println("Ocenjivanje leta: " + flightId);
+			@PathVariable Integer rate, HttpServletRequest request) throws ResourceNotFoundException, RequestDataException {
+		
+		String email = tokenUtils.getEmailFromToken(tokenUtils.getToken(request));
+
 		Optional<FlightReservation> flightReservation = flightReservationRepository.findById(reservationId);
 
 		if (!flightReservation.isPresent()) {
 			throw new ResourceNotFoundException(reservationId.toString(), "Reservation not found");
+		}
+		
+		Customer c = flightReservation.get().getReservation().getCustomer();
+		
+		if(!c.getEmail().equals(email)) {
+			throw new ResourceNotFoundException(email.toString(), "You don't have this reservation.");
 		}
 
 		if (!flightReservation.get().getActive()) {
@@ -261,7 +319,7 @@ public class RatingController {
 
 		Date today = new Date();
 		if (flightReservation.get().getFlight().getEndDateAndTime().compareTo(today) > 0) {
-			throw new RequestDataException("You can't rate until your reservation hasn't finished.");
+			throw new RequestDataException("You can't rate until your reservation has finished.");
 		}
 		
 		Flight flight = flightReservation.get().getFlight();
