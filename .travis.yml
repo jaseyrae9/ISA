@@ -1,0 +1,10 @@
+before_script: cd server-app
+language: java
+jdk:
+  - oraclejdk8
+  
+install:
+  - chmod +x ./mvnw
+  - ./mvnw install -DskipTests=false -Dmaven.javadoc.skip=true -B -V
+script:
+  - ./mvnw clean compile
