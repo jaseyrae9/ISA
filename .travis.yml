@@ -1,7 +1,23 @@
 sudo: required
 
 matrix:
-  include:        
+  include:
+    - language: java
+      jdk: oraclejdk8
+      env:
+        global:
+          - CODECOV_TOKEN="1de6a879-f36f-4085-a69a-8c7247acd44c"
+      before_install:
+        - cd server-app 
+        - mvn -N io.takari:maven:wrapper
+        - ./mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+      after_success:
+        - bash <(curl -s https://codecov.io/bash)
+      deploy:
+        provider: heroku
+        api_key: f838c383-9036-40c7-a634-86d0c0f4c408 
+        app: isa-back  
+        
     - language: node_js
       node_js: stable      
       before_install:
@@ -16,15 +32,5 @@ matrix:
         api_key: f838c383-9036-40c7-a634-86d0c0f4c408 
         app: ticket-reservation21         
      
-    - language: java
-      jdk: oraclejdk8
-      env:
-        global:
-          - CODECOV_TOKEN="1de6a879-f36f-4085-a69a-8c7247acd44c"
-      before_install:
-        - cd server-app 
-        - mvn -N io.takari:maven:wrapper
-        - ./mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-      after_success:
-        - bash <(curl -s https://codecov.io/bash)
+    
 
