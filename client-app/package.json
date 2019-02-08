@@ -15,7 +15,8 @@
     "@agm/core": "^1.0.0-beta.5",
     "@angular/animations": "~7.0.0",
     "@angular/common": "~7.0.0",
-    "@angular/compiler": "~7.0.0",
+    "@angular/compiler": "~7.0.0",    
+    "@angular/compiler-cli": "~7.0.0",
     "@angular/core": "~7.0.0",
     "@angular/forms": "~7.0.0",
     "@angular/http": "~7.0.0",
@@ -38,7 +39,8 @@
     "ngx-sortable": "^1.0.1",
     "rxjs": "~6.3.3",
     "rxjs-compat": "^6.3.3",
-    "zone.js": "^0.8.29"
+    "zone.js": "^0.8.29",
+    "typescript": "~3.1.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.11.4",
