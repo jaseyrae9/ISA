@@ -12,8 +12,8 @@ matrix:
         - npm install -g @angular/cli
       install:
         - npm install
-      script:
-        - ng build --prod --aot
+      postinstall:
+        - ng build --aot -prod
       deploy:
         provider: heroku
         api_key: f838c383-9036-40c7-a634-86d0c0f4c408 
