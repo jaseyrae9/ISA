@@ -111,7 +111,6 @@ public class CustomerControllerTest {
 				.andExpect(status().isOk()).andExpect(content().contentType(contentType))
 				.andExpect(jsonPath("$", hasSize(1)))
 				.andExpect(jsonPath("$.[*].id").value(hasItem(CustomerConstants.RESERVATION_ID.intValue())))
-				.andExpect(jsonPath("$.[*].creationDate").value(hasItem(CustomerConstants.CREATION_DATE)))
 				.andExpect(jsonPath("$.[*].carReservation.id")
 						.value(hasItem(CustomerConstants.CAR_RESERVATION.intValue())))
 				.andExpect(jsonPath("$.[*].roomReservation.id").doesNotExist())
