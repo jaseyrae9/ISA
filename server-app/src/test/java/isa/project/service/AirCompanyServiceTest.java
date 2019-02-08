@@ -2,6 +2,7 @@ package isa.project.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -34,8 +35,10 @@ import isa.project.exception_handlers.RequestDataException;
 import isa.project.exception_handlers.ResourceNotFoundException;
 import isa.project.model.aircompany.AirCompany;
 import isa.project.model.aircompany.Destination;
+import isa.project.model.shared.AdditionalService;
 import isa.project.repository.aircompany.AirCompanyRepository;
 import isa.project.repository.aircompany.DestinationRepository;
+import isa.project.repository.shared.AdditionalServiceRepository;
 import isa.project.service.aircompany.AirCompanyService;
 import static isa.project.constants.AirCompanyConstants.NEW_AIR_DESCRIPTION;
 import static isa.project.constants.AirCompanyConstants.NEW_AIR_COMPANY_NAME;
@@ -55,6 +58,9 @@ public class AirCompanyServiceTest {
 	@Mock
 	private DestinationRepository destinationRepository;
 	
+	@Mock
+	private AdditionalServiceRepository asRepository;
+		
 	@InjectMocks
 	private AirCompanyService airCompanyService;
 	
@@ -136,8 +142,7 @@ public class AirCompanyServiceTest {
 		airCompanyService.deleteDestination(AirCompanyConstants.DESTINATION_ID,AIR_COMPANY_ID.intValue());
 		airCompanyService.deleteDestination(AirCompanyConstants.DESTINATION_ID,AIR_COMPANY_ID.intValue());
 		
-	}
-	
+	}	
 
 	@Test
     @Transactional
@@ -146,6 +151,42 @@ public class AirCompanyServiceTest {
 		exceptionRule.expect(ResourceNotFoundException.class);
 	    exceptionRule.expectMessage("Air company not found.");
 		airCompanyService.deleteDestination(new Long(9898),new Integer(8989));
+	}
+	
+	@Test
+    @Transactional
+    @Rollback(true)
+	public void testAddBaggageInformation() throws ResourceNotFoundException {
+		AirCompany company= new AirCompany(NEW_AIR_COMPANY_NAME, NEW_AIR_DESCRIPTION);
+		company.setBaggageInformation(new HashSet<>());
+		when(airCompanyRepository.findById(2)).thenReturn(Optional.of(company));
+	
+		AdditionalService as = new AdditionalService("Baggage", "Opis", 2.5);
+		when(asRepository.save(as)).thenReturn(as);   
+		
+		AdditionalService dbAs = airCompanyService.addBaggageInformation(as, 2);
+		company.addBaggageInformation(dbAs);
+		when(airCompanyRepository.save(company)).thenReturn(company);   
+
+		assertThat(dbAs).isNotNull();
+		assertTrue("Baggage".equals(dbAs.getName()));
+		assertTrue("Opis".equals(dbAs.getDescription()));
+		assertTrue(dbAs.getPrice() == 2.5);
+		
+		verify(asRepository, times(1)).save(as);
+		verify(airCompanyRepository, times(1)).save(company);
+		verify(airCompanyRepository, times(1)).findById(2);
+		verifyNoMoreInteractions(airCompanyRepository);
+		verifyNoMoreInteractions(asRepository);
+	}
+	
+	@Test
+    @Transactional
+    @Rollback(true)
+	public void testDeleteBaggageInformationsExp() throws ResourceNotFoundException, RequestDataException {
+		exceptionRule.expect(ResourceNotFoundException.class);
+	    exceptionRule.expectMessage("Air company not found.");
+		airCompanyService.deleteBaggageInformation(new Long(9898), new Integer(8989));
 	}
 	
 }

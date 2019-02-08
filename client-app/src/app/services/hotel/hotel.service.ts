@@ -42,7 +42,7 @@ export class HotelService {
 
   edit(hotel: Hotel): Observable<Hotel> {
     console.log(hotel);
-    return this.http.put<Hotel>('hhttps://isa-back.herokuapp.com/hotels/edit/' + hotel.id, hotel, httpOptions);
+    return this.http.put<Hotel>('https://isa-back.herokuapp.com/hotels/edit/' + hotel.id, hotel, httpOptions);
   }
 
   addRoom(room: Room, hotelId: Number): Observable<Room> {

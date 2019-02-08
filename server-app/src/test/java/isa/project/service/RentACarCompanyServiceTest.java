@@ -27,9 +27,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import isa.project.constants.RentACarCompanyConstants;
+import isa.project.dto.rentacar.BranchOfficeDTO;
 import isa.project.dto.rentacar.CarDTO;
 import isa.project.dto.shared.MonthlyReportDTO;
 import isa.project.exception_handlers.ResourceNotFoundException;
+import isa.project.model.rentacar.BranchOffice;
 import isa.project.model.rentacar.Car;
 import isa.project.model.rentacar.CarReservation;
 import isa.project.model.rentacar.RentACarCompany;
@@ -219,4 +221,26 @@ public class RentACarCompanyServiceTest {
 		assertEquals(price, new Double(2.2));
 	}
 
+	@Test
+	@Transactional
+	@Rollback(true)
+	public void testAddBranchOffice() throws ResourceNotFoundException {
+		RentACarCompany rentacar = new RentACarCompany(NEW_RENT_A_CAR_COMPANY_NAME, NEW_RENT_A_CAR_COMPANY_DESCRIPTION);
+		rentacar.setBranchOffices(new HashSet<>());
+		when(rentACarRepository.findById(2)).thenReturn(Optional.of(rentacar));
+
+		BranchOffice bo = new BranchOffice(rentacar, "ime");
+		when(branchOfficeRepository.save(bo)).thenReturn(bo);
+		
+		BranchOffice dbBo = rentACarCompanyService.addBranchOffice(2, new BranchOfficeDTO(bo));
+		assertThat(dbBo).isNotNull();
+		assertTrue("ime".equals(dbBo.getName()));
+		assertTrue(dbBo.getActive());
+	
+		verify(branchOfficeRepository, times(1)).save(bo);
+		verify(rentACarRepository, times(1)).findById(2);
+		verifyNoMoreInteractions(branchOfficeRepository);
+		verifyNoMoreInteractions(rentACarRepository);
+	}
+	
 }

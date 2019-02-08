@@ -37,6 +37,8 @@ import isa.project.TestUtil;
 import isa.project.constants.AirCompanyConstants;
 import isa.project.dto.users.AuthenticationResponse;
 import isa.project.model.aircompany.AirCompany;
+import isa.project.model.aircompany.Destination;
+import isa.project.model.shared.AdditionalService;
 import isa.project.model.shared.Location;
 import isa.project.security.auth.JwtAuthenticationRequest;
 import static isa.project.constants.AirCompanyConstants.LOCATION_ADDRESS;
@@ -171,4 +173,49 @@ public class AirCompanyControllerTest {
 		.andExpect(status().isOk()); 
 	}
 
+	@Test
+	@Transactional
+	@Rollback(true)
+	public void testDeleteDestinationExp() throws Exception {
+		this.mockMvc.perform(delete(URL_PREFIX + "/deleteDestination/" + 101 + "/" + AirCompanyConstants.DESTINATION_ID).header("Authorization", "Bearer " + accessTokenAirAdmin))
+		.andExpect(status().isUnauthorized()); 
+	}
+	
+	@Test
+	@Transactional
+	@Rollback(true)
+	public void testAddDestination() throws Exception {		
+		Destination destination = new Destination(null, "RUM", "Srbija", "Ruma", "Milosevo dvoriste");
+		String json = TestUtil.json(destination);
+		this.mockMvc.perform(post(URL_PREFIX + "/addDestination/100").header("Authorization", "Bearer " + accessTokenAirAdmin)
+				.contentType(contentType).content(json)).andExpect(status().isOk());
+	}
+	
+	@Test
+	@Transactional
+	@Rollback(true)
+	public void testAddBaggageInformation() throws Exception {		
+		AdditionalService as = new AdditionalService("Baggage", "Opis", 2.5);
+		String json = TestUtil.json(as);
+		this.mockMvc.perform(post(URL_PREFIX + "/addBaggageInformation/100").header("Authorization", "Bearer " + accessTokenAirAdmin)
+				.contentType(contentType).content(json)).andExpect(status().isOk());
+	}	
+
+	@Test
+	@Transactional
+	@Rollback(true)
+	public void testDeleteBaggageInformationExp() throws Exception {
+		this.mockMvc.perform(delete(URL_PREFIX + "/deleteBaggageInformation/" + AIR_COMPANY_ID.intValue() + "/1500").header("Authorization", "Bearer " + accessTokenAirAdmin))
+		.andExpect(status().isNotFound()); //baggage doesn't exists
+	}
+
+	@Test
+	@Transactional
+	@Rollback(true)
+	public void testDeleteBaggageInformationExp2() throws Exception {
+		this.mockMvc.perform(delete(URL_PREFIX + "/deleteBaggageInformation/" + 102 + "/1500").header("Authorization", "Bearer " + accessTokenAirAdmin))
+		.andExpect(status().isUnauthorized()); 
+	}
+	
+	
 }

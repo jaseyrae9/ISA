@@ -33,7 +33,6 @@ public class RentACarCompanyConstants {
 	public static final String DATE0 = "2019-05-30";
 	public static final String DATE1 = "2019-06-30";
 	
-	public static final Long CAR_ID = 100L; 
 	public static final Long BRANCH_OFFICE_ID = 100L;
 	
 	

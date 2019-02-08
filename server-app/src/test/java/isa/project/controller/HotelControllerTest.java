@@ -51,6 +51,8 @@ import isa.project.TestUtil;
 import isa.project.constants.HotelConstants;
 import isa.project.dto.users.AuthenticationResponse;
 import isa.project.model.hotel.Hotel;
+import isa.project.model.hotel.Room;
+import isa.project.model.shared.AdditionalService;
 import isa.project.model.shared.Location;
 import isa.project.security.auth.JwtAuthenticationRequest;
 
@@ -182,4 +184,47 @@ public class HotelControllerTest {
 		.andExpect(status().isOk()); 
 	}
 	
+	@Test
+	@Transactional
+	@Rollback(true)
+	public void testDeleteRoomExp() throws Exception {
+		this.mockMvc.perform(delete(URL_PREFIX + "/deleteRoom/" + 102 + "/" + HotelConstants.ROOM_ID).header("Authorization", "Bearer " + accessTokenHotelAdmin))
+		.andExpect(status().isUnauthorized()); 
+	}
+		
+	@Test
+	@Transactional
+	@Rollback(true)
+	public void testAddRoom() throws Exception {		
+		Room room = new Room(null, 4, 4, 4, 15.0, "Apartman");
+		String json = TestUtil.json(room);
+		this.mockMvc.perform(post(URL_PREFIX + "/addRoom/100").header("Authorization", "Bearer " + accessTokenHotelAdmin)
+				.contentType(contentType).content(json)).andExpect(status().isCreated());
+	}
+	
+	@Test
+	@Transactional
+	@Rollback(true)
+	public void testAddAdditionalService() throws Exception {		
+		AdditionalService as = new AdditionalService("AsName", "AsDesc", 2.5);
+		String json = TestUtil.json(as);
+		this.mockMvc.perform(post(URL_PREFIX + "/addAdditionalService/100").header("Authorization", "Bearer " + accessTokenHotelAdmin)
+				.contentType(contentType).content(json)).andExpect(status().isOk());
+	}
+	
+	@Test
+	@Transactional
+	@Rollback(true)
+	public void testDeleteServiceExp() throws Exception {
+		this.mockMvc.perform(delete(URL_PREFIX + "/deleteAdditionalService/101"  + "/100").header("Authorization", "Bearer " + accessTokenHotelAdmin))
+		.andExpect(status().isUnauthorized()); 
+	}
+	
+	@Test
+	@Transactional
+	@Rollback(true)
+	public void testDeleteService() throws Exception {
+		this.mockMvc.perform(delete(URL_PREFIX + "/deleteAdditionalService/" +  HotelConstants.DB_ID + "/100").header("Authorization", "Bearer " + accessTokenHotelAdmin))
+		.andExpect(status().isOk()); 
+	}
 }

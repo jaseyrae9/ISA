@@ -46,6 +46,8 @@ import org.springframework.web.context.WebApplicationContext;
 import isa.project.TestUtil;
 import isa.project.constants.RentACarCompanyConstants;
 import isa.project.dto.users.AuthenticationResponse;
+import isa.project.model.rentacar.BranchOffice;
+import isa.project.model.rentacar.Car;
 import isa.project.model.rentacar.RentACarCompany;
 import isa.project.model.shared.Location;
 import isa.project.security.auth.JwtAuthenticationRequest;
@@ -180,8 +182,70 @@ public class RentACarCompanyControllerTest {
 	}
 	
 	@Test
+	@Transactional
+	@Rollback(true)
+	public void testDeleteBranchOfficeExp() throws Exception {
+		this.mockMvc.perform(delete(URL_PREFIX + "/deleteBranchOffice/" + 1500 + "/" + RentACarCompanyConstants.BRANCH_OFFICE_ID).header("Authorization", "Bearer " + accessTokenCarAdmin))
+		.andExpect(status().isUnauthorized()); 
+	}
+	
+	
+	@Test
 	public void testSearchRentACarCompany() throws Exception {
 		mockMvc.perform(get(URL_PREFIX + "/search?name=" + RENT_A_CAR_COMPANY_NAME + "&address=&pickUpDay=&dropOffDate="))
 		.andExpect(status().isOk()).andExpect(content().contentType(contentType));
+	}
+	
+	@Test
+	@Transactional
+	@Rollback(true)
+	public void testAddCar() throws Exception {		
+		Car car = new Car(null, "brand", "model", 2015, 4, 5, 15.0, "Sedan");
+		String json = TestUtil.json(car);
+		this.mockMvc.perform(post(URL_PREFIX + "/addCar/100").header("Authorization", "Bearer " + accessTokenCarAdmin)
+				.contentType(contentType).content(json)).andExpect(status().isCreated());
+	}
+		
+	@Test
+	@Transactional
+	@Rollback(true)
+	public void testAddBranchOffice() throws Exception {	
+		Location location = new Location();
+		location.setAddress(LOCATION_ADDRESS);
+		location.setCity(LOCATION_CITY);
+		location.setCountry(LOCATION_COUNTRY);
+		location.setLon(LOCATION_LON);
+		location.setLat(LOCATION_LAT);
+
+		BranchOffice branchOffice = new BranchOffice(null, "aaa");
+		branchOffice.setLocation(location);
+		String json = TestUtil.json(branchOffice);
+		this.mockMvc.perform(post(URL_PREFIX + "/addBranchOffice/100").header("Authorization", "Bearer " + accessTokenCarAdmin)
+				.contentType(contentType).content(json)).andExpect(status().isCreated());
+	
+	}
+	
+	@Test
+	@Transactional
+	@Rollback(true)
+	public void testDeleteCar() throws Exception {
+		this.mockMvc.perform(delete(URL_PREFIX + "/deleteCar/" + RentACarCompanyConstants.RENT_A_CAR_COMPANY_ID + "/" + 502).header("Authorization", "Bearer " + accessTokenCarAdmin))
+		.andExpect(status().isOk()); 
+	}
+	
+	@Test
+	@Transactional
+	@Rollback(true)
+	public void testDeleteCarExp() throws Exception {
+		this.mockMvc.perform(delete(URL_PREFIX + "/deleteCar/" + 101 + "/" + 502).header("Authorization", "Bearer " + accessTokenCarAdmin))
+		.andExpect(status().isUnauthorized()); 
+	}
+	
+	@Test
+	@Transactional
+	@Rollback(true)
+	public void testDeleteCarExp2() throws Exception {
+		this.mockMvc.perform(delete(URL_PREFIX + "/deleteCar/" + 100 + "/" + 500).header("Authorization", "Bearer " + accessTokenCarAdmin))
+		.andExpect(status().isBadRequest()); // car is rented, so admin cannot delete it until the reservation ends
 	}
 }

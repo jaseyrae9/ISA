@@ -13,7 +13,7 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                           <a class="dropdown-item" routerLink="/find-flight">Find flight</a>
                           <a class="dropdown-item" routerLink="/aircompanies">All companies</a>
-                          <a *ngIf="tokenService.isSysAdmin" class="dropdown-item" href="#" (click)="openNewAirAdminModal()">Add admin</a>
+                          <a *ngIf="tokenService.isSysAdmin" class="dropdown-item" (click)="openNewAirAdminModal()">Add admin</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown" routerLinkActive="active">
@@ -23,7 +23,7 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                           <a class="dropdown-item" routerLink="/find-room">Find hotel</a>
                           <a class="dropdown-item" routerLink="/hotels">All hotels</a>
-                          <a *ngIf="tokenService.isSysAdmin" class="dropdown-item" href="#" (click)="openNewHotelAdminModal()" >Add admin</a>
+                          <a *ngIf="tokenService.isSysAdmin" class="dropdown-item" (click)="openNewHotelAdminModal()" >Add admin</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown" routerLinkActive="active">
@@ -33,7 +33,7 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                           <a class="dropdown-item" routerLink="/find-car">Find rent-a-car company</a>
                           <a class="dropdown-item" routerLink="/rent-a-car-companies">All rent-a-car companies</a>
-                          <a *ngIf="tokenService.isSysAdmin" class="dropdown-item" href="#" (click)="openNewCarCompanyAdminModal()">Add admin</a>
+                          <a *ngIf="tokenService.isSysAdmin" class="dropdown-item" (click)="openNewCarCompanyAdminModal()">Add admin</a>
                         </div>
                     </li>
                 </ul>
@@ -49,7 +49,7 @@
                                 <div class="dropdown-divider" *ngIf="tokenService.isCustomer || tokenService.isSysAdmin" ></div>
                                 <a class="dropdown-item" routerLink="/history" *ngIf="tokenService.isCustomer" >History</a>
                                 <a class="dropdown-item" routerLink="/invites" *ngIf="tokenService.isCustomer" >Trip invites</a>
-                                <a *ngIf="tokenService.isSysAdmin" class="dropdown-item" href="#" (click)="openSysAdminModal()">Add system admin</a>
+                                <a *ngIf="tokenService.isSysAdmin" class="dropdown-item" (click)="openSysAdminModal()">Add system admin</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" (click)="logout()">Log out</a>
                             </div>
@@ -59,14 +59,14 @@
 
                 <ng-template #notShow>
                     <ul class="nav navbar-nav navbar-right ml-auto">
-                        <li class="nav-item"><a data-toggle="dropdown" class="nav-link dropdown-toggle" href="#">Log In</a>
+                        <li class="nav-item"><a data-toggle="dropdown" class="nav-link dropdown-toggle">Log In</a>
                             <ul class="dropdown-menu form-wrapper">
                                 <li>
                                     <app-login-form></app-login-form>
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item"><a href="#" data-toggle="dropdown" class="btn btn-primary dropdown-toggle get-started-btn mt-1 mb-1">Sign
+                        <li class="nav-item"><a data-toggle="dropdown" class="btn btn-primary dropdown-toggle get-started-btn mt-1 mb-1">Sign
                                 Up</a>
                             <ul class="dropdown-menu form-wrapper">
                                 <li>
