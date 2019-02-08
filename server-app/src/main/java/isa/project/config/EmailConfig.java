@@ -18,7 +18,7 @@ public class EmailConfig {
         mailSender.setPort(587);
 
         mailSender.setUsername("isa.team21.2019@gmail.com");
-        mailSender.setPassword("IsaProjekat2018");
+        mailSender.setPassword("01122017");
 
         Properties properties = mailSender.getJavaMailProperties();
         properties.put("mail.smtp.starttls.enable", "true");
