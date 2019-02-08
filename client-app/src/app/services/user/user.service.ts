@@ -21,7 +21,7 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   getCurrentUserProfile(): Observable<any> {
-      return this.http.get('//localhost:8080/profile/info');
+      return this.http.get('https://ticket-reservation21.herokuapp.com/profile/info');
   }
 
   changePassword(data: ChangePasswordData, jwtToken: String = '' ): Observable<any> {
@@ -30,62 +30,65 @@ export class UserService {
       const differentHttpOptions = {
         headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + jwtToken })
       };
-      return this.http.post<ChangePasswordData>('//localhost:8080/profile/changePassword', data, differentHttpOptions);
+      return this.http.post<ChangePasswordData>('https://isa-back.herokuapp.com/profile/changePassword',
+      data, differentHttpOptions);
     } else {
-      return this.http.post<ChangePasswordData>('//localhost:8080/profile/changePassword', data, httpOptions);
+      return this.http.post<ChangePasswordData>('https://isa-back.herokuapp.com/profile/changePassword', data, httpOptions);
     }
   }
 
   updateProfile(info: User): Observable<any> {
-    return this.http.post<ChangePasswordData>('//localhost:8080/profile/updateProfile', info, httpOptions);
+    return this.http.post<ChangePasswordData>('https://isa-back.herokuapp.com/profile/updateProfile', info, httpOptions);
   }
 
   getFriendRequests(pageNumber: number, sortBy): Observable<any> {
-    return this.http.get('//localhost:8080/friendship/friendRequests?page=' + pageNumber + '&size=2' + '&sort=' + sortBy);
+    return this.http.get('https://isa-back.herokuapp.com/friendship/friendRequests?page='
+    + pageNumber + '&size=2' + '&sort=' + sortBy);
   }
 
   getFriends(pageNumber: number, sortBy): Observable<any> {
-    return this.http.get('//localhost:8080/friendship/friends?page=' + pageNumber + '&size=2' + '&sort=' + sortBy);
+    return this.http.get('https://isa-back.herokuapp.com/friendship/friends?page='
+    + pageNumber + '&size=2' + '&sort=' + sortBy);
   }
 
   getAllFriends(): Observable<any> {
-    return this.http.get('//localhost:8080/friendship/friends');
+    return this.http.get('https://isa-back.herokuapp.com/friendship/friends');
   }
 
   acceptFriendRequest(fromId: number): Observable<any> {
-    return this.http.get('//localhost:8080/friendship/acceptRequest/' + fromId);
+    return this.http.get('https://isa-back.herokuapp.com/friendship/acceptRequest/' + fromId);
   }
 
   deleteFriendship(fromId: number): Observable<any> {
-    return this.http.get('//localhost:8080/friendship/delete/' + fromId);
+    return this.http.get('https://isa-back.herokuapp.com/friendship/delete/' + fromId);
   }
 
   sendRequest(to: number): Observable<any> {
-    return this.http.get('//localhost:8080/friendship/sendRequest/' + to);
+    return this.http.get('https://isa-back.herokuapp.com/friendship/sendRequest/' + to);
   }
 
   searchCustomers(searchTerm: string, pageNumber: number, sortBy): Observable<any> {
     // tslint:disable-next-line:max-line-length
-    return this.http.get('//localhost:8080/friendship/search?searchTerm=' + searchTerm + '&page=' + pageNumber + '&size=2' + '&sort=' + sortBy);
+    return this.http.get('https://isa-back.herokuapp.com/friendship/search?searchTerm=' + searchTerm + '&page=' + pageNumber + '&size=2' + '&sort=' + sortBy);
   }
   getReservations(): Observable<any> {
-    return this.http.get('//localhost:8080/customers/getAllReservations');
+    return this.http.get('https://isa-back.herokuapp.com/customers/getAllReservations');
   }
 
   getInvites(): Observable<any> {
-    return this.http.get('//localhost:8080/customers/getInvites');
+    return this.http.get('https://isa-back.herokuapp.com/customers/getInvites');
   }
 
   accpetInvite(id): Observable<any> {
-    return this.http.put('http://localhost:8080/customers/acceptInvite/' + id, httpOptions);
+    return this.http.put('https://isa-back.herokuapp.com/customers/acceptInvite/' + id, httpOptions);
   }
 
   refuseInvite(id): Observable<any> {
-    return this.http.put('http://localhost:8080/customers/refuseInvite/' + id, httpOptions);
+    return this.http.put('https://isa-back.herokuapp.com/customers/refuseInvite/' + id, httpOptions);
   }
 
   addSysAdmin(user): Observable<User> {
     console.log('usao u user service, user: ', user);
-    return this.http.post<User>('http://localhost:8080/sys/addSystemAdmin', user, httpOptions);
+    return this.http.post<User>('https://isa-back.herokuapp.com/sys/addSystemAdmin', user, httpOptions);
   }
 }

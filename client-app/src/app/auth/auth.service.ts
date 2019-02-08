@@ -15,8 +15,8 @@ const httpOptions = {
 })
 export class AuthService {
 
-  private loginUrl = 'http://localhost:8080/customers/login';
-  private signupUrl = 'http://localhost:8080/customers/register';
+  private loginUrl = 'https://isa-back.herokuapp.com/customers/login';
+  private signupUrl = 'https://isa-back.herokuapp.com/customers/register';
 
   constructor(private http: HttpClient) {
   }

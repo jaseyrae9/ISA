@@ -40,7 +40,7 @@ export class NavigationComponent implements OnInit {
   }
 
   logout() {
-    this.router.navigateByUrl('http://localhost:4200');
+    this.router.navigateByUrl('http://ticket-reservation21.herokuapp.com/');
     this.tokenService.signOut();
   }
 
