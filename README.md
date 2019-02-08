@@ -6,7 +6,7 @@
 Backend: https://isa-back.herokuapp.com <br/>
 Frontend: https://ticket-reservation21.herokuapp.com <br/>
 
-Napomena: Trenutno deployovana verzija backend-a kao dozvoljene cross origin ima:
+Napomena: Trenutno deployovana verzija backend-a kao dozvoljene cross origine ima:
 <ul>
   <li> https://ticket-reservation21.herokuapp.com  i http://ticket-reservation21.herokuapp.com </li>
   <li> localhost://8080 i localhost://4200
