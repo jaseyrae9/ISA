@@ -2,6 +2,20 @@ sudo: required
 
 matrix:
   include:
+    - language: node_js
+      node_js: stable      
+      before_install:
+        - cd client-app 
+        - npm install -g @angular/cli
+      install:
+        - npm install
+      script:
+        - npm run build
+      deploy:
+        provider: heroku
+        api_key: f838c383-9036-40c7-a634-86d0c0f4c408 
+        app: ticket-reservation21   
+        
     - language: java
       jdk: oraclejdk8
       env:
@@ -16,21 +30,4 @@ matrix:
       deploy:
         provider: heroku
         api_key: f838c383-9036-40c7-a634-86d0c0f4c408 
-        app: isa-back  
-        
-    - language: node_js
-      node_js: stable      
-      before_install:
-        - cd client-app 
-        - npm install -g @angular/cli
-      install:
-        - npm install
-      script:
-        - npm run build
-      deploy:
-        provider: heroku
-        api_key: f838c383-9036-40c7-a634-86d0c0f4c408 
-        app: ticket-reservation21         
-     
-    
-
+        app: isa-back
