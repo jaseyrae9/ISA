@@ -9,9 +9,11 @@ import static org.mockito.Mockito.when;
 
 import java.text.ParseException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -28,9 +30,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import isa.project.constants.HotelConstants;
 import isa.project.dto.hotel.RoomDTO;
+import isa.project.dto.shared.MonthlyReportDTO;
 import isa.project.exception_handlers.ResourceNotFoundException;
 import isa.project.model.hotel.Hotel;
 import isa.project.model.hotel.Room;
+import isa.project.model.hotel.RoomReservation;
+import isa.project.model.hotel.SingleRoomReservation;
 import isa.project.model.shared.AdditionalService;
 import isa.project.repository.hotel.HotelRepository;
 import isa.project.repository.hotel.RoomRepository;
@@ -53,6 +58,12 @@ public class HotelServiceTest {
 
 	@Mock
 	private Hotel hotel;
+	
+	@Mock
+	private Room room;
+	
+	@Mock
+	private RoomReservation roomReservation;
 
 	@InjectMocks
 	private RoomService roomService;
@@ -167,4 +178,49 @@ public class HotelServiceTest {
 		assertThat(list).hasSize(1);
 	}
 	
+	@Test
+	@Transactional
+	@Rollback(true)
+	public void testGetHotelMonthlyInfo() {
+		//room = new Room(hotel, 4, 4, 4, 15.0, "Apartman");
+		when(room.getNumberOfBeds()).thenReturn(4);
+		Set<Room> rooms = new HashSet<>();
+		rooms.add(room);
+		when(hotel.getRooms()).thenReturn(rooms);
+		SingleRoomReservation srr = new SingleRoomReservation();
+		when(roomReservation.getActive()).thenReturn(true);
+		Date today = new Date();
+		when(roomReservation.getCheckInDate()).thenReturn(today);
+		when(roomReservation.getCheckOutDate()).thenReturn(today);
+		srr.setRoomReservation(roomReservation);
+		Set<SingleRoomReservation> srrSet = new HashSet<>();
+		srrSet.add(srr);
+		when(room.getSingleRoomReservations()).thenReturn(srrSet);
+		MonthlyReportDTO mrDto = hotelService.getHotelMonthlyInfo(hotel);
+		assertThat(mrDto.getMonthly()).hasSize(12);
+		assertEquals(mrDto.getMonthly().get(1).intValue(), 4);
+	}
+	
+	@Test
+	@Transactional
+	@Rollback(true)
+	public void testGetHotelIncome() throws ParseException {
+		when(room.getNumberOfBeds()).thenReturn(4);
+		when(room.getPrice()).thenReturn(2.2);
+		Set<Room> rooms = new HashSet<>();
+		rooms.add(room);
+		when(hotel.getRooms()).thenReturn(rooms);
+		SingleRoomReservation srr = new SingleRoomReservation();
+		when(roomReservation.getActive()).thenReturn(true);
+		Date today = new Date();
+		when(roomReservation.getCheckInDate()).thenReturn(today);
+		when(roomReservation.getCheckOutDate()).thenReturn(today);
+		srr.setRoomReservation(roomReservation);
+		Set<SingleRoomReservation> srrSet = new HashSet<>();
+		srrSet.add(srr);
+		when(room.getSingleRoomReservations()).thenReturn(srrSet);
+		Double price = hotelService.getIncome(hotel, "2019-01-01", "2019-12-01");
+		assertEquals(price, new Double(2.2));
+	}	
+
 }

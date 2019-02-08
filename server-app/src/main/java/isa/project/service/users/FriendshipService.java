@@ -82,6 +82,7 @@ public class FriendshipService {
 		Customer fromCust = fromCustOpt.get();
 		Customer toCust = toCustOpt.get();
 
+		System.out.println("fromCust.getId() " + fromCust.getId() + " " + toCust.getId());
 		// pronadji zahtev
 		Optional<Friendship> friendship = friendshipRepository.findRequest(fromCust.getId(), toCust.getId());
 		if (!friendship.isPresent()) {
