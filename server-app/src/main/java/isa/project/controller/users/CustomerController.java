@@ -119,14 +119,14 @@ public class CustomerController {
 		Optional<VerificationToken> verificationToken = tokenService.findByToken(token);
 
 		if (!verificationToken.isPresent()) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).header(HttpHeaders.LOCATION, "http://localhost:4200").build();
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).header(HttpHeaders.LOCATION, "https://ticket-reservation21.herokuapp.com/error/404").build();
 		}
 
 		Customer customer = (Customer) verificationToken.get().getUser();
 		customer.setConfirmedMail(true);
 		customerService.saveCustomer(customer);
 		// redirekcija gde zelimo
-		return ResponseEntity.status(HttpStatus.FOUND).header(HttpHeaders.LOCATION, "http://localhost:4200").build();
+		return ResponseEntity.status(HttpStatus.FOUND).header(HttpHeaders.LOCATION, "https://ticket-reservation21.herokuapp.com").build();
 	}
 
 	/**
@@ -179,7 +179,7 @@ public class CustomerController {
 
 		String recipientMail = customer.getEmail();
 		String subject = "Potvrda registracije";
-		String confirmationUrl = "http://localhost:8080/customers/confirmRegistration?token=" + token;
+		String confirmationUrl = "https://isa-back.herokuapp.com/customers/confirmRegistration?token=" + token;
 		String message = "<html><body>Click here to activate your account<br>" + confirmationUrl + "</body></html>";
 		emailService.sendNotificaitionAsync(recipientMail, subject, message);
 	}

@@ -32,7 +32,7 @@ import isa.project.service.rentacar.CarReservationService;
 
 @Service
 public class ReservationService {
-	private static String ourPageUrl = "https://www.google.com/";
+	private static String ourPageUrl = "https://ticket-reservation21.herokuapp.com";
 	
 	@Autowired
 	private FlightReservationsService flightReservationsService;

@@ -21,7 +21,7 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   getCurrentUserProfile(): Observable<any> {
-      return this.http.get('https://ticket-reservation21.herokuapp.com/profile/info');
+      return this.http.get('https://isa-back.herokuapp.com/profile/info');
   }
 
   changePassword(data: ChangePasswordData, jwtToken: String = '' ): Observable<any> {
