@@ -12,7 +12,7 @@ matrix:
         - npm install -g @angular/cli
       install:
         - npm install
-      postinstall:
+      script:
         - ng build --aot -prod
       deploy:
         provider: heroku
