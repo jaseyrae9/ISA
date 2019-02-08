@@ -9,6 +9,6 @@ public class CorsConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/**").allowedOrigins("https://ticket-reservation21.herokuapp.com");
+		registry.addMapping("/**").allowedOrigins("https://ticket-reservation21.herokuapp.com", "http://localhost:4200", "http://localhost:8080");
 	}
 }
