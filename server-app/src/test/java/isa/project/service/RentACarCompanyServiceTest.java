@@ -67,13 +67,13 @@ public class RentACarCompanyServiceTest {
 
 	@Mock
 	private RentACarCompany company;
-	
+
 	@Mock
 	private Car car;
 
 	@Mock
 	private CarReservation carReservation;
-	
+
 	@Test
 	public void testFindAll() {
 		List<RentACarCompany> companies = new ArrayList<>();
@@ -197,6 +197,26 @@ public class RentACarCompanyServiceTest {
 		MonthlyReportDTO mrDto = rentACarCompanyService.getRentACarMonthlyInfo(company);
 		assertThat(mrDto.getMonthly()).hasSize(12);
 		assertEquals(mrDto.getMonthly().get(1).intValue(), 1);
+	}
+
+	@Test
+	@Transactional
+	@Rollback(true)
+	public void testGetRentACarCompanyIncome() throws ParseException {
+		when(car.getBrand()).thenReturn("Fiat");
+		when(car.getPrice()).thenReturn(2.2);
+		Set<Car> cars = new HashSet<>();
+		cars.add(car);
+		when(company.getCars()).thenReturn(cars);
+		Date today = new Date();
+		when(carReservation.getActive()).thenReturn(true);
+		when(carReservation.getPickUpDate()).thenReturn(today);
+		when(carReservation.getDropOffDate()).thenReturn(today);
+		Set<CarReservation> crSet = new HashSet<>();
+		crSet.add(carReservation);
+		when(car.getCarReservations()).thenReturn(crSet);
+		Double price = rentACarCompanyService.getIncome(company, "2019-01-01", "2019-12-01");
+		assertEquals(price, new Double(2.2));
 	}
 
 }
