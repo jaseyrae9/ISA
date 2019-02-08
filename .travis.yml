@@ -1,5 +1,8 @@
 sudo: required
 
+addons:
+  chrome: stable
+
 matrix:
   include:        
     - language: node_js
@@ -10,7 +13,7 @@ matrix:
       install:
         - npm install
       script:
-        - npm run build
+        - npm run build --prod --aot
       deploy:
         provider: heroku
         api_key: f838c383-9036-40c7-a634-86d0c0f4c408 
