@@ -4,7 +4,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { AirCompanyService } from './../../../../services/air-company/air-company.service';
 import { Airplane } from './../../../../model/air-company/airplane';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { NgxNotificationService } from 'ngx-notification';
+import { AlertService } from 'ngx-alerts';
 
 @Component({
   selector: 'app-airplane-display',
@@ -19,7 +19,7 @@ export class AirplaneDisplayComponent implements OnInit {
   @Output() airplaneEvent: EventEmitter<Object> = new EventEmitter();
   modalRef: BsModalRef;
 
-  constructor(private modalService: BsModalService, private ngxNotificationService: NgxNotificationService,
+  constructor(private modalService: BsModalService, private alertService: AlertService,
     private airCompanyService: AirCompanyService) { }
 
   ngOnInit() {
@@ -28,7 +28,7 @@ export class AirplaneDisplayComponent implements OnInit {
   deleteAirplane() {
     this.airCompanyService.deleteAirplane(this.companyId, this.airplane.id).subscribe(
       () => {
-        this.ngxNotificationService.sendMessage('Airplane ' + this.airplane.name + ' deleted.', 'dark', 'bottom-right');
+        this.alertService.info('Airplane ' + this.airplane.name + ' deleted.');
         this.airplaneEvent.emit(this.airplane);
       }
     );
@@ -37,7 +37,7 @@ export class AirplaneDisplayComponent implements OnInit {
   activateAirplane() {
     this.airCompanyService.activateAirplane(this.companyId, this.airplane.id).subscribe(
       (data) => {
-        this.ngxNotificationService.sendMessage('Airplane ' + this.airplane.name + ' activated.', 'dark', 'bottom-right');
+        this.alertService.info('Airplane ' + this.airplane.name + ' activated.');
         this.airplane.status = status;
       }
     );
@@ -50,7 +50,7 @@ export class AirplaneDisplayComponent implements OnInit {
     };
     this.modalRef = this.modalService.show(AirplaneFormComponent, { initialState });
     this.modalRef.content.onClose.subscribe(airplane => {
-      this.ngxNotificationService.sendMessage('Airpane ' + this.airplane.name + ' edited.', 'dark', 'bottom-right');
+      this.alertService.info('Airpane ' + this.airplane.name + ' edited.');
       this.airplane.name = airplane.name;
       this.airplane.rowNum = airplane.rowNum;
       this.airplane.colNum = airplane.colNum;

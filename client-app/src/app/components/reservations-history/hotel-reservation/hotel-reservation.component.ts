@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { RoomReservation } from 'src/app/model/hotel/room-reservation';
 import { formatDate, DatePipe } from '@angular/common';
 import { HotelService } from 'src/app/services/hotel/hotel.service';
-import { NgxNotificationService } from 'ngx-notification';
+import { AlertService } from 'ngx-alerts';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -27,7 +27,7 @@ export class HotelReservationComponent implements OnInit {
   date1 = new Date();
 
   constructor(private hotelService: HotelService,
-    private ngxNotificationService: NgxNotificationService,
+    private alertService: AlertService,
     public datePipe: DatePipe) { }
 
   ngOnInit() {
@@ -65,14 +65,14 @@ export class HotelReservationComponent implements OnInit {
             newRate => {
               console.log('Nova ocena sobe', newRate);
               res.singleRoomReservations[0].isRoomRated = true;
-              this.ngxNotificationService.sendMessage('You have rated a room!', 'dark', 'bottom-right' );
+              this.alertService.info('You have rated a room!');
             },
             (err: HttpErrorResponse) => {
               // interceptor je hendlovao ove zahteve
               if (err.status === 401 || err.status === 403 || err.status === 404) {
                 // refresh
               }
-              this.ngxNotificationService.sendMessage(err.error.details, 'danger', 'bottom-right' );
+              this.alertService.info(err.error.details);
               // this.errorMessage = err.error.details;
             }
           );
@@ -90,14 +90,14 @@ export class HotelReservationComponent implements OnInit {
         newRate => {
           console.log('vraceno', newRate);
           this.reservation.isHotelRated = true;
-          this.ngxNotificationService.sendMessage('You have rated a hotel!', 'dark', 'bottom-right' );
+          this.alertService.info('You have rated a hotel!');
         },
         (err: HttpErrorResponse) => {
           // interceptor je hendlovao ove zahteve
           if (err.status === 401 || err.status === 403 || err.status === 404) {
             // refresh
           }
-          this.ngxNotificationService.sendMessage(err.error.details, 'danger', 'bottom-right' );
+          this.alertService.info(err.error.details);
           // this.errorMessage = err.error.details;
         }
       );
@@ -108,14 +108,14 @@ export class HotelReservationComponent implements OnInit {
     this.hotelService.cancelRoomReservation(this.reservation.id).subscribe(
       data => {
         this.reservation.active = false;
-        this.ngxNotificationService.sendMessage('You have canceled car reservation!', 'dark', 'bottom-right' );
+        this.alertService.info('You have canceled car reservation!');
       },
       (err: HttpErrorResponse) => {
         // interceptor je hendlovao ove zahteve
         if (err.status === 401 || err.status === 403 || err.status === 404) {
           // refresh
         }
-        this.ngxNotificationService.sendMessage(err.error.details, 'danger', 'bottom-right' );
+        this.alertService.info(err.error.details);
         // this.errorMessage = err.error.details;
       }
     );

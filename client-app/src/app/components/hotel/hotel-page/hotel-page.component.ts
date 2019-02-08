@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Hotel } from 'src/app/model/hotel/hotel';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { AdditionalService } from 'src/app/model/additional-service';
-import { NgxNotificationService } from 'ngx-notification';
+import { AlertService } from 'ngx-alerts';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
@@ -46,7 +46,7 @@ export class HotelPageComponent implements OnInit {
   constructor(private route: ActivatedRoute,
     private hotelService: HotelService,
     public tokenService: TokenStorageService,
-    public ngxNotificationService: NgxNotificationService,
+    private alertService: AlertService,
     private modalService: BsModalService) {
 
     this.datePickerConfig = Object.assign({},
@@ -115,7 +115,7 @@ export class HotelPageComponent implements OnInit {
     };
     this.modalRef = this.modalService.show(NewRoomFormComponent, { initialState });
     this.modalRef.content.onClose.subscribe(room => {
-      this.ngxNotificationService.sendMessage('Room ' + room.roomNumber + ' is created!', 'dark', 'bottom-right');
+      this.alertService.info('Room ' + room.roomNumber + ' is created!');
       this.hotel.rooms.push(room);
     });
   }
@@ -124,7 +124,7 @@ export class HotelPageComponent implements OnInit {
     const i = this.hotel.rooms.findIndex(e => e.id === roomId);
     if (i !== -1) {
       this.hotel.rooms.splice(i, 1);
-      this.ngxNotificationService.sendMessage('Room is deleted!', 'dark', 'bottom-right');
+      this.alertService.info('Room is deleted!');
     }
   }
 
@@ -152,7 +152,7 @@ export class HotelPageComponent implements OnInit {
     this.modalRef = this.modalService.show(NewServiceFormComponent, { initialState });
     this.modalRef.content.onClose.subscribe(additionalService => {
       this.hotel.additionalServices.push(additionalService);
-      this.ngxNotificationService.sendMessage('Service ' + additionalService.name + ' created!', 'dark', 'bottom-right');
+      this.alertService.info('Service ' + additionalService.name + ' created!');
     });
   }
 
@@ -181,7 +181,7 @@ export class HotelPageComponent implements OnInit {
         if (i !== -1) {
           this.hotel.additionalServices.splice(i, 1);
         }
-        this.ngxNotificationService.sendMessage('Service ' + as.name + ' deleted!', 'dark', 'bottom-right');
+        this.alertService.info('Service ' + as.name + ' deleted!');
       },
       error => {
         console.log(error.error.message);
@@ -198,7 +198,7 @@ export class HotelPageComponent implements OnInit {
     this.modalRef = this.modalService.show(EditHotelFormComponent, { initialState });
     this.modalRef.content.onClose.subscribe(hotel => {
       this.hotel = hotel;
-      this.ngxNotificationService.sendMessage('Hotel is changed!', 'dark', 'bottom-right');
+      this.alertService.info('Hotel is changed!');
     });
   }
 
@@ -206,7 +206,7 @@ export class HotelPageComponent implements OnInit {
     this.hotelService.addServiceToFast(this.hotelId, as.id).subscribe(
       data => {
         console.log('Data ', data);
-        this.ngxNotificationService.sendMessage('Service added to fast reservations!', 'dark', 'bottom-right');
+        this.alertService.info('Service added to fast reservations!');
       },
       error => {
         console.log(error.error.message);
@@ -218,7 +218,7 @@ export class HotelPageComponent implements OnInit {
     this.hotelService.removeServiceFromFast(this.hotelId, as.id).subscribe(
       data => {
         console.log('Data ', data);
-        this.ngxNotificationService.sendMessage('Service removed from fast reservations!', 'dark', 'bottom-right');
+        this.alertService.info('Service removed from fast reservations!');
       },
       error => {
         console.log(error.error.message);

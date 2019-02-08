@@ -8,7 +8,7 @@ import { AirCompanyService } from './../../../../services/air-company/air-compan
 import { Flight } from './../../../../model/air-company/flight';
 import { Component, OnInit} from '@angular/core';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
-import { NgxNotificationService } from 'ngx-notification';
+import { AlertService } from 'ngx-alerts';
 import { BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
@@ -19,7 +19,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 export class FlightPageComponent implements OnInit {
   modalRef: BsModalRef;
   flight: Flight = new Flight();
-  constructor(private ngxNotificationService: NgxNotificationService, private router: Router, private airService: AirCompanyService ,
+  constructor(private alertService: AlertService, private router: Router, private airService: AirCompanyService ,
     public tokenService: TokenStorageService, private route: ActivatedRoute, private modalService: BsModalService) { }
 
   ngOnInit() {
@@ -43,7 +43,7 @@ export class FlightPageComponent implements OnInit {
   activateFlight() {
     this.airService.activateFlight(this.flight.airCompanyBasicInfo.id, this.flight.id).subscribe(
       (data) => {
-        this.ngxNotificationService.sendMessage('Flight activated.', 'dark', 'bottom-right');
+        this.alertService.info('Flight activated.');
         this.flight.status = data.status;
       }
       // neuspesnu aktivaciju ce handlovati interceptori
@@ -57,7 +57,7 @@ export class FlightPageComponent implements OnInit {
     this.modalRef = this.modalService.show(ChangeTicketsPricesFormComponent, { initialState });
     this.modalRef.content.onClose.subscribe(fligth => {
       this.setFlight(fligth);
-      this.ngxNotificationService.sendMessage('Tickets prices changed.', 'dark', 'bottom-right');
+      this.alertService.info('Tickets prices changed.');
     });
   }
 
@@ -70,7 +70,7 @@ export class FlightPageComponent implements OnInit {
     this.modalRef = this.modalService.show(FlightFormComponent, { initialState });
     this.modalRef.content.onClose.subscribe(fligth => {
       this.setFlight(fligth);
-      this.ngxNotificationService.sendMessage('Flight edited.', 'dark', 'bottom-right');
+      this.alertService.info('Flight edited.');
     });
   }
 
@@ -81,7 +81,7 @@ export class FlightPageComponent implements OnInit {
     this.modalRef = this.modalService.show(DisableSeatsFormComponent, { initialState });
     this.modalRef.content.onClose.subscribe(fligth => {
       this.setFlight(fligth);
-      this.ngxNotificationService.sendMessage('Seats marked as unavailable.', 'dark', 'bottom-right');
+      this.alertService.info('Seats marked as unavailable.');
     });
   }
 
@@ -92,7 +92,7 @@ export class FlightPageComponent implements OnInit {
     this.modalRef = this.modalService.show(CreateFastReservationsFormComponent, { initialState });
     this.modalRef.content.onClose.subscribe(fligth => {
       this.setFlight(fligth);
-      this.ngxNotificationService.sendMessage('Fast reservations created.', 'dark', 'bottom-right');
+      this.alertService.info('Fast reservations created.');
     });
   }
 

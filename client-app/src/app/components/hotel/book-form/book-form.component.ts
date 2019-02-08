@@ -10,7 +10,7 @@ import { HotelService } from 'src/app/services/hotel/hotel.service';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { ReservationRequest } from 'src/app/model/hotel/reservation-request';
 import { HttpErrorResponse } from '@angular/common/http';
-import { NgxNotificationService } from 'ngx-notification';
+import { AlertService } from 'ngx-alerts';
 import { ShoppingCartService } from 'src/app/observables/shopping-cart.service';
 import { RoomReservation } from 'src/app/model/hotel/room-reservation';
 
@@ -65,8 +65,8 @@ export class BookFormComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private hotelService: HotelService,
-    private tokenService: TokenStorageService,
-    public ngxNotificationService: NgxNotificationService,
+    public tokenService: TokenStorageService,
+    private alertService: AlertService,
     private shoppingCartService: ShoppingCartService) {
 
     this.datePickerConfig = Object.assign({},
@@ -101,7 +101,7 @@ export class BookFormComponent implements OnInit {
 
   isAvailable(room: Room) {
     if (this.bookForm.value.bsRangeValue === null) {
-      this.ngxNotificationService.sendMessage('Please select a date!', 'danger', 'bottom-right' );
+      this.alertService.info('Please select a date!');
       return false;
     }
     const date0 = new Date(this.bookForm.value.bsRangeValue[0]);
@@ -141,25 +141,25 @@ export class BookFormComponent implements OnInit {
 
   clickBook(data) {
     this.bookedRooms.push(data);
-    this.ngxNotificationService.sendMessage('Room is booked.', 'dark', 'bottom-right' );
+    this.alertService.info('Room is booked.');
   }
 
   clickUnbook(data) {
     const index: number = this.bookedRooms.indexOf(data);
     if (index !== -1) {
       this.bookedRooms.splice(index, 1);
-      this.ngxNotificationService.sendMessage('Room is unbooked.', 'dark', 'bottom-right' );
+      this.alertService.info('Room is unbooked.');
     }
   }
 
   completeBooking() {
     if (this.bookedRooms.length === 0) {
-      this.ngxNotificationService.sendMessage('You must select a room!', 'danger', 'bottom-right' );
+      this.alertService.info('You must select a room!');
       return;
     }
 
     if (this.bookForm.value.bsRangeValue === null) {
-      this.ngxNotificationService.sendMessage('You must select a date!', 'danger', 'bottom-right' );
+      this.alertService.info('You must select a date!');
       return;
     }
 
@@ -192,19 +192,6 @@ export class BookFormComponent implements OnInit {
 
     console.log('salje se u korpu ', roomReservation);
     this.shoppingCartService.changeRoomReservation(roomReservation); // Ubaci u korpu
-    /*this.hotelService.rentRoom(roomReservation, this.hotelId, this.tokenService.getUsername()).subscribe(
-      roomReservationData => {
-        console.log('vraceno', roomReservationData);
-        this.ngxNotificationService.sendMessage('Booking is completed!', 'dark', 'bottom-right' );
-      },
-      (err: HttpErrorResponse) => {
-        // interceptor je hendlovao ove zahteve
-        if (err.status === 401 || err.status === 403 || err.status === 404) {
-          // refresh
-        }
-        this.errorMessage = err.error.details;
-      }
-    );*/
   }
 
   onChange() {

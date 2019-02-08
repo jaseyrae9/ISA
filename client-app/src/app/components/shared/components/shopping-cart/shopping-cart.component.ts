@@ -1,6 +1,6 @@
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
-import { NgxNotificationService } from 'ngx-notification';
+import { AlertService } from 'ngx-alerts';
 import { CarReservation } from 'src/app/model/rent-a-car-company/car-reservation';
 import { RoomReservation } from 'src/app/model/hotel/room-reservation';
 import { FlightReservation } from './../../../../model/air-company/flight-reservation';
@@ -27,7 +27,7 @@ export class ShoppingCartComponent implements OnInit {
   constructor(
     public tokenService: TokenStorageService,
     private shoppingCartService: ShoppingCartService,
-    private ngxNotificationService: NgxNotificationService,
+    private alertService: AlertService,
     public datePipe: DatePipe,
     private reservationsService: ReservationsService,
     private router: Router
@@ -59,11 +59,11 @@ export class ShoppingCartComponent implements OnInit {
     this.shoppingCartService.currentFlightReservation.subscribe(data => {
       if (data) {
         if (this.flightReservation !== null) {
-          this.ngxNotificationService.sendMessage('You already have a ticket reservation!', 'danger', 'bottom-right');
+          this.alertService.info('You already have a ticket reservation!');
           return;
         }
         this.flightReservation = data;
-        this.ngxNotificationService.sendMessage('Flight reservation added to cart!', 'dark', 'bottom-right');
+        this.alertService.info('Flight reservation added to cart!');
         window.sessionStorage.setItem(FLIGHT_KEY, JSON.stringify(data));
       }
     });
@@ -71,11 +71,11 @@ export class ShoppingCartComponent implements OnInit {
     this.shoppingCartService.currentRoomReservation.subscribe(data => {
       if (data) {
         if (this.roomReservation !== null) {
-          this.ngxNotificationService.sendMessage('You already have a hotel reservation!', 'danger', 'bottom-right');
+          this.alertService.info('You already have a hotel reservation!');
           return;
         }
         this.roomReservation = data;
-        this.ngxNotificationService.sendMessage('Hotel reservation added to cart!', 'dark', 'bottom-right');
+        this.alertService.info('Hotel reservation added to cart!');
         window.sessionStorage.setItem(HOTEL_KEY, JSON.stringify(data));
       }
     });
@@ -83,11 +83,11 @@ export class ShoppingCartComponent implements OnInit {
     this.shoppingCartService.currentCarReservation.subscribe(data => {
       if (data) {
         if (this.carReservation !== null) {
-          this.ngxNotificationService.sendMessage('You already have a car reservation!', 'danger', 'bottom-right');
+          this.alertService.info('You already have a car reservation!');
           return;
         }
         this.carReservation = data;
-        this.ngxNotificationService.sendMessage('Car reservation added to cart!', 'dark', 'bottom-right');
+        this.alertService.info('Car reservation added to cart!');
         window.sessionStorage.setItem(CAR_KEY, JSON.stringify(data));
       }
     });
@@ -123,11 +123,11 @@ export class ShoppingCartComponent implements OnInit {
     this.reservationsService.reserve(reservationDTO).subscribe(
       (data) => {
         this.clearCart();
-        this.ngxNotificationService.sendMessage('Tickets reserved.', 'dark', 'bottom-right');
+        this.alertService.info('Tickets reserved.');
         this.router.navigate(['/history']);
       },
       (error) => {
-        this.ngxNotificationService.sendMessage(error.error.details, 'danger', 'bottom-right');
+        this.alertService.info(error.error.details);
         this.clearCart();
       }
     );

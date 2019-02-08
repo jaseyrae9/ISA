@@ -3,7 +3,7 @@ import { UserService } from 'src/app/services/user/user.service';
 import { FlightReservation } from './../../../model/air-company/flight-reservation';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AirCompanyService } from 'src/app/services/air-company/air-company.service';
-import { NgxNotificationService } from 'ngx-notification';
+import { AlertService } from 'ngx-alerts';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -20,7 +20,7 @@ export class TicketsReservationComponent implements OnInit {
   flightAverage = 0;
 
   constructor(private airService: AirCompanyService,
-    private ngxNotificationService: NgxNotificationService, private reservationService: ReservationsService) { }
+    private alertService: AlertService, private reservationService: ReservationsService) { }
 
   ngOnInit() {
     this.flightAverage = this.flightReservation.flight.totalRating / this.flightReservation.flight.ratingCount;
@@ -30,10 +30,10 @@ export class TicketsReservationComponent implements OnInit {
     this.reservationService.cancel(this.reservationId).subscribe(
       (data) => {
         this.cancelEvent.emit(data);
-        this.ngxNotificationService.sendMessage('Trip canceled.', 'dark', 'bottom-right');
+        this.alertService.info('Trip canceled.');
       },
       (error) => {
-        this.ngxNotificationService.sendMessage('Error occured.', 'dark', 'bottom-right');
+        this.alertService.info('Error occured.');
       }
     );
   }
@@ -48,10 +48,10 @@ export class TicketsReservationComponent implements OnInit {
         newRate => {
           console.log('vraceno', newRate);
           this.flightReservation.isCompanyRated = true;
-          this.ngxNotificationService.sendMessage('You have rated a air company!', 'dark', 'bottom-right' );
+          this.alertService.info('You have rated a air company!');
         },
         (err: HttpErrorResponse) => {
-          this.ngxNotificationService.sendMessage(err.error.details, 'danger', 'bottom-right' );
+          this.alertService.info(err.error.details);
         }
       );
     }
@@ -67,10 +67,10 @@ export class TicketsReservationComponent implements OnInit {
        newRate => {
          console.log('vraceno', newRate);
          this.flightReservation.isFlightRated = true;
-         this.ngxNotificationService.sendMessage('You have rated a flight!', 'dark', 'bottom-right' );
+         this.alertService.info('You have rated a flight!');
        },
        (err: HttpErrorResponse) => {
-         this.ngxNotificationService.sendMessage(err.error.details, 'danger', 'bottom-right' );
+         this.alertService.info(err.error.details);
        }
      );
     }

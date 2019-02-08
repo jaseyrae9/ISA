@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Room } from 'src/app/model/hotel/room';
 import { BsDatepickerConfig } from 'ngx-bootstrap';
-import { NgxNotificationService } from 'ngx-notification';
+import { AlertService } from 'ngx-alerts';
 import { Subject } from 'rxjs/Subject';
 import { HotelService } from 'src/app/services/hotel/hotel.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -30,7 +30,7 @@ export class MakeRoomFastComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     public modalRef: BsModalRef,
-    public ngxNotificationService: NgxNotificationService,
+    private alertService: AlertService,
     private hotelService: HotelService) {
     this.datePickerConfig = Object.assign({},
       {

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Friendship } from 'src/app/model/users/friendship';
 import { UserService } from 'src/app/services/user/user.service';
-import { NgxNotificationService } from 'ngx-notification';
+import { AlertService } from 'ngx-alerts';
 
 @Component({
   selector: 'app-friendship-display',
@@ -12,7 +12,7 @@ export class FriendshipDisplayComponent implements OnInit {
   @Input() friendship: Friendship;
   @Output() friendshipEvent: EventEmitter<Object> = new EventEmitter();
 
-  constructor(private userService: UserService, private ngxNotificationService: NgxNotificationService) { }
+  constructor(private userService: UserService, private alertService: AlertService) { }
 
   ngOnInit() {
   }
@@ -27,7 +27,7 @@ export class FriendshipDisplayComponent implements OnInit {
         const res = {'event' : 0, 'friendship': this.friendship};
         this.friendshipEvent.emit(res);
          // tslint:disable-next-line:max-line-length
-        this.ngxNotificationService.sendMessage(this.friendship.user2Firstname + ' ' + this.friendship.user2Lastname + ' is now your friend!', 'dark', 'bottom-right');
+        this.alertService.info(this.friendship.user2Firstname + ' ' + this.friendship.user2Lastname + ' is now your friend!');
       },
       (error: any) => {
          console.log(error);
@@ -43,10 +43,10 @@ export class FriendshipDisplayComponent implements OnInit {
       (data) => {
         if (this.friendship.status === 0) {
            // tslint:disable-next-line:max-line-length
-          this.ngxNotificationService.sendMessage(this.friendship.user2Firstname + ' ' + this.friendship.user2Lastname + ' is no longer your friend.', 'dark', 'bottom-right');
+          this.alertService.info(this.friendship.user2Firstname + ' ' + this.friendship.user2Lastname + ' is no longer your friend.');
         } else {
            // tslint:disable-next-line:max-line-length
-          this.ngxNotificationService.sendMessage('Friendship request from ' + this.friendship.user2Firstname + ' ' + this.friendship.user2Lastname + ' declined.', 'dark', 'bottom-right');
+          this.alertService.info('Friendship request from ' + this.friendship.user2Firstname + ' ' + this.friendship.user2Lastname + ' declined.');
         }
         this.friendship.status = 3; // posle brisanja nisu vise nista
         const res = {'event' : 1, 'friendship': this.friendship};
@@ -68,7 +68,7 @@ export class FriendshipDisplayComponent implements OnInit {
         const res = {'event' : 2, 'friendship': this.friendship};
         this.friendshipEvent.emit(res);
          // tslint:disable-next-line:max-line-length
-         this.ngxNotificationService.sendMessage('Request sent to ' + this.friendship.user2Firstname + ' ' + this.friendship.user2Lastname + '!', 'dark', 'bottom-right');
+         this.alertService.info('Request sent to ' + this.friendship.user2Firstname + ' ' + this.friendship.user2Lastname + '!');
       },
       (error: any) => {
          console.log(error);

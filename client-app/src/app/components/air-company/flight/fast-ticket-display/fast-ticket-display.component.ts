@@ -5,7 +5,7 @@ import { TicketForFastReservation } from './../../../../model/air-company/ticket
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
-import { NgxNotificationService } from 'ngx-notification';
+import { AlertService } from 'ngx-alerts';
 @Component({
   selector: 'app-fast-ticket-display',
   templateUrl: './fast-ticket-display.component.html',
@@ -16,7 +16,7 @@ export class FastTicketDisplayComponent implements OnInit {
   @Output() ticketDeleted: EventEmitter<Object> = new EventEmitter();
   modalRef: BsModalRef;
 
-  constructor(private ngxNotificationService: NgxNotificationService, public tokenService: TokenStorageService,
+  constructor(private alertService: AlertService, public tokenService: TokenStorageService,
     private airService: AirCompanyService, private modalService: BsModalService, private router: Router) { }
 
   ngOnInit() {
@@ -26,7 +26,7 @@ export class FastTicketDisplayComponent implements OnInit {
     this.airService.deleteTicketForFastReservation(this.fastTicket.flight.airCompanyBasicInfo.id, this.fastTicket.id).subscribe(
       () => {
         this.ticketDeleted.emit(this.fastTicket);
-        this.ngxNotificationService.sendMessage('Fast reservation deleted.', 'dark', 'bottom-right');
+        this.alertService.info('Fast reservation deleted.');
       }
       // neuspesno brisanje ce handlovati interceptori
     );
@@ -40,11 +40,11 @@ export class FastTicketDisplayComponent implements OnInit {
     this.modalRef.content.onClose.subscribe(value => {
       this.airService.fastReservation(this.fastTicket.id, value.passport).subscribe(
         () => {
-          this.ngxNotificationService.sendMessage('Ticket reserved.', 'dark', 'bottom-right');
+          this.alertService.info('Ticket reserved.');
           this.router.navigate(['/history']);
         },
         (error) => {
-          this.ngxNotificationService.sendMessage('Fast reservation failed.', 'dark', 'bottom-right');
+          this.alertService.info('Fast reservation failed.');
           this.ticketDeleted.emit(this.fastTicket);
         }
       );

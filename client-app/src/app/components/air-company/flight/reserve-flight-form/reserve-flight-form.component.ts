@@ -13,7 +13,7 @@ import { AirCompanyService } from 'src/app/services/air-company/air-company.serv
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { TicketsDisplayComponent } from '../tickets-display/tickets-display.component';
-import { NgxNotificationService } from 'ngx-notification';
+import { AlertService } from 'ngx-alerts';
 
 @Component({
   selector: 'app-reserve-flight-form',
@@ -30,7 +30,7 @@ export class ReserveFlightFormComponent implements OnInit {
 
   constructor(private router: Router, private route: ActivatedRoute, private airService: AirCompanyService,
     private modalService: BsModalService, private shoppingCartService: ShoppingCartService,
-    private reservationsService: ReservationsService, private ngxNotificationService: NgxNotificationService) { }
+    private reservationsService: ReservationsService, private alertService: AlertService) { }
 
   ngOnInit() {
     this.loadFlight();
@@ -124,7 +124,7 @@ export class ReserveFlightFormComponent implements OnInit {
     };
     this.reservationsService.reserve(reservationDTO).subscribe(
       (data) => {
-        this.ngxNotificationService.sendMessage('Tickets reserved.', 'dark', 'bottom-right');
+        this.alertService.info('Tickets reserved.');
         this.router.navigate(['/history']);
       },
       (error) => {

@@ -6,7 +6,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { EditCarFormComponent } from '../edit-car-form/edit-car-form.component';
 import { ActivatedRoute } from '@angular/router';
 import { RentACarCompanyService } from 'src/app/services/rent-a-car-company/rent-a-car-company.service';
-import { NgxNotificationService } from 'ngx-notification';
+import { AlertService } from 'ngx-alerts';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FastTicketFormComponent } from '../fast-ticket-form/fast-ticket-form.component';
 import { RentACarCompany } from 'src/app/model/rent-a-car-company/rent-a-car-company';
@@ -30,7 +30,7 @@ export class CarBasicInfoComponent implements OnInit {
 
   constructor(public tokenService: TokenStorageService,
     private modalService: BsModalService, public carCompanyService: RentACarCompanyService,
-    public ngxNotificationService: NgxNotificationService) { }
+    private alertService: AlertService) { }
 
   ngOnInit() {
   }
@@ -45,7 +45,7 @@ export class CarBasicInfoComponent implements OnInit {
       console.log('fast ', car);
       this.carFasten.emit(this.car.id);
       this.car = car;
-      this.ngxNotificationService.sendMessage('Car is added for fast reservations!', 'dark', 'bottom-right');
+      this.alertService.info('Car is added for fast reservations!');
     });
   }
 
@@ -58,7 +58,7 @@ export class CarBasicInfoComponent implements OnInit {
     this.modalRef = this.modalService.show(EditCarFormComponent, { initialState });
     this.modalRef.content.onClose.subscribe(car => {
       this.car = car;
-      this.ngxNotificationService.sendMessage('Car is changed!', 'dark', 'bottom-right');
+      this.alertService.info('Car is changed!');
     });
   }
 
@@ -73,7 +73,7 @@ export class CarBasicInfoComponent implements OnInit {
         if (err.status === 401 || err.status === 403 || err.status === 404) {
           this.modalRef.hide();
         }
-        this.ngxNotificationService.sendMessage(err.error.details, 'danger', 'bottom-right');
+        this.alertService.info(err.error.details);
       }
     );
   }

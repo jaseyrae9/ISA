@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
 import { AirCompanyService } from 'src/app/services/air-company/air-company.service';
 import { AirCompany } from 'src/app/model/air-company/air-company';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
-import { NgxNotificationService } from 'ngx-notification';
+import { AlertService } from 'ngx-alerts';
 
 @Component({
   selector: 'app-all-air-companies-page',
@@ -24,7 +24,7 @@ export class AllAirCompaniesPageComponent implements OnInit {
   constructor(private airCompanyService: AirCompanyService,
      private dataService: DataService,
      public tokenService: TokenStorageService,
-     private ngxNotificationService: NgxNotificationService,
+     private alertService: AlertService,
      private modalService: BsModalService) {
    }
 
@@ -45,7 +45,7 @@ export class AllAirCompaniesPageComponent implements OnInit {
     };
     this.modalRef = this.modalService.show(EditAirCompanyFormComponent, { initialState });
     this.modalRef.content.onClose.subscribe(data => {
-      this.ngxNotificationService.sendMessage('Air company' + data.name + ' created.', 'dark', 'bottom-right');
+      this.alertService.info('Air company' + data.name + ' created.');
       this.companies.push(data);
       this.dataService.changeAirCompany(data);
       this.loadCompanies();

@@ -3,7 +3,6 @@ import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { TicketForFastReservation } from './../../../model/air-company/ticket-for-fast-reservation';
 import { AdditionalService } from 'src/app/model/additional-service';
 import { AirplaneFormComponent } from './../airplane/airplane-form/airplane-form.component';
-import { NgxNotificationService } from 'ngx-notification';
 import { Airplane } from './../../../model/air-company/airplane';
 import { EditAirCompanyFormComponent } from './../edit-air-company-form/edit-air-company-form.component';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
@@ -17,6 +16,7 @@ import { AirCompanyService } from 'src/app/services/air-company/air-company.serv
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { BaggageFormComponent } from '../baggage-form/baggage-form.component';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { AlertService } from 'ngx-alerts';
 
 @Component({
   selector: 'app-air-company-page',
@@ -38,7 +38,7 @@ export class AirCompanyPageComponent implements OnInit {
   datePickerConfig: Partial<BsDatepickerConfig>;
   income;
 
-  constructor(private ngxNotificationService: NgxNotificationService,
+  constructor(private alertService: AlertService,
     private modalService: BsModalService, private route: ActivatedRoute, private airCompanyService: AirCompanyService,
     public tokenService: TokenStorageService, private formBuilder: FormBuilder, private datePipe: DatePipe) {
       this.datePickerConfig = Object.assign({},
@@ -145,7 +145,7 @@ export class AirCompanyPageComponent implements OnInit {
     };
     this.modalRef = this.modalService.show(DestinationFormComponent, { initialState });
     this.modalRef.content.onClose.subscribe(destination => {
-      this.ngxNotificationService.sendMessage('Destination ' + destination.label + ' added.', 'dark', 'bottom-right');
+      this.alertService.info('Destination ' + destination.label + ' added.');
       this.airCompany.destinations.push(destination);
     });
   }
@@ -164,7 +164,7 @@ export class AirCompanyPageComponent implements OnInit {
     };
     this.modalRef = this.modalService.show(AirplaneFormComponent, { initialState });
     this.modalRef.content.onClose.subscribe(airplane => {
-      this.ngxNotificationService.sendMessage('Airpane ' + airplane.name + ' added.', 'dark', 'bottom-right');
+      this.alertService.info('Airpane ' + airplane.name + ' added.');
       this.airplanes.push(airplane);
     });
   }
@@ -182,7 +182,7 @@ export class AirCompanyPageComponent implements OnInit {
     };
     this.modalRef = this.modalService.show(EditAirCompanyFormComponent, { initialState });
     this.modalRef.content.onClose.subscribe(data => {
-      this.ngxNotificationService.sendMessage('Company information edited.', 'dark', 'bottom-right');
+      this.alertService.info('Company information edited.');
       this.airCompany.name = data.name;
       this.airCompany.description = data.description;
       this.airCompany.location = data.location;
@@ -197,7 +197,7 @@ export class AirCompanyPageComponent implements OnInit {
     this.modalRef = this.modalService.show(BaggageFormComponent, { initialState });
     this.modalRef.content.onClose.subscribe(baggage => {
        this.airCompany.baggageInformation.push(baggage);
-       this.ngxNotificationService.sendMessage('Baggage ' + baggage.name + ' created!', 'dark', 'bottom-right');
+       this.alertService.info('Baggage ' + baggage.name + ' created!');
     });
   }
 
@@ -210,7 +210,7 @@ export class AirCompanyPageComponent implements OnInit {
     this.modalRef = this.modalService.show(BaggageFormComponent, { initialState });
     this.modalRef.content.onClose.subscribe(baggage => {
        this.airCompany.baggageInformation[i] = baggage;
-       this.ngxNotificationService.sendMessage('Baggage ' + baggage.name + ' edited!', 'dark', 'bottom-right');
+       this.alertService.info('Baggage ' + baggage.name + ' edited!');
     });
   }
 
@@ -221,7 +221,7 @@ export class AirCompanyPageComponent implements OnInit {
         if (i !== -1) {
           this.airCompany.baggageInformation.splice(i, 1);
         }
-        this.ngxNotificationService.sendMessage('Baggage information ' + as.name + ' deleted!', 'dark', 'bottom-right');
+        this.alertService.info('Baggage information ' + as.name + ' deleted!');
       },
       error => {
         console.log(error.error.message);

@@ -3,7 +3,7 @@ import { UserService } from './../../../services/user/user.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { Reservation } from 'src/app/model/users/reservation';
 import { formatDate } from '@angular/common';
-import { NgxNotificationService } from 'ngx-notification';
+import { AlertService } from 'ngx-alerts';
 
 @Component({
   selector: 'app-reservation',
@@ -19,7 +19,7 @@ export class ReservationComponent implements OnInit {
 
   totalPrice = 0;
 
-  constructor(private userService: UserService, private ngxNotificationService: NgxNotificationService) { }
+  constructor(private userService: UserService, private alertService: AlertService) { }
 
   ngOnInit() {
     this.date = formatDate(this.reservation.creationDate, 'yyyy-MM-dd', 'en');
@@ -31,10 +31,10 @@ export class ReservationComponent implements OnInit {
       (data: Invite) => {
         this.reservation = data.reservationDTO;
         this.status = data.status;
-        this.ngxNotificationService.sendMessage('Yay, you accepted a trip invite from ' + this.invitedBy, 'dark', 'bottom-right');
+        this.alertService.info('Yay, you accepted a trip invite from ' + this.invitedBy);
       },
       (error) => {
-        this.ngxNotificationService.sendMessage('Error occured.', 'dark', 'bottom-right');
+        this.alertService.info('Error occured.');
       }
     );
   }
@@ -44,11 +44,11 @@ export class ReservationComponent implements OnInit {
       (data: Invite) => {
         this.reservation = data.reservationDTO;
         this.status = data.status;
-        this.ngxNotificationService.sendMessage('You refused to travel with ' + this.invitedBy, 'dark', 'bottom-right');
+        this.alertService.info('You refused to travel with ' + this.invitedBy);
         this.calculatePrice();
       },
       (error) => {
-        this.ngxNotificationService.sendMessage('Error occured.', 'dark', 'bottom-right');
+        this.alertService.info('Error occured.');
       }
     );
   }

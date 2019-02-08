@@ -7,7 +7,6 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { NgxNotificationComponent } from 'ngx-notification';
 import { ModalModule, BsModalRef } from 'ngx-bootstrap/modal';
 
 import { JwtInterceptor } from './auth/auth-interceptor';
@@ -124,12 +123,11 @@ import { CarsRoomsFastComponent } from './components/shared/components/cars-room
 import { FastRoomDisplayComponent } from './components/hotel/fast-room-display/fast-room-display.component';
 import { MakeRoomFastComponent } from './components/hotel/make-room-fast/make-room-fast.component';
 import { TripInvitesComponent } from './components/reservations-history/trip-invites/trip-invites.component';
-
+import { AlertModule } from 'ngx-alerts';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NgxNotificationComponent,
     NavigationComponent,
     BannerComponent,
     FooterComponent,
@@ -238,7 +236,8 @@ import { TripInvitesComponent } from './components/reservations-history/trip-inv
     Ng5SliderModule,
     NgxSortableModule,
     TimepickerModule.forRoot(),
-    DataTableModule
+    DataTableModule,
+    AlertModule.forRoot({maxMessages: 5, timeout: 5000, position: 'right'})
   ],
   providers: [HotelService, AirCompanyService, UserService, DataService, RoleGuardService, LocationService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

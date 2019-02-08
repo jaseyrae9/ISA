@@ -4,7 +4,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { Destination } from './../../../model/air-company/destination';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
-import { NgxNotificationService } from 'ngx-notification';
+import { AlertService } from 'ngx-alerts';
 
 @Component({
   selector: 'app-destination',
@@ -18,7 +18,7 @@ export class DestinationComponent implements OnInit {
   @Output() destinationEvent: EventEmitter<Object> = new EventEmitter();
   modalRef: BsModalRef;
 
-  constructor(private ngxNotificationService: NgxNotificationService, private modalService: BsModalService,
+  constructor(private alertService: AlertService, private modalService: BsModalService,
     private airService: AirCompanyService, public tokenService: TokenStorageService) { }
 
   ngOnInit() {
@@ -31,7 +31,7 @@ export class DestinationComponent implements OnInit {
     };
     this.modalRef = this.modalService.show(DestinationFormComponent, { initialState });
     this.modalRef.content.onClose.subscribe(destination => {
-      this.ngxNotificationService.sendMessage('Destination ' + this.destination.label + ' edited.', 'dark', 'bottom-right');
+      this.alertService.info('Destination ' + this.destination.label + ' edited.');
       this.destination.id = destination.id;
       this.destination.label = destination.label;
       this.destination.country = destination.country;
@@ -42,7 +42,7 @@ export class DestinationComponent implements OnInit {
   deleteDestination() {
     this.airService.deleteDestination(this.destination.id, this.airportId).subscribe(
       () => {
-        this.ngxNotificationService.sendMessage('Destination ' + this.destination.label + ' deleted.', 'dark', 'bottom-right');
+        this.alertService.info('Destination ' + this.destination.label + ' deleted.');
         this.destinationEvent.next(this.destination);
       }
     );

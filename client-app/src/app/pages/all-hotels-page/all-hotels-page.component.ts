@@ -2,7 +2,7 @@ import { DataService } from './../../observables/data.service';
 import { Component, OnInit } from '@angular/core';
 import { HotelService } from '../../services/hotel/hotel.service';
 import { Hotel } from 'src/app/model/hotel/hotel';
-import { NgxNotificationService } from 'ngx-notification';
+import { AlertService } from 'ngx-alerts';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { BsModalService } from 'ngx-bootstrap/modal';
@@ -24,7 +24,7 @@ export class AllHotelsPageComponent implements OnInit {
   constructor(private hotelService: HotelService,
     private dataService: DataService,
     public tokenService: TokenStorageService,
-    public ngxNotificationService: NgxNotificationService,
+    private alertService: AlertService,
     private modalService: BsModalService) { }
 
   ngOnInit() {
@@ -47,7 +47,7 @@ export class AllHotelsPageComponent implements OnInit {
   openNewHotelModal() {
     this.modalRef = this.modalService.show(NewHotelFormComponent);
     this.modalRef.content.onClose.subscribe(hotel => {
-      this.ngxNotificationService.sendMessage(hotel.name + ' is created!', 'dark', 'bottom-right');
+      this.alertService.info(hotel.name + ' is created!');
       this.loadHotels();
       this.dataService.changeHotel(hotel);
     });

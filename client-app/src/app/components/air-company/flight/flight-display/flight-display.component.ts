@@ -5,7 +5,7 @@ import { AirCompanyService } from 'src/app/services/air-company/air-company.serv
 import { Flight } from './../../../../model/air-company/flight';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
-import { NgxNotificationService } from 'ngx-notification';
+import { AlertService } from 'ngx-alerts';
 
 @Component({
   selector: 'app-flight-display',
@@ -21,7 +21,7 @@ export class FlightDisplayComponent implements OnInit {
   modalRef: BsModalRef;
 
   constructor(private airService: AirCompanyService, public tokenService: TokenStorageService,
-    private ngxNotificationService: NgxNotificationService, private modalService: BsModalService) { }
+    private alertService: AlertService, private modalService: BsModalService) { }
 
   ngOnInit() {
     this.loadFlights();
@@ -53,7 +53,7 @@ export class FlightDisplayComponent implements OnInit {
           this.modalRef = this.modalService.show(FlightFormComponent, { initialState });
           this.modalRef.content.onClose.subscribe(flight => {
             this.loadFlights();
-            this.ngxNotificationService.sendMessage('Flight added.', 'dark', 'bottom-right');
+            this.alertService.info('Flight added.');
           });
         }
       }
@@ -75,9 +75,9 @@ export class FlightDisplayComponent implements OnInit {
   flightEvent(data) {
     this.loadFlights();
     if (data.status = 0) {
-      this.ngxNotificationService.sendMessage('Flight deleted.', 'dark', 'bottom-right');
+      this.alertService.info('Flight deleted.');
     } else {
-      this.ngxNotificationService.sendMessage('Flight edited.', 'dark', 'bottom-right');
+      this.alertService.info('Flight edited.');
     }
   }
 

@@ -7,7 +7,7 @@ import { AirCompanyService } from 'src/app/services/air-company/air-company.serv
 import { Flight } from './../../../../model/air-company/flight';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
-import { NgxNotificationService } from 'ngx-notification';
+import { AlertService } from 'ngx-alerts';
 import { BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
@@ -20,7 +20,7 @@ export class FightBasicInfoComponent implements OnInit {
   @Output() flightEvent: EventEmitter<Object> = new EventEmitter();
   @Output() ticketsCreated: EventEmitter<Object> = new EventEmitter();
   @Input() flight = new Flight();
-  constructor(private ngxNotificationService: NgxNotificationService, public tokenService: TokenStorageService,
+  constructor(private alertService: AlertService, public tokenService: TokenStorageService,
      private airService: AirCompanyService, private modalService: BsModalService) { }
 
   ngOnInit() {
@@ -39,7 +39,7 @@ export class FightBasicInfoComponent implements OnInit {
   activateFlight() {
     this.airService.activateFlight(this.flight.airCompanyBasicInfo.id, this.flight.id).subscribe(
       (data) => {
-        this.ngxNotificationService.sendMessage('Flight activated.', 'dark', 'bottom-right');
+        this.alertService.info('Flight activated.');
         this.setFlight(data);
       }
       // neuspesnu aktivaciju ce handlovati interceptori
@@ -53,7 +53,7 @@ export class FightBasicInfoComponent implements OnInit {
     this.modalRef = this.modalService.show(CreateFastReservationsFormComponent, { initialState });
     this.modalRef.content.onClose.subscribe(fligth => {
       this.setFlight(fligth);
-      this.ngxNotificationService.sendMessage('Fast reservations created.', 'dark', 'bottom-right');
+      this.alertService.info('Fast reservations created.');
       this.ticketsCreated.emit(fligth);
     });
   }
@@ -65,7 +65,7 @@ export class FightBasicInfoComponent implements OnInit {
     this.modalRef = this.modalService.show(DisableSeatsFormComponent, { initialState });
     this.modalRef.content.onClose.subscribe(fligth => {
       this.setFlight(fligth);
-      this.ngxNotificationService.sendMessage('Seats marked as unavailable.', 'dark', 'bottom-right');
+      this.alertService.info('Seats marked as unavailable.');
     });
   }
 
@@ -76,7 +76,7 @@ export class FightBasicInfoComponent implements OnInit {
     this.modalRef = this.modalService.show(ChangeTicketsPricesFormComponent, { initialState });
     this.modalRef.content.onClose.subscribe(fligth => {
       this.setFlight(fligth);
-      this.ngxNotificationService.sendMessage('Tickets prices changed.', 'dark', 'bottom-right');
+      this.alertService.info('Tickets prices changed.');
     });
   }
 
@@ -89,7 +89,7 @@ export class FightBasicInfoComponent implements OnInit {
     this.modalRef = this.modalService.show(FlightFormComponent, { initialState });
     this.modalRef.content.onClose.subscribe(fligth => {
       this.setFlight(fligth);
-      this.ngxNotificationService.sendMessage('Flight edited.', 'dark', 'bottom-right');
+      this.alertService.info('Flight edited.');
     });
   }
 

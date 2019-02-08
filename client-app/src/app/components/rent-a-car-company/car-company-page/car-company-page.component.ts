@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { RentACarCompanyService } from 'src/app/services/rent-a-car-company/rent-a-car-company.service';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { BranchOffice } from 'src/app/model/rent-a-car-company/branch-offfice';
-import { NgxNotificationService } from 'ngx-notification';
+import { AlertService } from 'ngx-alerts';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { NewCarFormComponent } from '../new-car-form/new-car-form.component';
@@ -39,7 +39,7 @@ export class CarCompanyPageComponent implements OnInit {
      private route: ActivatedRoute,
      private carService: RentACarCompanyService,
      public tokenService: TokenStorageService,
-     public ngxNotificationService: NgxNotificationService) {
+     private alertService: AlertService) {
       this.datePickerConfig = Object.assign({},
         {
           containerClass: 'theme-default',
@@ -110,7 +110,7 @@ export class CarCompanyPageComponent implements OnInit {
     const index: number = this.fastCarRent.findIndex(e => e.id === carId);
     if (index !== -1) {
       this.fastCarRent.splice(index, 1);
-      this.ngxNotificationService.sendMessage('Car is not anymore in fast reservations!', 'dark', 'bottom-right');
+      this.alertService.info('Car is not anymore in fast reservations!');
     }
     this.getCompanie();
   }
@@ -118,7 +118,7 @@ export class CarCompanyPageComponent implements OnInit {
     const index: number = this.carCompany.cars.findIndex(e => e.id === carId);
     if (index !== -1) {
       this.carCompany.cars.splice(index, 1);
-      this.ngxNotificationService.sendMessage('Car is deleted!', 'dark', 'bottom-right');
+      this.alertService.info('Car is deleted!');
     }
   }
 
@@ -126,7 +126,7 @@ export class CarCompanyPageComponent implements OnInit {
     const index: number = this.carCompany.branchOffices.findIndex(e => e.id === branchOfficeId);
     if (index !== -1) {
       this.carCompany.branchOffices.splice(index, 1);
-      this.ngxNotificationService.sendMessage('Branch office is deleted!', 'dark', 'bottom-right' );
+      this.alertService.info('Branch office is deleted!');
     }
   }
 
@@ -136,7 +136,7 @@ export class CarCompanyPageComponent implements OnInit {
     };
     this.modalRef = this.modalService.show(NewCarFormComponent, { initialState });
     this.modalRef.content.onClose.subscribe(car => {
-      this.ngxNotificationService.sendMessage(car.brand + ' ' + car.model + ' created!', 'dark', 'bottom-right');
+      this.alertService.info(car.brand + ' ' + car.model + ' created!');
       this.carCompany.cars.push(car);
     });
   }
@@ -148,7 +148,7 @@ export class CarCompanyPageComponent implements OnInit {
     this.modalRef = this.modalService.show(NewBranchOfficeFormComponent, { initialState });
     this.modalRef.content.onClose.subscribe(branchOffice => {
       this.carCompany.branchOffices.push(branchOffice);
-      this.ngxNotificationService.sendMessage(branchOffice.name + ' created!', 'dark', 'bottom-right');
+      this.alertService.info(branchOffice.name + ' created!');
     });
   }
 
@@ -161,7 +161,7 @@ export class CarCompanyPageComponent implements OnInit {
      this.modalRef = this.modalService.show(EditCarCompanyFormComponent, { initialState });
      this.modalRef.content.onClose.subscribe(carCompany => {
        this.carCompany = carCompany;
-       this.ngxNotificationService.sendMessage('Rent a car company is changed!', 'dark', 'bottom-right' );
+       this.alertService.info('Rent a car company is changed!');
       });
    }
 

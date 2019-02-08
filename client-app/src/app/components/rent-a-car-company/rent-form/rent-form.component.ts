@@ -8,7 +8,7 @@ import { Options, LabelType } from 'ng5-slider';
 import { CarReservation } from 'src/app/model/rent-a-car-company/car-reservation';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { RentACarCompanyService } from 'src/app/services/rent-a-car-company/rent-a-car-company.service';
-import { NgxNotificationService } from 'ngx-notification';
+import { AlertService } from 'ngx-alerts';
 import { ShoppingCartService } from 'src/app/observables/shopping-cart.service';
 import { RentACarCompany } from 'src/app/model/rent-a-car-company/rent-a-car-company';
 
@@ -64,7 +64,7 @@ export class RentFormComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
     public tokenStorageService: TokenStorageService,
     private companyService: RentACarCompanyService,
-    public ngxNotificationService: NgxNotificationService,
+    private alertService: AlertService,
     private shoppingCartService: ShoppingCartService) {
     this.datePickerConfig = Object.assign({},
       {

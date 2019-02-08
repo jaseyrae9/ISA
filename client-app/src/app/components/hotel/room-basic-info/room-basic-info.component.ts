@@ -6,7 +6,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { EditRoomFormComponent } from '../edit-room-form/edit-room-form.component';
 import { ActivatedRoute } from '@angular/router';
 import { HotelService } from 'src/app/services/hotel/hotel.service';
-import { NgxNotificationService } from 'ngx-notification';
+import { AlertService } from 'ngx-alerts';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MakeRoomFastComponent } from '../make-room-fast/make-room-fast.component';
 
@@ -33,7 +33,7 @@ export class RoomBasicInfoComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, public tokenService: TokenStorageService,
      private modalService: BsModalService, private hotelService: HotelService,
-     public ngxNotificationService: NgxNotificationService) { }
+     private alertService: AlertService) { }
 
   ngOnInit() {
     this.hotelId = +this.route.snapshot.paramMap.get('id');
@@ -53,7 +53,7 @@ export class RoomBasicInfoComponent implements OnInit {
     this.modalRef = this.modalService.show(EditRoomFormComponent, { initialState });
     this.modalRef.content.onClose.subscribe(room => {
       this.room = room;
-      this.ngxNotificationService.sendMessage('Room is changed!', 'dark', 'bottom-right' );
+      this.alertService.info('Room is changed!');
     });
   }
 
@@ -68,7 +68,7 @@ export class RoomBasicInfoComponent implements OnInit {
       this.room = room;
       console.log('Fasten ', room);
       this.roomFasten.emit(room.id);
-      this.ngxNotificationService.sendMessage('Room is added to fast!', 'dark', 'bottom-right' );
+      this.alertService.info('Room is added to fast!');
     });
   }
 
@@ -82,7 +82,7 @@ export class RoomBasicInfoComponent implements OnInit {
         if (err.status === 401 || err.status === 403 || err.status === 404) {
           this.modalRef.hide();
         }
-        this.ngxNotificationService.sendMessage(err.error.details, 'danger', 'bottom-right');
+        this.alertService.info(err.error.details);
       }
     );
   }

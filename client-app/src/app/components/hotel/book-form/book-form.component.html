@@ -8,7 +8,7 @@
             <i class="fa fa-calendar-alt" aria-hidden="true"></i>
           </span>
         </div>
-        <input (ngModelChange)="onChange($event)" placeholder="Check in and check out date" class="form-control" #drp="bsDaterangepicker" [bsConfig]='datePickerConfig' bsDaterangepicker
+        <input (ngModelChange)="onChange()" placeholder="Check in and check out date" class="form-control" #drp="bsDaterangepicker" [bsConfig]='datePickerConfig' bsDaterangepicker
           formControlName="bsRangeValue">
       </div>
 

@@ -1,4 +1,4 @@
-import { NgxNotificationService } from 'ngx-notification';
+import { AlertService } from 'ngx-alerts';
 import { CarReservation } from 'src/app/model/rent-a-car-company/car-reservation';
 import { RoomReservation } from 'src/app/model/hotel/room-reservation';
 import { FlightReservation } from './../model/air-company/flight-reservation';

@@ -4,7 +4,7 @@ import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { formatDate } from '@angular/common';
 import { HotelService } from 'src/app/services/hotel/hotel.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { NgxNotificationService } from 'ngx-notification';
+import { AlertService } from 'ngx-alerts';
 import { RoomReservation } from 'src/app/model/hotel/room-reservation';
 import { ShoppingCartService } from 'src/app/observables/shopping-cart.service';
 
@@ -26,7 +26,7 @@ export class FastRoomDisplayComponent implements OnInit {
 
   constructor(public tokenService: TokenStorageService,
     private hotelService: HotelService,
-    private ngxNotificationService: NgxNotificationService,
+    private alertService: AlertService,
     private shoppingCartService: ShoppingCartService) { }
 
 
@@ -40,7 +40,7 @@ export class FastRoomDisplayComponent implements OnInit {
     this.hotelService.makeRoomSlow(this.hotel.id, this.room.id).subscribe(
      data => {
        this.roomSlowed.emit(this.room.id);
-       this.ngxNotificationService.sendMessage('Room removed from fast reservations!', 'dark', 'bottom-right');
+       this.alertService.info('Room removed from fast reservations!');
      },
      (err: HttpErrorResponse) => {
        // interceptor je hendlovao ove zahteve

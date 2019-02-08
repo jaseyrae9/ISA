@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { RentACarCompany } from 'src/app/model/rent-a-car-company/rent-a-car-company';
 import { RentACarCompanyService } from 'src/app/services/rent-a-car-company/rent-a-car-company.service';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
-import { NgxNotificationService } from 'ngx-notification';
+import { AlertService } from 'ngx-alerts';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { NewCarCompanyFormComponent } from 'src/app/components/rent-a-car-company/new-car-company-form/new-car-company-form.component';
@@ -26,7 +26,7 @@ export class AllCarsCompaniesPageComponent implements OnInit {
     private rentACarCompanyService: RentACarCompanyService,
     private dataService: DataService,
     public tokenService: TokenStorageService,
-    public ngxNotificationService: NgxNotificationService) {
+    private alertService: AlertService) {
   }
 
   ngOnInit() {
@@ -48,7 +48,7 @@ export class AllCarsCompaniesPageComponent implements OnInit {
   openNewCarCompanyModal() {
     this.modalRef = this.modalService.show(NewCarCompanyFormComponent);
     this.modalRef.content.onClose.subscribe(carCompany => {
-      this.ngxNotificationService.sendMessage(carCompany.name + ' is created!', 'dark', 'bottom-right');
+      this.alertService.info(carCompany.name + ' is created!');
       this.companies.push(carCompany);
       this.dataService.changeCarCompany(carCompany);
       this.loadCompanies();
