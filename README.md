@@ -39,7 +39,7 @@ Pokretanje back dela - folder server-app:
 Pokretanje front dela - folder client-app:
 <ul>
   <li> Skinuti sve potrebne dependency pomoću npm update. </li>
-  <li> Pokrenuti aplikaciju sa ng serve. </li>
+  <li> Pokrenuti aplikaciju sa ng serve.  </li>
   <li> Projekat se pokreće na portu 4200. Trenutno je konfigurisan tako da gađa deploy verziju backend-a. </li>
   <li> Detaljne informacije o pokretanju client-app mogu se pronaći u okviru readme fajla u datom folderu. </li>
 </ul> 
